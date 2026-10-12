@@ -1,0 +1,86 @@
+# Home — approved English copy (brief Part 4, HOME). Edit only through the CMS with scientific-officer approval.
+status: approved
+meta_title: "Memowell® — Memory Health Supplement | Kondor Pharma"
+meta_description: "Memowell is a boswellic acid supplement for memory and cognitive health, studied in published clinical research. See who it was studied in, and take an informed question to your doctor."
+sections:
+  - id: hero
+    eyebrow: "Memory health"
+    heading: "Searching for names a little more often lately?"
+    body: |-
+      Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma in Canada. This site explains what it is, who it has been studied in, and what the published research found — so you can take an informed question to your doctor or pharmacist.
+    actions:
+      - { label: "See who it was studied in", href: "/who-its-for" }
+      - { label: "What the research found", href: "/science" }
+
+  - id: why
+    heading: "One factor researchers study is inflammation in the nervous system"
+    body: |-
+      In Alzheimer's disease, researchers have linked inflammation in the nervous system to the protein build-up that disrupts how nerve cells communicate. That build-up is associated with the symptoms families notice first: forgetting names, losing the thread of a conversation, repeating a question.
+
+      This is an area of active research, not a settled answer.
+    inline_action: { label: "Read more about memory health", href: "/memory-health" }
+    sources: ["10.1186/s12974-020-01820-6"]
+
+  - id: formulation
+    heading: "Boswellic acids, in a formulation built for absorption"
+    body: |-
+      The active compounds in Memowell come from the resin of *Boswellia* trees — frankincense. The resin contains boswellic acids, which have been studied for anti-inflammatory activity.
+
+      Boswellic acids are poorly absorbed in the digestive system. Kondor Pharma developed K-Vie™, a micronized, microcrystalline form standardised to 40% boswellic acids, to address that.
+    actions:
+      - { label: "More about the formulation", href: "/memowell#composition" }
+    image_alt: "A single cream-coloured Memowell capsule held between finger and thumb."
+
+  - id: who
+    heading: "Who it was studied in"
+    items:
+      - { title: "Mild cognitive impairment (MCI)", body: "A change in memory or thinking that can progress toward Alzheimer's disease." }
+      - { title: "A first-degree relative with Alzheimer's", body: "Family history roughly doubles the risk compared with people who have none." }
+      - { title: "Brain fog and delirium", body: "Confusion, trouble concentrating and memory lapses, where inflammation has been studied as a factor." }
+      - { title: "Approaching 65", body: "Risk rises with age, and brain atrophy can begin in mid-life." }
+    body: |-
+      Each of these has been studied. None of them is a diagnosis you can make from a website.
+    inline_action: { label: "See the full picture", href: "/who-its-for" }
+
+  - id: evidence
+    heading: "What the research found"
+    body: |-
+      In a six-month trial published in *Alzheimer's & Dementia*, 85 people with Alzheimer's disease took either Memowell or a placebo alongside their prescribed care. At six months, the Memowell group scored 3.11 points higher on MMSE — a standard test of memory and orientation — than the placebo group.
+
+      Two further studies looked at blood markers and at 80 people with cognitive difficulty after a brain injury.
+    sources: ["10.1002/alz.063660"]
+    # Typographic emphasis only: this phrase is highlighted inside its own sentence (context stays intact).
+    highlight: "3.11 points higher on MMSE"
+    actions:
+      - { label: "Read all three studies", href: "/science" }
+      - { label: "For healthcare professionals", href: "/science/professionals" }
+
+  - id: directions
+    heading: "How it is taken"
+    body: |-
+      One capsule with each of the three main meals. Taken with food, the compounds are better absorbed.
+
+      Give it eight weeks of regular use before judging the effect, and take it under your doctor's supervision — particularly alongside prescribed medicines.
+    actions:
+      - { label: "Full directions, cautions and storage", href: "/memowell#directions" }
+
+  - id: professionals
+    lead: "Are you a doctor, pharmacist or dietitian?"
+    body: "The professional section has the study designs, full results tables, composition, and a form to send a scientific question to our scientific affairs team."
+    actions:
+      - { label: "Go to the professional section", href: "/science/professionals" }
+
+  - id: availability
+    heading: "Where to find Memowell"
+    body: |-
+      Availability, packaging and approved uses differ by country. Tell us where you are and we will point you to the right source.
+    actions:
+      - { label: "Availability by country", href: "/about/availability" }
+
+  - id: closing
+    heading: "The useful next step is a conversation"
+    body: |-
+      This site cannot tell you whether Memowell suits you. Your doctor or pharmacist can — and the conversation goes better with the facts in hand.
+    actions:
+      - { label: "Download a one-page summary (PDF)", kind: summary }
+      - { label: "Contact us", href: "/contact" }

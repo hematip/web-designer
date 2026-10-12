@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Form from '../components/Form.astro';
+import { getPage, getSite, section, md, settings, IS_PREVIEW } from '../lib/content.js';
+
+const { locale, routePath } = Astro.props;
+const { data: page, fallback } = getPage(locale, 'contact');
+const intro = section(page, 'intro');
+const routes = ['general', 'scientific', 'partnership'].map((id) => section(page, id));
+const details = section(page, 'details');
+const c = settings.contact ?? {};
+const filled = [c.address, c.phone, c.email, c.instagram, c.linkedin].some(Boolean);
+---
+<Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
+  <PageHead locale={locale} title={intro.heading} body={intro.body}>
+    <nav class="route-index" aria-label={intro.heading}>
+      <ul role="list">
+        {routes.map((r: any) => <li><a href={`#${r.id}`}>{r.heading}</a></li>)}
+      </ul>
+    </nav>
+  </PageHead>
+
+  {routes.map((r: any, i: number) => (
+    <section class:list={['section', 'contact-route', { alt: i % 2 === 1 }]} id={r.id} aria-labelledby={`${r.id}-title`}>
+      <div class="wrap contact-route__grid">
+        <div class="contact-route__intro">
+          <h2 id={`${r.id}-title`}>{r.heading}</h2>
+          <div class="prose" set:html={md(r.body)} />
+        </div>
+        <div class="contact-route__form">
+          <Form form={r.form} locale={locale} labelledby={`${r.id}-title`} beside={r.beside_submit} />
+        </div>
+      </div>
+    </section>
+  ))}
+
+  {(filled || IS_PREVIEW) && (
+    <section class="section--tight details" aria-label={details.company}>
+      <div class="wrap">
+        <p class="details__line">
+          <strong>{details.company}</strong>
+          {[c.address, c.phone, c.email && <a href={`mailto:${c.email}`}>{c.email}</a>, c.instagram && <a href={c.instagram} rel="noopener">Instagram</a>, c.linkedin && <a href={c.linkedin} rel="noopener">LinkedIn</a>]
+            .filter(Boolean).map((x) => <><span aria-hidden="true"> · </span>{x}</>)}
+          {!filled && <span class="pending" style="display:inline-block;margin-inline-start:.75rem">[address] · [phone] · [email] · [Instagram] · [LinkedIn] — not supplied</span>}
+        </p>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .route-index ul { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); margin-block-start: var(--s-4); }
+  .route-index a {
+    display: inline-flex; align-items: center; min-height: 3rem; padding: 0.5rem 1.1rem; border-radius: 999px;
+    border: 2px solid var(--line-strong); color: var(--ink); text-decoration: none; font-weight: 700;
+  }
+  .route-index a:hover { border-color: var(--royal); color: var(--royal); }
+  .contact-route { border-top: 1px solid var(--line); }
+  .contact-route.alt { background: var(--paper-2); }
+  .contact-route__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); }
+  .contact-route__intro { grid-column: 1 / span 5; display: grid; gap: var(--s-3); align-content: start; }
+  .contact-route__form { grid-column: 7 / span 6; }
+  .details { border-top: 1px solid var(--line); }
+  @media (max-width: 63.99rem) {
+    .contact-route__intro, .contact-route__form { grid-column: 1 / -1; }
+    .contact-route__form { margin-block-start: var(--s-4); }
+  }
+</style>

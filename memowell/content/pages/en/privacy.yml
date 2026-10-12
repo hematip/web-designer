@@ -1,0 +1,17 @@
+# Privacy policy — faithful English translation of the client's Persian draft (brief Part 4 §6).
+# Status: draft until the scientific officer and the client approve the translation.
+# To add once known: (1) the name of any analytics or cookie tool; (2) the contact route for access/deletion requests.
+# Note: the draft mentions a newsletter; no newsletter is built (brief Part 4 §6 note).
+status: draft
+meta_title: "Privacy policy | Memowell"
+meta_description: ""
+sections:
+  - id: intro
+    heading: "Privacy policy"
+    body: |-
+      Kondor Pharma respects the privacy of visitors. When you complete the contact form or subscribe to the newsletter, information such as your name, email address and the text of your message is received in order to reply to you and provide the services you requested. Marketing messages will be sent with your consent, and an option to unsubscribe is provided. Please do not send sensitive medical information or treatment records through the site's general form.
+
+      If visit-analytics tools or cookies are used, the type of tool, the purpose of its use and the options for managing them will be explained on the site. Access to information will be limited to the people and service providers who need it to deliver the site's services. Information is kept for a period proportionate to the purpose for which it was received and to legal requirements. To request access to, correction of or deletion of your information, use the contact route given on the Contact us page. This website operates to introduce Memowell® and to provide scientific and educational information. Using its content does not mean receiving individual medical advice or establishing a doctor–patient relationship. Product information must be checked against the label approved in the country of purchase.
+
+      Rights to proprietary content, images, design and trademarks belong to their legal owners. Commercial use or republication of these materials without the right holder's permission is not permitted. Links to external sources are provided for access to further information, and responsibility for the content of those pages lies with their publishers. The site's content may be updated when new scientific information or requirements are received. For questions about the content or its use, please use the Contact us page.
+    pending: "privacy-additions"

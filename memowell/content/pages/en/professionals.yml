@@ -1,0 +1,86 @@
+# For healthcare professionals — approved English copy (brief Part 4).
+status: approved
+meta_title: "Memowell® for healthcare professionals | Memowell"
+meta_description: "Study designs, results, composition and cautions for Memowell, with DOI links. Includes a form to reach Kondor Pharma scientific affairs."
+sections:
+  - id: entrance
+    note: "This section is written for healthcare professionals. It assumes clinical vocabulary and reports findings at the level of the published papers."
+    heading: "Memowell® for healthcare professionals"
+    body: |-
+      Memowell is a dietary supplement containing K-Vie™, a micronized microcrystalline *Boswellia* extract standardised to 40% boswellic acids. Licensed in Canada under NPN 80107357.
+
+  - id: studies
+    columns: ["Study", "Population", "Design", "Primary findings", "Source"]
+    rows:
+      - study: "*Alzheimer's & Dementia*, 2023"
+        population: "85 patients with Alzheimer's disease"
+        design: "Randomised, placebo-controlled, 6 months, alongside standard care"
+        findings: "MMSE +3.11 vs placebo; CDR-SOB difference 1.65; p < 0.0001"
+        sources: ["10.1002/alz.063660"]
+        # Gap: full citation, publisher page and legally free full-text links not supplied.
+        citation: ""
+        publisher_url: ""
+        free_full_text_url: ""
+      - study: "Blood-marker analysis"
+        population: "Same cohort"
+        design: "Serum markers at 6 months"
+        findings: "Aβ42:Aβ40 ratio increased; >5 inflammatory compounds decreased; lymphocyte proportion increased"
+        sources: ["10.3233/JAD-221026", "10.14283/jpad.2018.41"]
+        citation: ""
+        publisher_url: ""
+        free_full_text_url: ""
+      - study: "*Brain Injury*"
+        population: "80 patients with post-TBI cognitive impairment"
+        design: "Clinical study"
+        findings: "RAVLT scores improved"
+        sources: ["10.1080/02699052.2022.2059816"]
+        citation: ""
+        publisher_url: ""
+        free_full_text_url: ""
+      - study: "Mechanistic and preclinical"
+        population: "—"
+        design: "Review of boswellic acid activity"
+        findings: "Anti-inflammatory activity of boswellic acids"
+        sources: ["10.1016/j.biopha.2021.112250", "10.1186/s12974-020-01820-6"]
+        citation: ""
+        publisher_url: ""
+        free_full_text_url: ""
+
+  - id: composition
+    heading: "Composition and administration"
+    body: |-
+      **Active:** K-Vie™ *Boswellia* extract, standardised to 40% boswellic acids, micronized and microcrystalline.
+
+      **Presentation:** 90 vegetarian capsules per bottle. Gluten-free.
+
+      **Administration:** one capsule with each of the three main meals, taken with food. Effects on cognitive symptoms are generally observed after approximately eight weeks of regular use.
+
+      **Contraindicated** in pregnancy and lactation.
+
+      **Advise caution** in hepatic or renal disease, cardiovascular disease, haematological disorders and autoimmune conditions. Mild gastrointestinal symptoms have been reported at initiation.
+
+      Product information must be read against the label approved in the country of purchase.
+
+  - id: monitoring
+    heading: "Following response"
+    body: |-
+      The published work used MMSE at six-month intervals, and tracked the neutrophil-to-lymphocyte ratio on CBC differential as a marker of inflammatory activity. Whether either is appropriate for a given patient is a clinical judgement.
+
+  - id: case-reports
+    heading: "Case reports"
+    body: |-
+      Five published case reports describe patients aged 59 to 83 with Alzheimer's disease. Dosing in these reports varied and in some cases exceeded the label directions. They are individual observations, not controlled evidence.
+    actions:
+      - { label: "Read the five case reports", href: "/science/professionals/case-reports", kind: case-reports }
+
+  - id: question-form
+    heading: "Ask a scientific question"
+    body: |-
+      Questions go to Kondor Pharma scientific affairs in Canada. Answers come by email within three to five working days, with sources.
+    form: scientific
+
+  - id: feedback-form
+    heading: "Report what you observed"
+    body: |-
+      If you have prescribed or dispensed Memowell, what you saw is useful to us.
+    form: feedback

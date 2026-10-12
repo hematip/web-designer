@@ -1,0 +1,20 @@
+# Availability — approved English copy (brief Part 4, AVAILABILITY).
+# Add one market block per country only after the client confirms registration status.
+status: approved
+# No meta title/description were supplied in the copy deck (gap). Title falls back to the H1.
+meta_title: ""
+meta_description: ""
+sections:
+  - id: intro
+    heading: "Where to find Memowell®"
+    body: |-
+      Availability, packaging and approved uses are set per country. Product information on this site must be read against the label approved where you buy it.
+  - id: markets
+    items:
+      - { title: "Canada", body: "Licensed under NPN 80107357." }
+      - { title: "Other markets", body: "Availability varies. Tell us your country and we will point you to the right source." }
+    actions:
+      - { label: "Contact us about availability", href: "/contact#general" }
+  - id: amazon
+    body: "Memowell is also sold on Amazon in markets where that listing is available."
+    # Gap: Amazon listing URL(s) not supplied. Add them in Settings → amazon_urls.

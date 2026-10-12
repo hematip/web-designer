@@ -1,0 +1,48 @@
+# Science (plain language) — approved English copy (brief Part 4, SCIENCE).
+status: approved
+meta_title: "What the research on Memowell® found | Memowell"
+meta_description: "Three published studies, in plain language: an 85-patient trial in Alzheimer's disease, blood markers, and 80 people after brain injury. With sources."
+sections:
+  - id: intro
+    heading: "What the research found"
+    body: |-
+      Three published studies sit behind Memowell®. Here they are in plain language, each with the number of people, how long it ran, and where to read it. Nothing on this page is a promise about what will happen to you.
+
+  - id: study-1
+    heading: "85 people with Alzheimer's disease, six months"
+    published: "Published in *Alzheimer's & Dementia*, 2023."
+    body: |-
+      Eighty-five people with Alzheimer's disease were divided into two groups. One group took Memowell alongside their prescribed care; the other took a placebo — a capsule with no active ingredient. Neither the participants nor the researchers knew who was in which group.
+
+      After six months, the Memowell group scored **3.11 points higher on MMSE** than the placebo group. MMSE is a standard test of memory and orientation; a higher score means better performance.
+
+      On CDR-SOB, a second standard measure, the difference was **1.65 points**, in the direction of slower change.
+
+      Both differences were statistically significant (p < 0.0001), meaning they were unlikely to be chance.
+    sources: ["10.1002/alz.063660"]
+
+  - id: study-2
+    heading: "What changed in the blood"
+    body: |-
+      The same research also looked at what could be measured in participants' blood.
+
+      The ratio of two proteins, Aβ42 to Aβ40, rose. A falling ratio is one of the signals researchers track as Alzheimer's disease advances.
+
+      More than five inflammatory compounds decreased, and the proportion of lymphocytes — a type of white blood cell — rose.
+    sources: ["10.3233/JAD-221026", "10.14283/jpad.2018.41"]
+
+  - id: study-3
+    heading: "80 people with cognitive difficulty after a brain injury"
+    published: "Published in *Brain Injury*."
+    body: |-
+      Eighty people with cognitive difficulty following traumatic brain injury were studied. Scores on RAVLT — a test of verbal learning and memory — improved.
+    sources: ["10.1080/02699052.2022.2059816"]
+
+  - id: closing
+    heading: "Reading this honestly"
+    body: |-
+      These are published findings in defined groups of people over defined periods. They are not a guarantee, and they do not replace what your own doctor knows about your situation.
+    pro_prompt: "Looking for study designs, full results tables and composition?"
+    pro_action: { label: "For healthcare professionals", href: "/science/professionals" }
+    actions:
+      - { label: "Download a one-page summary (PDF)", kind: summary }

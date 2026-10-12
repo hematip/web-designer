@@ -1,0 +1,31 @@
+# Form field definitions (English labels from the copy deck). No form collects identifiable patient data.
+general:
+  fields:
+    - { name: "name", label: "Name", type: "text", autocomplete: "name", required: true }
+    - { name: "country", label: "Country", type: "text", autocomplete: "country-name", required: true }
+    - { name: "email", label: "Email", type: "email", autocomplete: "email", required: true }
+    - { name: "message", label: "Your message", type: "textarea", required: true }
+scientific:
+  fields:
+    - { name: "name", label: "Name", type: "text", autocomplete: "name", required: true }
+    - { name: "profession", label: "Profession", type: "text", autocomplete: "organization-title", required: true }
+    - { name: "country", label: "Country", type: "text", autocomplete: "country-name", required: true }
+    - { name: "email", label: "Email", type: "email", autocomplete: "email", required: true }
+    - { name: "question", label: "Your question", type: "textarea", required: true }
+feedback:
+  fields:
+    - { name: "name", label: "Name", type: "text", autocomplete: "name", required: true }
+    - { name: "profession", label: "Profession", type: "text", autocomplete: "organization-title", required: true }
+    - { name: "country", label: "Country", type: "text", autocomplete: "country-name", required: true }
+    - { name: "email", label: "Email", type: "email", autocomplete: "email", required: true }
+    - { name: "patient_context", label: "Patient context, no identifying details", type: "textarea", required: false }
+    - { name: "observation", label: "What you observed", type: "textarea", required: true }
+    - { name: "period", label: "Over what period", type: "text", required: false }
+partnership:
+  fields:
+    - { name: "company", label: "Company", type: "text", autocomplete: "organization", required: true }
+    - { name: "country", label: "Country", type: "text", autocomplete: "country-name", required: true }
+    - { name: "role", label: "Your role", type: "text", autocomplete: "organization-title", required: true }
+    - { name: "email", label: "Email", type: "email", autocomplete: "email", required: true }
+    - { name: "phone", label: "Phone", type: "tel", autocomplete: "tel", required: false }
+    - { name: "topic", label: "What you would like to discuss", type: "textarea", required: true }

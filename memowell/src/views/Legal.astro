@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Pending from '../components/Pending.astro';
+import { getPage, section, md } from '../lib/content.js';
+
+const { locale, routePath, id } = Astro.props;
+const { data: page, fallback } = getPage(locale, id);
+const intro = section(page, 'intro');
+---
+<Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
+  <PageHead locale={locale} title={intro.heading} />
+  <section class="wrap legal">
+    {intro.body && <div class="prose" set:html={md(intro.body)} />}
+    {intro.pending === 'privacy-additions' && <Pending label="privacy additions" detail="Translation of the client's Persian draft awaiting scientific-officer and client approval. Still to add: name of any analytics/cookie tool, and the contact route for access or deletion requests. The draft mentions a newsletter; none is built." />}
+    {intro.pending === 'terms' && <Pending label="terms of use text" detail="Not supplied by the client (brief Part 9)." />}
+  </section>
+</Base>
+<style>
+  .legal { padding-block-end: var(--section); display: grid; gap: var(--s-4); }
+</style>

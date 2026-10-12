@@ -1,0 +1,35 @@
+---
+// Enquiry form. Stays visibly closed (disabled, honest notice) until its destination endpoint is
+// configured in Settings. Never fakes a success message. Collects no identifiable patient data.
+import Icon from './Icon.astro';
+import Pending from './Pending.astro';
+import { formDefs, settings, getSite } from '../lib/content.js';
+
+interface Props { form: string; locale: string; labelledby?: string; beside?: string }
+const { form, locale, labelledby, beside } = Astro.props;
+const def = formDefs[form];
+const endpoint = settings.forms?.[form]?.endpoint ?? '';
+const open = !!endpoint;
+const ui = getSite(locale).data.ui;
+const uid = `${form}-form`;
+---
+<form class="form" action={open ? endpoint : undefined} method="post" aria-labelledby={labelledby} id={uid} novalidate={!open || undefined}>
+  {!open && (
+    <p class="form__status" role="status"><Icon name="lock" /><span>{ui.form_closed}</span></p>
+  )}
+  {!open && <Pending label={`destination address for the ${form} form`} detail="Not supplied (brief Part 9). The form activates when its endpoint is set in Settings → forms." />}
+  <fieldset disabled={!open}>
+    {def.fields.map((f: any) => (
+      <div class="field">
+        <label for={`${uid}-${f.name}`}>{f.label}{f.required && <span class="req"> ({ui.required})</span>}</label>
+        {f.type === 'textarea'
+          ? <textarea id={`${uid}-${f.name}`} name={f.name} required={f.required} rows="5" />
+          : <input id={`${uid}-${f.name}`} name={f.name} type={f.type} autocomplete={f.autocomplete} required={f.required} />}
+      </div>
+    ))}
+    <div class="form__submit">
+      <button class="btn" type="submit">{ui.submit}</button>
+      {beside && <p class="form__beside">{beside}</p>}
+    </div>
+  </fieldset>
+</form>

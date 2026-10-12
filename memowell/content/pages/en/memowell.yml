@@ -1,0 +1,56 @@
+# What Memowell is — approved English copy (brief Part 4, PRODUCT).
+status: approved
+meta_title: "What Memowell® is, and how to take it | Memowell"
+meta_description: "Memowell is a dietary supplement containing K-Vie™ boswellic acids. Composition, directions, cautions and storage — and what to ask your doctor."
+sections:
+  - id: intro
+    heading: "What Memowell® is"
+    body: |-
+      Memowell is a dietary supplement for memory and cognitive health. One bottle holds 90 vegetarian capsules. It is made by Kondor Pharma in Canada, where it is licensed under natural product number NPN 80107357.
+
+      It is a supplement, not a medicine, and it is not a substitute for anything your doctor has prescribed.
+    image_alt: "The Memowell bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
+
+  - id: composition
+    heading: "What is in it"
+    body: |-
+      The active compounds are boswellic acids, drawn from the resin of *Boswellia* trees — the tree that produces frankincense.
+
+      Ordinary frankincense resin contains these compounds, but the digestive system absorbs very little of them. Kondor Pharma processes the resin into K-Vie™: standardised to 40% boswellic acids, then micronized and microcrystalline so that more of the compound reaches the bloodstream.
+
+      The capsules are vegetarian and gluten-free.
+    # Gap (brief Part 9): exact amount of active ingredient per capsule not supplied.
+    per_capsule_amount: ""
+    image_alt: "A single cream-coloured Memowell capsule held between finger and thumb."
+
+  - id: directions
+    heading: "How to take it"
+    items:
+      - { title: "One capsule with each of the three main meals.", body: "Taking it with food improves absorption." }
+      - { title: "Allow eight weeks.", body: "Effects on memory symptoms are generally observed after about eight weeks of regular use." }
+      - { title: "Keep taking it under supervision.", body: "For memory health, the supplement is intended for long-term, regular use with your doctor's oversight — not a short course." }
+    body: |-
+      Follow the directions on the packaging approved in the country where you bought it. Where they differ from this page, the packaging is correct.
+
+  - id: cautions
+    heading: "Before you start"
+    body: |-
+      **Do not take Memowell during pregnancy or breastfeeding.**
+
+      Talk to your doctor before starting if you have liver or kidney disease, heart or vascular disease, a blood disorder, or an autoimmune condition.
+
+      Some people notice mild digestive discomfort in the first days. If anything concerns you, stop and speak to your doctor or pharmacist.
+
+      Do not change or stop a prescribed medicine without talking to the doctor who prescribed it.
+
+  - id: storage
+    heading: "Storage"
+    body: |-
+      Room temperature, 15 to 30°C. Away from direct light. Out of reach of children. Best used within two years of the production date printed on the bottle.
+
+  - id: summary
+    heading: "Taking this to your doctor"
+    body: |-
+      One page, with what is in Memowell, how it is taken, the published studies, and five questions worth asking.
+    actions:
+      - { label: "Download the summary (PDF)", kind: summary }

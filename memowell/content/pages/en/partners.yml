@@ -1,0 +1,19 @@
+# Partners — approved English copy (brief Part 4, PARTNERS). No prices, margins or terms on this page.
+status: approved
+meta_title: "Pharmacy and distribution enquiries | Memowell"
+meta_description: ""
+sections:
+  - id: intro
+    heading: "For pharmacies and distribution partners"
+    body: |-
+      **The product:** Memowell®, a dietary supplement containing K-Vie™ *Boswellia* extract standardised to 40% boswellic acids. 90 vegetarian capsules per bottle. Gluten-free. Manufactured in Canada by Kondor Pharma, NPN 80107357.
+
+      **Supporting material:** three published clinical studies, a product catalogue, and composition and storage specifications.
+    actions:
+      - { label: "Download the catalogue (PDF)", kind: catalogue }
+    image_alt: "A Memowell bottle held in one hand, showing its size."
+  - id: form
+    heading: "Talk to us"
+    body: |-
+      Tell us where you are and what you distribute, and we will come back to you.
+    form: partnership

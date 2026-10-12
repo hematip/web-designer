@@ -1,0 +1,17 @@
+---
+// The official front-view bottle on a label-derived blob (inner pages). No other angle exists.
+import Stripes from './Stripes.astro';
+interface Props { alt?: string; id: string }
+const { alt = '', id } = Astro.props;
+---
+<div class="bottle-stage">
+  <svg class="bottle-stage__blob" viewBox="0 0 520 480" aria-hidden="true"><path d="M268 22c96-10 196 44 226 136 30 92-14 194-100 250-86 56-214 74-300 18C8 370-6 262 34 176 72 94 168 32 268 22z" /></svg>
+  <div class="bottle-stage__stripes" aria-hidden="true"><Stripes id={id} /></div>
+  <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 260px, 50vw" width="895" height="1713" alt={alt} />
+</div>
+<style>
+  .bottle-stage { position: relative; display: grid; place-items: center; padding-block: 1rem; max-width: 28rem; margin-inline: auto; }
+  .bottle-stage__blob { position: absolute; width: 92%; bottom: 6%; fill: var(--royal); }
+  .bottle-stage__stripes { position: absolute; width: 58%; aspect-ratio: 4 / 3; top: 4%; inset-inline-end: -4%; }
+  .bottle-stage img { position: relative; width: 52%; filter: drop-shadow(0 26px 26px rgba(14, 28, 85, 0.26)); }
+</style>

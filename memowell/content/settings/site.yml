@@ -1,0 +1,33 @@
+# Site-wide settings (not language-specific). Empty values are open gaps (brief Part 9):
+# the site shows an honest pending state instead of inventing data.
+
+site_url: "https://memowell.kondorpharma.com"
+kondor_url: "https://kondorpharma.com"
+
+# Languages published in the production build. FR and AR are built but stay unpublished
+# until approved translations exist (AR additionally needs the UAE e-health advertising permit).
+published_locales: ["en"]
+
+downloads:
+  # One-page doctor summary (primary action). Set approved: true and file once the scientific officer signs off.
+  summary: { approved: false, file: "" }
+  # Partner catalogue PDF — not supplied.
+  catalogue: { approved: false, file: "" }
+
+# Form destinations — unknown. A form stays visibly closed until its endpoint is set.
+forms:
+  general: { endpoint: "" }
+  scientific: { endpoint: "" }
+  feedback: { endpoint: "" }
+  partnership: { endpoint: "" }
+
+# Contact details — not supplied. Shown only when filled in.
+contact:
+  address: ""
+  phone: ""
+  email: ""
+  instagram: ""
+  linkedin: ""
+
+# Amazon listing URL(s) — not supplied.
+amazon_urls: []

@@ -1,0 +1,14 @@
+---
+import Icon from './Icon.astro';
+import { getSite } from '../lib/content.js';
+interface Props { locale: string }
+const site = getSite(Astro.props.locale).data;
+---
+<div class="product-disclaimer">
+  <div class="wrap">
+    <div class="product-disclaimer__box">
+      <Icon name="info" />
+      <p>{site.product_disclaimer}</p>
+    </div>
+  </div>
+</div>

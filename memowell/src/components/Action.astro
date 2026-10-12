@@ -1,0 +1,54 @@
+---
+// One action (button-styled link). Handles locale paths, external links, unpublished targets
+// and pending downloads, so no button ever leads to a dead link.
+import Icon from './Icon.astro';
+import { href as localHref, settings, getSite, IS_PREVIEW } from '../lib/content.js';
+import { pathIsLive } from '../lib/routes.js';
+
+interface Props {
+  action: { label: string; href?: string; kind?: string; external?: boolean };
+  locale: string;
+  variant?: 'primary' | 'secondary' | 'light' | 'link';
+  small?: boolean;
+}
+const { action, locale, variant = 'primary', small = false } = Astro.props;
+const ui = getSite(locale).data.ui;
+
+let target: string | null = action.href ?? null;
+let pendingText: string | null = null;
+let pendingNote: string | null = null;
+
+if (action.kind === 'summary') {
+  const d = settings.downloads?.summary;
+  target = d?.approved && d?.file ? d.file : null;
+  if (!target) { pendingText = ui.file_pending; pendingNote = 'One-page summary PDF: drafted in deliverables/, awaiting scientific-officer approval (brief Part 7 Downloads).'; }
+} else if (action.kind === 'catalogue') {
+  const d = settings.downloads?.catalogue;
+  target = d?.approved && d?.file ? d.file : null;
+  if (!target) { pendingText = ui.file_pending; pendingNote = 'Catalogue PDF for partners not supplied (brief Part 9).'; }
+} else if (target && !/^(https?:|mailto:|#)/.test(target) && !pathIsLive(locale, target)) {
+  pendingText = ui.locale_pending;
+  pendingNote = `Target ${target} is not published (awaiting approved content).`;
+  target = null;
+}
+
+const isExternal = !!action.external || /^https?:/.test(target ?? '');
+const finalHref = target ? localHref(locale, target) : null;
+const cls = variant === 'link' ? 'text-link' : `btn${variant !== 'primary' ? ` btn--${variant}` : ''}${small ? ' btn--small' : ''}`;
+const isDownload = action.kind === 'summary' || action.kind === 'catalogue';
+---
+{finalHref ? (
+  <a class={cls} href={finalHref} {...(isExternal ? { rel: 'noopener' } : {})} {...(isDownload ? { download: '' } : {})}>
+    <span>{action.label}</span>
+    {isExternal ? <Icon name="external" class="arrow" /> : variant === 'link' ? <Icon name="arrow" class="arrow" /> : null}
+  </a>
+) : (
+  <span class="pending-action">
+    <a class={cls} role="link" aria-disabled="true" aria-describedby={undefined}>
+      <span>{action.label}</span>
+      {isDownload && <Icon name="download" class="arrow" />}
+    </a>
+    <span class="action-status">{pendingText}</span>
+    {IS_PREVIEW && pendingNote && <span class="pending small" style="margin-top:.5rem">{pendingNote}</span>}
+  </span>
+)}

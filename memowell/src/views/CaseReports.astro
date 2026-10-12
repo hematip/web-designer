@@ -1,0 +1,27 @@
+---
+// Empty target for "Read the five case reports" (brief: build the button and an empty target,
+// marked "awaiting approved English text from the scientific officer"). Only generated in preview
+// until the page is approved; the Persian success-story summaries are never published.
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { getPage, getSite, section, md } from '../lib/content.js';
+
+const { locale, routePath } = Astro.props;
+const { data: page, fallback } = getPage(locale, 'case-reports');
+const nav = getSite(locale).data.nav;
+const science = nav.find((n: any) => n.href === '/science');
+const crumbs = [
+  { label: science?.label ?? 'Science', href: '/science' },
+  { label: science?.children?.find((c: any) => c.href === '/science/professionals')?.label ?? 'For healthcare professionals', href: '/science/professionals' },
+];
+const intro = section(page, 'intro');
+const reports = section(page, 'reports');
+---
+<Base locale={locale} routePath={routePath} title={page.meta_title} fallback={fallback} status={page.status} noindex>
+  <PageHead locale={locale} title={intro.heading} body={intro.body} crumbs={crumbs} />
+  <section class="wrap section--tight">
+    {(reports.items ?? []).length === 0
+      ? <p class="pending"><strong>Awaiting approved English text from the scientific officer.</strong> The five case reports exist only as the client's Persian catalogue summaries, written as success stories; they are not published.</p>
+      : (reports.items.map((r: any) => <article class="card prose" set:html={md(r.body)} />))}
+  </section>
+</Base>

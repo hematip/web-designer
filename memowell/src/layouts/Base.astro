@@ -1,0 +1,73 @@
+---
+import '@fontsource-variable/source-serif-4/opsz.css';
+import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
+import '@fontsource-variable/atkinson-hyperlegible-next/wght-italic.css';
+import '@fontsource-variable/noto-naskh-arabic/wght.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { IS_PREVIEW, localeInfo, publishedLocales, settings, getSite, DEFAULT_LOCALE } from '../lib/content.js';
+import { pathIsLive } from '../lib/routes.js';
+
+interface Props {
+  locale: string;
+  routePath: string;
+  title: string;
+  description?: string;
+  fallback?: boolean;      // page content shown in English because no approved translation exists
+  status?: string;         // content status of the page entry
+  noindex?: boolean;
+  bodyClass?: string;
+}
+const { locale, routePath, title, description = '', fallback = false, status = 'approved', noindex = false, bodyClass = '' } = Astro.props;
+const info = localeInfo(locale);
+const siteStrings = getSite(locale);
+const ui = siteStrings.data.ui;
+const base = settings.site_url;
+const prefixed = (l: string, p: string) => (l === DEFAULT_LOCALE ? p : `/${l}${p === '/' ? '/' : p}`);
+const canonical = new URL(prefixed(locale, routePath), base).href;
+const alternates = IS_PREVIEW ? [] : publishedLocales().filter((l) => pathIsLive(l, routePath)).map((l) => ({ l, url: new URL(prefixed(l, routePath), base).href }));
+const robots = IS_PREVIEW || noindex || fallback || status !== 'approved' ? 'noindex, nofollow' : 'index, follow';
+---
+<!doctype html>
+<html lang={info.code} dir={info.dir} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    {alternates.length > 1 && alternates.map((a) => <link rel="alternate" hreflang={a.l} href={a.url} />)}
+    {alternates.length > 1 && <link rel="alternate" hreflang="x-default" href={new URL(routePath, base).href} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/img/bottle-820.webp', base).href} />
+    <meta name="theme-color" content="#fbf9f4" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
+  </head>
+  <body class:list={[bodyClass, { 'fallback-text': siteStrings.fallback }]}>
+    <a class="skip-link" href="#main">{ui.skip_link}</a>
+    {IS_PREVIEW && (
+      <aside class="preview-banner" aria-label="Preview build" lang="en" dir="ltr">
+        <div class="wrap">
+          <strong>Preview build — not for publication.</strong> Drafts, pending translations and open gaps are marked in yellow.
+          {status !== 'approved' && <> This page is <strong>{status}</strong>.</>}
+          {fallback && <> No approved {info.name} translation yet — English original shown.</>}
+        </div>
+      </aside>
+    )}
+    <Header locale={locale} routePath={routePath} />
+    <main id="main" tabindex="-1" lang={fallback ? 'en' : undefined} class:list={{ 'fallback-block': fallback }}>
+      <slot />
+    </main>
+    <Footer locale={locale} routePath={routePath} />
+    <slot name="end" />
+    <script>
+      import '../scripts/site.js';
+    </script>
+  </body>
+</html>

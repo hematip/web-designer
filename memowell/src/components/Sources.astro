@@ -1,0 +1,12 @@
+---
+import { getSite, doiUrl } from '../lib/content.js';
+interface Props { dois?: string[]; locale: string; class?: string }
+const { dois = [], locale, class: cls = '' } = Astro.props;
+const ui = getSite(locale).data.ui;
+---
+{dois.length > 0 && (
+  <p class:list={['sources', cls]}>
+    <span class="sources__label">{dois.length > 1 ? ui.sources : ui.source}</span>{' '}
+    {dois.map((d, i) => (<>{i > 0 && <>{' '}<span aria-hidden="true">·</span>{' '}</>}<a href={doiUrl(d)} rel="noopener" lang="en" dir="ltr">DOI {d}</a></>))}
+  </p>
+)}

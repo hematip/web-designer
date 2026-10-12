@@ -1,0 +1,19 @@
+# Memory health (blog index) — approved English copy (brief Part 4, MEMORY HEALTH).
+status: approved
+meta_title: "Memory health — articles and research notes | Memowell"
+meta_description: "Plain-language articles on memory, mild cognitive impairment, inflammation in the nervous system, and caring for someone with Alzheimer's."
+sections:
+  - id: intro
+    heading: "Memory health"
+    body: |-
+      Articles on memory, cognition and the research behind them. Written in plain language, reviewed by Kondor Pharma scientific affairs before publication, and sourced.
+    categories_label: "Categories"
+  - id: article-template
+    # Fixed line shown on every article (template part 7).
+    fixed_line: "This article is general information, not medical advice. Talk to your doctor about your own situation."
+categories:
+  - { slug: "memory-health", label: "Memory health" }
+  - { slug: "alzheimers-and-mci", label: "Alzheimer's and MCI" }
+  - { slug: "inflammation-and-the-nervous-system", label: "Inflammation and the nervous system" }
+  - { slug: "for-caregivers", label: "For caregivers" }
+page_size: 6

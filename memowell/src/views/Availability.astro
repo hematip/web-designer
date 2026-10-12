@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Action from '../components/Action.astro';
+import Pending from '../components/Pending.astro';
+import ProBand from '../components/ProBand.astro';
+import { getPage, getSite, section, md, settings } from '../lib/content.js';
+
+const { locale, routePath } = Astro.props;
+const { data: page, fallback } = getPage(locale, 'availability');
+const intro = section(page, 'intro');
+const markets = section(page, 'markets');
+const amazon = section(page, 'amazon');
+const nav = getSite(locale).data.nav;
+const about = nav.find((n: any) => n.href === '/about');
+const crumbs = [{ label: about?.label ?? 'About', href: '/about' }];
+const title = page.meta_title || `${intro.heading} | Memowell`;
+const amazonUrls = settings.amazon_urls ?? [];
+---
+<Base locale={locale} routePath={routePath} title={title} description={page.meta_description} fallback={fallback} status={page.status}>
+  <PageHead locale={locale} title={intro.heading} body={intro.body} crumbs={crumbs} />
+
+  <section class="section--tight markets-wrap" aria-label={intro.heading}>
+    <div class="wrap">
+      <ul class="markets" role="list">
+        {markets.items.map((m: any) => (
+          <li class="market">
+            <h2>{m.title}</h2>
+            <p>{m.body}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="btn-row markets__action">{markets.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
+      <Pending label="market registration status (UAE, GCC, MENA, Russia)" detail="Add a country block per market only once the client confirms registration (brief Part 9)." />
+    </div>
+  </section>
+
+  <div class="section--tight">
+    <div class="wrap amazon">
+      <p>{amazon.body}</p>
+      {amazonUrls.length > 0
+        ? <ul class="plain-list">{amazonUrls.map((u: any) => <li><a href={u.url} rel="noopener">{u.label}</a></li>)}</ul>
+        : <Pending label="Amazon listing URL(s)" detail="Not supplied (brief Part 9)." />}
+    </div>
+  </div>
+
+  <ProBand locale={locale} />
+</Base>
+
+<style>
+  .markets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
+  .market { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m); padding: var(--s-4); display: grid; gap: var(--s-2); align-content: start; border-top: 4px solid var(--royal); }
+  .market h2 { font-size: var(--fs-h3); }
+  .markets__action { margin-block: var(--s-4) var(--s-3); }
+  .amazon { display: grid; gap: var(--s-2); padding-block-end: var(--s-5); max-width: calc(var(--measure) + 2 * var(--gutter)); margin-inline: 0; }
+  @media (max-width: 47.99rem) { .markets { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Sources from '../components/Sources.astro';
+import Pending from '../components/Pending.astro';
+import ClosingCTA from '../components/ClosingCTA.astro';
+import ProductDisclaimer from '../components/ProductDisclaimer.astro';
+import ProBand from '../components/ProBand.astro';
+import { getPage, getSite, section, md } from '../lib/content.js';
+
+const { locale, routePath } = Astro.props;
+const { data: page, fallback } = getPage(locale, 'who-its-for');
+const ui = getSite(locale).data.ui;
+const intro = section(page, 'intro');
+const closing = section(page, 'closing');
+const groups = page.sections.filter((x: any) => !['intro', 'closing'].includes(x.id));
+---
+<Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
+  <PageHead locale={locale} title={intro.heading} body={intro.body} />
+
+  <div class="wrap groups">
+    <nav class="groups__index" aria-labelledby="otp-title">
+      <div class="groups__index-inner">
+        <p id="otp-title" class="groups__index-title">{ui.on_this_page}</p>
+        <ol role="list">
+          {groups.map((g: any, i: number) => (
+            <li><a href={`#${g.id}`}><span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{g.heading}</a></li>
+          ))}
+        </ol>
+      </div>
+    </nav>
+
+    <div class="groups__list">
+      {groups.map((g: any, i: number) => (
+        <section class="group" id={g.id} aria-labelledby={`${g.id}-title`}>
+          <span class="group__idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h2 id={`${g.id}-title`}>{g.heading}</h2>
+          <div class="prose" set:html={md(g.body)} />
+          {g.pending === 'mid-life-dose' && (
+            <Pending label="mid-life dose unconfirmed" detail="Catalogue says one capsule daily; client ruling says three times a day. The line stays attributed to the catalogue until the client / scientific officer confirms (brief Part 9)." />
+          )}
+          <Sources dois={g.sources} locale={locale} />
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <ClosingCTA locale={locale} body={closing.body} actions={closing.actions} />
+  <ProductDisclaimer locale={locale} />
+  <ProBand locale={locale} />
+</Base>
+
+<style>
+  .groups { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); padding-block-end: var(--section); }
+  .groups__index { grid-column: 1 / span 4; }
+  .groups__index-inner { position: sticky; top: calc(var(--header-h) + 2rem); padding-block-start: var(--s-5); }
+  .groups__index-title { font-weight: 700; color: var(--ink-soft); margin-block-end: var(--s-2); }
+  .groups__index ol { list-style: none; margin: 0; padding: 0; border-inline-start: 2px solid var(--line); }
+  .groups__index a {
+    display: flex; gap: 0.75rem; align-items: baseline; min-height: 3rem; padding: 0.6rem 1rem;
+    color: var(--ink); text-decoration: none; font-weight: 700; line-height: 1.35;
+  }
+  .groups__index a:hover { color: var(--royal); background: var(--paper-2); }
+  .idx { font-family: var(--font-display); color: var(--royal); font-variant-numeric: tabular-nums; }
+  .groups__list { grid-column: 6 / span 7; }
+  .group { padding-block: var(--s-5); border-top: 1px solid var(--line); display: grid; gap: var(--s-3); justify-items: start; }
+  .group:first-child { border-top: 0; }
+  .group__idx { font: 600 clamp(2.5rem, 2rem + 2vw, 3.75rem)/1 var(--font-display); color: var(--royal); opacity: 1; }
+  .group h2 { max-width: 20ch; }
+  @media (max-width: 63.99rem) {
+    .groups__index, .groups__list { grid-column: 1 / -1; }
+    .groups__index-inner { position: static; padding-block-start: 0; }
+  }
+</style>

@@ -1,0 +1,358 @@
+# Decap CMS configuration for the Memowell site.
+# Paths are relative to the repository root (the site lives in memowell/).
+#
+# Backend: the hosting provider is still open (brief Part 9). Replace `repo` and, if hosting on
+# Netlify, switch to `name: git-gateway`. For local editing run `npm run cms` (decap-server) and open
+# http://localhost:4321/admin/ while `npm run dev` is running — local_backend is used automatically.
+backend:
+  name: github
+  repo: hematip/web-designer
+  branch: main
+  squash_merges: true
+local_backend: true
+
+# Every change goes through Draft → In review → Ready before it is published (merged).
+# Scientific items must be approved by the Kondor Pharma scientific officer before "Ready".
+publish_mode: editorial_workflow
+
+media_folder: memowell/public/uploads
+public_folder: /uploads
+site_url: https://memowell.kondorpharma.com
+display_url: https://memowell.kondorpharma.com
+logo_url: /brand/memowell-logo-colour-transparent.png
+
+i18n:
+  structure: multiple_folders
+  locales: [en, fr, ar]
+  default_locale: en
+
+collections:
+  # ---------------------------------------------------------------------------------------
+  - name: pages
+    label: "Pages"
+    label_singular: "Page"
+    description: "Approved page copy. Section ids and layout are fixed by the design; edit the words, not the structure."
+    folder: memowell/content/pages
+    extension: yml
+    format: yaml
+    create: false
+    delete: false
+    i18n: true
+    identifier_field: meta_title
+    summary: "{{filename}} · {{meta_title}} — {{status}}"
+    fields:
+      - &status
+        label: "Content status"
+        name: status
+        widget: select
+        i18n: true
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "In scientific review", value: "in_review" }
+          - { label: "Approved (published in production)", value: "approved" }
+        default: draft
+        hint: "Only 'Approved' entries appear on the live site. Medical or scientific wording needs scientific-officer approval first."
+      - { label: "Meta title", name: meta_title, widget: string, required: false, i18n: true }
+      - { label: "Meta description", name: meta_description, widget: text, required: false, i18n: true }
+      - label: "Sections"
+        name: sections
+        widget: list
+        i18n: true
+        summary: "{{fields.id}} — {{fields.heading}}"
+        fields:
+          - { label: "Section id (do not change)", name: id, widget: string, i18n: duplicate }
+          - { label: "Eyebrow", name: eyebrow, widget: string, required: false, i18n: true }
+          - { label: "Note (non-blocking notice)", name: note, widget: text, required: false, i18n: true }
+          - { label: "Lead (bold opening)", name: lead, widget: string, required: false, i18n: true }
+          - { label: "Heading", name: heading, widget: string, required: false, i18n: true }
+          - { label: "Published in", name: published, widget: string, required: false, i18n: true }
+          - { label: "Body", name: body, widget: markdown, required: false, i18n: true, buttons: [bold, italic, link, bulleted-list, numbered-list], editor_components: [] }
+          - { label: "Highlighted phrase (must appear in Body)", name: highlight, widget: string, required: false, i18n: true }
+          - label: "Items"
+            name: items
+            widget: list
+            required: false
+            i18n: true
+            fields:
+              - { label: "Title", name: title, widget: string, i18n: true }
+              - { label: "Text", name: body, widget: text, required: false, i18n: true }
+          - label: "Buttons"
+            name: actions
+            widget: list
+            required: false
+            i18n: true
+            fields: &action
+            - { label: "Label", name: label, widget: string, i18n: true }
+            - { label: "Link (site path, e.g. /science)", name: href, widget: string, required: false, i18n: duplicate }
+            - label: "Special action"
+              name: kind
+              widget: select
+              required: false
+              i18n: duplicate
+              options: [summary, catalogue, case-reports]
+              hint: "summary / catalogue buttons use the files set in Settings → Downloads."
+            - { label: "External link", name: external, widget: boolean, required: false, i18n: duplicate }
+          - { label: "Inline link", name: inline_action, widget: object, required: false, i18n: true, fields: *action }
+          - { label: "Sources (DOIs, without https://doi.org/)", name: sources, widget: list, required: false, i18n: true, field: { label: DOI, name: doi, widget: string } }
+          - { label: "Image description (alt text)", name: image_alt, widget: string, required: false, i18n: true }
+          - { label: "Active ingredient per capsule", name: per_capsule_amount, widget: string, required: false, i18n: true, hint: "Leave empty until the client confirms (open gap)." }
+          - { label: "Form", name: form, widget: select, required: false, i18n: duplicate, options: [general, scientific, feedback, partnership] }
+          - { label: "Text beside the submit button", name: beside_submit, widget: text, required: false, i18n: true }
+          - { label: "Professional prompt", name: pro_prompt, widget: string, required: false, i18n: true }
+          - { label: "Professional link", name: pro_action, widget: object, required: false, i18n: true, fields: *action }
+          - { label: "Categories label", name: categories_label, widget: string, required: false, i18n: true }
+          - { label: "Fixed line (articles)", name: fixed_line, widget: text, required: false, i18n: true }
+          - { label: "Company name", name: company, widget: string, required: false, i18n: true }
+          - { label: "Pending marker (internal)", name: pending, widget: string, required: false, i18n: duplicate }
+          - label: "Table columns"
+            name: columns
+            widget: list
+            required: false
+            i18n: true
+            field: { label: Column, name: column, widget: string }
+          - label: "Studies table rows"
+            name: rows
+            widget: list
+            required: false
+            i18n: true
+            summary: "{{fields.study}}"
+            fields:
+              - { label: "Study", name: study, widget: string, i18n: true }
+              - { label: "Population", name: population, widget: string, i18n: true }
+              - { label: "Design", name: design, widget: string, i18n: true }
+              - { label: "Primary findings", name: findings, widget: text, i18n: true }
+              - { label: "Sources (DOIs)", name: sources, widget: list, i18n: true, field: { label: DOI, name: doi, widget: string } }
+              - { label: "Full citation", name: citation, widget: text, required: false, i18n: duplicate }
+              - { label: "Publisher page URL", name: publisher_url, widget: string, required: false, i18n: duplicate }
+              - { label: "Free full-text URL (only if legally free)", name: free_full_text_url, widget: string, required: false, i18n: duplicate }
+      - label: "Blog categories"
+        name: categories
+        widget: list
+        required: false
+        i18n: true
+        fields:
+          - { label: "Slug (do not change)", name: slug, widget: string, i18n: duplicate }
+          - { label: "Label", name: label, widget: string, i18n: true }
+      - { label: "Articles per page", name: page_size, widget: number, required: false, i18n: duplicate, value_type: int }
+
+  # ---------------------------------------------------------------------------------------
+  - name: articles
+    label: "Memory health articles"
+    label_singular: "Article"
+    description: "Blog. Every article needs scientific-officer approval before its status becomes Approved."
+    folder: memowell/content/articles
+    extension: md
+    format: frontmatter
+    create: true
+    i18n: true
+    slug: "{{slug}}"
+    sortable_fields: [order, published, title]
+    summary: "{{title}} — {{status}}"
+    fields:
+      - *status
+      - { label: "Order", name: order, widget: number, required: false, i18n: duplicate, value_type: int }
+      - { label: "Title", name: title, widget: string, i18n: true }
+      - { label: "One-sentence summary", name: summary, widget: string, required: false, i18n: true }
+      - label: "Category"
+        name: category
+        widget: select
+        i18n: duplicate
+        options:
+          - { label: "Memory health", value: "memory-health" }
+          - { label: "Alzheimer's and MCI", value: "alzheimers-and-mci" }
+          - { label: "Inflammation and the nervous system", value: "inflammation-and-the-nervous-system" }
+          - { label: "For caregivers", value: "for-caregivers" }
+      - { label: "Author", name: author, widget: string, required: false, i18n: true }
+      - { label: "Published date", name: published, widget: datetime, required: false, i18n: duplicate, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Last reviewed date", name: last_reviewed, widget: datetime, required: false, i18n: duplicate, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Sources (DOIs)", name: sources, widget: list, required: false, i18n: true, field: { label: DOI, name: doi, widget: string } }
+      - label: "Related page"
+        name: related
+        widget: object
+        i18n: true
+        fields:
+          - { label: "Label", name: label, widget: string, i18n: true }
+          - { label: "Link (/who-its-for or /science, optional #anchor)", name: href, widget: string, i18n: duplicate }
+      - { label: "Built from (internal note, not published)", name: built_from, widget: string, required: false, i18n: duplicate }
+      - { label: "Meta description", name: meta_description, widget: text, required: false, i18n: true }
+      - { label: "Body", name: body, widget: markdown, required: false, i18n: true }
+
+  # ---------------------------------------------------------------------------------------
+  - name: site
+    label: "Shared site text"
+    description: "Navigation, footer, disclaimers and interface text (one entry per language). Disclaimers are fixed client text — change only with scientific-officer approval."
+    folder: memowell/content/site
+    extension: yml
+    format: yaml
+    create: false
+    delete: false
+    i18n: true
+    summary: "Site text — {{status}}"
+    fields:
+      - *status
+      - label: "Navigation"
+        name: nav
+        widget: list
+        i18n: true
+        fields:
+          - { label: "Label", name: label, widget: string, i18n: true }
+          - { label: "Link", name: href, widget: string, i18n: duplicate }
+          - label: "Submenu"
+            name: children
+            widget: list
+            required: false
+            i18n: true
+            fields:
+              - { label: "Label", name: label, widget: string, i18n: true }
+              - { label: "Link", name: href, widget: string, i18n: duplicate }
+      - { label: "Header action", name: header_action, widget: object, i18n: true, fields: [{ label: "Label", name: label, widget: string, i18n: true }, { label: "Link", name: href, widget: string, i18n: duplicate }] }
+      - { label: "General disclaimer (footer, every page)", name: general_disclaimer, widget: text, i18n: true }
+      - { label: "Product disclaimer", name: product_disclaimer, widget: text, i18n: true }
+      - label: "Professional band (short)"
+        name: pro_band
+        widget: object
+        i18n: true
+        fields:
+          - { label: "Lead", name: lead, widget: string, i18n: true }
+          - { label: "Text", name: body, widget: string, i18n: true }
+          - { label: "Button", name: action, widget: object, i18n: true, fields: [{ label: "Label", name: label, widget: string, i18n: true }, { label: "Link", name: href, widget: string, i18n: duplicate }] }
+      - label: "Market line"
+        name: market_line
+        widget: object
+        i18n: true
+        fields:
+          - { label: "Text", name: body, widget: string, i18n: true }
+          - { label: "Link", name: action, widget: object, i18n: true, fields: [{ label: "Label", name: label, widget: string, i18n: true }, { label: "Link", name: href, widget: string, i18n: duplicate }] }
+      - label: "Footer columns"
+        name: footer_columns
+        widget: list
+        i18n: true
+        fields:
+          - { label: "Title", name: title, widget: string, i18n: true }
+          - label: "Links"
+            name: links
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Label", name: label, widget: string, i18n: true }
+              - { label: "Link", name: href, widget: string, i18n: duplicate }
+              - { label: "External", name: external, widget: boolean, required: false, i18n: duplicate }
+          - { label: "Product names", name: products, widget: list, required: false, i18n: true }
+          - { label: "Show contact details here", name: contact_slots, widget: boolean, required: false, i18n: duplicate }
+      - { label: "Last footer line", name: footer_last_line, widget: string, i18n: true, hint: "In Arabic, the NPN must not read as a local licence." }
+      - label: "Summary note (decorative)"
+        name: summary_note
+        widget: object
+        i18n: true
+        fields:
+          - { label: "Title", name: title, widget: string, i18n: true }
+          - label: "Rows"
+            name: rows
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Section id (do not change)", name: section, widget: string, i18n: duplicate }
+              - { label: "Label", name: label, widget: string, i18n: true }
+      - label: "Interface text"
+        name: ui
+        widget: object
+        i18n: true
+        collapsed: true
+        fields:
+          - { name: skip_link, label: "Skip link", widget: string, i18n: true }
+          - { name: menu, label: "Menu button", widget: string, i18n: true }
+          - { name: close, label: "Close button", widget: string, i18n: true }
+          - { name: main_nav, label: "Main navigation name", widget: string, i18n: true }
+          - { name: language, label: "Language switcher name", widget: string, i18n: true }
+          - { name: on_this_page, label: "On this page", widget: string, i18n: true }
+          - { name: source, label: "Source label", widget: string, i18n: true }
+          - { name: sources, label: "Sources label", widget: string, i18n: true }
+          - { name: sources_heading, label: "Sources heading (articles)", widget: string, i18n: true }
+          - { name: breadcrumb, label: "Breadcrumb name", widget: string, i18n: true }
+          - { name: home, label: "Home", widget: string, i18n: true }
+          - { name: form_closed, label: "Closed form notice", widget: string, i18n: true }
+          - { name: file_pending, label: "File not yet available", widget: string, i18n: true }
+          - { name: locale_pending, label: "Language / page not yet available", widget: string, i18n: true }
+          - { name: required, label: "Required field marker", widget: string, i18n: true }
+          - { name: submit, label: "Submit button", widget: string, i18n: true }
+          - { name: published, label: "Published", widget: string, i18n: true }
+          - { name: last_reviewed, label: "Last reviewed", widget: string, i18n: true }
+          - { name: author, label: "Author", widget: string, i18n: true }
+          - { name: category, label: "Category", widget: string, i18n: true }
+          - { name: all_articles, label: "All articles", widget: string, i18n: true }
+          - { name: previous, label: "Previous", widget: string, i18n: true }
+          - { name: next, label: "Next", widget: string, i18n: true }
+          - { name: page_of, label: "Page n of total ({n}, {total})", widget: string, i18n: true }
+          - { name: no_articles, label: "No articles yet", widget: string, i18n: true }
+          - { name: related, label: "Related", widget: string, i18n: true }
+          - { name: not_found_title, label: "404 title", widget: string, i18n: true }
+          - { name: not_found_body, label: "404 text", widget: string, i18n: true }
+
+  # ---------------------------------------------------------------------------------------
+  - name: settings
+    label: "Settings"
+    description: "Downloads, form destinations, contact details and published languages. Empty values are open gaps; the site shows an honest pending state."
+    files:
+      - name: site
+        label: "Site settings"
+        file: memowell/content/settings/site.yml
+        format: yaml
+        fields:
+          - { label: "Site URL", name: site_url, widget: string }
+          - { label: "Kondor Pharma URL", name: kondor_url, widget: string }
+          - label: "Published languages (production)"
+            name: published_locales
+            widget: select
+            multiple: true
+            options: [en, fr, ar]
+            hint: "Arabic stays unpublished until the UAE electronic health advertising permit is obtained."
+          - label: "Downloads"
+            name: downloads
+            widget: object
+            fields:
+              - label: "One-page doctor summary (PDF)"
+                name: summary
+                widget: object
+                fields:
+                  - { label: "Approved by the scientific officer", name: approved, widget: boolean, default: false }
+                  - { label: "File", name: file, widget: file, required: false }
+              - label: "Partner catalogue (PDF)"
+                name: catalogue
+                widget: object
+                fields:
+                  - { label: "Approved for the site", name: approved, widget: boolean, default: false }
+                  - { label: "File", name: file, widget: file, required: false }
+          - label: "Form destinations"
+            name: forms
+            widget: object
+            hint: "A form stays closed ('This form will open soon.') until its endpoint is set."
+            fields:
+              - { label: "General", name: general, widget: object, fields: [{ label: "Endpoint URL", name: endpoint, widget: string, required: false }] }
+              - { label: "Scientific question", name: scientific, widget: object, fields: [{ label: "Endpoint URL", name: endpoint, widget: string, required: false }] }
+              - { label: "Professional feedback", name: feedback, widget: object, fields: [{ label: "Endpoint URL", name: endpoint, widget: string, required: false }] }
+              - { label: "Partnership", name: partnership, widget: object, fields: [{ label: "Endpoint URL", name: endpoint, widget: string, required: false }] }
+          - label: "Contact details"
+            name: contact
+            widget: object
+            fields:
+              - { label: "Address", name: address, widget: string, required: false }
+              - { label: "Phone", name: phone, widget: string, required: false }
+              - { label: "Email", name: email, widget: string, required: false }
+              - { label: "Instagram URL", name: instagram, widget: string, required: false }
+              - { label: "LinkedIn URL", name: linkedin, widget: string, required: false }
+          - label: "Amazon listings"
+            name: amazon_urls
+            widget: list
+            required: false
+            fields:
+              - { label: "Label (e.g. market)", name: label, widget: string }
+              - { label: "URL", name: url, widget: string }
+      - name: forms
+        label: "Form fields"
+        file: memowell/content/settings/forms.yml
+        format: yaml
+        fields:
+          - { label: "General", name: general, widget: object, fields: [{ label: "Fields", name: fields, widget: list, fields: [{ name: name, label: "Name (do not change)", widget: string }, { name: label, label: "Label", widget: string }, { name: type, label: "Type", widget: select, options: [text, email, tel, textarea] }, { name: autocomplete, label: "Autocomplete", widget: string, required: false }, { name: required, label: "Required", widget: boolean, required: false }] }] }
+          - { label: "Scientific question", name: scientific, widget: object, fields: [{ label: "Fields", name: fields, widget: list, fields: [{ name: name, label: "Name (do not change)", widget: string }, { name: label, label: "Label", widget: string }, { name: type, label: "Type", widget: select, options: [text, email, tel, textarea] }, { name: autocomplete, label: "Autocomplete", widget: string, required: false }, { name: required, label: "Required", widget: boolean, required: false }] }] }
+          - { label: "Professional feedback", name: feedback, widget: object, fields: [{ label: "Fields", name: fields, widget: list, fields: [{ name: name, label: "Name (do not change)", widget: string }, { name: label, label: "Label", widget: string }, { name: type, label: "Type", widget: select, options: [text, email, tel, textarea] }, { name: autocomplete, label: "Autocomplete", widget: string, required: false }, { name: required, label: "Required", widget: boolean, required: false }] }] }
+          - { label: "Partnership", name: partnership, widget: object, fields: [{ label: "Fields", name: fields, widget: list, fields: [{ name: name, label: "Name (do not change)", widget: string }, { name: label, label: "Label", widget: string }, { name: type, label: "Type", widget: select, options: [text, email, tel, textarea] }, { name: autocomplete, label: "Autocomplete", widget: string, required: false }, { name: required, label: "Required", widget: boolean, required: false }] }] }

@@ -1,0 +1,14 @@
+# Case reports — target of the "Read the five case reports" button on /science/professionals.
+# The client's Persian summaries are written as success stories and must NOT be published.
+# Status stays "draft" until the scientific officer supplies approved English text.
+status: draft
+meta_title: "Case reports | Memowell"
+meta_description: ""
+sections:
+  - id: intro
+    heading: "Case reports"
+    body: |-
+      Five published case reports describe patients aged 59 to 83 with Alzheimer's disease. Dosing in these reports varied and in some cases exceeded the label directions. They are individual observations, not controlled evidence.
+  - id: reports
+    pending: "case-reports"
+    items: []

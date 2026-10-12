@@ -1,0 +1,61 @@
+---
+import LangSwitch from './LangSwitch.astro';
+import Action from './Action.astro';
+import { getSite, href, settings, IS_PREVIEW } from '../lib/content.js';
+import { pathIsLive } from '../lib/routes.js';
+
+interface Props { locale: string; routePath: string }
+const { locale, routePath } = Astro.props;
+const siteStrings = getSite(locale);
+const site = siteStrings.data;
+const c = settings.contact ?? {};
+const contactLinks = [
+  c.email && { label: c.email, href: `mailto:${c.email}` },
+  c.instagram && { label: 'Instagram', href: c.instagram },
+  c.linkedin && { label: 'LinkedIn', href: c.linkedin },
+].filter(Boolean);
+const isLive = (h: string) => /^(https?:|#|mailto:)/.test(h) || pathIsLive(locale, h);
+---
+<footer class="site-footer on-dark" lang={siteStrings.fallback ? 'en' : undefined}>
+  <div class="wrap site-footer__disclaimer" id="disclaimer">
+    <p>{site.general_disclaimer}</p>
+  </div>
+
+  <div class="wrap site-footer__cols">
+    {site.footer_columns.map((col: any) => (
+      <div>
+        <h2>{col.title}</h2>
+        <ul>
+          {col.links.map((l: any) => (
+            <li>
+              {isLive(l.href)
+                ? <a href={href(locale, l.href)} {...(l.external ? { rel: 'noopener' } : {})}>{l.label}</a>
+                : <span>{l.label}{IS_PREVIEW ? ' (unpublished)' : ''}</span>}
+            </li>
+          ))}
+          {col.contact_slots && contactLinks.map((l: any) => <li><a href={l.href}>{l.label}</a></li>)}
+          {col.contact_slots && IS_PREVIEW && !contactLinks.length && (
+            <li><span class="pending small">[email] · [social links] — not supplied</span></li>
+          )}
+        </ul>
+        {col.products && (
+          <p class="site-footer__products">
+            {col.products.map((p: string, i: number) => (<>{i > 0 && ', '}<a href={settings.kondor_url} rel="noopener">{p}</a></>))}
+          </p>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <div class="wrap site-footer__market">
+    <p>{site.market_line.body} <a href={href(locale, site.market_line.action.href)}>{site.market_line.action.label}</a></p>
+    <LangSwitch locale={locale} routePath={routePath} />
+  </div>
+
+  <div class="wrap site-footer__last">
+    <div class="site-footer__brand">
+      <a href={settings.kondor_url} rel="noopener"><img src="/brand/kondor-pharma-logo.png" width="420" height="185" alt="Kondor Pharma" /></a>
+      <p>{site.footer_last_line}</p>
+    </div>
+  </div>
+</footer>

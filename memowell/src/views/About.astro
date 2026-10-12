@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Action from '../components/Action.astro';
+import ProBand from '../components/ProBand.astro';
+import { getPage, section, md, settings } from '../lib/content.js';
+
+const { locale, routePath } = Astro.props;
+const { data: page, fallback } = getPage(locale, 'about');
+const intro = section(page, 'intro');
+const products = section(page, 'products');
+---
+<Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
+  <PageHead locale={locale} title={intro.heading} body={intro.body}>
+    <div class="btn-row about-actions">{intro.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
+    <div slot="media" class="kondor-mark">
+      <img src="/brand/kondor-pharma-logo.png" width="420" height="185" alt="Kondor Pharma" />
+    </div>
+  </PageHead>
+
+  <section class="section other" aria-labelledby="other-title">
+    <div class="wrap">
+      <h2 id="other-title">{products.heading}</h2>
+      <ul class="products" role="list">
+        {products.items.map((p: any) => (
+          <li><a class="product-link" href={settings.kondor_url} rel="noopener"><strong>{p.title}</strong></a></li>
+        ))}
+      </ul>
+      <div class="prose" set:html={md(products.body)} />
+    </div>
+  </section>
+
+  <ProBand locale={locale} />
+</Base>
+
+<style>
+  .about-actions { margin-block-start: var(--s-4); }
+  .kondor-mark { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-l); padding: clamp(2rem, 4vw, 4rem); display: grid; place-items: center; }
+  .kondor-mark img { width: min(100%, 20rem); }
+  .other { background: var(--paper-2); }
+  .other .wrap { display: grid; gap: var(--s-4); }
+  .products { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .product-link {
+    display: inline-flex; align-items: center; min-height: 4rem; padding: 0.75rem 2rem;
+    border-radius: 999px; background: var(--surface); border: 1px solid var(--line-strong);
+    font-family: var(--font-display); font-size: 1.5rem; color: var(--ink); text-decoration: none;
+  }
+  .product-link strong { font-weight: 600; }
+  .product-link:hover { border-color: var(--royal); color: var(--royal); }
+</style>

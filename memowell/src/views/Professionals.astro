@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Sources from '../components/Sources.astro';
+import Action from '../components/Action.astro';
+import Form from '../components/Form.astro';
+import Pending from '../components/Pending.astro';
+import { getPage, getSite, section, md, mdInline, doiUrl } from '../lib/content.js';
+
+const { locale, routePath } = Astro.props;
+const { data: page, fallback } = getPage(locale, 'professionals');
+const s = (id: string) => section(page, id);
+const entrance = s('entrance'), studies = s('studies'), composition = s('composition'), monitoring = s('monitoring'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
+const nav = getSite(locale).data.nav;
+const crumbs = [{ label: nav.find((n: any) => n.href === '/science')?.label ?? 'Science', href: '/science' }];
+const keys = ['study', 'population', 'design', 'findings'];
+const missingCitations = studies.rows.some((r: any) => !r.citation || !r.publisher_url);
+---
+<Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-pro">
+  <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} crumbs={crumbs} wide />
+
+  <section class="pro-studies" aria-labelledby="studies-caption">
+    <div class="wrap">
+      <div class="table-wrap">
+        <table class="studies-table">
+          <caption id="studies-caption" class="visually-hidden">{studies.columns.join(', ')}</caption>
+          <colgroup><col class="c-study" /><col class="c-pop" /><col class="c-design" /><col class="c-find" /><col class="c-src" /></colgroup>
+          <thead>
+            <tr>{studies.columns.map((c: string) => <th scope="col">{c}</th>)}</tr>
+          </thead>
+          <tbody>
+            {studies.rows.map((r: any) => (
+              <tr>
+                <th scope="row" data-label={studies.columns[0]} set:html={mdInline(r.study)} />
+                <td data-label={studies.columns[1]}>{r.population}</td>
+                <td data-label={studies.columns[2]}>{r.design}</td>
+                <td data-label={studies.columns[3]}>{r.findings}</td>
+                <td data-label={studies.columns[4]}>
+                  <ul class="doi-list" role="list">
+                    {r.sources.map((d: string) => <li><a href={doiUrl(d)} rel="noopener">DOI {d}</a></li>)}
+                  </ul>
+                  {r.citation && <p class="cite">{r.citation}</p>}
+                  {r.publisher_url && <p class="small"><a href={r.publisher_url} rel="noopener">Publisher</a></p>}
+                  {r.free_full_text_url && <p class="small"><a href={r.free_full_text_url} rel="noopener">Full text</a></p>}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {missingCitations && <Pending label="full citations, publisher pages and legally free full-text links" detail="Requested by the client for each study but not supplied; DOI links resolve meanwhile. Link labels for these extras also need approved wording." />}
+    </div>
+  </section>
+
+  <section class="section pro-comp" id="composition" aria-labelledby="comp-title">
+    <div class="wrap pro-two">
+      <div class="pro-two__main">
+        <h2 id="comp-title">{composition.heading}</h2>
+        <div class="prose spec" set:html={md(composition.body)} />
+      </div>
+      <div class="pro-two__side card">
+        <h2 id="mon-title" class="h3">{monitoring.heading}</h2>
+        <div class="prose" set:html={md(monitoring.body)} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section pro-cases" id="case-reports" aria-labelledby="cases-title">
+    <div class="wrap pro-cases__inner">
+      <h2 id="cases-title">{cases.heading}</h2>
+      <div class="prose" set:html={md(cases.body)} />
+      <div class="btn-row">{cases.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
+    </div>
+  </section>
+
+  <div class="section pro-forms">
+    <div class="wrap pro-forms__grid">
+      <div class="pro-form" id="scientific-question">
+        <h2 id="q-title">{q.heading}</h2>
+        <div class="prose" set:html={md(q.body)} />
+        <Form form={q.form} locale={locale} labelledby="q-title" />
+      </div>
+      <div class="pro-form" id="report-observation">
+        <h2 id="fb-title">{fb.heading}</h2>
+        <div class="prose" set:html={md(fb.body)} />
+        <Form form={fb.form} locale={locale} labelledby="fb-title" />
+      </div>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .pro-studies { padding-block-end: var(--section); }
+  .table-wrap { border: 1px solid var(--line); border-radius: var(--radius-m); overflow: hidden; background: var(--surface); }
+  .studies-table { width: 100%; border-collapse: collapse; font-size: 1.0625rem; line-height: 1.5; table-layout: fixed; }
+  .studies-table col.c-study { width: 15%; } .studies-table col.c-pop { width: 16%; } .studies-table col.c-design { width: 19%; }
+  .studies-table col.c-find { width: 25%; } .studies-table col.c-src { width: 25%; }
+  .studies-table th, .studies-table td { text-align: start; vertical-align: top; padding: 1.1rem 1.1rem; border-bottom: 1px solid var(--line); }
+  .studies-table thead th { background: var(--night); color: #fff; font-weight: 700; font-size: 1rem; letter-spacing: 0.02em; }
+  .studies-table tbody th { font-weight: 700; }
+  .studies-table tbody tr:last-child > * { border-bottom: 0; }
+  .studies-table tbody tr:nth-child(even) { background: var(--paper); }
+  .doi-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; }
+  .doi-list a { overflow-wrap: anywhere; font-size: 1rem; font-variant-numeric: tabular-nums; }
+  .cite { margin-block-start: 0.5rem; color: var(--ink-soft); font-size: 1rem; }
+
+  .pro-comp { background: var(--surface); border-block: 1px solid var(--line); }
+  .pro-two { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: start; }
+  .pro-two__main { grid-column: 1 / span 7; display: grid; gap: var(--s-3); }
+  .pro-two__side { grid-column: 9 / span 4; display: grid; gap: var(--s-2); background: var(--paper); }
+  .h3 { font-size: var(--fs-h3); line-height: 1.3; }
+  .spec :global(p) { padding-block: 0.85rem; border-bottom: 1px solid var(--line); margin: 0; }
+  .spec :global(p:last-child) { border-bottom: 0; color: var(--ink-soft); }
+
+  .pro-cases__inner { display: grid; gap: var(--s-3); justify-items: start; max-width: 48rem; }
+
+  .pro-forms { background: var(--paper-2); }
+  .pro-forms__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-6); }
+  .pro-form { display: grid; gap: var(--s-3); align-content: start; }
+
+  @media (max-width: 63.99rem) {
+    .pro-two__main, .pro-two__side { grid-column: 1 / -1; }
+    .pro-two__side { margin-block-start: var(--s-5); }
+    .pro-forms__grid { grid-template-columns: 1fr; }
+  }
+  /* Stacked table on narrow screens: each row becomes a labelled card. */
+  @media (max-width: 52rem) {
+    .table-wrap { border: 0; background: none; border-radius: 0; }
+    .studies-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .studies-table, .studies-table tbody, .studies-table tr, .studies-table th, .studies-table td { display: block; width: auto !important; }
+    .studies-table tr { background: var(--surface) !important; border: 1px solid var(--line); border-radius: var(--radius-m); margin-block-end: var(--s-2); padding: 0.5rem 0; }
+    .studies-table tbody th, .studies-table td { border-bottom: 1px solid var(--line); padding: 0.75rem 1.1rem; }
+    .studies-table tbody th::before, .studies-table td::before {
+      content: attr(data-label); display: block; font-size: 0.9375rem; font-weight: 700; color: var(--ink-soft); margin-block-end: 0.15rem;
+    }
+  }
+</style>

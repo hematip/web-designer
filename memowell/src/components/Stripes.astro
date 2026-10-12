@@ -1,0 +1,15 @@
+---
+// Diagonal stripe field inspired by the Memowell label (drawn for the site, not copied artwork).
+interface Props { id: string; color?: string; blob?: boolean }
+const { id, color = 'var(--stripe)', blob = true } = Astro.props;
+---
+<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id={`${id}-p`} width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)">
+      <rect width="4.5" height="12" fill={color} />
+    </pattern>
+  </defs>
+  {blob
+    ? <path fill={`url(#${id}-p)`} d="M232 8c78-6 152 40 164 112 12 70-34 140-108 166-74 26-176 18-232-38C0 192 6 112 56 66 98 28 166 14 232 8z" />
+    : <rect width="400" height="300" fill={`url(#${id}-p)`} />}
+</svg>

@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import BottleStage from '../components/BottleStage.astro';
+import Action from '../components/Action.astro';
+import Note from '../components/Note.astro';
+import Pending from '../components/Pending.astro';
+import ProductDisclaimer from '../components/ProductDisclaimer.astro';
+import ProBand from '../components/ProBand.astro';
+import Icon from '../components/Icon.astro';
+import { getPage, section, md, mdInline } from '../lib/content.js';
+
+const { locale, routePath } = Astro.props;
+const { data: page, fallback } = getPage(locale, 'memowell');
+const s = (id: string) => section(page, id);
+const intro = s('intro'), composition = s('composition'), directions = s('directions'), cautions = s('cautions'), storage = s('storage'), summary = s('summary');
+---
+<Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
+  <PageHead locale={locale} title={intro.heading} body={intro.body}>
+    <BottleStage slot="media" id="product" alt={intro.image_alt} />
+  </PageHead>
+
+  <section class="section product-composition" id="composition" aria-labelledby="composition-title">
+    <div class="wrap split">
+      <div class="split__text">
+        <h2 id="composition-title">{composition.heading}</h2>
+        <div class="prose" set:html={md(composition.body)} />
+        {composition.per_capsule_amount
+          ? <p class="amount">{composition.per_capsule_amount}</p>
+          : <Pending label="amount of active ingredient per capsule" detail="Not supplied by the client (brief Part 9). Shown here once confirmed." />}
+      </div>
+      <figure class="split__media capsule-frame">
+        <img src="/img/capsule-in-hand-1000.webp" srcset="/img/capsule-in-hand-640.webp 640w, /img/capsule-in-hand-1000.webp 1000w" sizes="(min-width: 64rem) 480px, 92vw" width="1000" height="1500" alt={composition.image_alt} loading="lazy" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section directions" id="directions" aria-labelledby="directions-title">
+    <div class="wrap">
+      <h2 id="directions-title">{directions.heading}</h2>
+      <ol class="steps" role="list">
+        {directions.items.map((item: any, i: number) => (
+          <li class="step">
+            <span class="step__num" aria-hidden="true">{i + 1}</span>
+            <p><strong>{item.title}</strong> {item.body}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="prose label-note"><Icon name="info" /><div set:html={md(directions.body)} /></div>
+    </div>
+  </section>
+
+  <section class="section cautions-wrap" id="cautions" aria-labelledby="cautions-title">
+    <div class="wrap split split--top">
+      <div class="cautions">
+        <h2 id="cautions-title">{cautions.heading}</h2>
+        <div class="prose" set:html={md(cautions.body)} />
+      </div>
+      <div class="storage card" id="storage">
+        <h2 class="h3">{storage.heading}</h2>
+        <div class="prose" set:html={md(storage.body)} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section summary" id="summary" aria-labelledby="summary-title">
+    <div class="wrap split">
+      <div class="split__text">
+        <h2 id="summary-title">{summary.heading}</h2>
+        <div class="prose lead" set:html={md(summary.body)} />
+        <div class="btn-row">{summary.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
+      </div>
+      <div class="split__media summary__note"><Note locale={locale} state="complete" /></div>
+    </div>
+  </section>
+
+  <ProductDisclaimer locale={locale} />
+  <ProBand locale={locale} />
+</Base>
+
+<style>
+  .split { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .split--top { align-items: start; }
+  .split__text { grid-column: 1 / span 6; display: grid; gap: var(--s-3); justify-items: start; }
+  .split__media { grid-column: 8 / span 5; }
+  .product-composition { background: var(--surface); border-block: 1px solid var(--line); }
+  .capsule-frame { aspect-ratio: 4 / 5; border-radius: var(--radius-l); overflow: hidden; background: #fff; }
+  .capsule-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 55%; }
+  .amount { font-weight: 700; }
+
+  .steps { list-style: none; padding: 0; margin: var(--s-5) 0 var(--s-4); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-3); counter-reset: none; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m); padding: var(--s-4) var(--s-3) var(--s-3); display: grid; gap: var(--s-2); align-content: start; }
+  .step__num {
+    display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%;
+    background: var(--royal); color: #fff; font: 600 1.5rem/1 var(--font-display);
+  }
+  .step strong { display: block; font-family: var(--font-display); font-size: var(--fs-h3); line-height: 1.3; font-weight: 600; margin-block-end: 0.35rem; }
+  .label-note { display: grid; grid-template-columns: auto 1fr; gap: var(--s-2); align-items: start; max-width: 44rem; }
+  .label-note :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--royal); margin-top: 0.2rem; }
+
+  .cautions-wrap { background: var(--paper-2); }
+  .cautions { grid-column: 1 / span 7; display: grid; gap: var(--s-3); }
+  .cautions :global(p:first-child strong) {
+    display: block; font-family: var(--font-display); font-size: var(--fs-h3); font-weight: 600; line-height: 1.35;
+    padding: var(--s-2) var(--s-3); border-inline-start: 4px solid var(--royal); background: var(--surface); border-radius: 0 var(--radius-s) var(--radius-s) 0;
+  }
+  [dir='rtl'] .cautions :global(p:first-child strong) { border-radius: var(--radius-s) 0 0 var(--radius-s); }
+  .storage { grid-column: 9 / span 4; display: grid; gap: var(--s-2); }
+  .h3 { font-size: var(--fs-h3); line-height: 1.3; }
+
+  .summary { background: var(--mist); }
+  .summary__note { display: flex; justify-content: center; }
+
+  @media (max-width: 63.99rem) {
+    .split__text, .split__media, .cautions, .storage { grid-column: 1 / -1; }
+    .split__media, .storage { margin-block-start: var(--s-5); }
+    .steps { grid-template-columns: 1fr; }
+    .capsule-frame { max-width: 30rem; }
+  }
+</style>

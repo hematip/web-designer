@@ -1,0 +1,79 @@
+---
+// Article template — the eight parts from brief Part 4 (MEMORY HEALTH):
+// 1 title · 2 one-sentence summary · 3 category · 4 published + last-reviewed dates · 5 body
+// 6 Sources with DOIs · 7 fixed line · 8 related page link. Plus author (brief Part 7).
+import Base from '../layouts/Base.astro';
+import Sources from '../components/Sources.astro';
+import Action from '../components/Action.astro';
+import Pending from '../components/Pending.astro';
+import ProBand from '../components/ProBand.astro';
+import { getPage, getSite, section, href, md, getArticlesWithFallback, doiUrl } from '../lib/content.js';
+
+const { locale, routePath, slug } = Astro.props;
+const { data: blog } = getPage(locale, 'memory-health');
+const ui = getSite(locale).data.ui;
+const { list, fallback } = getArticlesWithFallback(locale);
+const a = list.find((x: any) => x.slug === slug);
+const cat = (blog.categories ?? []).find((c: any) => c.slug === a.category);
+const fixedLine = section(blog, 'article-template').fixed_line;
+const title = `${a.title} | Memowell`;
+---
+<Base locale={locale} routePath={routePath} title={title} description={a.meta_description || a.summary} fallback={fallback} status={a.status}>
+  <article class="article">
+    <header class="wrap article__head">
+      <nav class="breadcrumb" aria-label={ui.breadcrumb}>
+        <ol>
+          <li><a href={href(locale, '/')}>{ui.home}</a></li>
+          <li><a href={href(locale, '/memory-health')}>{blog.sections[0].heading}</a></li>
+          {cat && <li><a href={href(locale, `/memory-health/category/${cat.slug}`)}>{cat.label}</a></li>}
+        </ol>
+      </nav>
+      {cat && <p class="article__cat"><span class="visually-hidden">{ui.category}: </span>{cat.label}</p>}
+      <h1>{a.title}</h1>
+      {a.summary ? <p class="lead article__summary">{a.summary}</p> : <Pending label="one-sentence summary" />}
+      <dl class="article__meta">
+        {a.author ? <div><dt>{ui.author}</dt><dd>{a.author}</dd></div> : null}
+        {a.published ? <div><dt>{ui.published}</dt><dd><time datetime={a.published}>{a.published}</time></dd></div> : null}
+        {a.last_reviewed ? <div><dt>{ui.last_reviewed}</dt><dd><time datetime={a.last_reviewed}>{a.last_reviewed}</time></dd></div> : null}
+      </dl>
+      {(!a.author || !a.published || !a.last_reviewed) && <Pending label="author, published date and last-reviewed date" />}
+    </header>
+
+    <div class="wrap article__body">
+      {a.body
+        ? <div class="prose article__prose" set:html={md(a.body)} />
+        : <Pending label="article body" detail={`Not written — must not be invented. Built from: ${a.built_from}. Needs scientific-officer approval before publication.`} />}
+
+      {a.sources?.length > 0 && (
+        <section class="article__sources" aria-labelledby="sources-title">
+          <h2 id="sources-title" class="h3">{ui.sources_heading}</h2>
+          <ul>{a.sources.map((d: string) => <li><a href={doiUrl(d)} rel="noopener">DOI {d}</a></li>)}</ul>
+        </section>
+      )}
+
+      <p class="article__fixed"><em>{fixedLine}</em></p>
+
+      {a.related && (
+        <p class="article__related"><span class="muted">{ui.related}: </span><Action action={a.related} locale={locale} variant="link" /></p>
+      )}
+    </div>
+  </article>
+  <ProBand locale={locale} />
+</Base>
+
+<style>
+  .article__head { padding-block: clamp(2.5rem, 2rem + 3vw, 5rem) var(--s-4); display: grid; gap: var(--s-3); justify-items: start; max-width: calc(48rem + 2 * var(--gutter)); }
+  .article__cat { font-weight: 700; color: var(--royal); }
+  .article h1 { font-size: clamp(2.125rem, 1.6rem + 2.2vw, 3.5rem); max-width: 24ch; }
+  .article__meta { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4); margin: 0; font-size: var(--fs-small); }
+  .article__meta div { display: flex; gap: 0.4rem; }
+  .article__meta dt { font-weight: 700; }
+  .article__meta dd { margin: 0; color: var(--ink-soft); }
+  .article__body { display: grid; gap: var(--s-4); padding-block-end: var(--section); max-width: calc(48rem + 2 * var(--gutter)); }
+  .article__prose { max-width: var(--measure); }
+  .article__sources { border-top: 1px solid var(--line); padding-block-start: var(--s-3); display: grid; gap: var(--s-2); }
+  .article__sources ul { margin: 0; padding-inline-start: 1.2em; }
+  .article__sources a { overflow-wrap: anywhere; }
+  .h3 { font-size: var(--fs-h3); }
+  .article__fixed { padding: var(--s-3); background: var(--mist); border-radius: var(--radius-m); max-width: var(--measure); }
+</style>

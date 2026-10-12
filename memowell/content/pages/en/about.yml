@@ -1,0 +1,20 @@
+# About — approved English copy (brief Part 4, ABOUT).
+status: approved
+meta_title: "Kondor Pharma, the company behind Memowell®"
+# No meta description was supplied in the copy deck (gap).
+meta_description: ""
+sections:
+  - id: intro
+    heading: "The company behind Memowell®"
+    body: |-
+      Kondor Pharma is a Canadian company working on boswellic acid formulations. It developed K-Vie™, the micronized microcrystalline extract used in Memowell, and manufactures Memowell in Canada under NPN 80107357.
+    actions:
+      - { label: "Visit kondorpharma.com", href: "https://kondorpharma.com", external: true }
+  - id: products
+    heading: "Other Kondor Pharma products"
+    items:
+      - { title: "Strowell" }
+      - { title: "Genuwell" }
+      - { title: "Inflawell" }
+    body: |-
+      Each has its own composition and intended use. See kondorpharma.com for details.

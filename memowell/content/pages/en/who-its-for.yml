@@ -1,0 +1,53 @@
+# Who it's for — approved English copy (brief Part 4, WHO IT'S FOR).
+status: approved
+meta_title: "Who Memowell® was studied in | Memowell"
+meta_description: "Memowell has been studied in people with mild cognitive impairment, family history of Alzheimer's, brain fog, and in mid-life. What the research says about each."
+sections:
+  - id: intro
+    heading: "Who Memowell® was studied in"
+    body: |-
+      Four groups come up repeatedly in the research behind Memowell. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
+
+  - id: mci
+    heading: "Mild cognitive impairment (MCI)"
+    body: |-
+      MCI is a measurable change in memory or other thinking skills — more than ordinary ageing, less than dementia. It can progress toward Alzheimer's disease.
+
+      In MCI, inflammation in the nervous system is rising. Research has examined whether controlling that inflammation supports memory.
+
+      If you have been told you have MCI, or you suspect it, start Memowell under the supervision of a specialist.
+    sources: ["10.1177/15500594211042708", "10.3390/ijms241310523"]
+
+  - id: family-history
+    heading: "A first-degree relative with Alzheimer's"
+    body: |-
+      Family history is one of the risk factors for Alzheimer's disease. People with a parent or sibling who has it are at roughly double the risk compared with people who have no family history.
+
+      Higher risk is not a forecast. It is a reason to pay attention earlier.
+
+      If this is you, talk to your doctor before starting Memowell.
+
+  - id: brain-fog
+    heading: "Brain fog and delirium"
+    body: |-
+      Delirium brings confusion, difficulty concentrating and disrupted memory. Brain fog brings forgetfulness, haziness and trouble holding attention. Research has studied inflammation in the nervous system as a factor in both.
+
+      If either describes you, start Memowell under a doctor's supervision.
+    sources: ["10.1038/s41572-020-00236-z", "10.3928/02793695-20211013-01"]
+
+  - id: approaching-65
+    heading: "Approaching 65"
+    body: |-
+      Risk of Alzheimer's rises with age. Part of that rise has been linked to lifestyle and to increasing inflammation in the nervous system — one visible sign of which is the brain atrophy that can begin in mid-life.
+
+      For this group the catalogue recommends one capsule daily rather than the full three.
+    # Gap (brief Part 9): mid-life dose unconfirmed (catalogue 1/day vs client 3/day). Line stays attributed to the catalogue.
+    pending: "mid-life-dose"
+    sources: ["10.3233/JAD-179925", "10.1007/s12035-009-8066-z"]
+
+  - id: closing
+    body: |-
+      Not sure which of these fits? That is exactly the question to bring to a pharmacist or doctor.
+    actions:
+      - { label: "Download a one-page summary (PDF)", kind: summary }
+      - { label: "What the research found", href: "/science" }

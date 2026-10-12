@@ -1,0 +1,11 @@
+---
+// Visible only in preview builds: marks an open gap from brief Part 9 without inventing content.
+import { IS_PREVIEW } from '../lib/content.js';
+interface Props { label: string; detail?: string; inline?: boolean }
+const { label, detail, inline = false } = Astro.props;
+---
+{IS_PREVIEW && (
+  inline
+    ? <span class="pending" style="display:inline-block"><strong>Pending:</strong> {label}</span>
+    : <p class="pending"><strong>Pending — {label}.</strong>{detail && <> {detail}</>}</p>
+)}

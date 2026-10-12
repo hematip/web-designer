@@ -1,0 +1,82 @@
+---
+import Icon from './Icon.astro';
+import LangSwitch from './LangSwitch.astro';
+import { getSite, href } from '../lib/content.js';
+
+interface Props { locale: string; routePath: string }
+const { locale, routePath } = Astro.props;
+const siteStrings = getSite(locale);
+const site = siteStrings.data;
+const ui = site.ui;
+const isCurrent = (p: string) => p === routePath;
+const inSection = (item: any) => item.children?.some((c: any) => c.href === routePath) || (item.href !== '/' && routePath.startsWith(item.href + '/'));
+---
+<header class="site-header" data-header lang={siteStrings.fallback ? 'en' : undefined}>
+  <div class="wrap site-header__bar">
+    <a class="site-header__logo" href={href(locale, '/')}>
+      <img src="/brand/memowell-logo-colour-transparent.png" width="640" height="142" alt={`Memowell — ${ui.home}`} />
+    </a>
+
+    <nav class="site-nav" aria-label={ui.main_nav}>
+      <ul class="site-nav__list">
+        {site.nav.map((item: any, i: number) => (
+          <li class="site-nav__item">
+            {item.children ? (
+              <>
+                <button class:list={['site-nav__toggle', { 'is-current': inSection(item) }]} type="button" aria-expanded="false" aria-controls={`subnav-${i}`} data-disclosure>
+                  {item.label}<Icon name="chevron" />
+                </button>
+                <ul class="site-nav__sub" id={`subnav-${i}`} hidden>
+                  {item.children.map((c: any) => (
+                    <li><a href={href(locale, c.href)} aria-current={isCurrent(c.href) ? 'page' : undefined}>{c.label}</a></li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <a class="site-nav__link" href={href(locale, item.href)} aria-current={isCurrent(item.href) || inSection(item) ? 'page' : undefined}>{item.label}</a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <LangSwitch locale={locale} routePath={routePath} />
+    <a class="btn btn--small site-header__action" href={href(locale, site.header_action.href)}>{site.header_action.label}</a>
+
+    <button class="site-header__menu-btn" type="button" aria-expanded="false" aria-controls="menu-panel" data-menu-open>
+      <Icon name="menu" /><span>{ui.menu}</span>
+    </button>
+  </div>
+
+</header>
+
+<div class="menu-panel" id="menu-panel" hidden data-menu-panel role="dialog" aria-modal="true" aria-label={ui.menu} lang={siteStrings.fallback ? 'en' : undefined}>
+  <div class="menu-panel__top">
+    <img src="/brand/memowell-logo-colour-transparent.png" width="640" height="142" alt="" />
+    <button class="menu-panel__close" type="button" data-menu-close><Icon name="close" /><span>{ui.close}</span></button>
+  </div>
+  <nav aria-label={ui.main_nav}>
+    <ul>
+      {site.nav.map((item: any) => (
+        <li class="menu-panel__group">
+          {item.children ? (
+            <>
+              <span class="menu-panel__label">{item.label}</span>
+              <ul>
+                {item.children.map((c: any) => (
+                  <li><a href={href(locale, c.href)} aria-current={isCurrent(c.href) ? 'page' : undefined}>{c.label}</a></li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <a href={href(locale, item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <div class="menu-panel__extras">
+    <a class="btn" href={href(locale, site.header_action.href)}>{site.header_action.label}</a>
+    <LangSwitch locale={locale} routePath={routePath} />
+  </div>
+</div>

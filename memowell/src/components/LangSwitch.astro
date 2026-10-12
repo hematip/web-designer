@@ -1,0 +1,20 @@
+---
+// EN / FR / AR switcher. Unpublished languages are shown as unavailable (never a dead link).
+import { LOCALES, publishedLocales, getSite, href } from '../lib/content.js';
+import { pathIsLive } from '../lib/routes.js';
+
+interface Props { locale: string; routePath: string }
+const { locale, routePath } = Astro.props;
+const ui = getSite(locale).data.ui;
+const live = publishedLocales();
+---
+<div class="lang-switch" role="group" aria-label={ui.language}>
+  {LOCALES.map((l) => {
+    const current = l.code === locale;
+    const available = live.includes(l.code);
+    const target = available ? (pathIsLive(l.code, routePath) ? routePath : '/') : null;
+    if (current) return <span aria-current="true"><span aria-hidden="true">{l.short}</span><span class="visually-hidden" lang={l.code}>{l.name}</span></span>;
+    if (!target) return <span class="is-unavailable" title={ui.locale_pending}><span aria-hidden="true">{l.short}</span><span class="visually-hidden"><span lang={l.code}>{l.name}</span> ({ui.locale_pending})</span></span>;
+    return <a href={href(l.code, target)} hreflang={l.code}><span aria-hidden="true">{l.short}</span><span class="visually-hidden" lang={l.code}>{l.name}</span></a>;
+  })}
+</div>

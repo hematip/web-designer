@@ -1,0 +1,21 @@
+---
+// Professional band. Default = short repeated version (end of every content page).
+// The homepage passes its own longer copy.
+import Action from './Action.astro';
+import Stripes from './Stripes.astro';
+import { getSite, mdInline } from '../lib/content.js';
+
+interface Props { locale: string; lead?: string; body?: string; action?: { label: string; href: string }; id?: string }
+const { locale, id } = Astro.props;
+const band = getSite(locale).data.pro_band;
+const lead = Astro.props.lead ?? band.lead;
+const body = Astro.props.body ?? band.body;
+const action = Astro.props.action ?? band.action;
+---
+<aside class="pro-band on-dark" id={id} aria-label={lead}>
+  <div class="pro-band__stripes" aria-hidden="true"><Stripes id={`pb-${id ?? 'band'}`} /></div>
+  <div class="wrap pro-band__inner">
+    <p><strong>{lead}</strong> <span set:html={mdInline(body)} /></p>
+    <Action action={action} locale={locale} variant="light" />
+  </div>
+</aside>

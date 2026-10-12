@@ -1,0 +1,25 @@
+# Contact — approved English copy (brief Part 4, CONTACT).
+status: approved
+meta_title: "Contact Memowell® | Kondor Pharma"
+meta_description: "Reach Kondor Pharma about Memowell: general questions, scientific enquiries from healthcare professionals, and distribution partnerships."
+sections:
+  - id: intro
+    heading: "Contact us"
+    body: |-
+      Three routes, so your message reaches the right desk. Please do not send medical records or sensitive health details through these forms.
+  - id: general
+    heading: "General questions"
+    body: "About the product, availability, or anything on this site."
+    form: general
+    # Sits directly under the general form, beside the submit button.
+    beside_submit: "We cannot answer questions about your own health or treatment. Those belong with your doctor or pharmacist."
+  - id: scientific
+    heading: "Scientific enquiries — healthcare professionals"
+    body: "Goes to Kondor Pharma scientific affairs. Reply by email within three to five working days, with sources."
+    form: scientific
+  - id: partnership
+    heading: "Distribution and partnership"
+    body: "For pharmacies and distribution partners."
+    form: partnership
+  - id: details
+    company: "Kondor Pharma"

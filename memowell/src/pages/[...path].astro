@@ -1,0 +1,25 @@
+---
+import { buildRoutes } from '../lib/routes.js';
+import Home from '../views/Home.astro';
+import Product from '../views/Product.astro';
+import WhoItsFor from '../views/WhoItsFor.astro';
+import Science from '../views/Science.astro';
+import Professionals from '../views/Professionals.astro';
+import CaseReports from '../views/CaseReports.astro';
+import BlogIndex from '../views/BlogIndex.astro';
+import Article from '../views/Article.astro';
+import About from '../views/About.astro';
+import Availability from '../views/Availability.astro';
+import Partners from '../views/Partners.astro';
+import Contact from '../views/Contact.astro';
+import Legal from '../views/Legal.astro';
+
+export function getStaticPaths() {
+  return buildRoutes();
+}
+
+const views = { Home, Product, WhoItsFor, Science, Professionals, CaseReports, BlogIndex, Article, About, Availability, Partners, Contact, Legal };
+const { view, ...props } = Astro.props;
+const View = views[view];
+---
+<View {...props} />

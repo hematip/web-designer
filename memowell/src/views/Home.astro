@@ -1,0 +1,280 @@
+---
+import Base from '../layouts/Base.astro';
+import Action from '../components/Action.astro';
+import Note from '../components/Note.astro';
+import Sources from '../components/Sources.astro';
+import Stripes from '../components/Stripes.astro';
+import Icon from '../components/Icon.astro';
+import { getPage, section, md, mdInline, href } from '../lib/content.js';
+
+const { locale, routePath } = Astro.props;
+const { data: page, fallback } = getPage(locale, 'home');
+const s = (id: string) => section(page, id);
+const hero = s('hero'), why = s('why'), formulation = s('formulation'), who = s('who'),
+  evidence = s('evidence'), directions = s('directions'), pro = s('professionals'),
+  availability = s('availability'), closing = s('closing');
+
+// Emphasise a phrase inside its own sentence; the sentence and its context stay verbatim.
+const highlight = (html: string, phrase?: string) =>
+  phrase ? html.replace(phrase, `<mark class="figure">${phrase}</mark>`) : html;
+const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
+---
+<Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-home">
+
+  <!-- 1. Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow">{hero.eyebrow}</p>
+        <h1 id="hero-title" class="hero__title">{hero.heading}</h1>
+        <div class="hero__lead lead" set:html={md(hero.body)} />
+        <div class="btn-row">
+          {hero.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'primary' : 'secondary'} />)}
+        </div>
+      </div>
+
+      <div class="hero__stage" aria-hidden="true">
+        <svg class="hero__blob" viewBox="0 0 520 480">
+          <path d="M268 22c96-10 196 44 226 136 30 92-14 194-100 250-86 56-214 74-300 18C8 370-6 262 34 176 72 94 168 32 268 22z" />
+        </svg>
+        <div class="hero__stripes"><Stripes id="hero" /></div>
+        <svg class="hero__marks" viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M60 70v22M49 81h22" /><path d="M342 300v18M333 309h18" /><circle cx="330" cy="70" r="8" /><circle cx="84" cy="330" r="5" />
+        </svg>
+        <div class="note-slot note-slot--hero" data-note-anchor="hero" data-scale="0.74" data-rot="-7">
+          <Note locale={locale} state="blank" />
+        </div>
+        <img class="hero__bottle" src="/img/bottle-560.webp"
+          srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
+          sizes="(min-width: 75rem) 300px, (min-width: 48rem) 34vw, 54vw"
+          width="895" height="1713" alt="" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 2–6. The facts: reading column + the note that travels beside it -->
+  <div class="wrap facts" data-facts>
+    <div class="facts__main">
+
+      <section class="fact" id="why" data-note-section="why" aria-labelledby="why-title">
+        <h2 id="why-title">{why.heading}</h2>
+        <div class="prose" set:html={md(why.body)} />
+        <p><Action action={why.inline_action} locale={locale} variant="link" /></p>
+        <Sources dois={why.sources} locale={locale} />
+      </section>
+
+      <section class="fact" id="formulation" data-note-section="formulation" aria-labelledby="formulation-title">
+        <h2 id="formulation-title">{formulation.heading}</h2>
+        <figure class="capsule-photo">
+          <img src="/img/capsule-in-hand-1000.webp" srcset="/img/capsule-in-hand-640.webp 640w, /img/capsule-in-hand-1000.webp 1000w"
+            sizes="(min-width: 75rem) 640px, 92vw" width="1000" height="1500" alt={formulation.image_alt} loading="lazy" decoding="async" />
+        </figure>
+        <div class="prose" set:html={md(formulation.body)} />
+        <div class="btn-row">{formulation.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
+      </section>
+
+      <section class="fact" id="who" data-note-section="who" aria-labelledby="who-title">
+        <h2 id="who-title">{who.heading}</h2>
+        <ul class="who-cards" role="list">
+          {who.items.map((item: any) => (
+            <li class="who-card">
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </li>
+          ))}
+        </ul>
+        <div class="prose">
+          <p set:html={mdInline(who.body)} />
+        </div>
+        <p><Action action={who.inline_action} locale={locale} variant="link" /></p>
+      </section>
+
+      <section class="fact fact--evidence" id="evidence" data-note-section="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">{evidence.heading}</h2>
+        <div class="evidence__statement" set:html={highlight(md(evidenceParas[0]), evidence.highlight)} />
+        <div class="prose" set:html={md(evidenceParas.slice(1).join('\n\n'))} />
+        <Sources dois={evidence.sources} locale={locale} />
+        <div class="btn-row">
+          {evidence.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'primary' : 'secondary'} />)}
+        </div>
+      </section>
+
+      <section class="fact" id="directions" data-note-section="directions" aria-labelledby="directions-title">
+        <h2 id="directions-title">{directions.heading}</h2>
+        <svg class="meals" viewBox="0 0 600 170" aria-hidden="true">
+          <defs>
+            <linearGradient id="cap-a" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f6e6cf" /><stop offset="1" stop-color="#e3c6a0" /></linearGradient>
+            <linearGradient id="cap-b" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f1dcc0" /><stop offset="1" stop-color="#d9b88f" /></linearGradient>
+          </defs>
+          {[100, 300, 500].map((x) => (
+            <g transform={`translate(${x} 85)`}>
+              <circle r="72" fill="#fff" stroke="#d8dbe6" stroke-width="2" />
+              <circle r="52" fill="none" stroke="#e7f3f5" stroke-width="10" />
+              <g transform="rotate(-28)">
+                <rect x="-26" y="-11" width="28" height="22" rx="11" fill="url(#cap-a)" stroke="#c9a77c" stroke-width="1.2" />
+                <rect x="-2" y="-11" width="28" height="22" rx="11" fill="url(#cap-b)" stroke="#c9a77c" stroke-width="1.2" />
+              </g>
+            </g>
+          ))}
+        </svg>
+        <div class="prose" set:html={md(directions.body)} />
+        <div class="btn-row">{directions.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
+      </section>
+    </div>
+
+    <aside class="facts__aside" aria-hidden="true">
+      <div class="note-slot note-slot--column" data-note-anchor="column" data-scale="1" data-rot="0">
+        <Note locale={locale} state="complete" />
+      </div>
+    </aside>
+  </div>
+
+  <!-- 7. Professional band (homepage version) -->
+  <aside class="home-pro on-dark" id="professionals" aria-label={pro.lead}>
+    <div class="home-pro__stripes" aria-hidden="true"><Stripes id="home-pro" /></div>
+    <div class="wrap home-pro__grid">
+      <div class="home-pro__copy">
+        <p><strong>{pro.lead}</strong> {pro.body}</p>
+        <div class="btn-row">{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 8. Where to find it -->
+  <section class="home-where" id="where" aria-labelledby="where-title">
+    <div class="wrap home-where__grid">
+      <div class="home-where__copy">
+        <h2 id="where-title">{availability.heading}</h2>
+        <div class="prose" set:html={md(availability.body)} />
+        <div class="btn-row">{availability.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Closing: the note arrives -->
+  <section class="closing" id="closing" data-note-section="closing" aria-labelledby="closing-title">
+    <div class="wrap closing__grid">
+      <div class="closing__copy">
+        <h2 id="closing-title">{closing.heading}</h2>
+        <div class="prose lead" set:html={md(closing.body)} />
+        <div class="btn-row">
+          {closing.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'primary' : 'secondary'} />)}
+        </div>
+      </div>
+      <div class="closing__note">
+        <div class="note-slot note-slot--final" data-note-anchor="final" data-scale="1" data-rot="0">
+          <Note locale={locale} state="complete" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="note-layer" data-note-layer aria-hidden="true" slot="end">
+    <Note locale={locale} state="blank" live />
+  </div>
+</Base>
+
+<script>
+  import '../scripts/note-journey.js';
+</script>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero { padding-block: clamp(2rem, 1rem + 3vw, 4rem) clamp(3rem, 2rem + 4vw, 6rem); overflow-x: clip; }
+  .hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .hero__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
+  .hero__title { font-size: var(--fs-display); line-height: 1.04; letter-spacing: -0.02em; max-width: 12.5ch; font-weight: 600; }
+  .hero__lead { max-width: 34rem; color: var(--ink); }
+  .hero__copy .btn-row { margin-block-start: var(--s-2); }
+
+  .hero__stage { grid-column: 8 / span 5; position: relative; aspect-ratio: 0.86; min-height: 30rem; }
+  .hero__blob { position: absolute; inset-inline: -4% 2%; bottom: 4%; width: 100%; height: auto; fill: var(--royal); z-index: 1; }
+  .hero__stripes { position: absolute; width: 62%; aspect-ratio: 4 / 3; inset-inline-end: -10%; top: 8%; z-index: 1; opacity: 0.9; }
+  .hero__marks { position: absolute; inset: 4%; width: 92%; color: var(--stripe); z-index: 1; }
+  .hero__bottle {
+    position: relative; z-index: 3; width: 56%; margin-inline-start: 34%; margin-block-start: 6%;
+    filter: drop-shadow(0 30px 30px rgba(14, 28, 85, 0.28));
+  }
+  [dir='rtl'] .hero__bottle { margin-inline-start: 10%; }
+
+  /* ---------- Note slots ---------- */
+  .note-slot { width: 22rem; max-width: 100%; }
+  .note-slot :global(.note) { transform: rotate(calc(var(--rot, 0) * 1deg)) scale(var(--scale, 1)); }
+  .note-slot--hero { position: absolute; z-index: 2; inset-inline-start: -2%; top: 22%; --scale: 0.74; --rot: -7; }
+  .note-slot--hero :global(.note) { transform-origin: center; }
+
+  /* ---------- Facts chapter ---------- */
+  .facts { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); }
+  .facts__main { grid-column: 1 / span 7; }
+  .facts__aside { grid-column: 9 / span 4; position: relative; }
+  .note-slot--column { position: sticky; top: calc(var(--header-h) + 2rem); margin-block: var(--section) 0; margin-inline-start: auto; }
+
+  .fact { padding-block: var(--section); border-top: 1px solid var(--line); display: grid; gap: var(--s-3); justify-items: start; }
+  .fact:first-child { border-top: 0; }
+  .fact h2 { max-width: 20ch; margin-block-end: var(--s-1); }
+  .fact .prose { max-width: var(--measure); }
+
+  .capsule-photo { width: 100%; max-width: 40rem; aspect-ratio: 16 / 10; border-radius: var(--radius-l); overflow: hidden; background: #fff; border: 1px solid var(--line); }
+  .capsule-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 58% 54%; transform: scale(1.35); transform-origin: 46% 52%; }
+
+  .who-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); width: 100%; }
+  .who-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m);
+    padding: var(--s-3); display: grid; gap: var(--s-1); align-content: start; position: relative; overflow: hidden;
+  }
+  .who-card::before { content: ''; position: absolute; inset-block-start: 0; inset-inline: 0; height: 4px; background: var(--cyan); }
+  .who-card h3 { font-size: 1.3125rem; }
+  .who-card p { color: var(--ink-soft); }
+
+  .evidence__statement { max-width: 38rem; }
+  .evidence__statement :global(p) { font-family: var(--font-display); font-size: clamp(1.4375rem, 1.25rem + 0.8vw, 1.875rem); line-height: 1.42; font-weight: 450; }
+  .evidence__statement :global(em) { font-style: italic; }
+  .evidence__statement :global(mark.figure) {
+    background: linear-gradient(transparent 58%, var(--cream) 58%); color: var(--royal);
+    font-weight: 700; padding-inline: 0.08em; box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  }
+
+  .meals { width: 100%; max-width: 32rem; }
+
+  /* ---------- Professional band (home) ---------- */
+  .home-pro { position: relative; overflow: hidden; background: var(--night); color: var(--on-dark-soft); }
+  .home-pro__stripes { position: absolute; inset-block: -10% -10%; inset-inline-end: -6%; width: min(46%, 34rem); opacity: 0.18; }
+  .home-pro__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); padding-block: clamp(3rem, 2rem + 3vw, 5.5rem); position: relative; }
+  .home-pro__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; }
+  .home-pro__copy p { font-size: var(--fs-lead); line-height: 1.55; }
+  .home-pro__copy strong { display: block; color: #fff; font-family: var(--font-display); font-size: var(--fs-h2); line-height: 1.15; font-weight: 600; margin-block-end: var(--s-2); }
+
+  /* ---------- Where ---------- */
+  .home-where__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); padding-block: var(--section); }
+  .home-where__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
+
+  /* ---------- Closing ---------- */
+  .closing { background: var(--mist); position: relative; overflow: clip; }
+  .closing__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; padding-block: var(--section); }
+  .closing__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
+  .closing__copy h2 { max-width: 16ch; }
+  .closing__note { grid-column: 9 / span 4; display: flex; justify-content: flex-end; }
+
+  /* ---------- Live journey: the overlay replaces the slot notes ---------- */
+  .note-layer { position: fixed; inset: 0; z-index: 2; pointer-events: none; display: none; }
+  .note-layer :global(.note) { position: absolute; top: 0; left: 0; transform-origin: center; will-change: transform; margin: 0; }
+  :global(html.note-live) .note-layer { display: block; }
+  :global(html.note-live) .note-slot :global(.note) { visibility: hidden; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 68.74rem) { /* < 1100px: single reading column, no travelling note */
+    .hero__copy { grid-column: 1 / -1; }
+    .hero__stage { grid-column: 1 / -1; width: min(100%, 30rem); justify-self: center; margin-block-start: var(--s-5); min-height: 0; }
+    .facts__main { grid-column: 1 / -1; }
+    .facts__aside { display: none; }
+    .home-pro__copy, .home-where__copy { grid-column: 1 / -1; }
+    .closing__copy { grid-column: 1 / -1; }
+    .closing__note { grid-column: 1 / -1; justify-content: center; margin-block-start: var(--s-5); }
+  }
+  @media (max-width: 40rem) {
+    .who-cards { grid-template-columns: 1fr; }
+    .hero__stage { width: 100%; }
+    .note-slot--hero { width: 18rem; inset-inline-start: -8%; }
+    .hero__title { max-width: 14ch; }
+  }
+</style>

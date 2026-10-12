@@ -1,0 +1,15 @@
+# Politique de confidentialité — traduction fidèle du projet persan du client (brief Part 4 §6).
+# Statut : brouillon jusqu'à approbation par le responsable scientifique et le client (traducteur du client à consulter).
+status: draft
+meta_title: "Politique de confidentialité | Memowell"
+meta_description: ""
+sections:
+  - id: intro
+    heading: "Politique de confidentialité"
+    body: |-
+      Kondor Pharma respecte la vie privée des visiteurs. Lorsque vous remplissez le formulaire de contact ou vous abonnez à la lettre d'information, des informations telles que votre nom, votre adresse électronique et le texte de votre message sont reçues afin de vous répondre et de fournir les services demandés. L'envoi de messages marketing se fera avec votre consentement, et une possibilité de désabonnement est prévue. Veuillez ne pas transmettre d'informations médicales sensibles ni de dossiers de soins par le formulaire général du site.
+
+      Si des outils d'analyse de fréquentation ou des cookies sont utilisés, le type d'outil, la finalité de son utilisation et les options permettant de les gérer seront expliqués sur le site. L'accès aux informations sera limité aux personnes et aux prestataires de services qui en ont besoin pour assurer les services du site. Les informations sont conservées pendant une durée proportionnée à la finalité de leur réception et aux exigences légales. Pour demander l'accès à vos informations, leur rectification ou leur suppression, utilisez le moyen de contact indiqué sur la page « Contactez-nous ». Ce site a pour objet de présenter Memowell® et de fournir des informations scientifiques et éducatives. L'utilisation de son contenu ne signifie pas recevoir un avis médical personnalisé ni établir une relation médecin-patient. Les informations sur le produit doivent être vérifiées par rapport à l'étiquette approuvée dans le pays d'achat.
+
+      Les droits sur les contenus propres, les images, la conception et les marques appartiennent à leurs titulaires légaux. Toute utilisation commerciale ou republication de ces éléments sans l'autorisation du titulaire des droits n'est pas permise. Les liens vers des sources externes sont fournis pour donner accès à des informations complémentaires, et la responsabilité du contenu de ces pages incombe à leurs éditeurs. Le contenu du site peut être mis à jour à la réception de nouvelles informations scientifiques ou de nouvelles exigences. Pour toute question sur le contenu ou son utilisation, veuillez passer par la page « Contactez-nous ».
+    pending: "privacy-additions"

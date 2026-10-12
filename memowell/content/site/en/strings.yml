@@ -1,0 +1,113 @@
+# Shared site text (English). Fixed client texts are marked; edit only with scientific-officer approval.
+status: approved
+
+nav:
+  - { label: "Memowell", href: "/memowell" }
+  - { label: "Who it's for", href: "/who-its-for" }
+  - label: "Science"
+    href: "/science"
+    children:
+      - { label: "Evidence in plain language", href: "/science" }
+      - { label: "For healthcare professionals", href: "/science/professionals" }
+  - { label: "Memory health", href: "/memory-health" }
+  - label: "About"
+    href: "/about"
+    children:
+      - { label: "Kondor Pharma", href: "/about" }
+      - { label: "Availability", href: "/about/availability" }
+      - { label: "Partners", href: "/about/partners" }
+      - { label: "Contact", href: "/contact" }
+
+# Primary action beside the nav (brief Part 3: "the doctor summary").
+# Label reuses the approved /memowell heading; flagged for agency check.
+header_action: { label: "Taking this to your doctor", href: "/memowell#summary" }
+
+# FIXED CLIENT TEXT 1 — footer of every page.
+general_disclaimer: "This website exists to introduce Memowell® and to provide scientific and educational information about memory health and cognitive function. It does not replace diagnosis, advice or treatment from your own doctor. Talk to a doctor or pharmacist about which product suits your situation and how to use it."
+
+# FIXED CLIENT TEXT 2 — end of /memowell and /who-its-for.
+product_disclaimer: "Take Memowell® according to the directions on the packaging approved in the country where you bought it. If you take medicines or other supplements, have an underlying condition, or are pregnant or breastfeeding, speak to a doctor or pharmacist before starting. Do not change prescribed medicines without consulting your doctor. Keep out of reach of children."
+
+# Repeated text 3 — end of every content page (the homepage uses its own longer version).
+pro_band:
+  lead: "Are you a doctor, pharmacist or dietitian?"
+  body: "Study designs, full results and composition are in the professional section."
+  action: { label: "Go there", href: "/science/professionals" }
+
+# Repeated text 4 — footer, beside the language switcher.
+market_line:
+  body: "Availability, packaging and approved uses differ by country."
+  action: { label: "See availability", href: "/about/availability" }
+
+footer_columns:
+  - title: "Memowell"
+    links:
+      - { label: "What it is", href: "/memowell" }
+      - { label: "Who it was studied in", href: "/who-its-for" }
+      - { label: "What the research found", href: "/science" }
+      - { label: "How to take it", href: "/memowell#directions" }
+  - title: "Learn"
+    links:
+      - { label: "Memory health", href: "/memory-health" }
+      - { label: "For healthcare professionals", href: "/science/professionals" }
+  - title: "Kondor Pharma"
+    links:
+      - { label: "About", href: "/about" }
+      - { label: "Availability", href: "/about/availability" }
+      - { label: "Partners", href: "/about/partners" }
+      - { label: "kondorpharma.com", href: "https://kondorpharma.com", external: true }
+    products: ["Strowell", "Genuwell", "Inflawell"]
+  - title: "Contact"
+    links:
+      - { label: "Contact us", href: "/contact" }
+    contact_slots: true
+  - title: "Legal"
+    links:
+      - { label: "Privacy policy", href: "/privacy" }
+      - { label: "Terms of use", href: "/terms" }
+      - { label: "General disclaimer", href: "#disclaimer" }
+
+# Last footer line. "LIVE WELL, STAY WELL" is the catalogue slogan, unchanged.
+# The NPN only has meaning in the Canadian context (AR version must not read it as a local licence).
+footer_last_line: "Memowell® · Kondor Pharma, Canada · NPN 80107357 · LIVE WELL, STAY WELL"
+
+# Decorative "facts in hand" note (homepage + /memowell summary). Title = approved /memowell heading;
+# row labels are fragments of approved copy (/memowell §2 & §3 headings, §6 sentence, home §5 heading). Flagged for agency check.
+summary_note:
+  title: "Taking this to your doctor"
+  rows:
+    - { section: "formulation", label: "What is in it" }
+    - { section: "evidence", label: "What the research found" }
+    - { section: "directions", label: "How to take it" }
+    - { section: "closing", label: "Five questions worth asking" }
+
+# Interface microcopy NOT in the copy deck — listed in the handoff for agency approval and translation.
+ui:
+  skip_link: "Skip to main content"
+  menu: "Menu"
+  close: "Close"
+  main_nav: "Main"
+  language: "Language"
+  on_this_page: "On this page"
+  source: "Source:"
+  sources: "Sources:"
+  sources_heading: "Sources"
+  breadcrumb: "Breadcrumb"
+  home: "Home"
+  form_closed: "This form will open soon."
+  file_pending: "This file will be available soon."
+  locale_pending: "Coming soon"
+  required: "required"
+  submit: "Send"
+  published: "Published"
+  last_reviewed: "Last reviewed"
+  author: "Author"
+  category: "Category"
+  all_articles: "All articles"
+  previous: "Previous"
+  next: "Next"
+  page_of: "Page {n} of {total}"
+  no_articles: "Articles will appear here after scientific review."
+  related: "Related"
+  not_found_title: "Page not found"
+  not_found_body: "This page does not exist. Use the menu, or go to the home page."
