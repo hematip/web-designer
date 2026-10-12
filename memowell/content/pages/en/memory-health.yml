@@ -8,6 +8,15 @@ sections:
     body: |-
       Articles on memory, cognition and the research behind them. Written in plain language, reviewed by Kondor Pharma scientific affairs before publication, and sourced.
     categories_label: "Categories"
+    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
+    photo:
+      src: "/img/photos/caregiver-walk"
+      width: 1600
+      height: 2000
+      widths: [640, 1024, 1600]
+      focus: "50% 30%"
+      alt: ""
+      note: "Illustrative image"
   - id: article-template
     # Fixed line shown on every article (template part 7).
     fixed_line: "This article is general information, not medical advice. Talk to your doctor about your own situation."

@@ -5,7 +5,8 @@ import Note from '../components/Note.astro';
 import Sources from '../components/Sources.astro';
 import Stripes from '../components/Stripes.astro';
 import Capsule from '../components/Capsule.astro';
-import { getPage, section, md, mdInline } from '../lib/content.js';
+import Photo from '../components/Photo.astro';
+import { getPage, section, md, mdInline, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'home');
@@ -22,6 +23,7 @@ const highlight = (html: string, phrase?: string) =>
 const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
 const marquee = hero.marquee ?? [];
 const stages: string[] = formulation.stages ?? [];
+const whyPhoto = photoOf(locale, 'home', 'why');
 // Where each caption takes over in the scrubbed formulation scene (fraction of the pinned range).
 const chapterStarts = [0, 0.18, 0.4, 0.64, 0.86].slice(0, stages.length);
 const chapterEnds = [...chapterStarts.slice(1), 1];
@@ -73,7 +75,10 @@ const blobs = [
   <!-- 2 · Why memory changes -->
   <section class="h-why" id="why" aria-labelledby="why-title">
     <div class="wrap h-why__grid">
-      <h2 id="why-title" class="h-why__title" data-split>{why.heading}</h2>
+      <div class="h-why__lead">
+        <h2 id="why-title" class="h-why__title" data-split>{why.heading}</h2>
+        {whyPhoto && <div class="h-why__photo" data-reveal><Photo photo={whyPhoto} variant="card" sizes="(min-width: 64rem) 52vw, 92vw" /></div>}
+      </div>
       <div class="h-why__body" data-reveal>
         <div class="prose" set:html={md(why.body)} />
         <p><Action action={why.inline_action} locale={locale} variant="link" /></p>
@@ -279,7 +284,8 @@ const blobs = [
   /* ============ Why ============ */
   .h-why { padding-block: var(--section); }
   .h-why__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-5); align-items: start; }
-  .h-why__title { grid-column: 1 / span 7; font-size: clamp(2.25rem, 1.3rem + 3vw, 4.25rem); line-height: 1.03; letter-spacing: -0.04em; position: sticky; top: calc(var(--header-h) + 2rem); }
+  .h-why__lead { grid-column: 1 / span 7; position: sticky; top: calc(var(--header-h) + 2rem); display: grid; gap: var(--s-5); }
+  .h-why__title { font-size: clamp(2.25rem, 1.3rem + 3vw, 4.25rem); line-height: 1.03; letter-spacing: -0.04em; }
   .h-why__body { grid-column: 8 / span 5; display: grid; gap: var(--s-3); justify-items: start; padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); background: #fff; border-radius: var(--r-xl); border: 1px solid var(--line); box-shadow: var(--shadow-soft); }
   .h-why__body :global(.prose) { font-size: var(--fs-lead); line-height: 1.55; }
 
@@ -410,7 +416,8 @@ const blobs = [
   @media (max-width: 63.99rem) {
     .h-hero__copy, .h-hero__stage { grid-column: 1 / -1; }
     .h-hero__stage { width: min(100%, 30rem); justify-self: center; margin-block-start: var(--s-5); }
-    .h-why__title, .h-why__body { grid-column: 1 / -1; }
+    .h-why__lead, .h-why__body { grid-column: 1 / -1; }
+    .h-why__lead { position: static; }
     .h-who__head h2, .h-who__intro { grid-column: 1 / -1; }
     .h-evidence__statement, .h-evidence__meta { grid-column: 1 / -1; }
     .h-dir__copy, .h-dir__stage { grid-column: 1 / -1; }

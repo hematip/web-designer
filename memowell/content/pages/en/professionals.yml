@@ -8,6 +8,15 @@ sections:
     heading: "Memowell® for healthcare professionals"
     body: |-
       Memowell is a dietary supplement containing K-Vie™, a micronized microcrystalline *Boswellia* extract standardised to 40% boswellic acids. Licensed in Canada under NPN 80107357.
+    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
+    photo:
+      src: "/img/photos/hcp-evidence"
+      width: 2000
+      height: 857
+      widths: [640, 1024, 1600, 2000]
+      focus: "72% 40%"
+      alt: ""
+      note: "Illustrative image"
 
   - id: studies
     columns: ["Study", "Population", "Design", "Primary findings", "Source"]

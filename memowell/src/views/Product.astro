@@ -41,7 +41,7 @@ const directionsPhoto = photoOf(locale, 'memowell', 'directions');
   <section class="section directions" id="directions" aria-labelledby="directions-title">
     <div class="wrap">
       <h2 id="directions-title" data-split>{directions.heading}</h2>
-      {directionsPhoto && <div class="directions__photo" data-reveal><Photo photo={directionsPhoto} variant="band" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
+      {directionsPhoto && <div class="directions__photo" data-reveal><Photo photo={directionsPhoto} variant="landscape" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
       <ol class="steps" role="list">
         {directions.items.map((item: any, i: number) => (
           <li class="step" data-reveal>

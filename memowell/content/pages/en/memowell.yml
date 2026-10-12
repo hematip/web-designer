@@ -31,6 +31,15 @@ sections:
       - { title: "Keep taking it under supervision.", body: "For memory health, the supplement is intended for long-term, regular use with your doctor's oversight — not a short course." }
     body: |-
       Follow the directions on the packaging approved in the country where you bought it. Where they differ from this page, the packaging is correct.
+    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield; official bottle cutout composited, not generated). Needs client approval: see README.
+    photo:
+      src: "/img/photos/wellness-lunch"
+      width: 2000
+      height: 1328
+      widths: [640, 1024, 1600, 2000]
+      focus: "90% 0%"
+      alt: ""
+      note: "Illustrative image"
 
   - id: cautions
     heading: "Before you start"

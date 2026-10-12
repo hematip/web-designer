@@ -150,6 +150,19 @@ These are interface or structural words, and none of them is a claim. They are a
 
 ### Visual and other decisions to confirm
 
+**Illustrative photography (needs Kondor sign-off before go-live).** Five AI-generated, text-free photos were made with the Kondor Brain brand-creative skill (Higgsfield, GPT Image 2.5) in the Memowell blue/indigo/cyan palette, one per audience:
+
+| Photo | Audience | Where |
+|---|---|---|
+| `hcp-evidence` | Doctors & specialists | `/science/professionals`, wide band |
+| `patient-routine` | Patients | `/who-its-for`, page head |
+| `caregiver-walk` | Caregivers | `/memory-health`, page head |
+| `caregiver-planner` | Caregivers | Home, "why" section |
+| `wellness-lunch` | Wellness | `/memowell`, "How to take it" (official bottle cutout composited at real scale with `scripts/prepare-photo.mjs`; the bottle is not generated) |
+
+- **Conflict with brief Part 6:** the brief says no AI-generated people presented as patients or doctors. The agency asked for all four audiences, so the client must approve these, or remove them in the CMS (Pages → section → Photo).
+- Each photo carries a visible "Illustrative image" note (new copy, flagged) and empty alt text, because it is decorative next to the approved copy.
+
 - **No charts.** Only between-group differences were supplied; a chart would also need scientific-officer approval (brief Part 4).
 - **No people photography** is used. The concept needs none.
 - **FDA.** No FDA mark or mention exists anywhere; this is enforced by `npm run check:content`.
