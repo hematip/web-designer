@@ -27,6 +27,8 @@ node scripts/a11y-check.mjs http://localhost:4321 / /memowell/   # axe-core WCAG
 node scripts/build-summary-pdf.mjs                                  # rebuild the draft summary PDF from site copy
 ```
 
+**Review preview.** Every push to `claude/happy-volta-7wdu1t` that touches `memowell/` runs `.github/workflows/memowell-preview.yml`: it builds `dist-preview`, runs `check:preview`, and deploys to production of the Vercel project `memowell-preview-site` (team Bextudio), so the review URL stays the same. It needs the repository secret `VERCEL_TOKEN`; without it the deploy is skipped.
+
 ## How content works
 
 - `content/pages/<lang>/<page>.yml` holds the page copy, `content/site/<lang>/strings.yml` the navigation, footer, disclaimers and UI text, and `content/articles/<lang>/*.md` the blog. `content/settings/*.yml` holds downloads, form endpoints, contact details and published languages.

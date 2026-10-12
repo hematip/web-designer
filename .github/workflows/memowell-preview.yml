@@ -1,0 +1,57 @@
+# Builds the Memowell preview (all locales, drafts marked Pending, noindex) and deploys it to the
+# existing Vercel project "memowell-preview-site", so every push updates the same preview URL.
+# Needs one repository secret: VERCEL_TOKEN (a Vercel access token scoped to the Bextudio team).
+# Without it the deploy job is skipped, not failed.
+name: Memowell preview → Vercel
+
+on:
+  push:
+    branches: [claude/happy-volta-7wdu1t]
+    paths: ['memowell/**', '.github/workflows/memowell-preview.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: memowell-preview
+  cancel-in-progress: true
+
+jobs:
+  token:
+    runs-on: ubuntu-latest
+    outputs:
+      ok: ${{ steps.check.outputs.ok }}
+    steps:
+      - id: check
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -n "$VERCEL_TOKEN" ]; then echo "ok=true" >> "$GITHUB_OUTPUT"
+          else echo "::notice::VERCEL_TOKEN secret is not set; skipping the Vercel deploy."; echo "ok=false" >> "$GITHUB_OUTPUT"; fi
+
+  deploy:
+    needs: token
+    if: needs.token.outputs.ok == 'true'
+    runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      VERCEL_ORG_ID: team_5YAFKBqybGYoiM6NftjGJAL3
+      VERCEL_PROJECT_ID: prj_tOehHzjcjAiCfSCm4lOc6V8ei1KC
+    defaults:
+      run:
+        working-directory: memowell
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: memowell/package-lock.json
+      - run: npm ci
+      - run: npm run build:preview
+      - run: npm run check:preview
+      - name: Deploy to Vercel (production of memowell-preview-site)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          url=$(npx --yes vercel@59.26.0 deploy dist-preview --prod --yes --token "$VERCEL_TOKEN")
+          echo "Deployed: $url"
+          echo "### Deployed $url" >> "$GITHUB_STEP_SUMMARY"
