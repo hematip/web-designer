@@ -38,20 +38,20 @@ const font = (pkg, file) => `file://${path.join(root, 'node_modules/@fontsource-
 
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Memowell — ${summary.heading} (DRAFT)</title>
 <style>
-@font-face{font-family:Serif;src:url(${font('source-serif-4', 'source-serif-4-latin-opsz-normal.woff2')}) format('woff2');font-weight:200 900}
-@font-face{font-family:Sans;src:url(${font('atkinson-hyperlegible-next', 'atkinson-hyperlegible-next-latin-wght-normal.woff2')}) format('woff2');font-weight:200 800}
-@font-face{font-family:Sans;font-style:italic;src:url(${font('atkinson-hyperlegible-next', 'atkinson-hyperlegible-next-latin-wght-italic.woff2')}) format('woff2');font-weight:200 800}
+@font-face{font-family:Disp;src:url(${font('bricolage-grotesque', 'bricolage-grotesque-latin-wght-normal.woff2')}) format('woff2');font-weight:200 800}
+@font-face{font-family:Sans;src:url(${font('plus-jakarta-sans', 'plus-jakarta-sans-latin-wght-normal.woff2')}) format('woff2');font-weight:200 800}
+@font-face{font-family:Sans;font-style:italic;src:url(${font('plus-jakarta-sans', 'plus-jakarta-sans-latin-wght-italic.woff2')}) format('woff2');font-weight:200 800}
 @page{size:A4;margin:0}
 *{box-sizing:border-box}
-body{margin:0;font-family:Sans,system-ui,sans-serif;color:#101a47;font-size:10pt;line-height:1.38;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;font-family:Sans,system-ui,sans-serif;color:#101a47;font-size:9.8pt;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .page{width:210mm;height:297mm;padding:13mm 14mm 11mm;position:relative;overflow:hidden;background:#fffcf5}
 .draft{position:absolute;top:96mm;left:-20mm;right:-20mm;text-align:center;transform:rotate(-24deg);font:700 46pt Sans;color:rgba(42,61,171,.07);letter-spacing:.06em;pointer-events:none}
 .flag{background:#fff4d6;border:1.5px dashed #e2b33a;color:#4a3300;font-size:8.4pt;padding:2mm 3mm;border-radius:2mm;margin-bottom:4mm}
 header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #2a3dab;padding-bottom:3.5mm;margin-bottom:4mm}
 header img{width:44mm}
-h1{font:600 21pt/1.1 Serif;margin:0 0 1.5mm}
+h1{font:700 22pt/1.05 Disp;letter-spacing:-.02em;margin:0 0 1.5mm}
 .lead{font-size:10.6pt;margin:0;max-width:120mm}
-h2{font:600 12.5pt/1.2 Serif;margin:0 0 1.8mm;color:#2a3dab}
+h2{font:700 12.5pt/1.2 Disp;letter-spacing:-.01em;margin:0 0 1.8mm;color:#2b3fd9}
 h3{font:700 10.4pt/1.3 Sans;margin:0 0 .6mm}
 p{margin:0 0 1.6mm}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:6mm}

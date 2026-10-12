@@ -125,3 +125,91 @@ See `memowell/README.md` → "Placeholders and pending items". The README carrie
 | DEC-04 | The header action is labelled "Taking this to your doctor" and links to `/memowell#summary` (approved heading; avoids a dead PDF link) | P3, P7 downloads | Flagged |
 | DEC-05 | No chart of study results (only between-group differences are supplied; a chart would need scientific-officer approval) | P4 science note | Selected |
 | DEC-06 | Privacy policy translated from the Persian draft into EN, FR and AR as drafts awaiting approval | P4 §6 | Draft |
+
+---
+
+## Version 2: visual redesign (2026-10-12)
+
+**User feedback (supersedes the v1 visual direction):**
+
+> The visual is not trendy or new; it's too simple and old-fashioned. Build a modern, trendy, attractive visual.
+
+This matches the owner's standing preference in the skill's taste profile: cinematic, modern, scroll-triggered motion with a "wow" effect, and creative freedom beyond a cautious reading of the brief.
+
+**Unchanged:**
+
+- the copy (verbatim)
+- the site map and navigation
+- the claim rules
+- the official assets
+- accessibility for older readers
+- the CMS, the three languages and the pending states
+
+**Replaced:**
+
+- the visual treatment
+- the type system
+- the motion system
+- the homepage scenes
+
+### Direction: "Clinical-cosmic product stage"
+
+| Field | Decision |
+|---|---|
+| Treatment | Deep midnight/cobalt immersive bands alternate with bright ice-white reading sections. The label's royal-cyan colours become luminous aurora gradients. Glass chips and cards, oversized display type with one italic serif accent word, bento grids, large 28–40px radii and subtle grain |
+| Hero | The product sits in an open field on a midnight aurora. A giant headline uses an italic accent on "names". The official bottle has a glow halo and orbit rings, with floating glass fact chips taken from the label |
+| Type | Bricolage Grotesque Variable (display, 700); Plus Jakarta Sans Variable (body/UI, 400–700; unslashed zero); Instrument Serif Italic (accent words only); IBM Plex Sans Arabic (AR). All OFL |
+| Colour | midnight #060C33 / #0C1650; royal #2B3FD9; electric #4C63FF; cyan #19D3E2 (accents on dark only); ice #F4F6FF; cream capsule #F2DFC2. Text contrast stays ≥ 4.5:1, mostly ≥ 7:1 |
+| Motion engine | GSAP 3.15 (ScrollTrigger, SplitText, MorphSVG) + Lenis 1.3.26, on one GSAP ticker clock. `gsap.matchMedia` for desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it |
+
+### Signature scenes
+
+**1. Resin → K-Vie™ → capsule** (home §3, pinned on desktop)
+
+This answers the client's own question: how does Memowell differ from ordinary frankincense?
+
+- An amber Boswellia resin tear glows.
+- It breaks into a fine particle cloud (*micronized*).
+- The particles lock into a crystal lattice (*microcrystalline*).
+- They condense and morph (MorphSVG) into the cream capsule.
+- Label chips use exact copy fragments.
+- No body, no bloodstream and no mechanism is shown beyond the copy's own words.
+
+**2. One capsule with each of the three main meals** (home §6)
+
+- A capsule drops in and splits into three, each landing on one of three plates.
+- This is a literal staging of the approved sentence.
+
+**3. Who it was studied in** (home §4)
+
+- A pinned horizontal track of four large cards.
+- On mobile it becomes a vertical stack.
+
+**4. Evidence** (home §5)
+
+- On midnight, the approved sentence lights up word by word as you scroll.
+- "3.11 points higher on MMSE" resolves in cyan inside its full sentence, so the population, duration, placebo comparison and source all stay present.
+- Unlit words stay readable (≥ 4.5:1).
+
+**Supporting motion:**
+
+- Hero load choreography: masked line reveal and the bottle rising.
+- The hero scroll-out has depth, and the aurora reacts to the pointer.
+- A scroll-linked fact marquee (not auto-moving).
+- Batched reveals on inner pages.
+
+### Claim-rule check for visuals
+
+- No dark-to-light "clarity" transition is tied to memory.
+- No brain imagery, no before/after, no fog.
+- The particle sequence depicts only the processing words in the copy: resin, micronized, microcrystalline, standardised, capsule.
+
+### Responsive and accessibility
+
+- **Below 900px:** no pins; the scenes play as scrubbed sequences inside normal flow; the horizontal track becomes a vertical stack.
+- **Reduced motion and no JS:** final composed states only, with no Lenis.
+- **Auto-moving content:** none runs beyond the load entrance (WCAG 2.2.2).
+
+### Also replaced
+
+The v1 "facts in hand" travelling note is retired. The summary returns as a glass "Taking this to your doctor" card in the closing section and on `/memowell`.

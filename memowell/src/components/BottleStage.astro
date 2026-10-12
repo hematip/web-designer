@@ -1,17 +1,16 @@
 ---
-// The official front-view bottle on a label-derived blob (inner pages). No other angle exists.
-import Stripes from './Stripes.astro';
+// The official front-view bottle on a glow with orbit rings (inner pages). No other angle exists.
 interface Props { alt?: string; id: string }
 const { alt = '', id } = Astro.props;
 ---
-<div class="bottle-stage">
-  <svg class="bottle-stage__blob" viewBox="0 0 520 480" aria-hidden="true"><path d="M268 22c96-10 196 44 226 136 30 92-14 194-100 250-86 56-214 74-300 18C8 370-6 262 34 176 72 94 168 32 268 22z" /></svg>
-  <div class="bottle-stage__stripes" aria-hidden="true"><Stripes id={id} /></div>
-  <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 260px, 50vw" width="895" height="1713" alt={alt} />
+<div class="bottle-stage" data-id={id}>
+  <svg class="bottle-stage__orbits" viewBox="0 0 600 600" aria-hidden="true"><circle cx="300" cy="300" r="290" /><circle cx="300" cy="300" r="215" /></svg>
+  <div class="bottle-stage__glow" aria-hidden="true"></div>
+  <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 300px, 56vw" width="895" height="1713" alt={alt} />
 </div>
 <style>
-  .bottle-stage { position: relative; display: grid; place-items: center; padding-block: 1rem; max-width: 28rem; margin-inline: auto; }
-  .bottle-stage__blob { position: absolute; width: 92%; bottom: 6%; fill: var(--royal); }
-  .bottle-stage__stripes { position: absolute; width: 58%; aspect-ratio: 4 / 3; top: 4%; inset-inline-end: -4%; }
-  .bottle-stage img { position: relative; width: 52%; filter: drop-shadow(0 26px 26px rgba(14, 28, 85, 0.26)); }
+  .bottle-stage { position: relative; display: grid; place-items: center; max-width: 30rem; margin-inline: auto; aspect-ratio: 0.9; }
+  .bottle-stage__orbits { position: absolute; width: 120%; max-width: none; fill: none; stroke: rgba(255, 255, 255, 0.14); }
+  .bottle-stage__glow { position: absolute; width: 80%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(76, 99, 255, 0.95), rgba(43, 63, 217, 0.4) 42%, transparent 70%); filter: blur(24px); }
+  .bottle-stage img { position: relative; width: 58%; filter: drop-shadow(0 40px 40px rgba(0, 0, 0, 0.45)); }
 </style>

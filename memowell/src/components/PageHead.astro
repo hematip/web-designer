@@ -1,5 +1,6 @@
 ---
-// Inner-page opening: breadcrumb, H1 and the approved intro copy. Optional media slot on the side.
+// Inner-page opening (v2): a rounded midnight aurora stage with breadcrumb pills, oversized H1 and the
+// approved intro copy. Optional media slot on the side.
 import { getSite, href, md } from '../lib/content.js';
 
 interface Props { locale: string; title: string; body?: string; crumbs?: { label: string; href: string }[]; note?: string; wide?: boolean }
@@ -7,39 +8,43 @@ const { locale, title, body, crumbs = [], note, wide = false } = Astro.props;
 const ui = getSite(locale).data.ui;
 const hasMedia = Astro.slots.has('media');
 ---
-<header class:list={['page-head', { 'page-head--media': hasMedia }]}>
+<header class:list={['page-head', 'is-dark', 'aurora', { 'page-head--media': hasMedia }]} data-pointer>
   <div class="wrap page-head__grid">
     <div class="page-head__copy">
-      {crumbs.length > 0 && (
-        <nav class="breadcrumb" aria-label={ui.breadcrumb}>
-          <ol>
-            <li><a href={href(locale, '/')}>{ui.home}</a></li>
-            {crumbs.map((c) => <li><a href={href(locale, c.href)}>{c.label}</a></li>)}
-          </ol>
-        </nav>
-      )}
+      <nav class="breadcrumb" aria-label={ui.breadcrumb}>
+        <ol>
+          <li><a href={href(locale, '/')}>{ui.home}</a></li>
+          {crumbs.map((c) => <li><a href={href(locale, c.href)}>{c.label}</a></li>)}
+        </ol>
+      </nav>
       {note && <p class="page-head__note">{note}</p>}
-      <h1 class:list={{ 'page-head__wide': wide }}>{title}</h1>
-      {body && <div class="lead page-head__lead flow" set:html={md(body)} />}
+      <h1 class:list={{ 'page-head__wide': wide }} data-split="load">{title}</h1>
+      {body && <div class="page-head__lead flow" data-reveal set:html={md(body)} />}
       <slot />
     </div>
-    {hasMedia && <div class="page-head__media"><slot name="media" /></div>}
+    {hasMedia && <div class="page-head__media" data-reveal><slot name="media" /></div>}
   </div>
+  <svg class="page-head__rings" viewBox="0 0 600 600" aria-hidden="true"><circle cx="300" cy="300" r="290" /><circle cx="300" cy="300" r="210" /><circle cx="300" cy="300" r="130" /></svg>
 </header>
 
 <style>
-  .page-head__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-  .page-head__copy { grid-column: 1 / span 8; }
+  .page-head {
+    margin: 0 clamp(0.5rem, 1.5vw, 1.5rem); border-radius: 0 0 var(--r-xl) var(--r-xl);
+    padding-block: calc(var(--header-h) + clamp(3rem, 2rem + 4vw, 6rem)) clamp(3rem, 2rem + 4vw, 6rem);
+  }
+  .page-head__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .page-head__copy { grid-column: 1 / span 9; }
   .page-head--media .page-head__copy { grid-column: 1 / span 7; }
   .page-head__media { grid-column: 8 / span 5; position: relative; }
-  .page-head h1 { max-width: 18ch; }
-  .page-head h1.page-head__wide { max-width: 24ch; }
-  .page-head__lead { margin-block-start: var(--s-3); max-width: 40rem; }
+  .page-head h1 { max-width: 16ch; font-size: clamp(2.5rem, 1.5rem + 4vw, 5.5rem); letter-spacing: -0.045em; line-height: 0.98; }
+  .page-head h1.page-head__wide { max-width: 22ch; }
+  .page-head__lead { margin-block-start: var(--s-4); max-width: 42rem; font-size: var(--fs-lead); line-height: 1.55; color: var(--on-dark-soft); }
+  .page-head__copy :global(.btn-row) { margin-block-start: var(--s-4); }
   .page-head__note {
-    margin-block-end: var(--s-3); max-width: 44rem; font-style: italic;
-    border-inline-start: 4px solid var(--cyan); padding: 0.75rem 1rem; background: var(--mist); border-radius: 0 var(--radius-s) var(--radius-s) 0;
+    margin-block-end: var(--s-4); max-width: 46rem; font-style: italic; color: #fff;
+    padding: 0.85rem 1.25rem; border-radius: var(--r-m); background: rgba(25, 211, 226, 0.12); border: 1px solid rgba(25, 211, 226, 0.4);
   }
-  [dir='rtl'] .page-head__note { border-radius: var(--radius-s) 0 0 var(--radius-s); }
+  .page-head__rings { position: absolute; z-index: 0; width: 46rem; inset-inline-end: -12rem; top: 50%; translate: 0 -50%; fill: none; stroke: rgba(255, 255, 255, 0.08); pointer-events: none; }
   @media (max-width: 63.99rem) {
     .page-head__copy, .page-head--media .page-head__copy, .page-head__media { grid-column: 1 / -1; }
     .page-head__media { margin-block-start: var(--s-5); }

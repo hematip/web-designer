@@ -19,7 +19,7 @@ const reports = section(page, 'reports');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} fallback={fallback} status={page.status} noindex>
   <PageHead locale={locale} title={intro.heading} body={intro.body} crumbs={crumbs} />
-  <section class="wrap section--tight">
+  <section class="wrap" style="padding-block: var(--section)">
     {(reports.items ?? []).length === 0
       ? <p class="pending"><strong>Awaiting approved English text from the scientific officer.</strong> The five case reports exist only as the client's Persian catalogue summaries, written as success stories; they are not published.</p>
       : (reports.items.map((r: any) => <article class="card prose" set:html={md(r.body)} />))}

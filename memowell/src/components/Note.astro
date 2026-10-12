@@ -1,73 +1,55 @@
 ---
-// The "facts in hand" note: a decorative paper note that mirrors the one-page summary.
-// Always aria-hidden — the real content and the real actions are in the page.
+// "Taking this to your doctor" summary card (v2 glass/document card). Decorative mirror of the
+// one-page summary; always aria-hidden — the real content and actions are in the page.
 import { getSite } from '../lib/content.js';
 
-interface Props { locale: string; state?: 'blank' | 'complete'; live?: boolean; class?: string }
-const { locale, state = 'complete', live = false, class: cls = '' } = Astro.props;
+interface Props { locale: string; state?: 'blank' | 'complete'; class?: string }
+const { locale, state = 'complete', class: cls = '' } = Astro.props;
 const note = getSite(locale).data.summary_note;
 ---
-<div class:list={['note', cls, { 'note--live': live }]} data-note data-state={state} aria-hidden="true">
-  <div class="note__clip" />
-  <div class="note__head">
+<div class:list={['note', cls]} data-note data-state={state} aria-hidden="true">
+  <div class="note__top">
     <img src="/brand/memowell-logo-colour-transparent.png" alt="" width="640" height="142" loading="lazy" decoding="async" />
+    <span class="note__pdf">PDF</span>
   </div>
   <p class="note__title">{note.title}</p>
   <ul class="note__rows">
-    {note.rows.map((row: { label: string; section: string }) => (
+    {note.rows.map((row: { label: string; section: string }, i: number) => (
       <li class="note__row" data-row={row.section}>
         <span class="note__box">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path class="note__tick" d="M5 12.5l4.5 4.5L19 7.5" pathLength="1" /></svg>
         </span>
         <span class="note__label">{row.label}</span>
+        <span class="note__num">{String(i + 1).padStart(2, '0')}</span>
       </li>
     ))}
   </ul>
-  <div class="note__lines"><span /><span /></div>
 </div>
 
 <style>
   .note {
-    position: relative; width: 22rem; max-width: 100%;
-    background: var(--note); color: var(--ink);
-    border: 1px solid var(--note-edge); border-radius: 10px;
-    box-shadow: var(--shadow-note);
-    padding: 1.75rem 1.5rem 1.5rem;
-    font-family: var(--font-body);
+    position: relative; width: 23rem; max-width: 100%; color: var(--ink);
+    background: linear-gradient(160deg, #ffffff 0%, #f1f4ff 100%);
+    border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 28px;
+    box-shadow: 0 50px 90px -40px rgba(6, 12, 51, 0.65), 0 0 0 8px rgba(255, 255, 255, 0.08);
+    padding: 1.6rem 1.5rem 1.4rem; font-family: var(--font-body);
   }
-  .note__clip {
-    position: absolute; top: -0.85rem; inset-inline-start: 50%; translate: -50% 0;
-    width: 5.5rem; height: 1.6rem; border-radius: 4px;
-    background: color-mix(in srgb, var(--stripe) 55%, white); opacity: 0.85;
-    box-shadow: 0 1px 2px rgba(16, 26, 71, 0.12);
-  }
-  [dir='rtl'] .note__clip { translate: 50% 0; }
-  .note__head img { width: 7.25rem; height: auto; }
-  .note__title {
-    font-family: var(--font-display); font-weight: 600; font-size: 1.4375rem; line-height: 1.22;
-    margin: 0.9rem 0 1.1rem; color: var(--ink);
-  }
-  .note__rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--note-edge); }
+  .note__top { display: flex; align-items: center; justify-content: space-between; }
+  .note__top img { width: 7rem; height: auto; }
+  .note__pdf { font: 800 0.8125rem/1 var(--font-body); letter-spacing: 0.08em; color: #fff; background: var(--royal); padding: 0.4rem 0.6rem; border-radius: 8px; }
+  .note__title { font: 700 1.5rem/1.15 var(--font-display); letter-spacing: -0.02em; margin: 1rem 0 1.1rem; }
+  .note__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
   .note__row {
-    display: flex; align-items: center; gap: 0.8rem; min-height: 3.35rem;
-    border-bottom: 1px solid var(--note-edge);
-    font-weight: 700; font-size: 1.0625rem; line-height: 1.25;
-    color: #636a8c; /* unticked rows stay readable (≥4.5:1); ticked rows darken and gain a check */
-    transition: color 0.45s var(--ease);
+    display: flex; align-items: center; gap: 0.75rem; min-height: 3.2rem; padding: 0.4rem 0.8rem;
+    border-radius: 14px; background: #fff; border: 1px solid var(--line);
+    font-weight: 700; font-size: 1.03rem; line-height: 1.25; color: #5a6191;
+    transition: color 0.4s var(--ease), border-color 0.4s var(--ease);
   }
-  .note__box {
-    flex: none; display: grid; place-items: center; width: 1.65rem; height: 1.65rem;
-    border: 2px solid var(--line-strong); border-radius: 6px; background: #fff; color: var(--royal);
-    transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease);
-  }
-  .note__box svg { width: 1.2rem; height: 1.2rem; }
-  .note__tick { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.55s var(--ease) 0.1s; }
-  .note__lines span { display: block; height: 1px; background: var(--note-edge); margin-top: 1.55rem; }
-
-  .note[data-state='complete'] .note__row,
-  .note .note__row.is-ticked { color: var(--ink); }
-  .note[data-state='complete'] .note__box,
-  .note .note__row.is-ticked .note__box { border-color: var(--royal); background: #eef0fb; }
-  .note[data-state='complete'] .note__tick,
-  .note .note__row.is-ticked .note__tick { stroke-dashoffset: 0; }
+  .note__box { flex: none; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 2px solid var(--line-strong); color: #fff; transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease); }
+  .note__box svg { width: 1rem; height: 1rem; }
+  .note__tick { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.5s var(--ease) 0.1s; }
+  .note__num { margin-inline-start: auto; font: 700 0.875rem/1 var(--font-body); color: var(--line-strong); }
+  .note[data-state='complete'] .note__row, .note .note__row.is-ticked { color: var(--ink); }
+  .note[data-state='complete'] .note__box, .note .note__row.is-ticked .note__box { background: var(--royal); border-color: var(--royal); }
+  .note[data-state='complete'] .note__tick, .note .note__row.is-ticked .note__tick { stroke-dashoffset: 0; }
 </style>

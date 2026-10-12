@@ -17,9 +17,9 @@ const studies = page.sections.filter((x: any) => x.id.startsWith('study-'));
 
   <div class="wrap studies">
     {studies.map((st: any, i: number) => (
-      <section class="study" id={st.id} aria-labelledby={`${st.id}-title`}>
+      <section class="study" style={`--i:${i}`} id={st.id} aria-labelledby={`${st.id}-title`}>
         <div class="study__meta">
-          <span class="study__num" aria-hidden="true">{i + 1}</span>
+          <span class="study__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           {st.published && <p class="study__pub" set:html={mdInline(st.published)} />}
           <Sources dois={st.sources} locale={locale} />
         </div>
@@ -32,41 +32,45 @@ const studies = page.sections.filter((x: any) => x.id.startsWith('study-'));
   </div>
 
   <section class="honest" aria-labelledby="honest-title">
-    <div class="wrap honest__inner">
-      <h2 id="honest-title">{closing.heading}</h2>
+    <div class="wrap"><div class="honest__inner is-dark aurora" data-pointer data-reveal>
+      <h2 id="honest-title" data-split>{closing.heading}</h2>
       <div class="prose lead" set:html={md(closing.body)} />
       <p class="honest__pro">{closing.pro_prompt} <Action action={closing.pro_action} locale={locale} variant="link" /></p>
-      <div class="btn-row">{closing.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
-    </div>
+      <div class="btn-row">{closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
+    </div></div>
   </section>
 
   <ProBand locale={locale} />
 </Base>
 
 <style>
-  .studies { padding-block-end: var(--section); }
+  .studies { padding-block: var(--section); display: grid; gap: var(--s-3); }
   .study {
+    position: sticky; top: calc(var(--header-h) + 1.5rem + var(--i) * 1.25rem);
     display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem);
-    padding-block: var(--s-6); border-top: 1px solid var(--line);
+    padding: clamp(1.75rem, 1.2rem + 2.5vw, 3.75rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line);
+    box-shadow: 0 -20px 50px -30px rgba(10, 18, 64, 0.35);
   }
+  .study:nth-child(2) { background: var(--midnight); color: #fff; border-color: transparent; }
+  .study:nth-child(2) :global(.prose), .study:nth-child(2) .study__pub { color: var(--on-dark-soft); }
+  .study:nth-child(2) :global(.sources) { color: var(--on-dark-mute); }
+  .study:nth-child(2) :global(.sources__label) { color: #fff; }
+  .study:nth-child(2) :global(.sources a) { color: var(--on-dark-soft); }
+  .study:nth-child(2) .study__prose :global(strong) { color: var(--cyan); }
+  .study:nth-child(3) { background: linear-gradient(140deg, #eef1ff, #fff); }
   .study__meta { grid-column: 1 / span 4; display: grid; gap: var(--s-2); align-content: start; }
-  .study__num {
-    display: grid; place-items: center; width: 3.5rem; height: 3.5rem; border-radius: 50%;
-    border: 2px solid var(--royal); color: var(--royal); font: 600 1.625rem/1 var(--font-display);
-  }
+  .study__num { font: 800 clamp(4rem, 3rem + 4vw, 7rem)/0.8 var(--font-display); letter-spacing: -0.06em; background: linear-gradient(120deg, var(--royal), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .study:nth-child(2) .study__num { background: linear-gradient(120deg, #fff, var(--cyan)); -webkit-background-clip: text; background-clip: text; }
   .study__pub { font-weight: 700; }
   .study__body { grid-column: 6 / span 7; display: grid; gap: var(--s-3); }
-  .study__prose :global(strong) {
-    font-family: var(--font-display); font-weight: 700; color: var(--royal); font-size: 1.15em;
-    background: linear-gradient(transparent 60%, var(--cream) 60%); padding-inline: 0.06em;
-  }
-  .honest { background: var(--mist); }
-  .honest__inner { display: grid; gap: var(--s-3); justify-items: start; padding-block: var(--section); }
-  .honest__pro { font-size: var(--fs-body); }
+  .study__body h2 { font-size: clamp(1.875rem, 1.3rem + 2vw, 3rem); }
+  .study__prose :global(strong) { font-family: var(--font-display); font-weight: 800; color: var(--royal); font-size: 1.12em; }
+  .honest { padding-block: 0 calc(var(--section) * 0.4); }
+  .honest__inner { display: grid; gap: var(--s-3); justify-items: start; padding: clamp(2.5rem, 2rem + 4vw, 5rem); border-radius: var(--r-xl); }
+  .honest__pro { font-size: var(--fs-body); color: var(--on-dark-soft); }
   @media (max-width: 63.99rem) {
+    .study { position: relative; top: auto; }
     .study__meta, .study__body { grid-column: 1 / -1; }
     .study__body { margin-block-start: var(--s-3); }
-    .study__meta { grid-template-columns: auto 1fr; align-items: center; }
-    .study__meta :global(.sources) { grid-column: 1 / -1; }
   }
 </style>

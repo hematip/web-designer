@@ -1,8 +1,11 @@
 ---
-import '@fontsource-variable/source-serif-4/opsz.css';
-import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
-import '@fontsource-variable/atkinson-hyperlegible-next/wght-italic.css';
-import '@fontsource-variable/noto-naskh-arabic/wght.css';
+import '@fontsource-variable/bricolage-grotesque/wght.css';
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '@fontsource-variable/plus-jakarta-sans/wght-italic.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '@fontsource/ibm-plex-sans-arabic/400.css';
+import '@fontsource/ibm-plex-sans-arabic/600.css';
+import '@fontsource/ibm-plex-sans-arabic/700.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -45,11 +48,11 @@ const robots = IS_PREVIEW || noindex || fallback || status !== 'approved' ? 'noi
     {description && <meta property="og:description" content={description} />}
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL('/img/bottle-820.webp', base).href} />
-    <meta name="theme-color" content="#fbf9f4" />
+    <meta name="theme-color" content="#060c33" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
   </head>
-  <body class:list={[bodyClass, { 'fallback-text': siteStrings.fallback }]}>
+  <body class:list={[bodyClass, { 'fallback-text': siteStrings.fallback, 'has-preview-banner': IS_PREVIEW }]}>
     <a class="skip-link" href="#main">{ui.skip_link}</a>
     {IS_PREVIEW && (
       <aside class="preview-banner" aria-label="Preview build" lang="en" dir="ltr">
@@ -68,6 +71,7 @@ const robots = IS_PREVIEW || noindex || fallback || status !== 'approved' ? 'noi
     <slot name="end" />
     <script>
       import '../scripts/site.js';
+      import '../scripts/motion.js';
     </script>
   </body>
 </html>

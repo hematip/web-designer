@@ -12,10 +12,12 @@ const lead = Astro.props.lead ?? band.lead;
 const body = Astro.props.body ?? band.body;
 const action = Astro.props.action ?? band.action;
 ---
-<aside class="pro-band on-dark" id={id} aria-label={lead}>
-  <div class="pro-band__stripes" aria-hidden="true"><Stripes id={`pb-${id ?? 'band'}`} /></div>
-  <div class="wrap pro-band__inner">
-    <p><strong>{lead}</strong> <span set:html={mdInline(body)} /></p>
-    <Action action={action} locale={locale} variant="light" />
+<aside class="pro-band" id={id} aria-label={lead}>
+  <div class="wrap">
+    <div class="pro-band__card on-dark" data-reveal>
+      <div class="pro-band__stripes" aria-hidden="true"><Stripes id={`pb-${id ?? 'band'}`} /></div>
+      <p><strong>{lead}</strong> <span set:html={mdInline(body)} /></p>
+      <Action action={action} locale={locale} variant="light" />
+    </div>
   </div>
 </aside>

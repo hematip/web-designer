@@ -11,6 +11,11 @@ sections:
     actions:
       - { label: "See who it was studied in", href: "/who-its-for" }
       - { label: "What the research found", href: "/science" }
+    # Design fields (v2). accent = word set in the italic accent face (no words change).
+    # chips/marquee = fragments of approved copy and the bottle label, decorative (aria-hidden). Flagged in README.
+    accent: "names"
+    chips: ["90 vegetarian capsules", "Gluten-free", "NPN 80107357"]
+    marquee: ["Memory health", "90 vegetarian capsules", "Gluten-free", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada", "NPN 80107357"]
 
   - id: why
     heading: "One factor researchers study is inflammation in the nervous system"
@@ -30,6 +35,13 @@ sections:
     actions:
       - { label: "More about the formulation", href: "/memowell#composition" }
     image_alt: "A single cream-coloured Memowell capsule held between finger and thumb."
+    # Signature scene labels (v2): fragments of the approved copy above, decorative (aria-hidden). Flagged in README.
+    stages:
+      - "Resin of Boswellia trees — frankincense"
+      - "Micronized"
+      - "Microcrystalline"
+      - "K-Vie™ · standardised to 40% boswellic acids"
+      - "Vegetarian and gluten-free"
 
   - id: who
     heading: "Who it was studied in"

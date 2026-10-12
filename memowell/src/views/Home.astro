@@ -4,8 +4,8 @@ import Action from '../components/Action.astro';
 import Note from '../components/Note.astro';
 import Sources from '../components/Sources.astro';
 import Stripes from '../components/Stripes.astro';
-import Icon from '../components/Icon.astro';
-import { getPage, section, md, mdInline, href } from '../lib/content.js';
+import Capsule from '../components/Capsule.astro';
+import { getPage, section, md, mdInline } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'home');
@@ -14,267 +14,384 @@ const hero = s('hero'), why = s('why'), formulation = s('formulation'), who = s(
   evidence = s('evidence'), directions = s('directions'), pro = s('professionals'),
   availability = s('availability'), closing = s('closing');
 
-// Emphasise a phrase inside its own sentence; the sentence and its context stay verbatim.
+// Typographic emphasis only — the words never change.
+const accentWord = (text: string, word?: string) =>
+  word && text.includes(word) ? text.replace(word, `<span class="accent">${word}</span>`) : text;
 const highlight = (html: string, phrase?: string) =>
   phrase ? html.replace(phrase, `<mark class="figure">${phrase}</mark>`) : html;
 const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
+const marquee = hero.marquee ?? [];
+const stages: string[] = formulation.stages ?? [];
+const blobs = [
+  'M60 8c28 0 52 18 52 46s-22 50-52 50S6 86 6 56 32 8 60 8z',
+  'M66 6c26 4 46 26 42 54s-30 46-58 42S6 74 10 46 40 2 66 6z',
+  'M58 4c32-2 56 22 54 52s-28 50-56 48S4 80 6 50 26 6 58 4z',
+  'M62 10c24 0 50 14 48 44s-26 52-54 50S8 82 8 52 38 10 62 10z',
+];
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-home">
 
-  <!-- 1. Hero -->
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="wrap hero__grid">
-      <div class="hero__copy">
-        <p class="eyebrow">{hero.eyebrow}</p>
-        <h1 id="hero-title" class="hero__title">{hero.heading}</h1>
-        <div class="hero__lead lead" set:html={md(hero.body)} />
-        <div class="btn-row">
-          {hero.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'primary' : 'secondary'} />)}
+  <!-- 1 · Hero: the product on a midnight aurora -->
+  <section class="h-hero is-dark aurora" data-pointer aria-labelledby="hero-title" data-hero>
+    <div class="wrap h-hero__grid">
+      <div class="h-hero__copy">
+        <p class="eyebrow" data-hero-in>{hero.eyebrow}</p>
+        <h1 id="hero-title" class="h-hero__title" data-split="load" set:html={accentWord(hero.heading, hero.accent)} />
+        <div class="h-hero__lead" data-hero-in set:html={md(hero.body)} />
+        <div class="btn-row" data-hero-in>
+          {hero.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
         </div>
       </div>
 
-      <div class="hero__stage" aria-hidden="true">
-        <svg class="hero__blob" viewBox="0 0 520 480">
-          <path d="M268 22c96-10 196 44 226 136 30 92-14 194-100 250-86 56-214 74-300 18C8 370-6 262 34 176 72 94 168 32 268 22z" />
+      <div class="h-hero__stage" aria-hidden="true">
+        <svg class="h-orbits" viewBox="0 0 600 600" data-hero-orbits>
+          <circle cx="300" cy="300" r="290" /><circle cx="300" cy="300" r="225" /><circle cx="300" cy="300" r="160" />
+          <circle class="h-orbits__dot" cx="300" cy="10" r="5" /><circle class="h-orbits__dot" cx="525" cy="300" r="4" />
         </svg>
-        <div class="hero__stripes"><Stripes id="hero" /></div>
-        <svg class="hero__marks" viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-          <path d="M60 70v22M49 81h22" /><path d="M342 300v18M333 309h18" /><circle cx="330" cy="70" r="8" /><circle cx="84" cy="330" r="5" />
-        </svg>
-        <div class="note-slot note-slot--hero" data-note-anchor="hero" data-scale="0.74" data-rot="-7">
-          <Note locale={locale} state="blank" />
+        <div class="h-glow"></div>
+        <div class="h-bottle-wrap" data-hero-bottle>
+          <img class="h-bottle" src="/img/bottle-820.webp" srcset="/img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
+            sizes="(min-width: 75rem) 360px, (min-width: 56rem) 30vw, 58vw" width="895" height="1713" alt="" fetchpriority="high" />
         </div>
-        <img class="hero__bottle" src="/img/bottle-560.webp"
-          srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
-          sizes="(min-width: 75rem) 300px, (min-width: 48rem) 34vw, 54vw"
-          width="895" height="1713" alt="" fetchpriority="high" />
+        {(hero.chips ?? []).map((c: string, i: number) => <span class={`h-chip h-chip--${i + 1}`} data-hero-chip>{c}</span>)}
+        <div class="h-hero__capsule" data-hero-capsule><Capsule id="hero-cap" /></div>
+      </div>
+    </div>
+    <div class="h-cue" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- Scroll-linked fact band (moves only with scroll) -->
+  <div class="h-marquee" aria-hidden="true">
+    <div class="h-marquee__track" data-marquee>
+      {[0, 1, 2].map(() => marquee.map((m: string) => <span class="h-marquee__item">{m}<i></i></span>))}
+    </div>
+  </div>
+
+  <!-- 2 · Why memory changes -->
+  <section class="h-why" id="why" aria-labelledby="why-title">
+    <div class="wrap h-why__grid">
+      <h2 id="why-title" class="h-why__title" data-split>{why.heading}</h2>
+      <div class="h-why__body" data-reveal>
+        <div class="prose" set:html={md(why.body)} />
+        <p><Action action={why.inline_action} locale={locale} variant="link" /></p>
+        <Sources dois={why.sources} locale={locale} />
       </div>
     </div>
   </section>
 
-  <!-- 2–6. The facts: reading column + the note that travels beside it -->
-  <div class="wrap facts" data-facts>
-    <div class="facts__main">
+  <!-- 3 · Signature: resin → micronized → microcrystalline → K-Vie™ capsule -->
+  <section class="h-form is-dark aurora" id="formulation" aria-labelledby="formulation-title" data-form>
+    <div class="h-form__pin" data-form-pin>
+      <div class="wrap h-form__grid">
+        <div class="h-form__copy">
+          <h2 id="formulation-title" data-split>{formulation.heading}</h2>
+          <div class="prose" set:html={md(formulation.body)} />
+          <div class="btn-row">{formulation.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
+        </div>
 
-      <section class="fact" id="why" data-note-section="why" aria-labelledby="why-title">
-        <h2 id="why-title">{why.heading}</h2>
-        <div class="prose" set:html={md(why.body)} />
-        <p><Action action={why.inline_action} locale={locale} variant="link" /></p>
-        <Sources dois={why.sources} locale={locale} />
-      </section>
+        <div class="h-form__stage" aria-hidden="true">
+          <svg class="h-form__svg" viewBox="0 0 600 600" data-form-svg>
+            <defs>
+              <radialGradient id="resin-g" cx="40%" cy="35%" r="70%">
+                <stop offset="0" stop-color="#ffe2a3" /><stop offset=".45" stop-color="#eaa94a" /><stop offset="1" stop-color="#a8621c" />
+              </radialGradient>
+              <radialGradient id="halo-g" cx="50%" cy="50%" r="50%">
+                <stop offset="0" stop-color="#4c63ff" stop-opacity=".55" /><stop offset="1" stop-color="#4c63ff" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="cap-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0dd" /><stop offset=".55" stop-color="#f0dcbc" /><stop offset="1" stop-color="#d9b88c" /></linearGradient>
+              <linearGradient id="cap-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e4c6" /><stop offset=".55" stop-color="#e8cba2" /><stop offset="1" stop-color="#cda679" /></linearGradient>
+            </defs>
+            <circle cx="300" cy="300" r="260" fill="url(#halo-g)" />
+            <g class="h-form__rings" fill="none" stroke="rgba(255,255,255,.12)">
+              <circle cx="300" cy="300" r="270" /><circle cx="300" cy="300" r="205" stroke-dasharray="3 9" />
+            </g>
+            <path class="h-form__resin" data-form-resin fill="url(#resin-g)" d="M300 105C362 168 424 248 424 330c0 80-56 142-124 142s-124-62-124-142c0-82 62-162 124-225z" />
+            <g class="h-form__particles" data-form-particles></g>
+            <g transform="rotate(-22 300 300)">
+              <path class="h-form__morph" data-form-morph fill="#e2a245" d="M300 105C362 168 424 248 424 330c0 80-56 142-124 142s-124-62-124-142c0-82 62-162 124-225z" />
+            </g>
+            <g class="h-form__capsule" data-form-capsule>
+              <g transform="rotate(-22 300 300)">
+                <ellipse cx="300" cy="400" rx="170" ry="16" fill="rgba(0,0,0,.25)" />
+                <path d="M195 225h105v150H195a75 75 0 0 1 0-150z" fill="url(#cap-l)" />
+                <path d="M300 225h105a75 75 0 0 1 0 150H300z" fill="url(#cap-r)" />
+                <path d="M300 225v150" stroke="#c49a69" stroke-width="3" opacity=".6" />
+                <path d="M170 262c26-22 90-26 160-22" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".5" fill="none" />
+              </g>
+            </g>
+            <path data-form-capsule-shape d="M195 225H405A75 75 0 0 1 405 375H195A75 75 0 0 1 195 225Z" fill="none" stroke="none" />
+          </svg>
+          <ol class="h-form__labels" role="list">
+            {stages.map((label, i) => (
+              <li class={`h-form__label h-form__label--${i + 1}`} data-form-label={i}><span class="n">{String(i + 1).padStart(2, '0')}</span>{label}</li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <section class="fact" id="formulation" data-note-section="formulation" aria-labelledby="formulation-title">
-        <h2 id="formulation-title">{formulation.heading}</h2>
-        <figure class="capsule-photo">
-          <img src="/img/capsule-in-hand-1000.webp" srcset="/img/capsule-in-hand-640.webp 640w, /img/capsule-in-hand-1000.webp 1000w"
-            sizes="(min-width: 75rem) 640px, 92vw" width="1000" height="1500" alt={formulation.image_alt} loading="lazy" decoding="async" />
-        </figure>
-        <div class="prose" set:html={md(formulation.body)} />
-        <div class="btn-row">{formulation.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
-      </section>
-
-      <section class="fact" id="who" data-note-section="who" aria-labelledby="who-title">
-        <h2 id="who-title">{who.heading}</h2>
-        <ul class="who-cards" role="list">
-          {who.items.map((item: any) => (
-            <li class="who-card">
+  <!-- 4 · Who it was studied in: horizontal track on desktop -->
+  <section class="h-who" id="who" aria-labelledby="who-title" data-who>
+    <div class="h-who__pin" data-who-pin>
+      <div class="wrap h-who__head">
+        <h2 id="who-title" data-split>{who.heading}</h2>
+        <div class="h-who__intro">
+          <p class="lead" set:html={mdInline(who.body)} />
+          <Action action={who.inline_action} locale={locale} variant="link" />
+        </div>
+      </div>
+      <div class="h-who__viewport">
+        <ol class="h-who__track" role="list" data-who-track>
+          {who.items.map((item: any, i: number) => (
+            <li class={`h-who__card h-who__card--${i + 1}`}>
+              <div class="h-who__art" aria-hidden="true">
+                <svg viewBox="0 0 120 112"><path d={blobs[i]} /></svg>
+                <span class="h-who__num">{String(i + 1).padStart(2, '0')}</span>
+              </div>
               <h3>{item.title}</h3>
               <p>{item.body}</p>
             </li>
           ))}
-        </ul>
-        <div class="prose">
-          <p set:html={mdInline(who.body)} />
-        </div>
-        <p><Action action={who.inline_action} locale={locale} variant="link" /></p>
-      </section>
+        </ol>
+      </div>
+    </div>
+  </section>
 
-      <section class="fact fact--evidence" id="evidence" data-note-section="evidence" aria-labelledby="evidence-title">
-        <h2 id="evidence-title">{evidence.heading}</h2>
-        <div class="evidence__statement" set:html={highlight(md(evidenceParas[0]), evidence.highlight)} />
+  <!-- 5 · Evidence: the sentence lights up, the figure stays inside its context -->
+  <section class="h-evidence is-dark aurora" id="evidence" aria-labelledby="evidence-title">
+    <div class="wrap h-evidence__grid">
+      <h2 id="evidence-title" class="h-evidence__title" data-split>{evidence.heading}</h2>
+      <div class="h-evidence__statement" data-highlight set:html={highlight(md(evidenceParas[0]), evidence.highlight)} />
+      <div class="h-evidence__meta" data-reveal>
         <div class="prose" set:html={md(evidenceParas.slice(1).join('\n\n'))} />
         <Sources dois={evidence.sources} locale={locale} />
         <div class="btn-row">
-          {evidence.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'primary' : 'secondary'} />)}
+          {evidence.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
-      <section class="fact" id="directions" data-note-section="directions" aria-labelledby="directions-title">
-        <h2 id="directions-title">{directions.heading}</h2>
-        <svg class="meals" viewBox="0 0 600 170" aria-hidden="true">
-          <defs>
-            <linearGradient id="cap-a" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f6e6cf" /><stop offset="1" stop-color="#e3c6a0" /></linearGradient>
-            <linearGradient id="cap-b" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f1dcc0" /><stop offset="1" stop-color="#d9b88f" /></linearGradient>
-          </defs>
-          {[100, 300, 500].map((x) => (
-            <g transform={`translate(${x} 85)`}>
-              <circle r="72" fill="#fff" stroke="#d8dbe6" stroke-width="2" />
-              <circle r="52" fill="none" stroke="#e7f3f5" stroke-width="10" />
-              <g transform="rotate(-28)">
-                <rect x="-26" y="-11" width="28" height="22" rx="11" fill="url(#cap-a)" stroke="#c9a77c" stroke-width="1.2" />
-                <rect x="-2" y="-11" width="28" height="22" rx="11" fill="url(#cap-b)" stroke="#c9a77c" stroke-width="1.2" />
-              </g>
-            </g>
-          ))}
-        </svg>
+  <!-- 6 · One capsule with each of the three main meals -->
+  <section class="h-dir" id="directions" aria-labelledby="directions-title" data-dir>
+    <div class="wrap h-dir__grid">
+      <div class="h-dir__copy">
+        <h2 id="directions-title" data-split>{directions.heading}</h2>
         <div class="prose" set:html={md(directions.body)} />
         <div class="btn-row">{directions.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
-      </section>
-    </div>
-
-    <aside class="facts__aside" aria-hidden="true">
-      <div class="note-slot note-slot--column" data-note-anchor="column" data-scale="1" data-rot="0">
-        <Note locale={locale} state="complete" />
       </div>
-    </aside>
-  </div>
+      <div class="h-dir__stage" aria-hidden="true" data-dir-stage>
+        {[0, 1, 2].map((i) => (
+          <div class={`h-plate h-plate--${i + 1}`}>
+            <div class="h-plate__dish" data-dir-plate><span></span></div>
+            <div class="h-plate__cap" data-dir-cap><Capsule id={`dir-cap-${i}`} /></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <!-- 7. Professional band (homepage version) -->
-  <aside class="home-pro on-dark" id="professionals" aria-label={pro.lead}>
-    <div class="home-pro__stripes" aria-hidden="true"><Stripes id="home-pro" /></div>
-    <div class="wrap home-pro__grid">
-      <div class="home-pro__copy">
+  <!-- 7 · Professional band (homepage version) -->
+  <aside class="pro-band" id="professionals" aria-label={pro.lead}>
+    <div class="wrap">
+      <div class="pro-band__card on-dark h-pro" data-reveal>
+        <div class="pro-band__stripes" aria-hidden="true"><Stripes id="home-pro" /></div>
         <p><strong>{pro.lead}</strong> {pro.body}</p>
         <div class="btn-row">{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
       </div>
     </div>
   </aside>
 
-  <!-- 8. Where to find it -->
-  <section class="home-where" id="where" aria-labelledby="where-title">
-    <div class="wrap home-where__grid">
-      <div class="home-where__copy">
+  <!-- 8 · Where to find it: bento -->
+  <section class="h-where" id="where" aria-labelledby="where-title">
+    <div class="wrap h-where__grid">
+      <div class="h-where__card" data-reveal>
         <h2 id="where-title">{availability.heading}</h2>
         <div class="prose" set:html={md(availability.body)} />
-        <div class="btn-row">{availability.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
+        <div class="btn-row">{availability.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
       </div>
+      <figure class="h-where__photo" data-reveal>
+        <img src="/img/bottle-in-hand-1000.webp" srcset="/img/bottle-in-hand-640.webp 640w, /img/bottle-in-hand-1000.webp 1000w" sizes="(min-width: 64rem) 34vw, 92vw" width="1000" height="1333" alt="A Memowell bottle held in one hand, showing its size." loading="lazy" />
+      </figure>
     </div>
   </section>
 
-  <!-- 9. Closing: the note arrives -->
-  <section class="closing" id="closing" data-note-section="closing" aria-labelledby="closing-title">
-    <div class="wrap closing__grid">
-      <div class="closing__copy">
-        <h2 id="closing-title">{closing.heading}</h2>
-        <div class="prose lead" set:html={md(closing.body)} />
-        <div class="btn-row">
-          {closing.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'primary' : 'secondary'} />)}
+  <!-- 9 · Closing -->
+  <section class="h-close" id="closing" aria-labelledby="closing-title">
+    <div class="wrap">
+      <div class="h-close__panel is-dark aurora" data-pointer>
+        <div class="h-close__copy">
+          <h2 id="closing-title" data-split>{closing.heading}</h2>
+          <div class="prose lead" set:html={md(closing.body)} />
+          <div class="btn-row">
+            {closing.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
+          </div>
         </div>
-      </div>
-      <div class="closing__note">
-        <div class="note-slot note-slot--final" data-note-anchor="final" data-scale="1" data-rot="0">
-          <Note locale={locale} state="complete" />
+        <div class="h-close__visual" aria-hidden="true">
+          <img class="h-close__bottle" src="/img/bottle-560.webp" width="895" height="1713" alt="" loading="lazy" />
+          <div class="h-close__note" data-reveal><Note locale={locale} state="complete" /></div>
         </div>
       </div>
     </div>
   </section>
-
-  <div class="note-layer" data-note-layer aria-hidden="true" slot="end">
-    <Note locale={locale} state="blank" live />
-  </div>
 </Base>
 
 <script>
-  import '../scripts/note-journey.js';
+  import '../scripts/home-scenes.js';
 </script>
 
 <style>
-  /* ---------- Hero ---------- */
-  .hero { padding-block: clamp(2rem, 1rem + 3vw, 4rem) clamp(3rem, 2rem + 4vw, 6rem); overflow-x: clip; }
-  .hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-  .hero__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
-  .hero__title { font-size: var(--fs-display); line-height: 1.04; letter-spacing: -0.02em; max-width: 12.5ch; font-weight: 600; }
-  .hero__lead { max-width: 34rem; color: var(--ink); }
-  .hero__copy .btn-row { margin-block-start: var(--s-2); }
+  /* ============ Hero ============ */
+  .h-hero { min-height: max(100svh, 46rem); display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 3rem) 5rem; border-radius: 0 0 var(--r-xl) var(--r-xl); }
+  .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .h-hero__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; position: relative; z-index: 2; }
+  .h-hero__title { font-size: var(--fs-display); line-height: 0.95; letter-spacing: -0.045em; max-width: 11.5ch; }
+  .h-hero__title :global(.accent) { color: var(--cyan); padding-inline-end: 0.04em; }
+  .h-hero__lead { max-width: 34rem; font-size: var(--fs-lead); line-height: 1.55; color: var(--on-dark-soft); }
 
-  .hero__stage { grid-column: 8 / span 5; position: relative; aspect-ratio: 0.86; min-height: 30rem; }
-  .hero__blob { position: absolute; inset-inline: -4% 2%; bottom: 4%; width: 100%; height: auto; fill: var(--royal); z-index: 1; }
-  .hero__stripes { position: absolute; width: 62%; aspect-ratio: 4 / 3; inset-inline-end: -10%; top: 8%; z-index: 1; opacity: 0.9; }
-  .hero__marks { position: absolute; inset: 4%; width: 92%; color: var(--stripe); z-index: 1; }
-  .hero__bottle {
-    position: relative; z-index: 3; width: 56%; margin-inline-start: 34%; margin-block-start: 6%;
-    filter: drop-shadow(0 30px 30px rgba(14, 28, 85, 0.28));
+  .h-hero__stage { grid-column: 8 / span 5; position: relative; aspect-ratio: 0.82; display: grid; place-items: center; }
+  .h-orbits { position: absolute; width: 132%; max-width: none; left: 50%; top: 50%; translate: -50% -50%; fill: none; stroke: rgba(255, 255, 255, 0.14); stroke-width: 1; }
+  .h-orbits__dot { fill: var(--cyan); stroke: none; }
+  .h-glow { position: absolute; width: 78%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(76, 99, 255, 0.95) 0%, rgba(43, 63, 217, 0.45) 40%, transparent 70%); filter: blur(30px); }
+  .h-bottle-wrap { position: relative; width: 62%; z-index: 1; }
+  .h-bottle { width: 100%; filter: drop-shadow(0 50px 50px rgba(0, 0, 0, 0.45)); }
+  .h-chip {
+    position: absolute; z-index: 2; padding: 0.6rem 1rem; border-radius: 999px; font: 700 0.9375rem/1.1 var(--font-body); color: #fff; white-space: nowrap;
+    background: rgba(8, 14, 60, 0.62); border: 1px solid rgba(255, 255, 255, 0.22); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 16px 30px -16px rgba(0, 0, 0, 0.5);
   }
-  [dir='rtl'] .hero__bottle { margin-inline-start: 10%; }
+  .h-chip::before { content: ''; display: inline-block; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--cyan); margin-inline-end: 0.5rem; vertical-align: 0.1em; }
+  .h-chip--1 { top: 22%; inset-inline-start: -12%; }
+  .h-chip--2 { top: 52%; inset-inline-end: -12%; }
+  .h-chip--3 { bottom: 10%; inset-inline-start: -4%; }
+  .h-hero__capsule { position: absolute; width: 26%; bottom: 20%; inset-inline-end: 4%; z-index: 3; rotate: -24deg; filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.45)); }
+  .h-cue { position: absolute; bottom: 1.5rem; left: 50%; translate: -50% 0; width: 2px; height: 3.5rem; background: rgba(255, 255, 255, 0.15); border-radius: 2px; overflow: hidden; }
+  .h-cue span { display: block; width: 100%; height: 40%; background: var(--cyan); }
 
-  /* ---------- Note slots ---------- */
-  .note-slot { width: 22rem; max-width: 100%; }
-  .note-slot :global(.note) { transform: rotate(calc(var(--rot, 0) * 1deg)) scale(var(--scale, 1)); }
-  .note-slot--hero { position: absolute; z-index: 2; inset-inline-start: -2%; top: 22%; --scale: 0.74; --rot: -7; }
-  .note-slot--hero :global(.note) { transform-origin: center; }
+  /* ============ Marquee ============ */
+  .h-marquee { overflow: hidden; padding-block: 1.6rem; border-bottom: 1px solid var(--line); }
+  .h-marquee__track { display: flex; width: max-content; gap: 0; will-change: transform; }
+  .h-marquee__item { display: inline-flex; align-items: center; gap: 2rem; padding-inline: 1rem; font: 700 clamp(1.5rem, 1rem + 2vw, 2.75rem)/1 var(--font-display); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+  .h-marquee__item:nth-child(even) { color: transparent; -webkit-text-stroke: 1.2px var(--royal); }
+  .h-marquee__item i { width: 0.7em; height: 0.7em; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, var(--cyan) 45%, var(--royal)); }
 
-  /* ---------- Facts chapter ---------- */
-  .facts { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); }
-  .facts__main { grid-column: 1 / span 7; }
-  .facts__aside { grid-column: 9 / span 4; position: relative; }
-  .note-slot--column { position: sticky; top: calc(var(--header-h) + 2rem); margin-block: var(--section) 0; margin-inline-start: auto; }
+  /* ============ Why ============ */
+  .h-why { padding-block: var(--section); }
+  .h-why__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-5); align-items: start; }
+  .h-why__title { grid-column: 1 / span 7; font-size: clamp(2.25rem, 1.3rem + 3vw, 4.25rem); line-height: 1.03; letter-spacing: -0.04em; position: sticky; top: calc(var(--header-h) + 2rem); }
+  .h-why__body { grid-column: 8 / span 5; display: grid; gap: var(--s-3); justify-items: start; padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); background: #fff; border-radius: var(--r-xl); border: 1px solid var(--line); box-shadow: var(--shadow-soft); }
+  .h-why__body :global(.prose) { font-size: var(--fs-lead); line-height: 1.55; }
 
-  .fact { padding-block: var(--section); border-top: 1px solid var(--line); display: grid; gap: var(--s-3); justify-items: start; }
-  .fact:first-child { border-top: 0; }
-  .fact h2 { max-width: 20ch; margin-block-end: var(--s-1); }
-  .fact .prose { max-width: var(--measure); }
-
-  .capsule-photo { width: 100%; max-width: 40rem; aspect-ratio: 16 / 10; border-radius: var(--radius-l); overflow: hidden; background: #fff; border: 1px solid var(--line); }
-  .capsule-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 58% 54%; transform: scale(1.35); transform-origin: 46% 52%; }
-
-  .who-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); width: 100%; }
-  .who-card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m);
-    padding: var(--s-3); display: grid; gap: var(--s-1); align-content: start; position: relative; overflow: hidden;
+  /* ============ Formulation scene ============ */
+  .h-form { border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); }
+  .h-form__pin { min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--header-h) + 2rem) 3rem; }
+  .h-form__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .h-form__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-3); justify-items: start; position: relative; z-index: 2; }
+  .h-form__copy h2 { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.5rem); }
+  .h-form__stage { grid-column: 6 / span 7; position: relative; }
+  .h-form__svg { width: 100%; max-width: 40rem; margin-inline: auto; overflow: visible; }
+  .h-form__resin, .h-form__morph { opacity: 0; }
+  .h-form__labels { position: absolute; inset: 0; list-style: none; margin: 0; padding: 0; pointer-events: none; }
+  .h-form__label {
+    position: absolute; display: inline-flex; align-items: center; gap: 0.6rem; max-width: 17rem; padding: 0.55rem 0.95rem 0.55rem 0.55rem;
+    border-radius: 999px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.22); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    font: 700 1rem/1.25 var(--font-body); color: #fff;
   }
-  .who-card::before { content: ''; position: absolute; inset-block-start: 0; inset-inline: 0; height: 4px; background: var(--cyan); }
-  .who-card h3 { font-size: 1.3125rem; }
-  .who-card p { color: var(--ink-soft); }
+  .h-form__label .n { flex: none; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--cyan); color: var(--midnight); font-size: 0.8125rem; }
+  .h-form__label--1 { top: 4%; inset-inline-start: 2%; }
+  .h-form__label--2 { top: 18%; inset-inline-end: 0; }
+  .h-form__label--3 { top: 46%; inset-inline-end: -2%; }
+  .h-form__label--4 { bottom: 14%; inset-inline-start: 0; }
+  .h-form__label--5 { bottom: 0; inset-inline-end: 6%; }
 
-  .evidence__statement { max-width: 38rem; }
-  .evidence__statement :global(p) { font-family: var(--font-display); font-size: clamp(1.4375rem, 1.25rem + 0.8vw, 1.875rem); line-height: 1.42; font-weight: 450; }
-  .evidence__statement :global(em) { font-style: italic; }
-  .evidence__statement :global(mark.figure) {
-    background: linear-gradient(transparent 58%, var(--cream) 58%); color: var(--royal);
-    font-weight: 700; padding-inline: 0.08em; box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  /* ============ Who: track ============ */
+  .h-who { padding-block: var(--section); overflow: clip; }
+  .h-who__head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-3); align-items: end; margin-block-end: var(--s-5); }
+  .h-who__head h2 { grid-column: 1 / span 6; }
+  .h-who__intro { grid-column: 8 / span 5; display: grid; gap: var(--s-2); justify-items: start; }
+  .h-who__viewport { width: 100%; max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
+  .h-who__track { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
+  .h-who__card {
+    position: relative; display: grid; gap: var(--s-2); align-content: start; min-height: 22rem; padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem);
+    border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); overflow: hidden; isolation: isolate;
   }
+  .h-who__card h3 { font-size: clamp(1.5rem, 1.25rem + 0.9vw, 2.125rem); line-height: 1.12; letter-spacing: -0.025em; max-width: 16ch; }
+  .h-who__card p { color: var(--ink-soft); font-size: var(--fs-body); max-width: 30rem; }
+  .h-who__art { position: relative; width: 6.5rem; height: 6rem; margin-block-end: var(--s-3); }
+  .h-who__art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .h-who__num { position: absolute; inset: 0; display: grid; place-items: center; font: 800 2rem/1 var(--font-display); color: #fff; letter-spacing: -0.03em; }
+  .h-who__card--1 .h-who__art path { fill: var(--royal); }
+  .h-who__card--2 .h-who__art path { fill: var(--midnight); }
+  .h-who__card--3 .h-who__art path { fill: #13a8b6; }
+  .h-who__card--4 .h-who__art path { fill: var(--electric); }
+  .h-who__card::after { content: ''; position: absolute; z-index: -1; width: 18rem; height: 18rem; inset-inline-end: -6rem; inset-block-end: -8rem; border-radius: 50%; background: radial-gradient(circle, rgba(76, 99, 255, 0.16), transparent 70%); }
+  :global(.h-who.is-horizontal) .h-who__pin { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 1rem) 2rem; }
+  :global(.h-who.is-horizontal) { padding-block: 0; }
+  :global(.h-who.is-horizontal) .h-who__viewport { max-width: none; padding-inline: 0; }
+  :global(.h-who.is-horizontal) .h-who__track { display: flex; width: max-content; gap: var(--s-3); padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2)); }
+  :global(.h-who.is-horizontal) .h-who__card { width: clamp(26rem, 38vw, 36rem); min-height: 28rem; }
 
-  .meals { width: 100%; max-width: 32rem; }
+  /* ============ Evidence ============ */
+  .h-evidence { padding-block: var(--section); border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); }
+  .h-evidence__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-5); }
+  .h-evidence__title { grid-column: 1 / -1; }
+  .h-evidence__statement { grid-column: 1 / span 11; }
+  .h-evidence__statement :global(p) { font: 600 clamp(1.75rem, 1.15rem + 2.3vw, 3.4rem)/1.18 var(--font-display); letter-spacing: -0.025em; color: #fff; }
+  .h-evidence__statement :global(em) { font-family: var(--font-accent); font-weight: 400; font-style: italic; letter-spacing: 0; }
+  .h-evidence__statement :global(mark.figure) { background: none; color: var(--cyan); }
+  .h-evidence__meta { grid-column: 6 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
 
-  /* ---------- Professional band (home) ---------- */
-  .home-pro { position: relative; overflow: hidden; background: var(--night); color: var(--on-dark-soft); }
-  .home-pro__stripes { position: absolute; inset-block: -10% -10%; inset-inline-end: -6%; width: min(46%, 34rem); opacity: 0.18; }
-  .home-pro__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); padding-block: clamp(3rem, 2rem + 3vw, 5.5rem); position: relative; }
-  .home-pro__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; }
-  .home-pro__copy p { font-size: var(--fs-lead); line-height: 1.55; }
-  .home-pro__copy strong { display: block; color: #fff; font-family: var(--font-display); font-size: var(--fs-h2); line-height: 1.15; font-weight: 600; margin-block-end: var(--s-2); }
+  /* ============ Directions ============ */
+  .h-dir { padding-block: var(--section); }
+  .h-dir__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-5); align-items: center; }
+  .h-dir__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-3); justify-items: start; }
+  .h-dir__stage { grid-column: 7 / span 6; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); align-items: end; padding-top: 6rem; }
+  .h-plate { position: relative; display: grid; place-items: center; }
+  .h-plate__dish { width: 100%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #fff 0 52%, #eef1ff 53% 64%, #fff 65%); box-shadow: 0 30px 50px -25px rgba(10, 18, 64, 0.35), inset 0 0 0 1px var(--line); display: grid; place-items: center; }
+  .h-plate__dish span { width: 64%; aspect-ratio: 1; border-radius: 50%; border: 1px dashed var(--line-strong); }
+  .h-plate__cap { position: absolute; width: 46%; top: 50%; left: 50%; translate: -50% -50%; rotate: -18deg; filter: drop-shadow(0 10px 10px rgba(10, 18, 64, 0.25)); }
+  .h-plate--2 { translate: 0 -1.5rem; }
 
-  /* ---------- Where ---------- */
-  .home-where__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); padding-block: var(--section); }
-  .home-where__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
+  /* ============ Where (bento) ============ */
+  .h-where { padding-block: calc(var(--section) * 0.4) var(--section); }
+  .h-where__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-3); }
+  .h-where__card { display: grid; gap: var(--s-3); align-content: center; justify-items: start; padding: clamp(2rem, 1.5rem + 3vw, 4.5rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
+  .h-where__photo { border-radius: var(--r-xl); overflow: hidden; min-height: 24rem; }
+  .h-where__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
 
-  /* ---------- Closing ---------- */
-  .closing { background: var(--mist); position: relative; overflow: clip; }
-  .closing__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; padding-block: var(--section); }
-  .closing__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
-  .closing__copy h2 { max-width: 16ch; }
-  .closing__note { grid-column: 9 / span 4; display: flex; justify-content: flex-end; }
+  /* ============ Closing ============ */
+  .h-close { padding-block: 0 var(--section); }
+  .h-close__panel { border-radius: var(--r-xl); padding: clamp(2.5rem, 2rem + 4vw, 6rem); display: grid; grid-template-columns: 1.15fr 1fr; gap: var(--s-5); align-items: center; }
+  .h-close__panel::before { background: radial-gradient(50% 60% at var(--ax, 75%) var(--ay, 30%), rgba(76, 99, 255, 0.95), transparent 70%), radial-gradient(40% 50% at 20% 100%, rgba(25, 211, 226, 0.45), transparent 70%), linear-gradient(135deg, #1a2aa8, #060c33); }
+  .h-close__copy { display: grid; gap: var(--s-3); justify-items: start; }
+  .h-close__copy h2 { max-width: 14ch; }
+  .h-close__visual { position: relative; display: grid; place-items: center; min-height: 26rem; }
+  .h-close__bottle { position: absolute; width: 38%; inset-inline-start: 0; bottom: 0; filter: drop-shadow(0 40px 40px rgba(0, 0, 0, 0.5)); }
+  .h-close__note { position: relative; margin-inline-start: 22%; rotate: 4deg; }
 
-  /* ---------- Live journey: the overlay replaces the slot notes ---------- */
-  .note-layer { position: fixed; inset: 0; z-index: 2; pointer-events: none; display: none; }
-  .note-layer :global(.note) { position: absolute; top: 0; left: 0; transform-origin: center; will-change: transform; margin: 0; }
-  :global(html.note-live) .note-layer { display: block; }
-  :global(html.note-live) .note-slot :global(.note) { visibility: hidden; }
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 68.74rem) { /* < 1100px: single reading column, no travelling note */
-    .hero__copy { grid-column: 1 / -1; }
-    .hero__stage { grid-column: 1 / -1; width: min(100%, 30rem); justify-self: center; margin-block-start: var(--s-5); min-height: 0; }
-    .facts__main { grid-column: 1 / -1; }
-    .facts__aside { display: none; }
-    .home-pro__copy, .home-where__copy { grid-column: 1 / -1; }
-    .closing__copy { grid-column: 1 / -1; }
-    .closing__note { grid-column: 1 / -1; justify-content: center; margin-block-start: var(--s-5); }
+  /* ============ Responsive ============ */
+  @media (max-width: 63.99rem) {
+    .h-hero__copy, .h-hero__stage { grid-column: 1 / -1; }
+    .h-hero__stage { width: min(100%, 30rem); justify-self: center; margin-block-start: var(--s-5); }
+    .h-why__title, .h-why__body { grid-column: 1 / -1; }
+    .h-form__copy, .h-form__stage { grid-column: 1 / -1; }
+    .h-form__stage { margin-block-start: var(--s-5); }
+    .h-who__head h2, .h-who__intro { grid-column: 1 / -1; }
+    .h-evidence__statement, .h-evidence__meta { grid-column: 1 / -1; }
+    .h-dir__copy, .h-dir__stage { grid-column: 1 / -1; }
+    .h-where__grid, .h-close__panel { grid-template-columns: 1fr; }
+    .h-close__visual { min-height: 22rem; }
   }
   @media (max-width: 40rem) {
-    .who-cards { grid-template-columns: 1fr; }
-    .hero__stage { width: 100%; }
-    .note-slot--hero { width: 18rem; inset-inline-start: -8%; }
-    .hero__title { max-width: 14ch; }
+    .h-who__track { grid-template-columns: 1fr; }
+    .h-chip { font-size: 0.8125rem; padding: 0.45rem 0.75rem; }
+    .h-chip--1 { inset-inline-start: -2%; } .h-chip--2 { inset-inline-end: -2%; }
+    .h-form__labels { position: static; display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--s-2); }
+    .h-form__label { position: static; font-size: 0.9375rem; max-width: none; }
+    .h-form__label .n { width: 1.6rem; height: 1.6rem; }
+    .h-dir__stage { gap: var(--s-2); padding-top: 4rem; }
+    .h-close__note { margin-inline-start: 18%; }
+    .h-close__bottle { width: 34%; }
   }
 </style>

@@ -9,10 +9,10 @@ The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-app
 
 | Part | Choice | Why |
 |---|---|---|
-| Site | Astro 5 (static HTML, no client framework) | Fast, accessible pages that any host can serve. Pages have correct URLs, titles and meta for SEO, which matters because the blog is the main search entry |
-| CMS | Decap CMS 3.16.3 at `/admin` | Git-based, so content lives in this repo. It has the editorial workflow (**Draft → In review → Ready**) and side-by-side EN/FR/AR editing from day one |
-| Type | Source Serif 4, Atkinson Hyperlegible Next, Noto Naskh Arabic | All OFL and self-hosted from npm. Atkinson was designed for low-vision legibility (it draws zero with a slash on purpose) |
-| Motion | Native scroll, ~100 lines of vanilla JS | One element writes the note's position; no smooth-scroll library. Respects `prefers-reduced-motion` |
+| Site | Astro 5 (static HTML, no client framework) | Fast, accessible pages that any host can serve. Correct URLs, titles and meta for SEO, which matters because the blog is the main search entry |
+| CMS | Decap CMS 3.16.3 at `/admin` | Git-based, so content lives in this repo. Editorial workflow (**Draft → In review → Ready**) and side-by-side EN/FR/AR editing from day one |
+| Type (v2) | Bricolage Grotesque (display), Plus Jakarta Sans (body/UI, with no slashed zero), Instrument Serif Italic (single accent words), IBM Plex Sans Arabic | All OFL, self-hosted via npm |
+| Motion (v2) | GSAP 3.15 (ScrollTrigger, SplitText, MorphSVG; standard no-charge licence) + Lenis 1.3.26 smooth scroll | One GSAP-ticker clock. `gsap.matchMedia` handles desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it |
 
 ## Commands
 
@@ -37,20 +37,34 @@ node scripts/build-summary-pdf.mjs                                  # rebuild th
   - The summary and catalogue buttons show "This file will be available soon." until a file is approved.
   - Unpublished pages are never linked.
 
-## The signature scene (homepage)
+## Visual direction (v2): "clinical-cosmic product stage"
 
-**"Facts in hand."** A plain paper note titled *Taking this to your doctor*:
+- Midnight/cobalt aurora stages alternate with bright ice-white reading sections.
+- The official bottle sits on a glow with orbit rings and floating glass fact chips.
+- Oversized Bricolage display type with one italic accent word.
+- Bento cards, 32–44px radii, and a floating glass pill navigation.
 
-- starts tucked behind the official bottle;
-- slides into a column beside the reading text;
-- ticks off *What is in it*, *What the research found* and *How to take it* as each section is read;
-- is carried past the professional band;
-- lands complete beside "Download a one-page summary (PDF)".
+Full record: `docs/design-brief.md` → "Version 2".
 
-It shows information being gathered for a conversation, which is the site's primary action (brief Part 2.1). It never shows a change in a person, a cure or a mechanism (brief Part 5).
+### Homepage signature scenes
 
-- **Below 1100px:** the scene simplifies to a static note in the hero and a closing note whose rows tick into view.
-- **Reduced motion and no JavaScript:** static notes with the same information.
+1. **Resin → K-Vie™ → capsule** (pinned on desktop):
+   - an amber Boswellia resin tear breaks into a particle cloud (*micronized*);
+   - the particles lock into a lattice (*microcrystalline*);
+   - they condense and morph into the cream capsule (*K-Vie™ · standardised to 40% boswellic acids*).
+
+   It shows the "difference from ordinary frankincense" using only the copy's own words. No body, bloodstream or mechanism appears.
+2. **Who it was studied in:** the four groups move as a pinned horizontal card track.
+3. **Evidence:** the approved sentence lights up word by word. "3.11 points higher on MMSE" resolves in cyan inside its full sentence.
+4. **One capsule with each of the three main meals:** a capsule drops in and splits onto three plates.
+5. **Supporting motion:**
+   - hero load choreography (masked line reveal, the bottle rising, chips);
+   - the hero scrolls out with depth;
+   - a scroll-linked fact marquee (moves only with scroll; nothing loops on its own);
+   - an aurora that follows the pointer;
+   - batched reveals on inner pages.
+6. **Below 900px:** no pins; scenes play scrubbed in normal flow, and the card track becomes a stack.
+7. **Reduced motion and no JavaScript:** final composed states, with no Lenis.
 
 ## Domains (configure at the host; the hosting provider is still open)
 
@@ -116,7 +130,11 @@ These are interface or structural words, and none of them is a claim. They are a
 | Where | Text | Note |
 |---|---|---|
 | Header action | "Taking this to your doctor" → `/memowell#summary` | The approved `/memowell` heading reused as the "doctor summary" action; avoids a dead PDF link |
-| Homepage note (decorative, `aria-hidden`) | Title "Taking this to your doctor"; rows "What is in it", "What the research found", "How to take it", "Five questions worth asking" | Fragments of approved headings and the `/memowell` §6 sentence; also used as a heading in the draft PDF |
+| Summary card (decorative, `aria-hidden`) | Title "Taking this to your doctor"; rows "What is in it", "What the research found", "How to take it", "Five questions worth asking" | Fragments of approved headings and the `/memowell` §6 sentence; also a heading in the draft PDF |
+| Hero (v2) | The word "names" is set in the italic accent face | Typography only; no words change |
+| Hero chips and scroll marquee (v2, decorative) | "90 vegetarian capsules", "Gluten-free", "NPN 80107357", "Memory health", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada" | Fragments of approved copy and the bottle label. Editable in CMS → Pages → home → hero |
+| Formulation scene labels (v2, decorative) | "Resin of Boswellia trees — frankincense", "Micronized", "Microcrystalline", "K-Vie™ · standardised to 40% boswellic acids", "Vegetarian and gluten-free" | Fragments of the approved §3 copy. Editable in CMS → Pages → home → formulation → stages. The K-Vie™ row depends on the pending scientific-officer approval |
+| Footer (v2, decorative) | Outline "LIVE WELL, STAY WELL" | The catalogue slogan, unchanged and repeated from the footer line |
 | Homepage §2 and §5 | "Source: DOI …" lines | Same format as the science page; satisfies "every number keeps its source" |
 | Homepage §5 | The phrase "3.11 points higher on MMSE" is typographically highlighted inside its own sentence | No words changed; context (85 people, six months, placebo, source) stays in the same sentence |
 | Pending states | "This form will open soon." (brief example) · "This file will be available soon." · "Coming soon" · "Articles will appear here after scientific review." | Honest states for missing destinations |
@@ -126,37 +144,39 @@ These are interface or structural words, and none of them is a claim. They are a
 
 ### Visual and other decisions to confirm
 
-- **Slashed zero.** Atkinson Hyperlegible draws zero with a slash (0 vs O). It was kept for legibility; confirm the client is comfortable with "40%" and "NPN 80107357" rendering this way.
 - **No charts.** Only between-group differences were supplied; a chart would also need scientific-officer approval (brief Part 4).
 - **No people photography** is used. The concept needs none.
 - **FDA.** No FDA mark or mention exists anywhere; this is enforced by `npm run check:content`.
 
-## Verification done in this build
+## Verification done in this build (v2)
 
 **Copy and links.** `npm run check:content` passes on both builds:
 
-- 232 copy-deck sentences and labels were found verbatim;
+- every copy-deck sentence and label (232) is found verbatim;
 - no banned words or "FDA" appear;
-- the general disclaimer is on every page, the product disclaimer on `/memowell` and `/who-its-for`, and the professional band on every content page;
-- 580 internal links resolve in production and 3,766 in preview.
+- the disclaimers and professional bands are where required;
+- all internal links resolve.
 
 **Accessibility.** The axe-core scan (WCAG 2.0, 2.1 and 2.2 A/AA plus best practice) of 10 production pages at 1440px and 390px found no violations.
 
 **Keyboard.**
 
 - The skip link moves focus to `main`.
-- The Science and About submenus open with Enter and close with Escape, returning focus to the button.
+- The submenus open with Enter and close with Escape, returning focus.
 - The mobile menu is a modal: focus moves to Close and returns to Menu.
 
-**Layout.**
+**Layout.** There is no horizontal scroll at 390px or 320px.
 
-- There is no horizontal scroll at 320px.
-- At 200% text size the header wraps instead of overflowing.
-- Rendering was checked at 1440, 1024, 390 and 320px, with reduced motion, and in the RTL Arabic preview.
-- The note journey was inspected at the hero, column, held and arrival states, both forwards and on mid-page reload.
+**Scenes inspected:**
+
+- before, midpoint and resolved states at 1440×900 for the formulation scene (resin, particles, lattice, capsule), the card track, the evidence highlight and the plates;
+- motion-enabled mobile at 390×844;
+- reduced motion as a full static page;
+- the RTL Arabic preview, with IBM Plex Sans Arabic rendering.
 
 **Not verified.**
 
-- Real-device performance and screen-reader output (VoiceOver or NVDA).
-- Decap login against the production backend; only the local backend was tested.
-- Form submission, because no endpoints exist.
+- Real-device frame rate and touch-scroll feel (Lenis is set with `syncTouch: false`).
+- Screen-reader output.
+- Decap login against the production backend.
+- Form submission (no endpoints exist).

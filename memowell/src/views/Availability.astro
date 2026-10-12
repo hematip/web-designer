@@ -24,7 +24,7 @@ const amazonUrls = settings.amazon_urls ?? [];
     <div class="wrap">
       <ul class="markets" role="list">
         {markets.items.map((m: any) => (
-          <li class="market">
+          <li class="market" data-reveal>
             <h2>{m.title}</h2>
             <p>{m.body}</p>
           </li>
@@ -48,10 +48,15 @@ const amazonUrls = settings.amazon_urls ?? [];
 </Base>
 
 <style>
-  .markets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
-  .market { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m); padding: var(--s-4); display: grid; gap: var(--s-2); align-content: start; border-top: 4px solid var(--royal); }
-  .market h2 { font-size: var(--fs-h3); }
+  .markets-wrap { padding-block: var(--section) 0; }
+  .markets { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--s-3); }
+  .market { position: relative; overflow: hidden; isolation: isolate; background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(2rem, 1.5rem + 2vw, 3.5rem); display: grid; gap: var(--s-2); align-content: end; min-height: 16rem; }
+  .market:first-child { background: var(--midnight); color: #fff; border-color: transparent; }
+  .market:first-child::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 90% at 100% 0%, rgba(76, 99, 255, 0.8), transparent 70%); }
+  .market:first-child p { color: var(--on-dark-soft); }
+  .market h2 { font-size: clamp(2rem, 1.5rem + 2vw, 3.25rem); }
   .markets__action { margin-block: var(--s-4) var(--s-3); }
-  .amazon { display: grid; gap: var(--s-2); padding-block-end: var(--s-5); max-width: calc(var(--measure) + 2 * var(--gutter)); margin-inline: 0; }
+  .amazon { display: grid; gap: var(--s-2); padding-block-end: var(--s-5); }
+  .amazon p { font: 600 clamp(1.25rem, 1.05rem + 0.8vw, 1.75rem)/1.35 var(--font-display); letter-spacing: -0.015em; max-width: 40rem; }
   @media (max-width: 47.99rem) { .markets { grid-template-columns: 1fr; } }
 </style>

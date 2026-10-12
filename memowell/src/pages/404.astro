@@ -1,12 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
 import { getSite, href } from '../lib/content.js';
 const ui = getSite('en').data.ui;
 ---
 <Base locale="en" routePath="/404" title={`${ui.not_found_title} | Memowell`} noindex>
-  <section class="wrap" style="padding-block: var(--section); display:grid; gap: var(--s-3); justify-items:start;">
-    <h1>{ui.not_found_title}</h1>
-    <p class="lead">{ui.not_found_body}</p>
-    <a class="btn" href={href('en', '/')}>{ui.home}</a>
-  </section>
+  <PageHead locale="en" title={ui.not_found_title} body={ui.not_found_body}>
+    <div class="btn-row"><a class="btn btn--light" href={href('en', '/')}>{ui.home}</a></div>
+  </PageHead>
 </Base>

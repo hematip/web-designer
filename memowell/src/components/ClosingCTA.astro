@@ -6,17 +6,18 @@ interface Props { locale: string; heading?: string; body?: string; actions?: any
 const { locale, heading, body, actions = [], id } = Astro.props;
 ---
 <section class="closing-cta" id={id} aria-label={heading ?? undefined}>
-  <div class="wrap closing-cta__inner">
+  <div class="wrap"><div class="closing-cta__inner" data-reveal>
     {heading && <h2>{heading}</h2>}
     {body && <div class="prose lead" set:html={md(body)} />}
     <slot />
     {actions.length > 0 && (
       <div class="btn-row">{actions.map((a, i) => <Action action={a} locale={locale} variant={i === 0 ? 'primary' : 'secondary'} />)}</div>
     )}
-  </div>
+  </div></div>
 </section>
 <style>
-  .closing-cta { background: var(--mist); }
-  .closing-cta__inner { display: grid; gap: var(--s-3); justify-items: start; padding-block: var(--section); }
+  .closing-cta { padding-block: 0 calc(var(--section) * 0.4); }
+  .closing-cta__inner { display: grid; gap: var(--s-3); justify-items: start; padding: clamp(2.5rem, 2rem + 4vw, 5rem); border-radius: var(--r-xl); background: linear-gradient(135deg, #fff 0%, var(--ice-2) 100%); border: 1px solid var(--line); }
   .closing-cta h2 { max-width: 20ch; }
+  .closing-cta :global(.lead) { font: 600 clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem)/1.25 var(--font-display); letter-spacing: -0.02em; color: var(--ink); max-width: 34ch; }
 </style>

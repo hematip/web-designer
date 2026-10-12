@@ -8,6 +8,7 @@ import Pending from '../components/Pending.astro';
 import ProductDisclaimer from '../components/ProductDisclaimer.astro';
 import ProBand from '../components/ProBand.astro';
 import Icon from '../components/Icon.astro';
+import Capsule from '../components/Capsule.astro';
 import { getPage, section, md, mdInline } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
@@ -22,14 +23,14 @@ const intro = s('intro'), composition = s('composition'), directions = s('direct
 
   <section class="section product-composition" id="composition" aria-labelledby="composition-title">
     <div class="wrap split">
-      <div class="split__text">
-        <h2 id="composition-title">{composition.heading}</h2>
+      <div class="split__text" data-reveal>
+        <h2 id="composition-title" data-split>{composition.heading}</h2>
         <div class="prose" set:html={md(composition.body)} />
         {composition.per_capsule_amount
           ? <p class="amount">{composition.per_capsule_amount}</p>
           : <Pending label="amount of active ingredient per capsule" detail="Not supplied by the client (brief Part 9). Shown here once confirmed." />}
       </div>
-      <figure class="split__media capsule-frame">
+      <figure class="split__media capsule-frame" data-reveal>
         <img src="/img/capsule-in-hand-1000.webp" srcset="/img/capsule-in-hand-640.webp 640w, /img/capsule-in-hand-1000.webp 1000w" sizes="(min-width: 64rem) 480px, 92vw" width="1000" height="1500" alt={composition.image_alt} loading="lazy" />
       </figure>
     </div>
@@ -37,11 +38,12 @@ const intro = s('intro'), composition = s('composition'), directions = s('direct
 
   <section class="section directions" id="directions" aria-labelledby="directions-title">
     <div class="wrap">
-      <h2 id="directions-title">{directions.heading}</h2>
+      <h2 id="directions-title" data-split>{directions.heading}</h2>
       <ol class="steps" role="list">
         {directions.items.map((item: any, i: number) => (
-          <li class="step">
-            <span class="step__num" aria-hidden="true">{i + 1}</span>
+          <li class="step" data-reveal>
+            <span class="step__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            {i === 0 && <span class="step__art" aria-hidden="true"><Capsule id="step-cap" /></span>}
             <p><strong>{item.title}</strong> {item.body}</p>
           </li>
         ))}
@@ -52,25 +54,27 @@ const intro = s('intro'), composition = s('composition'), directions = s('direct
 
   <section class="section cautions-wrap" id="cautions" aria-labelledby="cautions-title">
     <div class="wrap split split--top">
-      <div class="cautions">
-        <h2 id="cautions-title">{cautions.heading}</h2>
+      <div class="cautions" data-reveal>
+        <h2 id="cautions-title" data-split>{cautions.heading}</h2>
         <div class="prose" set:html={md(cautions.body)} />
       </div>
-      <div class="storage card" id="storage">
+      <div class="storage" id="storage" data-reveal>
         <h2 class="h3">{storage.heading}</h2>
         <div class="prose" set:html={md(storage.body)} />
       </div>
     </div>
   </section>
 
-  <section class="section summary" id="summary" aria-labelledby="summary-title">
-    <div class="wrap split">
+  <section class="summary" id="summary" aria-labelledby="summary-title">
+    <div class="wrap">
+     <div class="summary__panel is-dark aurora split" data-pointer>
       <div class="split__text">
-        <h2 id="summary-title">{summary.heading}</h2>
+        <h2 id="summary-title" data-split>{summary.heading}</h2>
         <div class="prose lead" set:html={md(summary.body)} />
-        <div class="btn-row">{summary.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
+        <div class="btn-row">{summary.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
       </div>
-      <div class="split__media summary__note"><Note locale={locale} state="complete" /></div>
+      <div class="split__media summary__note" data-reveal><Note locale={locale} state="complete" /></div>
+     </div>
     </div>
   </section>
 
@@ -83,37 +87,42 @@ const intro = s('intro'), composition = s('composition'), directions = s('direct
   .split--top { align-items: start; }
   .split__text { grid-column: 1 / span 6; display: grid; gap: var(--s-3); justify-items: start; }
   .split__media { grid-column: 8 / span 5; }
-  .product-composition { background: var(--surface); border-block: 1px solid var(--line); }
-  .capsule-frame { aspect-ratio: 4 / 5; border-radius: var(--radius-l); overflow: hidden; background: #fff; }
+  .capsule-frame { aspect-ratio: 4 / 5; border-radius: var(--r-xl); overflow: hidden; background: #fff; box-shadow: var(--shadow-soft); }
   .capsule-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 55%; }
   .amount { font-weight: 700; }
 
-  .steps { list-style: none; padding: 0; margin: var(--s-5) 0 var(--s-4); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-3); counter-reset: none; }
-  .step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m); padding: var(--s-4) var(--s-3) var(--s-3); display: grid; gap: var(--s-2); align-content: start; }
-  .step__num {
-    display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%;
-    background: var(--royal); color: #fff; font: 600 1.5rem/1 var(--font-display);
-  }
-  .step strong { display: block; font-family: var(--font-display); font-size: var(--fs-h3); line-height: 1.3; font-weight: 600; margin-block-end: 0.35rem; }
-  .label-note { display: grid; grid-template-columns: auto 1fr; gap: var(--s-2); align-items: start; max-width: 44rem; }
+  .directions { padding-top: 0; }
+  .steps { list-style: none; padding: 0; margin: var(--s-5) 0 var(--s-4); display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: var(--s-3); }
+  .step { position: relative; overflow: hidden; isolation: isolate; background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); display: grid; gap: var(--s-3); align-content: start; min-height: 20rem; }
+  .step:first-child { background: var(--midnight); color: #fff; border-color: transparent; }
+  .step:first-child::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 70% at 90% 0%, rgba(76, 99, 255, 0.8), transparent 70%); }
+  .step:first-child p { color: var(--on-dark-soft); }
+  .step__num { font: 800 clamp(3rem, 2rem + 3vw, 4.75rem)/0.9 var(--font-display); letter-spacing: -0.05em; background: linear-gradient(120deg, var(--royal), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .step:first-child .step__num { background: linear-gradient(120deg, #fff, var(--cyan)); -webkit-background-clip: text; background-clip: text; }
+  .step__art { position: absolute; width: 9rem; inset-inline-end: 1.5rem; top: 1.75rem; rotate: -20deg; filter: drop-shadow(0 14px 14px rgba(0, 0, 0, 0.35)); }
+  .step p { color: var(--ink-soft); }
+  .step strong { display: block; color: inherit; font: 700 var(--fs-h3)/1.2 var(--font-display); letter-spacing: -0.02em; margin-block-end: 0.5rem; }
+  .step:first-child strong { color: #fff; }
+  .label-note { display: grid; grid-template-columns: auto 1fr; gap: var(--s-2); align-items: start; max-width: 46rem; padding: var(--s-3); border-radius: var(--r-l); background: var(--ice-2); }
   .label-note :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--royal); margin-top: 0.2rem; }
 
-  .cautions-wrap { background: var(--paper-2); }
-  .cautions { grid-column: 1 / span 7; display: grid; gap: var(--s-3); }
+  .cautions-wrap { padding-top: 0; }
+  .cautions { grid-column: 1 / span 7; display: grid; gap: var(--s-3); padding: clamp(1.75rem, 1.2rem + 2vw, 3rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
   .cautions :global(p:first-child strong) {
-    display: block; font-family: var(--font-display); font-size: var(--fs-h3); font-weight: 600; line-height: 1.35;
-    padding: var(--s-2) var(--s-3); border-inline-start: 4px solid var(--royal); background: var(--surface); border-radius: 0 var(--radius-s) var(--radius-s) 0;
+    display: block; font: 700 var(--fs-h3)/1.3 var(--font-display); letter-spacing: -0.015em; color: var(--ink);
+    padding: var(--s-2) var(--s-3); border-radius: var(--r-m); background: #fff4e5; border: 1px solid #f0c98d;
   }
-  [dir='rtl'] .cautions :global(p:first-child strong) { border-radius: var(--radius-s) 0 0 var(--radius-s); }
-  .storage { grid-column: 9 / span 4; display: grid; gap: var(--s-2); }
-  .h3 { font-size: var(--fs-h3); line-height: 1.3; }
+  .storage { grid-column: 9 / span 4; display: grid; gap: var(--s-2); padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem); border-radius: var(--r-xl); background: var(--ice-2); }
+  .storage :global(h2) { font-size: var(--fs-h3); }
+  .h3 { font-size: var(--fs-h3); line-height: 1.2; }
 
-  .summary { background: var(--mist); }
-  .summary__note { display: flex; justify-content: center; }
+  .summary { padding-block: 0 calc(var(--section) * 0.4); }
+  .summary__panel { border-radius: var(--r-xl); padding: clamp(2.5rem, 2rem + 4vw, 5rem); }
+  .summary__note { display: flex; justify-content: center; rotate: 3deg; }
 
   @media (max-width: 63.99rem) {
     .split__text, .split__media, .cautions, .storage { grid-column: 1 / -1; }
-    .split__media, .storage { margin-block-start: var(--s-5); }
+    .split__media, .storage { margin-block-start: var(--s-4); }
     .steps { grid-template-columns: 1fr; }
     .capsule-frame { max-width: 30rem; }
   }

@@ -1,0 +1,20 @@
+---
+// Flat illustration of the real Memowell capsule (cream/tan, two halves, seam) — matches the supplied
+// capsule photograph's colour. Horizontal, viewBox 220×90. Decorative.
+interface Props { id: string; class?: string }
+const { id, class: cls = '' } = Astro.props;
+---
+<svg class:list={['capsule', cls]} viewBox="0 0 220 90" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id={`${id}-a`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbf0dd" /><stop offset=".55" stop-color="#f0dcbc" /><stop offset="1" stop-color="#dcbb90" />
+    </linearGradient>
+    <linearGradient id={`${id}-b`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6e4c6" /><stop offset=".55" stop-color="#e8cba2" /><stop offset="1" stop-color="#d0aa7c" />
+    </linearGradient>
+  </defs>
+  <path d="M45 5h62v80H45a40 40 0 0 1 0-80z" fill={`url(#${id}-a)`} />
+  <path d="M107 5h68a40 40 0 0 1 0 80h-68z" fill={`url(#${id}-b)`} />
+  <path d="M107 5v80" stroke="#c9a273" stroke-width="2" opacity=".55" />
+  <path d="M30 22c10-9 40-10 70-9" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".55" fill="none" />
+</svg>
