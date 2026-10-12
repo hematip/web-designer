@@ -1,10 +1,10 @@
 import { defineConfig } from 'astro/config';
 
-const preview = process.env.SITE_MODE === 'preview';
-
 export default defineConfig({
   site: 'https://memowell.kondorpharma.com',
-  outDir: preview ? './dist-preview' : './dist',
+  // Output always goes to dist/ (Vercel's Astro preset). `npm run build:preview` writes to dist-preview/ via --outDir.
+  // SITE_MODE=preview produces the review build (all languages, drafts, pending markers, noindex).
+  outDir: './dist',
   trailingSlash: 'ignore',
   build: { format: 'directory' },
   compressHTML: true,
