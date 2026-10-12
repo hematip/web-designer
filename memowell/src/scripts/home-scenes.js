@@ -39,91 +39,92 @@ mm.add(MQ.motion, () => {
   });
 });
 
-// ---------------------------------------------------------------- Resin → K-Vie™ → capsule
-function buildFormulation({ pinned }) {
-  const section = $('[data-form]');
-  if (!section) return null;
-  const svg = $('[data-form-svg]', section);
-  const resin = $('[data-form-resin]', svg);
-  const morph = $('[data-form-morph]', svg);
-  const capsule = $('[data-form-capsule]', svg);
-  const shape = $('[data-form-capsule-shape]', svg);
-  const labels = $$('[data-form-label]', section);
-  const layer = $('[data-form-particles]', svg);
+// ---------------------------------------------------------------- Resin → K-Vie™ → capsule (3D, v3)
+// The pinned scroll range scrubs one number (formState.p). The lazily loaded WebGL scene and the chapter
+// captions both read it, so reverse scroll, fast skips and anchor entry resolve to the same frame.
+// Without WebGL (or before it loads) the static SVG capsule poster stays in place.
+const form = $('[data-form]');
+const formState = { p: 0 };
+let formMode = null;
+let formScene = null;
+let formLoad = null;
 
-  // Decorative particle cloud (created only while the scene is active).
-  const N = 120;
-  const rnd = gsap.utils.random;
-  const ns = 'http://www.w3.org/2000/svg';
-  const start = [], burst = [], lattice = [], converge = [];
-  const cols = 12, gap = 24, rows = Math.ceil(N / cols);
-  const rot = (x, y, deg) => {
-    const a = (deg * Math.PI) / 180, dx = x - 300, dy = y - 300;
-    return { x: 300 + dx * Math.cos(a) - dy * Math.sin(a), y: 300 + dx * Math.sin(a) + dy * Math.cos(a) };
+function setFormMode(mode) {
+  formMode = mode;
+  formScene?.setMode(mode);
+}
+function loadFormScene() {
+  if (!form || formLoad) return;
+  formLoad = import('./formulation-3d.js')
+    .then(({ createFormulationScene }) => {
+      formScene = createFormulationScene({
+        section: form,
+        canvas: $('[data-form-canvas]', form),
+        frame: $('[data-form-frame]', form),
+        state: formState,
+        mode: formMode ?? 'static',
+        onReady: () => form.classList.add('is-3d'),
+        onFail: () => form.classList.remove('is-3d'),
+      });
+      ScrollTrigger.addEventListener('refresh', () => formScene?.resize());
+    })
+    .catch(() => form.classList.remove('is-3d'));
+}
+if (form) {
+  // Load the renderer shortly before the chapter is reached; the rest of the page never waits for it.
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      io.disconnect();
+      loadFormScene();
+    }
+  }, { rootMargin: '150% 0px' });
+  io.observe(form);
+}
+
+function buildFormulation(mobile) {
+  if (!form) return null;
+  const labels = $$('[data-form-label]', form);
+  const rail = $('[data-form-rail]', form);
+  const bounds = JSON.parse(form.dataset.chapters || '[0]');
+  let active = -1;
+  const sync = () => {
+    const p = formState.p;
+    let i = 0;
+    bounds.forEach((b, k) => { if (p >= b) i = k; });
+    if (i !== active) {
+      labels.forEach((l, k) => l.classList.toggle('is-active', k === i));
+      active = i;
+    }
+    rail?.style.setProperty('--p', p.toFixed(4));
   };
-  const dots = [];
-  for (let i = 0; i < N; i++) {
-    const t = rnd(0, Math.PI * 2), rr = Math.sqrt(Math.random());
-    start.push({ x: 300 + Math.cos(t) * 95 * rr, y: 330 + Math.sin(t) * 115 * rr });
-    const a = rnd(0, Math.PI * 2), d = rnd(140, 280);
-    burst.push({ x: 300 + Math.cos(a) * d, y: 300 + Math.sin(a) * d });
-    lattice.push({ x: 300 + ((i % cols) - (cols - 1) / 2) * gap, y: 300 + (Math.floor(i / cols) - (rows - 1) / 2) * gap });
-    converge.push(rot(rnd(160, 440), rnd(240, 360), -22));
-    const c = document.createElementNS(ns, 'circle');
-    c.setAttribute('r', String(rnd(2.2, 5.2)));
-    c.setAttribute('fill', i % 3 ? '#f3d9a8' : '#ffffff');
-    c.setAttribute('cx', String(start[i].x));
-    c.setAttribute('cy', String(start[i].y));
-    c.setAttribute('opacity', '0');
-    layer.appendChild(c);
-    dots.push(c);
-  }
-
-  gsap.set(resin, { autoAlpha: 1, scale: 0.86, svgOrigin: '300 330' });
-  gsap.set(morph, { autoAlpha: 0, attr: { d: resin.getAttribute('d') }, fill: '#e2a245' });
-  gsap.set(capsule, { autoAlpha: 0, scale: 0.7, transformOrigin: '50% 50%' });
-  gsap.set(labels, { autoAlpha: 0, y: 14 });
-
-  const show = (i) => ({ autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' });
-  const dim = { autoAlpha: 0.55, duration: 0.35 };
-  const tl = gsap.timeline({
-    defaults: { ease: 'power2.inOut' },
-    scrollTrigger: pinned
-      ? { trigger: $('[data-form-pin]', section), start: 'top top', end: '+=260%', pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true }
-      : { trigger: $('.h-form__stage', section), start: 'top 80%', end: 'bottom 30%', scrub: 0.7 },
+  form.classList.add('is-scrubbing');
+  setFormMode(mobile ? 'mobile' : 'desktop');
+  sync();
+  gsap.to(formState, {
+    p: 1,
+    ease: 'none',
+    onUpdate: sync,
+    scrollTrigger: {
+      trigger: mobile ? $('[data-form-stage]', form) : $('[data-form-pin]', form),
+      start: 'top top',
+      end: mobile ? '+=240%' : '+=340%',
+      pin: true,
+      scrub: 0.9,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    },
   });
-
-  tl.to(resin, { scale: 1, duration: 0.8 }, 0)
-    .to(labels[0], show(0), 0.2)
-    .addLabel('micronized', 1)
-    .to(resin, { autoAlpha: 0, scale: 1.18, duration: 0.6 }, 'micronized')
-    .to(dots, { attr: { opacity: 1 }, duration: 0.15 }, 'micronized')
-    .to(dots, { attr: { cx: (i) => burst[i].x, cy: (i) => burst[i].y }, duration: 1.2, ease: 'power3.out', stagger: { amount: 0.25, from: 'center' } }, 'micronized')
-    .to(labels[0], dim, 'micronized+=0.3')
-    .to(labels[1], show(1), 'micronized+=0.35')
-    .addLabel('crystal', 2.6)
-    .to(dots, { attr: { cx: (i) => lattice[i].x, cy: (i) => lattice[i].y, r: 3.2 }, duration: 1.2, stagger: { amount: 0.3, grid: [rows, cols], from: 'edges' } }, 'crystal')
-    .to(labels[1], dim, 'crystal+=0.3')
-    .to(labels[2], show(2), 'crystal+=0.35')
-    .addLabel('kvie', 4.2)
-    .to(dots, { attr: { cx: (i) => converge[i].x, cy: (i) => converge[i].y, r: 1.6 }, duration: 1, ease: 'power3.in', stagger: { amount: 0.25, from: 'random' } }, 'kvie')
-    .to(morph, { autoAlpha: 1, duration: 0.4 }, 'kvie+=0.45')
-    .to(morph, { morphSVG: shape, fill: '#f0dcbc', duration: 0.9 }, 'kvie+=0.5')
-    .to(dots, { attr: { opacity: 0 }, duration: 0.3 }, 'kvie+=1.05')
-    .to(capsule, { autoAlpha: 1, scale: 1, duration: 0.7, ease: 'back.out(1.4)' }, 'kvie+=1.1')
-    .to(morph, { autoAlpha: 0, duration: 0.3 }, 'kvie+=1.5')
-    .to(labels[2], dim, 'kvie+=0.4')
-    .to(labels[3], show(3), 'kvie+=0.6')
-    .to(labels[4], show(4), 'kvie+=1.3')
-    .to(labels, { autoAlpha: 1, duration: 0.4 }, 'kvie+=1.8')
-    .to(capsule, { rotate: 8, duration: 1.2, ease: 'sine.inOut', transformOrigin: '50% 50%' }, 'kvie+=1.6');
-
   return () => {
-    dots.forEach((d) => d.remove());
+    form.classList.remove('is-scrubbing');
+    labels.forEach((l) => l.classList.remove('is-active'));
   };
 }
-mm.add(MQ.desktop, () => buildFormulation({ pinned: true }));
-mm.add(MQ.mobile, () => buildFormulation({ pinned: false }));
+mm.add(MQ.desktop, () => buildFormulation(false));
+mm.add(MQ.mobile, () => buildFormulation(true));
+mm.add('(prefers-reduced-motion: reduce)', () => {
+  formState.p = 1;
+  setFormMode('static');
+});
 
 // ---------------------------------------------------------------- Who: horizontal track (desktop)
 mm.add(MQ.desktop, () => {

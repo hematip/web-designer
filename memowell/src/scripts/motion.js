@@ -1,12 +1,11 @@
-// Motion core (v2): one Lenis instance driven by the GSAP ticker, ScrollTrigger, SplitText, MorphSVG.
+// Motion core: one Lenis instance driven by the GSAP ticker, ScrollTrigger and SplitText.
 // Content is complete in HTML; everything here only animates *from* hidden states while motion is allowed.
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
-import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 import Lenis from 'lenis';
 
-gsap.registerPlugin(ScrollTrigger, SplitText, MorphSVGPlugin);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 let lenis = null;

@@ -160,7 +160,7 @@ This matches the owner's standing preference in the skill's taste profile: cinem
 | Hero | The product sits in an open field on a midnight aurora. A giant headline uses an italic accent on "names". The official bottle has a glow halo and orbit rings, with floating glass fact chips taken from the label |
 | Type | Bricolage Grotesque Variable (display, 700); Plus Jakarta Sans Variable (body/UI, 400–700; unslashed zero); Instrument Serif Italic (accent words only); IBM Plex Sans Arabic (AR). All OFL |
 | Colour | midnight #060C33 / #0C1650; royal #2B3FD9; electric #4C63FF; cyan #19D3E2 (accents on dark only); ice #F4F6FF; cream capsule #F2DFC2. Text contrast stays ≥ 4.5:1, mostly ≥ 7:1 |
-| Motion engine | GSAP 3.15 (ScrollTrigger, SplitText, MorphSVG) + Lenis 1.3.26, on one GSAP ticker clock. `gsap.matchMedia` for desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it |
+| Motion engine | GSAP 3.15 (ScrollTrigger, SplitText) + Lenis 1.3.26, on one GSAP ticker clock. `gsap.matchMedia` for desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it. Three.js r186 renders the formulation scene (v3) from the same ticker |
 
 ### Signature scenes
 
@@ -168,11 +168,19 @@ This matches the owner's standing preference in the skill's taste profile: cinem
 
 This answers the client's own question: how does Memowell differ from ordinary frankincense?
 
-- An amber Boswellia resin tear glows.
-- It breaks into a fine particle cloud (*micronized*).
-- The particles lock into a crystal lattice (*microcrystalline*).
-- They condense and morph (MorphSVG) into the cream capsule.
-- Label chips use exact copy fragments.
+Version 3 (client feedback: the 2D version felt "basic, like PowerPoint") renders it in real-time 3D:
+
+| Beat | Before → transformation → resolved |
+|---|---|
+| 01 Resin | A lumpy amber resin tear, lit like a product shot (warm key, brand-blue rim, studio reflections); the camera dollies in |
+| 02 Micronized | The tear disintegrates from the base up with glowing edges. Each grain is born exactly where the surface opens, then the dust spins into a flat vortex seen from above |
+| 03 Microcrystalline | The dust snaps into a 3D lattice with faceted crystals and faint unit-cell lines; the camera orbits to show depth |
+| 04 K-Vie™ | The lattice condenses into a capsule-shaped cloud; the cream body and cap slide in from depth and close around it, with a rim-light pulse |
+| 05 Vegetarian, gluten-free | The closed capsule (colour and 2.9:1 proportion taken from the official capsule photo) turns under a sweeping light |
+
+- One scroll value drives everything, so reverse scroll, fast skips and anchor entry land on the same frame.
+- Labels use exact copy fragments, shown one at a time as film-style captions with a progress rail.
+- Particles fade behind the reading column (canvas mask), so the copy stays clean.
 - No body, no bloodstream and no mechanism is shown beyond the copy's own words.
 
 **2. One capsule with each of the three main meals** (home §6)
@@ -206,9 +214,10 @@ This answers the client's own question: how does Memowell differ from ordinary f
 
 ### Responsive and accessibility
 
-- **Below 900px:** no pins; the scenes play as scrubbed sequences inside normal flow; the horizontal track becomes a vertical stack.
+- **Below 900px:** no pins, except the formulation stage, which pins full-screen after its copy so the 3D sequence has room; other scenes play as scrubbed sequences inside normal flow; the horizontal track becomes a vertical stack. Fewer particles on phones.
+- **Formulation fallbacks:** reduced motion renders one still 3D frame of the closed capsule and lists all five labels; without WebGL (or on context loss) the SVG capsule poster stays.
 - **Reduced motion and no JS:** final composed states only, with no Lenis.
-- **Auto-moving content:** none runs beyond the load entrance (WCAG 2.2.2).
+- **Auto-moving content:** none runs beyond the load entrance (WCAG 2.2.2). The 3D scene's ambient motion advances only while the visitor scrolls and settles within about 1.5 s.
 
 ### Also replaced
 

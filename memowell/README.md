@@ -12,7 +12,8 @@ The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-app
 | Site | Astro 5 (static HTML, no client framework) | Fast, accessible pages that any host can serve. Correct URLs, titles and meta for SEO, which matters because the blog is the main search entry |
 | CMS | Decap CMS 3.16.3 at `/admin` | Git-based, so content lives in this repo. Editorial workflow (**Draft → In review → Ready**) and side-by-side EN/FR/AR editing from day one |
 | Type (v2) | Bricolage Grotesque (display), Plus Jakarta Sans (body/UI, with no slashed zero), Instrument Serif Italic (single accent words), IBM Plex Sans Arabic | All OFL, self-hosted via npm |
-| Motion (v2) | GSAP 3.15 (ScrollTrigger, SplitText, MorphSVG; standard no-charge licence) + Lenis 1.3.26 smooth scroll | One GSAP-ticker clock. `gsap.matchMedia` handles desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it |
+| Motion (v2) | GSAP 3.15 (ScrollTrigger, SplitText; standard no-charge licence) + Lenis 1.3.26 smooth scroll | One GSAP-ticker clock. `gsap.matchMedia` handles desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it |
+| 3D (v3) | Three.js r186 (WebGL), only in the home formulation scene (`src/scripts/formulation-3d.js`) | Loaded lazily as the visitor approaches the section, so the rest of the page never waits for it. All geometry is procedural (no external models or textures). Without WebGL the static SVG capsule poster stays |
 
 ## Commands
 
@@ -50,10 +51,13 @@ Full record: `docs/design-brief.md` → "Version 2".
 
 ### Homepage signature scenes
 
-1. **Resin → K-Vie™ → capsule** (pinned on desktop):
-   - an amber Boswellia resin tear breaks into a particle cloud (*micronized*);
-   - the particles lock into a lattice (*microcrystalline*);
-   - they condense and morph into the cream capsule (*K-Vie™ · standardised to 40% boswellic acids*).
+1. **Resin → K-Vie™ → capsule** (v3, real-time 3D; pinned on desktop, the stage pins on phones):
+   - a lit amber Boswellia resin tear disintegrates from the base up, each grain leaving where the surface opens, and the dust spins into a slow vortex (*micronized*);
+   - the dust snaps into a rotating 3D crystal lattice with faceted crystals and unit-cell lines (*microcrystalline*);
+   - the lattice condenses into a capsule-shaped cloud, and the two cream capsule halves slide shut around it (*K-Vie™ · standardised to 40% boswellic acids*);
+   - the closed capsule turns under a sweeping light (*vegetarian and gluten-free*).
+
+   The camera follows one continuous path, with depth-of-field on the particles. The five labels appear one at a time as film-style captions with a progress rail. Ambient motion only advances while the visitor scrolls. Reduced motion shows one still frame of the closed capsule and lists all five labels.
 
    It shows the "difference from ordinary frankincense" using only the copy's own words. No body, bloodstream or mechanism appears.
 2. **Who it was studied in:** the four groups move as a pinned horizontal card track.

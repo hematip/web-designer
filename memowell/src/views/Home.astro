@@ -22,6 +22,9 @@ const highlight = (html: string, phrase?: string) =>
 const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
 const marquee = hero.marquee ?? [];
 const stages: string[] = formulation.stages ?? [];
+// Where each caption takes over in the scrubbed formulation scene (fraction of the pinned range).
+const chapterStarts = [0, 0.18, 0.4, 0.64, 0.86].slice(0, stages.length);
+const chapterEnds = [...chapterStarts.slice(1), 1];
 const blobs = [
   'M60 8c28 0 52 18 52 46s-22 50-52 50S6 86 6 56 32 8 60 8z',
   'M66 6c26 4 46 26 42 54s-30 46-58 42S6 74 10 46 40 2 66 6z',
@@ -79,8 +82,8 @@ const blobs = [
     </div>
   </section>
 
-  <!-- 3 · Signature: resin → micronized → microcrystalline → K-Vie™ capsule -->
-  <section class="h-form is-dark aurora" id="formulation" aria-labelledby="formulation-title" data-form>
+  <!-- 3 · Signature (v3, real-time 3D): resin → micronized → microcrystalline → K-Vie™ capsule -->
+  <section class="h-form is-dark aurora" id="formulation" aria-labelledby="formulation-title" data-form data-chapters={JSON.stringify(chapterStarts)}>
     <div class="h-form__pin" data-form-pin>
       <div class="wrap h-form__grid">
         <div class="h-form__copy">
@@ -89,43 +92,40 @@ const blobs = [
           <div class="btn-row">{formulation.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
         </div>
 
-        <div class="h-form__stage" aria-hidden="true">
-          <svg class="h-form__svg" viewBox="0 0 600 600" data-form-svg>
-            <defs>
-              <radialGradient id="resin-g" cx="40%" cy="35%" r="70%">
-                <stop offset="0" stop-color="#ffe2a3" /><stop offset=".45" stop-color="#eaa94a" /><stop offset="1" stop-color="#a8621c" />
-              </radialGradient>
-              <radialGradient id="halo-g" cx="50%" cy="50%" r="50%">
-                <stop offset="0" stop-color="#4c63ff" stop-opacity=".55" /><stop offset="1" stop-color="#4c63ff" stop-opacity="0" />
-              </radialGradient>
-              <linearGradient id="cap-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0dd" /><stop offset=".55" stop-color="#f0dcbc" /><stop offset="1" stop-color="#d9b88c" /></linearGradient>
-              <linearGradient id="cap-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e4c6" /><stop offset=".55" stop-color="#e8cba2" /><stop offset="1" stop-color="#cda679" /></linearGradient>
-            </defs>
-            <circle cx="300" cy="300" r="260" fill="url(#halo-g)" />
-            <g class="h-form__rings" fill="none" stroke="rgba(255,255,255,.12)">
-              <circle cx="300" cy="300" r="270" /><circle cx="300" cy="300" r="205" stroke-dasharray="3 9" />
-            </g>
-            <path class="h-form__resin" data-form-resin fill="url(#resin-g)" d="M300 105C362 168 424 248 424 330c0 80-56 142-124 142s-124-62-124-142c0-82 62-162 124-225z" />
-            <g class="h-form__particles" data-form-particles></g>
-            <g transform="rotate(-22 300 300)">
-              <path class="h-form__morph" data-form-morph fill="#e2a245" d="M300 105C362 168 424 248 424 330c0 80-56 142-124 142s-124-62-124-142c0-82 62-162 124-225z" />
-            </g>
-            <g class="h-form__capsule" data-form-capsule>
+        <div class="h-form__stage" data-form-stage aria-hidden="true">
+          <canvas class="h-form__canvas" data-form-canvas></canvas>
+          <div class="h-form__frame" data-form-frame>
+            <!-- Poster / fallback: the resolved frame of the scene (closed capsule), shown until WebGL is ready. -->
+            <svg class="h-form__poster" viewBox="0 0 600 600">
+              <defs>
+                <radialGradient id="halo-g" cx="50%" cy="50%" r="50%">
+                  <stop offset="0" stop-color="#ffe2bd" stop-opacity=".35" /><stop offset="1" stop-color="#4c63ff" stop-opacity="0" />
+                </radialGradient>
+                <linearGradient id="cap-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0dd" /><stop offset=".55" stop-color="#f0dcbc" /><stop offset="1" stop-color="#d9b88c" /></linearGradient>
+                <linearGradient id="cap-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e4c6" /><stop offset=".55" stop-color="#e8cba2" /><stop offset="1" stop-color="#cda679" /></linearGradient>
+              </defs>
+              <circle cx="300" cy="300" r="260" fill="url(#halo-g)" />
               <g transform="rotate(-22 300 300)">
-                <ellipse cx="300" cy="400" rx="170" ry="16" fill="rgba(0,0,0,.25)" />
                 <path d="M195 225h105v150H195a75 75 0 0 1 0-150z" fill="url(#cap-l)" />
                 <path d="M300 225h105a75 75 0 0 1 0 150H300z" fill="url(#cap-r)" />
                 <path d="M300 225v150" stroke="#c49a69" stroke-width="3" opacity=".6" />
                 <path d="M170 262c26-22 90-26 160-22" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".5" fill="none" />
               </g>
-            </g>
-            <path data-form-capsule-shape d="M195 225H405A75 75 0 0 1 405 375H195A75 75 0 0 1 195 225Z" fill="none" stroke="none" />
-          </svg>
-          <ol class="h-form__labels" role="list">
-            {stages.map((label, i) => (
-              <li class={`h-form__label h-form__label--${i + 1}`} data-form-label={i}><span class="n">{String(i + 1).padStart(2, '0')}</span>{label}</li>
-            ))}
-          </ol>
+            </svg>
+            <div class="h-form__chapters">
+              <ol class="h-form__labels" role="list">
+                {stages.map((label, i) => (
+                  <li class="h-form__label" data-form-label={i}>
+                    <span class="n">{String(i + 1).padStart(2, '0')}<span class="of"> / {String(stages.length).padStart(2, '0')}</span></span>
+                    <span class="t">{label}</span>
+                  </li>
+                ))}
+              </ol>
+              <div class="h-form__rail" data-form-rail>
+                {chapterStarts.map((a, i) => <span style={`--a:${a};--b:${chapterEnds[i]}`} />)}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -283,27 +283,63 @@ const blobs = [
   .h-why__body { grid-column: 8 / span 5; display: grid; gap: var(--s-3); justify-items: start; padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); background: #fff; border-radius: var(--r-xl); border: 1px solid var(--line); box-shadow: var(--shadow-soft); }
   .h-why__body :global(.prose) { font-size: var(--fs-lead); line-height: 1.55; }
 
-  /* ============ Formulation scene ============ */
+  /* ============ Formulation scene (v3, 3D) ============ */
   .h-form { border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); }
-  .h-form__pin { min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--header-h) + 2rem) 3rem; }
+  .h-form__pin { position: relative; min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--header-h) + 2rem) 3rem; }
   .h-form__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
   .h-form__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-3); justify-items: start; position: relative; z-index: 2; }
   .h-form__copy h2 { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.5rem); }
-  .h-form__stage { grid-column: 6 / span 7; position: relative; }
-  .h-form__svg { width: 100%; max-width: 40rem; margin-inline: auto; overflow: visible; }
-  .h-form__resin, .h-form__morph { opacity: 0; }
-  .h-form__labels { position: absolute; inset: 0; list-style: none; margin: 0; padding: 0; pointer-events: none; }
-  .h-form__label {
-    position: absolute; display: inline-flex; align-items: center; gap: 0.6rem; max-width: 17rem; padding: 0.55rem 0.95rem 0.55rem 0.55rem;
-    border-radius: 999px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.22); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    font: 700 1rem/1.25 var(--font-body); color: #fff;
+  /* Desktop: the stage is a composition box in the grid; the canvas paints the whole pinned panel behind it. */
+  .h-form__stage { grid-column: 6 / span 7; }
+  .h-form__canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none;
+    border-radius: var(--r-xl); opacity: 0; transition: opacity 0.9s ease;
   }
-  .h-form__label .n { flex: none; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--cyan); color: var(--midnight); font-size: 0.8125rem; }
-  .h-form__label--1 { top: 4%; inset-inline-start: 2%; }
-  .h-form__label--2 { top: 18%; inset-inline-end: 0; }
-  .h-form__label--3 { top: 46%; inset-inline-end: -2%; }
-  .h-form__label--4 { bottom: 14%; inset-inline-start: 0; }
-  .h-form__label--5 { bottom: 0; inset-inline-end: 6%; }
+  .h-form.is-3d .h-form__canvas { opacity: 1; }
+  /* Keep the reading column calm: the scene fades out behind the copy. */
+  @media (min-width: 56.25rem) {
+    .h-form__canvas {
+      -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.12) 33%, #000 50%);
+      mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.12) 33%, #000 50%);
+    }
+    :global([dir='rtl']) .h-form__canvas {
+      -webkit-mask-image: linear-gradient(270deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.12) 33%, #000 50%);
+      mask-image: linear-gradient(270deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.12) 33%, #000 50%);
+    }
+  }
+  .h-form__frame { position: relative; height: min(76svh, 46rem); }
+  .h-form__poster { position: absolute; inset: 0; margin: auto; width: min(100%, 34rem); height: auto; max-height: 80%; transition: opacity 0.6s ease; }
+  .h-form.is-3d .h-form__poster { opacity: 0; }
+  .h-form__chapters { position: absolute; inset-inline: 0; bottom: 0; display: grid; gap: 1rem; pointer-events: none; }
+  .h-form__labels { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .h-form__label {
+    display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.45rem 0.85rem 0.45rem 0.45rem; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    font: 700 0.9375rem/1.25 var(--font-body); color: #fff;
+  }
+  .h-form__label .n { flex: none; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--cyan); color: var(--midnight); font-size: 0.75rem; }
+  .h-form__label .of, .h-form__rail { display: none; }
+  /* Scrubbed: one chapter title at a time, set like a film title card, with a five-part progress rail. */
+  .is-scrubbing .h-form__labels { display: grid; }
+  .is-scrubbing .h-form__label {
+    grid-area: 1 / 1; display: grid; gap: 0.45rem; justify-items: start; padding: 0; border: 0; border-radius: 0; background: none;
+    backdrop-filter: none; -webkit-backdrop-filter: none; opacity: 0; translate: 0 0.9rem; filter: blur(8px);
+    transition: opacity 0.55s ease, translate 0.7s cubic-bezier(0.2, 0.75, 0.2, 1), filter 0.55s ease;
+  }
+  .is-scrubbing .h-form__label.is-active { opacity: 1; translate: 0 0; filter: none; }
+  .is-scrubbing .h-form__label .n { display: block; width: auto; height: auto; border-radius: 0; background: none; color: var(--cyan); font: 700 0.8125rem/1 var(--font-body); letter-spacing: 0.16em; }
+  .is-scrubbing .h-form__label .of { display: inline; color: rgba(255, 255, 255, 0.5); }
+  .is-scrubbing .h-form__label .t {
+    font: 650 clamp(1.5rem, 1rem + 1.5vw, 2.375rem)/1.08 var(--font-display); letter-spacing: -0.025em; max-width: 20ch; text-wrap: balance;
+    text-shadow: 0 2px 24px rgba(6, 12, 51, 0.65);
+  }
+  .is-scrubbing .h-form__rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; width: min(100%, 22rem); }
+  .h-form__rail span { position: relative; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, 0.18); overflow: hidden; }
+  .h-form__rail span::after {
+    content: ''; position: absolute; inset: 0; background: var(--cyan); transform-origin: 0 50%;
+    transform: scaleX(clamp(0, calc((var(--p, 0) - var(--a)) / (var(--b) - var(--a))), 1));
+  }
+  :global([dir='rtl']) .h-form__rail span::after { transform-origin: 100% 50%; }
 
   /* ============ Who: track ============ */
   .h-who { padding-block: var(--section); overflow: clip; }
@@ -375,21 +411,25 @@ const blobs = [
     .h-hero__copy, .h-hero__stage { grid-column: 1 / -1; }
     .h-hero__stage { width: min(100%, 30rem); justify-self: center; margin-block-start: var(--s-5); }
     .h-why__title, .h-why__body { grid-column: 1 / -1; }
-    .h-form__copy, .h-form__stage { grid-column: 1 / -1; }
-    .h-form__stage { margin-block-start: var(--s-5); }
     .h-who__head h2, .h-who__intro { grid-column: 1 / -1; }
     .h-evidence__statement, .h-evidence__meta { grid-column: 1 / -1; }
     .h-dir__copy, .h-dir__stage { grid-column: 1 / -1; }
     .h-where__grid, .h-close__panel { grid-template-columns: 1fr; }
     .h-close__visual { min-height: 22rem; }
   }
+  /* Formulation stacks at the same width where its motion switches to the phone version. */
+  @media (max-width: 56.24rem) {
+    .h-form__pin { display: block; min-height: 0; padding-block: var(--section) 0; }
+    .h-form__copy, .h-form__stage { grid-column: 1 / -1; }
+    .h-form__stage { position: relative; height: min(100svh, 135vw); margin-block-start: var(--s-5); margin-inline: calc(-1 * var(--gutter)); }
+    .is-scrubbing .h-form__stage { height: 100svh; }
+    .h-form__frame { position: absolute; inset: 0; height: auto; margin: calc(var(--header-h) + 0.5rem) var(--gutter) 1.75rem; }
+    .h-form__poster { width: min(100%, 26rem); }
+  }
   @media (max-width: 40rem) {
     .h-who__track { grid-template-columns: 1fr; }
     .h-chip { font-size: 0.8125rem; padding: 0.45rem 0.75rem; }
     .h-chip--1 { inset-inline-start: -2%; } .h-chip--2 { inset-inline-end: -2%; }
-    .h-form__labels { position: static; display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--s-2); }
-    .h-form__label { position: static; font-size: 0.9375rem; max-width: none; }
-    .h-form__label .n { width: 1.6rem; height: 1.6rem; }
     .h-dir__stage { gap: var(--s-2); padding-top: 4rem; }
     .h-close__note { margin-inline-start: 18%; }
     .h-close__bottle { width: 34%; }
