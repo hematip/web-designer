@@ -99,6 +99,20 @@ collections:
           - { label: "Inline link", name: inline_action, widget: object, required: false, i18n: true, fields: *action }
           - { label: "Sources (DOIs, without https://doi.org/)", name: sources, widget: list, required: false, i18n: true, field: { label: DOI, name: doi, widget: string } }
           - { label: "Image description (alt text)", name: image_alt, widget: string, required: false, i18n: true }
+          - label: "Photo (illustrative)"
+            name: photo
+            widget: object
+            required: false
+            i18n: true
+            hint: "Generated illustrative photography. Files live in /public/img/photos as <name>-640.webp, -1024.webp, -1600.webp (and -2400.webp for wide photos)."
+            fields:
+              - { label: "File base (e.g. /img/photos/hcp-evidence)", name: src, widget: string, i18n: duplicate }
+              - { label: "Width of the largest file (px)", name: width, widget: number, i18n: duplicate }
+              - { label: "Height of the largest file (px)", name: height, widget: number, i18n: duplicate }
+              - { label: "Available widths", name: widths, widget: list, required: false, i18n: duplicate, field: { label: Width, name: w, widget: number } }
+              - { label: "Focus point (CSS object-position, e.g. 70% 40%)", name: focus, widget: string, required: false, i18n: duplicate }
+              - { label: "Image description (alt text; leave empty if decorative)", name: alt, widget: string, required: false, i18n: true }
+              - { label: "Visible note on the image", name: note, widget: string, required: false, i18n: true }
           - { label: "Active ingredient per capsule", name: per_capsule_amount, widget: string, required: false, i18n: true, hint: "Leave empty until the client confirms (open gap)." }
           - { label: "Form", name: form, widget: select, required: false, i18n: duplicate, options: [general, scientific, feedback, partnership] }
           - { label: "Text beside the submit button", name: beside_submit, widget: text, required: false, i18n: true }

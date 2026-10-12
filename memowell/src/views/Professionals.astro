@@ -5,7 +5,8 @@ import Sources from '../components/Sources.astro';
 import Action from '../components/Action.astro';
 import Form from '../components/Form.astro';
 import Pending from '../components/Pending.astro';
-import { getPage, getSite, section, md, mdInline, doiUrl } from '../lib/content.js';
+import Photo from '../components/Photo.astro';
+import { getPage, getSite, section, md, mdInline, doiUrl, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'professionals');
@@ -15,9 +16,11 @@ const nav = getSite(locale).data.nav;
 const crumbs = [{ label: nav.find((n: any) => n.href === '/science')?.label ?? 'Science', href: '/science' }];
 const keys = ['study', 'population', 'design', 'findings'];
 const missingCitations = studies.rows.some((r: any) => !r.citation || !r.publisher_url);
+const photo = photoOf(locale, 'professionals', 'entrance');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-pro">
   <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} crumbs={crumbs} wide />
+  {photo && <div class="wrap pro-photo" data-reveal><Photo photo={photo} variant="wide" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
 
   <section class="pro-studies" aria-labelledby="studies-caption">
     <div class="wrap">
@@ -90,6 +93,7 @@ const missingCitations = studies.rows.some((r: any) => !r.citation || !r.publish
 </Base>
 
 <style>
+  .pro-photo { position: relative; z-index: 2; margin-block: calc(-1 * clamp(2.5rem, 2rem + 2.5vw, 4.5rem)) clamp(2rem, 1.5rem + 2vw, 3.5rem); }
   .pro-studies { padding-block: var(--section) calc(var(--section) * 0.6); }
   .table-wrap { border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; background: #fff; box-shadow: var(--shadow-soft); }
   .studies-table { width: 100%; border-collapse: collapse; font-size: 1.0625rem; line-height: 1.5; table-layout: fixed; }

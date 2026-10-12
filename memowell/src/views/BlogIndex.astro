@@ -3,12 +3,14 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import ProBand from '../components/ProBand.astro';
 import Icon from '../components/Icon.astro';
-import { getPage, getSite, section, href, getArticlesWithFallback, fill, IS_PREVIEW } from '../lib/content.js';
+import Photo from '../components/Photo.astro';
+import { getPage, getSite, section, href, getArticlesWithFallback, fill, IS_PREVIEW, photoOf } from '../lib/content.js';
 
 const { locale, routePath, pageNumber = 1, category } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'memory-health');
 const ui = getSite(locale).data.ui;
 const intro = section(page, 'intro');
+const photo = photoOf(locale, 'memory-health', 'intro');
 const cats = page.categories ?? [];
 const catLabel = (slug: string) => cats.find((c: any) => c.slug === slug)?.label ?? slug;
 const size = page.page_size ?? 6;
@@ -22,6 +24,7 @@ const title = category ? `${catLabel(category)} — ${page.meta_title}` : pageNu
 ---
 <Base locale={locale} routePath={routePath} title={title} description={page.meta_description} fallback={fallback} status={page.status}>
   <PageHead locale={locale} title={intro.heading} body={intro.body}>
+    {photo && <Photo slot="media" photo={photo} variant="portrait" sizes="(min-width: 64rem) 34vw, 92vw" eager />}
     <nav class="cats" aria-label={intro.categories_label}>
       <p class="cats__label">{intro.categories_label}</p>
       <ul role="list">

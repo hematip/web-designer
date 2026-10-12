@@ -1,0 +1,38 @@
+---
+// Illustrative photography (generated with the Kondor Brain brand-creative skill + Higgsfield; see README).
+// Text-free images: all copy stays in HTML. Responsive WebP set named <src>-<width>.webp.
+interface PhotoData { src: string; width: number; height: number; widths?: number[]; focus?: string; alt?: string; note?: string }
+interface Props { photo: PhotoData; sizes: string; variant?: 'wide' | 'portrait' | 'band'; eager?: boolean }
+const { photo, sizes, variant = 'band', eager = false } = Astro.props;
+const widths = (photo.widths?.length ? photo.widths : [640, 1024, 1600]).map(Number).sort((a, b) => a - b);
+const srcset = widths.map((w) => `${photo.src}-${w}.webp ${w}w`).join(', ');
+---
+<figure class:list={['photo', `photo--${variant}`]} style={`--focus: ${photo.focus ?? '50% 50%'}`}>
+  <img
+    src={`${photo.src}-${widths[widths.length - 1]}.webp`}
+    srcset={srcset}
+    sizes={sizes}
+    width={photo.width}
+    height={photo.height}
+    alt={photo.alt ?? ''}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+  {photo.note && <figcaption class="photo__note">{photo.note}</figcaption>}
+</figure>
+
+<style>
+  .photo { position: relative; margin: 0; overflow: hidden; border-radius: var(--r-xl); background: var(--ice-2, #e9edff); isolation: isolate; }
+  .photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--focus); }
+  .photo--wide { aspect-ratio: 21 / 9; box-shadow: 0 40px 80px -40px rgba(6, 12, 51, 0.45); }
+  .photo--band { aspect-ratio: 16 / 7; }
+  .photo--portrait { aspect-ratio: 4 / 5; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.55); }
+  .photo__note {
+    position: absolute; inset-inline-start: 0.85rem; bottom: 0.85rem; padding: 0.3rem 0.7rem; border-radius: 999px;
+    font: 600 0.75rem/1.2 var(--font-body); letter-spacing: 0.02em; color: #fff;
+    background: rgba(6, 12, 51, 0.72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  @media (max-width: 48rem) {
+    .photo--wide, .photo--band { aspect-ratio: 4 / 3; }
+  }
+</style>

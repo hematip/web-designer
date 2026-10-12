@@ -65,6 +65,15 @@ export function getSite(locale) {
 
 export const section = (page, id) => page?.sections?.find((s) => s.id === id) ?? {};
 
+// Illustrative photos are shared across languages: file fields come from the English entry when a
+// translation has none; alt text and the visible note use the translation when it supplies them.
+export function photoOf(locale, pageId, sectionId) {
+  const own = section(getPage(locale, pageId)?.data, sectionId).photo;
+  const en = section(rawPage(DEFAULT_LOCALE, pageId), sectionId).photo;
+  if (!own?.src && !en?.src) return null;
+  return { ...(en ?? {}), ...(own ?? {}) };
+}
+
 function parseFrontmatter(raw) {
   const m = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!m) return { data: {}, body: raw };

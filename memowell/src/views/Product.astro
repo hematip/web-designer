@@ -9,12 +9,14 @@ import ProductDisclaimer from '../components/ProductDisclaimer.astro';
 import ProBand from '../components/ProBand.astro';
 import Icon from '../components/Icon.astro';
 import Capsule from '../components/Capsule.astro';
-import { getPage, section, md, mdInline } from '../lib/content.js';
+import Photo from '../components/Photo.astro';
+import { getPage, section, md, mdInline, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'memowell');
 const s = (id: string) => section(page, id);
 const intro = s('intro'), composition = s('composition'), directions = s('directions'), cautions = s('cautions'), storage = s('storage'), summary = s('summary');
+const directionsPhoto = photoOf(locale, 'memowell', 'directions');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
   <PageHead locale={locale} title={intro.heading} body={intro.body}>
@@ -39,6 +41,7 @@ const intro = s('intro'), composition = s('composition'), directions = s('direct
   <section class="section directions" id="directions" aria-labelledby="directions-title">
     <div class="wrap">
       <h2 id="directions-title" data-split>{directions.heading}</h2>
+      {directionsPhoto && <div class="directions__photo" data-reveal><Photo photo={directionsPhoto} variant="band" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
       <ol class="steps" role="list">
         {directions.items.map((item: any, i: number) => (
           <li class="step" data-reveal>
@@ -83,6 +86,7 @@ const intro = s('intro'), composition = s('composition'), directions = s('direct
 </Base>
 
 <style>
+  .directions__photo { margin-block-start: var(--s-5); }
   .split { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
   .split--top { align-items: start; }
   .split__text { grid-column: 1 / span 6; display: grid; gap: var(--s-3); justify-items: start; }

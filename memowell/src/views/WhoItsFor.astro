@@ -6,7 +6,8 @@ import Pending from '../components/Pending.astro';
 import ClosingCTA from '../components/ClosingCTA.astro';
 import ProductDisclaimer from '../components/ProductDisclaimer.astro';
 import ProBand from '../components/ProBand.astro';
-import { getPage, getSite, section, md } from '../lib/content.js';
+import Photo from '../components/Photo.astro';
+import { getPage, getSite, section, md, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'who-its-for');
@@ -14,9 +15,12 @@ const ui = getSite(locale).data.ui;
 const intro = section(page, 'intro');
 const closing = section(page, 'closing');
 const groups = page.sections.filter((x: any) => !['intro', 'closing'].includes(x.id));
+const photo = photoOf(locale, 'who-its-for', 'intro');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
-  <PageHead locale={locale} title={intro.heading} body={intro.body} />
+  <PageHead locale={locale} title={intro.heading} body={intro.body}>
+    {photo && <Photo slot="media" photo={photo} variant="portrait" sizes="(min-width: 64rem) 34vw, 92vw" eager />}
+  </PageHead>
 
   <div class="wrap groups">
     <nav class="groups__index" aria-labelledby="otp-title">
