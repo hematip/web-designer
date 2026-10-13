@@ -1,33 +1,9 @@
-// Homepage cinematic scenes (v2). Every scene animates *from* states set here; the HTML is already the
+// Homepage cinematic scenes (v2; hero v4). Every scene animates *from* states set here; the HTML is already the
 // resolved composition, so reduced motion, no-JS and failures show complete content.
-import { gsap, ScrollTrigger, SplitText, mm, MQ } from './motion.js';
+import { gsap, ScrollTrigger, SplitText, mm, MQ, getLenis } from './motion.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-
-// ---------------------------------------------------------------- Hero
-mm.add(MQ.motion, () => {
-  const hero = $('[data-hero]');
-  if (!hero) return;
-  const bottle = $('.h-bottle', hero);
-  const capsule = $('[data-hero-capsule] svg', hero);
-  const intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
-  intro
-    .from('[data-hero-orbits]', { rotate: -35, scale: 0.85, autoAlpha: 0, duration: 2.2, transformOrigin: '50% 50%' }, 0)
-    .from('.h-glow', { scale: 0.5, autoAlpha: 0, duration: 2 }, 0)
-    .from(bottle, { yPercent: 18, scale: 0.9, autoAlpha: 0, duration: 1.8 }, 0.15)
-    .from('[data-hero-in]', { y: 34, autoAlpha: 0, duration: 1.2, stagger: 0.12 }, 0.45)
-    .from('[data-hero-chip]', { y: 24, scale: 0.85, autoAlpha: 0, duration: 1.1, stagger: 0.14 }, 0.9)
-    .from(capsule, { y: -80, rotate: -90, autoAlpha: 0, duration: 1.6, ease: 'back.out(1.6)' }, 1.0);
-
-  // Depth on the way out: copy lifts away fastest, bottle slower, capsule drops toward the next chapter.
-  const out = gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.8 } });
-  out
-    .to('.h-hero__copy', { yPercent: -18, autoAlpha: 0.15, ease: 'none' }, 0)
-    .to('[data-hero-bottle]', { yPercent: -14, scale: 0.92, ease: 'none' }, 0)
-    .to('[data-hero-orbits]', { rotate: 50, scale: 1.12, ease: 'none' }, 0)
-    .to('[data-hero-capsule]', { yPercent: 260, rotate: 130, ease: 'none' }, 0);
-});
 
 // ---------------------------------------------------------------- Scroll-linked fact band
 mm.add(MQ.motion, () => {
@@ -39,91 +15,137 @@ mm.add(MQ.motion, () => {
   });
 });
 
-// ---------------------------------------------------------------- Resin → K-Vie™ → capsule (3D, v3)
-// The pinned scroll range scrubs one number (formState.p). The lazily loaded WebGL scene and the chapter
-// captions both read it, so reverse scroll, fast skips and anchor entry resolve to the same frame.
-// Without WebGL (or before it loads) the static SVG capsule poster stays in place.
-const form = $('[data-form]');
-const formState = { p: 0 };
-let formMode = null;
-let formScene = null;
-let formLoad = null;
+// ---------------------------------------------------------------- Hero (v4): resin → K-Vie™ → capsule
+// The pinned hero scrubs one number. It decides which chapter is read (the approved hero first, then the
+// five formulation chapters) and where the 3D scene stands, so text and scene always change together and
+// reverse scroll, fast skips and anchors resolve to the same frame. Each chapter plays its stage of the scene
+// in the first part of its range and holds the resolved frame while it is read.
+// Without WebGL (or before it loads) the static SVG capsule poster stays in place; with reduced motion the
+// hero is the resolved composition (intro, capsule, the five chapters listed) and the scene shows its last frame.
+const hero = $('[data-hero]');
+const sceneState = { p: 0 };
+// Scene range [from, to] played by each chapter: 0 intro (resin), 1 resin, 2 micronized, 3 microcrystalline,
+// 4 K-Vie™ (crystals condense), 5 vegetarian capsule (the halves close, the capsule turns in the light).
+const HERO_SCENE = [[0, 0.05], [0.05, 0.13], [0.13, 0.42], [0.42, 0.62], [0.62, 0.74], [0.74, 1]];
+const PLAY = 0.7; // share of a chapter's range that plays its stage; the rest holds for reading
+const ease = (x) => x * x * (3 - 2 * x);
+let sceneMode = null;
+let scene = null;
+let sceneLoad = null;
 
-function setFormMode(mode) {
-  formMode = mode;
-  formScene?.setMode(mode);
+function setSceneMode(mode) {
+  sceneMode = mode;
+  scene?.setMode(mode);
 }
-function loadFormScene() {
-  if (!form || formLoad) return;
-  formLoad = import('./formulation-3d.js')
+function loadScene() {
+  if (!hero || sceneLoad) return;
+  sceneLoad = import('./formulation-3d.js')
     .then(({ createFormulationScene }) => {
-      formScene = createFormulationScene({
-        section: form,
-        canvas: $('[data-form-canvas]', form),
-        frame: $('[data-form-frame]', form),
-        state: formState,
-        mode: formMode ?? 'static',
-        onReady: () => form.classList.add('is-3d'),
-        onFail: () => form.classList.remove('is-3d'),
+      scene = createFormulationScene({
+        section: hero,
+        canvas: $('[data-form-canvas]', hero),
+        frame: $('[data-form-frame]', hero),
+        state: sceneState,
+        mode: sceneMode ?? 'static',
+        onReady: () => hero.classList.add('is-3d'),
+        onFail: () => hero.classList.remove('is-3d'),
       });
-      ScrollTrigger.addEventListener('refresh', () => formScene?.resize());
+      ScrollTrigger.addEventListener('refresh', () => scene?.resize());
     })
-    .catch(() => form.classList.remove('is-3d'));
+    .catch(() => hero.classList.remove('is-3d'));
 }
-if (form) {
-  // Load the renderer shortly before the chapter is reached; the rest of the page never waits for it.
-  const io = new IntersectionObserver((entries) => {
-    if (entries.some((e) => e.isIntersecting)) {
-      io.disconnect();
-      loadFormScene();
-    }
-  }, { rootMargin: '150% 0px' });
-  io.observe(form);
+if (hero) {
+  // The scene is the first thing on the page, but it never blocks it: load once the browser is idle.
+  const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 400));
+  idle(loadScene, { timeout: 1500 });
 }
 
-function buildFormulation(mobile) {
-  if (!form) return null;
-  const labels = $$('[data-form-label]', form);
-  const rail = $('[data-form-rail]', form);
-  const bounds = JSON.parse(form.dataset.chapters || '[0]');
+function buildHero(mobile) {
+  if (!hero) return null;
+  const intro = $('.h-hero__intro', hero);
+  const chapters = $$('.h-chapter', hero);
+  const rail = $$('[data-hero-rail] span', hero);
+  // Chapter starts as fractions of the pinned range. Desktop: the intro is chapter 0 in the same cell.
+  // Phone: the intro reads in flow above, so the pinned scene tells chapters 1–5 only.
+  const n = chapters.length;
+  const starts = mobile
+    ? [0, ...chapters.map((_, k) => k / n)]
+    : JSON.parse(hero.dataset.chapters || '[0]');
+  const from = (i) => (mobile && i === 0 ? -Infinity : starts[i]);
+  const to = (i) => (i + 1 < starts.length ? starts[i + 1] : 1);
+  const st = { t: 0 };
   let active = -1;
+
   const sync = () => {
-    const p = formState.p;
-    let i = 0;
-    bounds.forEach((b, k) => { if (p >= b) i = k; });
+    const t = st.t;
+    let i = mobile ? 1 : 0;
+    for (let k = i; k < starts.length; k++) if (t >= from(k)) i = k;
+    // Scene: play this chapter's stage, then hold it.
+    const [a, b] = HERO_SCENE[Math.min(i, HERO_SCENE.length - 1)];
+    const span = to(i) - Math.max(0, from(i));
+    const local = span > 0 ? ease(Math.min(1, (t - Math.max(0, from(i))) / (span * PLAY))) : 1;
+    sceneState.p = a + (b - a) * Math.max(0, local);
+    // Text
     if (i !== active) {
-      labels.forEach((l, k) => l.classList.toggle('is-active', k === i));
       active = i;
+      if (!mobile) hero.classList.toggle('is-story', i > 0);
+      chapters.forEach((c, k) => { c.dataset.state = k + 1 < i ? 'past' : k + 1 === i ? 'active' : 'future'; });
     }
-    rail?.style.setProperty('--p', p.toFixed(4));
+    rail.forEach((r, k) => {
+      const f = Math.min(1, Math.max(0, (t - from(k + 1)) / (to(k + 1) - from(k + 1))));
+      r.style.setProperty('--fill', f.toFixed(3));
+    });
   };
-  form.classList.add('is-scrubbing');
-  setFormMode(mobile ? 'mobile' : 'desktop');
+
+  hero.classList.add('is-scrubbing');
+  setSceneMode(mobile ? 'mobile' : 'desktop');
   sync();
-  gsap.to(formState, {
-    p: 1,
+  const tween = gsap.to(st, {
+    t: 1,
     ease: 'none',
     onUpdate: sync,
     scrollTrigger: {
-      trigger: mobile ? $('[data-form-stage]', form) : $('[data-form-pin]', form),
+      trigger: mobile ? $('[data-hero-scene]', hero) : $('[data-hero-pin]', hero),
       start: 'top top',
-      end: mobile ? '+=240%' : '+=340%',
+      end: mobile ? '+=400%' : '+=460%',
       pin: true,
       scrub: 0.9,
       anticipatePin: 1,
       invalidateOnRefresh: true,
     },
   });
+
+  // Keyboard: focusing a link in a chapter that is not on screen scrolls to where that chapter is read.
+  const onFocus = (e) => {
+    const owner = e.target.closest('[data-chapter]');
+    if (!owner) return;
+    const i = Number(owner.dataset.chapter);
+    if (i === active || (mobile && i === 0)) return;
+    const trig = tween.scrollTrigger;
+    const at = Math.max(0, from(i)) + (to(i) - Math.max(0, from(i))) * 0.85;
+    const y = trig.start + (trig.end - trig.start) * at;
+    const lenis = getLenis();
+    if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
+    else window.scrollTo(0, y);
+  };
+  hero.addEventListener('focusin', onFocus);
+
+  // Intro: the approved hero rises in on load.
+  const introIn = gsap.from($$('[data-hero-in]', intro), { y: 30, autoAlpha: 0, duration: 1.2, stagger: 0.12, ease: 'expo.out', delay: 0.35 });
+
   return () => {
-    form.classList.remove('is-scrubbing');
-    labels.forEach((l) => l.classList.remove('is-active'));
+    hero.removeEventListener('focusin', onFocus);
+    introIn.revert();
+    hero.classList.remove('is-scrubbing', 'is-story');
+    chapters.forEach((c) => delete c.dataset.state);
+    rail.forEach((r) => r.style.removeProperty('--fill'));
   };
 }
-mm.add(MQ.desktop, () => buildFormulation(false));
-mm.add(MQ.mobile, () => buildFormulation(true));
+mm.add(MQ.desktop, () => buildHero(false));
+mm.add(MQ.mobile, () => buildHero(true));
 mm.add('(prefers-reduced-motion: reduce)', () => {
-  formState.p = 1;
-  setFormMode('static');
+  sceneState.p = 1;
+  setSceneMode('static');
 });
 
 // ---------------------------------------------------------------- Who: horizontal track (desktop)

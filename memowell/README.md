@@ -13,7 +13,7 @@ The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-app
 | CMS | Decap CMS 3.16.3 at `/admin` | Git-based, so content lives in this repo. Editorial workflow (**Draft → In review → Ready**) and side-by-side EN/FR/AR editing from day one |
 | Type (v2) | Bricolage Grotesque (display), Plus Jakarta Sans (body/UI, with no slashed zero), Instrument Serif Italic (single accent words), IBM Plex Sans Arabic | All OFL, self-hosted via npm |
 | Motion (v2) | GSAP 3.15 (ScrollTrigger, SplitText; standard no-charge licence) + Lenis 1.3.26 smooth scroll | One GSAP-ticker clock. `gsap.matchMedia` handles desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it |
-| 3D (v3) | Three.js r186 (WebGL), only in the home formulation scene (`src/scripts/formulation-3d.js`) | Loaded lazily as the visitor approaches the section, so the rest of the page never waits for it. All geometry is procedural (no external models or textures). Without WebGL the static SVG capsule poster stays |
+| 3D (v3, in the hero since v4) | Three.js r186 (WebGL), only in the home hero scene (`src/scripts/formulation-3d.js`) | Loaded as a separate chunk once the browser is idle after first paint, so the page never waits for it. All geometry is procedural (no external models or textures). Without WebGL the static SVG capsule poster stays |
 
 ## Commands
 
@@ -43,7 +43,7 @@ node scripts/build-summary-pdf.mjs                                  # rebuild th
 ## Visual direction (v2): "clinical-cosmic product stage"
 
 - Midnight/cobalt aurora stages alternate with bright ice-white reading sections.
-- The official bottle sits on a glow with orbit rings and floating glass fact chips.
+- v4: the hero is the formulation story (resin → capsule) in real-time 3D; the official bottle appears in the closing panel.
 - Oversized Bricolage display type with one italic accent word.
 - Bento cards, 32–44px radii, and a floating glass pill navigation.
 
@@ -51,21 +51,26 @@ Full record: `docs/design-brief.md` → "Version 2".
 
 ### Homepage signature scenes
 
-1. **Resin → K-Vie™ → capsule** (v3, real-time 3D; pinned on desktop, the stage pins on phones):
-   - a lit amber Boswellia resin tear disintegrates from the base up, each grain leaving where the surface opens, and the dust spins into a slow vortex (*micronized*);
-   - the dust snaps into a rotating 3D crystal lattice with faceted crystals and unit-cell lines (*microcrystalline*);
-   - the lattice condenses into a capsule-shaped cloud, and the two cream capsule halves slide shut around it (*K-Vie™ · standardised to 40% boswellic acids*);
-   - the closed capsule turns under a sweeping light (*vegetarian and gluten-free*).
+1. **Hero (v4): resin → K-Vie™ → capsule, told while you scroll** (real-time 3D; the whole hero pins on desktop, the scene pins on phones):
+   - the approved hero (eyebrow, headline, lead, buttons) opens beside a lit amber Boswellia resin tear;
+   - as you scroll, the hero text gives way to the approved §3 heading and five chapters, one at a time, each changing together with its stage of the scene:
+     1. *Resin of Boswellia trees — frankincense*: the resin tear turns in the light;
+     2. *Micronized*: it disintegrates from the base up and the dust spins into a slow vortex;
+     3. *Microcrystalline*: the dust snaps into a rotating 3D crystal lattice;
+     4. *K-Vie™ · standardised to 40% boswellic acids*: the lattice condenses into a capsule-shaped cloud;
+     5. *Vegetarian and gluten-free*: the two cream capsule halves close around it and the capsule turns under a sweeping light.
+   - each chapter plays its stage in the first ~70% of its scroll range and holds the resolved frame while it is read; one scrubbed value drives text and scene, so reverse scroll and skips land on the same frame;
+   - chapter texts are whole approved sentences (§3 and the `/memowell` sentence "One bottle holds 90 vegetarian capsules."), in order; a five-part rail shows progress;
+   - keyboard: tabbing to a link in a chapter that is not on screen scrolls to that chapter;
+   - phones: the hero text reads first in normal flow, then the scene takes the screen with the chapter text over its lower part;
+   - reduced motion / no JavaScript: the resolved composition (hero text beside the closed capsule, the five chapters listed below); without WebGL the SVG capsule poster stays.
 
-   The camera follows one continuous path, with depth-of-field on the particles. The five labels appear one at a time as film-style captions with a progress rail. Ambient motion only advances while the visitor scrolls. Reduced motion shows one still frame of the closed capsule and lists all five labels.
-
-   It shows the "difference from ordinary frankincense" using only the copy's own words. No body, bloodstream or mechanism appears.
+   It shows the "difference from ordinary frankincense" using only the copy's own words. No body, bloodstream, brain or mechanism appears, and nothing is tied to a memory outcome.
 2. **Who it was studied in:** the four groups move as a pinned horizontal card track.
 3. **Evidence:** the approved sentence lights up word by word. "3.11 points higher on MMSE" resolves in cyan inside its full sentence.
 4. **One capsule with each of the three main meals:** a capsule drops in and splits onto three plates.
 5. **Supporting motion:**
-   - hero load choreography (masked line reveal, the bottle rising, chips);
-   - the hero scrolls out with depth;
+   - hero load choreography (masked line reveal, the intro rising in);
    - a scroll-linked fact marquee (moves only with scroll; nothing loops on its own);
    - an aurora that follows the pointer;
    - batched reveals on inner pages.
@@ -138,8 +143,8 @@ These are interface or structural words, and none of them is a claim. They are a
 | Header action | "Taking this to your doctor" → `/memowell#summary` | The approved `/memowell` heading reused as the "doctor summary" action; avoids a dead PDF link |
 | Summary card (decorative, `aria-hidden`) | Title "Taking this to your doctor"; rows "What is in it", "What the research found", "How to take it", "Five questions worth asking" | Fragments of approved headings and the `/memowell` §6 sentence; also a heading in the draft PDF |
 | Hero (v2) | The word "names" is set in the italic accent face | Typography only; no words change |
-| Hero chips and scroll marquee (v2, decorative) | "90 vegetarian capsules", "Gluten-free", "NPN 80107357", "Memory health", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada" | Fragments of approved copy and the bottle label. Editable in CMS → Pages → home → hero |
-| Formulation scene labels (v2, decorative) | "Resin of Boswellia trees — frankincense", "Micronized", "Microcrystalline", "K-Vie™ · standardised to 40% boswellic acids", "Vegetarian and gluten-free" | Fragments of the approved §3 copy. Editable in CMS → Pages → home → formulation → stages. The K-Vie™ row depends on the pending scientific-officer approval |
+| Scroll marquee (v2, decorative) | "90 vegetarian capsules", "Gluten-free", "NPN 80107357", "Memory health", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada" | Fragments of approved copy and the bottle label. Editable in CMS → Pages → home → hero. (The v2 hero chips were removed in v4) |
+| Hero story chapter titles (v4, visible `h3` headings) | "Resin of Boswellia trees — frankincense", "Micronized", "Microcrystalline", "K-Vie™ · standardised to 40% boswellic acids", "Vegetarian and gluten-free" | Fragments of the approved §3 copy and the label ("90 vegetarian capsules … Gluten-free"). Chapter texts under them are whole approved sentences, unchanged. Editable in CMS → Pages → home → formulation → Story chapters. Chapters 2 and 4 depend on the pending K-Vie™ scientific-officer approval (item 8) |
 | Footer (v2, decorative) | Outline "LIVE WELL, STAY WELL" | The catalogue slogan, unchanged and repeated from the footer line |
 | Homepage §2 and §5 | "Source: DOI …" lines | Same format as the science page; satisfies "every number keeps its source" |
 | Homepage §5 | The phrase "3.11 points higher on MMSE" is typographically highlighted inside its own sentence | No words changed; context (85 people, six months, placebo, source) stays in the same sentence |
@@ -191,7 +196,8 @@ These are interface or structural words, and none of them is a claim. They are a
 
 **Scenes inspected:**
 
-- before, midpoint and resolved states at 1440×900 for the formulation scene (resin, particles, lattice, capsule), the card track, the evidence highlight and the plates;
+- every hero chapter (intro + five) at 1440×900, the intro at 1366×768 and 1920×1080, and all chapters at 390×844; the card track, the evidence highlight and the plates;
+- keyboard focus into an off-screen hero chapter (desktop and phone);
 - motion-enabled mobile at 390×844;
 - reduced motion as a full static page;
 - the RTL Arabic preview, with IBM Plex Sans Arabic rendering.

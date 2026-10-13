@@ -160,7 +160,7 @@ This matches the owner's standing preference in the skill's taste profile: cinem
 | Hero | The product sits in an open field on a midnight aurora. A giant headline uses an italic accent on "names". The official bottle has a glow halo and orbit rings, with floating glass fact chips taken from the label |
 | Type | Bricolage Grotesque Variable (display, 700); Plus Jakarta Sans Variable (body/UI, 400–700; unslashed zero); Instrument Serif Italic (accent words only); IBM Plex Sans Arabic (AR). All OFL |
 | Colour | midnight #060C33 / #0C1650; royal #2B3FD9; electric #4C63FF; cyan #19D3E2 (accents on dark only); ice #F4F6FF; cream capsule #F2DFC2. Text contrast stays ≥ 4.5:1, mostly ≥ 7:1 |
-| Motion engine | GSAP 3.15 (ScrollTrigger, SplitText) + Lenis 1.3.26, on one GSAP ticker clock. `gsap.matchMedia` for desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it. Three.js r186 renders the formulation scene (v3) from the same ticker |
+| Motion engine | GSAP 3.15 (ScrollTrigger, SplitText) + Lenis 1.3.26, on one GSAP ticker clock. `gsap.matchMedia` for desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it. Three.js r186 renders the formulation scene (v3; the hero since v4) from the same ticker |
 
 ### Signature scenes
 
@@ -214,7 +214,7 @@ Version 3 (client feedback: the 2D version felt "basic, like PowerPoint") render
 
 ### Responsive and accessibility
 
-- **Below 900px:** no pins, except the formulation stage, which pins full-screen after its copy so the 3D sequence has room; other scenes play as scrubbed sequences inside normal flow; the horizontal track becomes a vertical stack. Fewer particles on phones.
+- **Below 900px:** no pins, except the formulation stage (v4: the hero scene), which pins full-screen after its copy so the 3D sequence has room; other scenes play as scrubbed sequences inside normal flow; the horizontal track becomes a vertical stack. Fewer particles on phones.
 - **Formulation fallbacks:** reduced motion renders one still 3D frame of the closed capsule and lists all five labels; without WebGL (or on context loss) the SVG capsule poster stays.
 - **Reduced motion and no JS:** final composed states only, with no Lenis.
 - **Auto-moving content:** none runs beyond the load entrance (WCAG 2.2.2). The 3D scene's ambient motion advances only while the visitor scrolls and settles within about 1.5 s.
@@ -222,3 +222,24 @@ Version 3 (client feedback: the 2D version felt "basic, like PowerPoint") render
 ### Also replaced
 
 The v1 "facts in hand" travelling note is retired. The summary returns as a glass "Taking this to your doctor" card in the closing section and on `/memowell`.
+
+## Version 4: the hero tells the formulation (2026-10-13)
+
+**Request (client):** use the 3D formulation motion in the hero, with text that changes on scroll together with the motion, telling the production story from frankincense resin to capsule.
+
+**Decision.** The hero and the former home §3 become one pinned scene. Chapter 0 is the approved hero; chapters 1–5 are the formulation, one per stage of the existing 3D scene. The separate §3 section is removed so the story is told once.
+
+| Chapter | Text (verbatim) | Scene stage (scene progress) |
+|---|---|---|
+| 0 | Approved hero: eyebrow, "Searching for names a little more often lately?", lead, two buttons | Resin tear, studio-lit (0–0.05) |
+| 1 Resin of Boswellia trees — frankincense | §3 ¶1 (two sentences) | The tear turns in the light (0.05–0.13) |
+| 2 Micronized | §3 ¶2 (two sentences, K-Vie™ — pending approval) | Disintegrates into micronized dust, vortex (0.13–0.42) |
+| 3 Microcrystalline | — | Crystal lattice (0.42–0.62) |
+| 4 K-Vie™ · standardised to 40% boswellic acids | — (pending approval) | Lattice condenses into a capsule-shaped cloud (0.62–0.74) |
+| 5 Vegetarian and gluten-free | "One bottle holds 90 vegetarian capsules." (`/memowell` §1) + "More about the formulation" | Halves close; the capsule turns (0.74–1) |
+
+- **Sync rule:** one scrubbed value picks the chapter and the scene progress. Each chapter plays its stage in its first 70% and holds the resolved frame for reading, so text and motion change at the same moment, in both directions.
+- **Layout:** desktop pins the whole hero (≈4.6 screens); the reading column holds the intro, then the §3 heading, a five-part rail and one chapter at a time as a title card; the scene plays to the right (left in RTL) and fades behind the text. The intro scales with viewport height so it fits one screen on laptops. Phones read the intro in flow, then pin the scene (≈4 screens) with the chapter text over a scrim at the bottom.
+- **Fallbacks:** reduced motion and no JS show the resolved composition (intro beside the still closed capsule, five chapters listed); without WebGL the SVG capsule poster stays. Keyboard focus into a hidden chapter scrolls to it.
+- **Must not imply:** no body, bloodstream, brain or mechanism; no dark→light "clarity" tied to memory; the capsule is not shown "working"; nothing links the scene to an outcome. The story depicts only the processing words in the copy.
+- **Retired:** the v2 hero bottle, orbit rings, glow and fact chips (the bottle remains in the closing panel; the chips' fragments remain in the marquee).

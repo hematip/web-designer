@@ -1,4 +1,4 @@
-// Formulation signature scene (v3), real-time 3D.
+// Formulation signature scene (v3), real-time 3D — played inside the homepage hero (v4).
 // Story, scrubbed by the pinned scroll range (state.p 0 → 1):
 //   01 a tear of Boswellia resin, lit like a studio product shot
 //   02 the resin disintegrates into micronized dust that spins into a vortex
@@ -529,13 +529,12 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
     renderer.setSize(w, hgt, false);
     const c = canvas.getBoundingClientRect(), f = frame.getBoundingClientRect();
-    const chap = frame.querySelector('.h-form__chapters');
-    const fh = Math.max(f.height - (chap ? chap.getBoundingClientRect().height + 16 : 0), f.height * 0.55);
+    const fh = f.height;
     const dx = f.left + f.width / 2 - (c.left + w / 2);
     const dy = f.top + fh / 2 - (c.top + hgt / 2);
     camera.aspect = w / hgt;
     camera.setViewOffset(w, hgt, -dx, -dy, w, hgt);
-    camera.zoom = THREE.MathUtils.clamp((Math.min(f.width, fh) / hgt) * 0.95, 0.36, 1.1);
+    camera.zoom = THREE.MathUtils.clamp((Math.min(f.width, fh) / hgt) * 0.95, 0.18, 1.1);
     camera.updateProjectionMatrix();
     pU.uProjScale.value = ((hgt * renderer.getPixelRatio()) / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2))) * camera.zoom;
     dirty = true;
