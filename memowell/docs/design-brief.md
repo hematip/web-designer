@@ -248,3 +248,11 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 
 - **Reverted from v4:** the approved hero question followed directly by a transformation that ends on a capsule reads as problem → product → solution (Kondor rule 7, montage causality). Order is now hero question → "why" (inflammation research, "not a settled answer") → the formulation story in 3D, with the v4 chapter system unchanged.
 - **Hero:** the approved question on the aurora, scaled to fit one screen on laptops. A silent hero film (Memowell cognitive-moment grammar, no product, no on-screen text) is in concept approval; nothing generated yet.
+
+## Branch `claude/memowell-white-field`: white-first + calm 3D (2026-10-13, for comparison)
+
+From the Kondor Brain site review (white field dominant, no black void, no glowing particles or resin glow):
+- **Field:** midnight stays only for the hero, the closing panel and the footer. Inner page heads, article heads, the evidence block, the pro band and the formulation story become a daylight stage (white, restrained royal/cyan light). Accent panels (science "honest" panel, `/memowell` summary, professionals side panel) become a pale blue tint.
+- **3D scene:** matte, natural resin (no emissive, no glossy sheen), a soft non-glowing dissolve edge, neutral matte grains with normal blending (no sparkle, no additive glow), a calmer vortex (modulation, not an explosion), frosted matte crystals and lines, no bloom sprite, no rim flash. Story text in ink on white.
+- **Checks:** copy fidelity and links pass; axe finds no violations on /, /science, /memowell, /science/professionals, /about, /memory-health; the unlit evidence words keep 4.76:1 on white.
+- Not merged: the client approved the v2 midnight direction, so this branch is for comparison and approval.

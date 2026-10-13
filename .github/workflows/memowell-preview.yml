@@ -6,12 +6,12 @@ name: Memowell preview → Vercel
 
 on:
   push:
-    branches: [claude/happy-volta-7wdu1t]
+    branches: [claude/happy-volta-7wdu1t, claude/memowell-white-field]
     paths: ['memowell/**', '.github/workflows/memowell-preview.yml']
   workflow_dispatch:
 
 concurrency:
-  group: memowell-preview
+  group: memowell-preview-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -52,6 +52,8 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          url=$(npx --yes vercel@59.26.0 deploy dist-preview --prod --yes --token "$VERCEL_TOKEN")
+          # The main review branch updates the project's production URL; any other branch gets its own preview URL.
+          if [ "$GITHUB_REF_NAME" = "claude/happy-volta-7wdu1t" ]; then prod="--prod"; else prod=""; fi
+          url=$(npx --yes vercel@59.26.0 deploy dist-preview $prod --yes --token "$VERCEL_TOKEN")
           echo "Deployed: $url"
           echo "### Deployed $url" >> "$GITHUB_STEP_SUMMARY"

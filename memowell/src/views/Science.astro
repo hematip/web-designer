@@ -32,7 +32,7 @@ const studies = page.sections.filter((x: any) => x.id.startsWith('study-'));
   </div>
 
   <section class="honest" aria-labelledby="honest-title">
-    <div class="wrap"><div class="honest__inner is-dark aurora" data-pointer data-reveal>
+    <div class="wrap"><div class="honest__inner is-tint" data-pointer data-reveal>
       <h2 id="honest-title" data-split>{closing.heading}</h2>
       <div class="prose lead" set:html={md(closing.body)} />
       <p class="honest__pro">{closing.pro_prompt} <Action action={closing.pro_action} locale={locale} variant="link" /></p>
@@ -67,7 +67,7 @@ const studies = page.sections.filter((x: any) => x.id.startsWith('study-'));
   .study__prose :global(strong) { font-family: var(--font-display); font-weight: 800; color: var(--royal); font-size: 1.12em; }
   .honest { padding-block: 0 calc(var(--section) * 0.4); }
   .honest__inner { display: grid; gap: var(--s-3); justify-items: start; padding: clamp(2.5rem, 2rem + 4vw, 5rem); border-radius: var(--r-xl); }
-  .honest__pro { font-size: var(--fs-body); color: var(--on-dark-soft); }
+  .honest__pro { font-size: var(--fs-body); color: var(--ink-soft); }
   @media (max-width: 63.99rem) {
     .study { position: relative; top: auto; }
     .study__meta, .study__body { grid-column: 1 / -1; }

@@ -118,6 +118,12 @@ a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
 .flow > * + * { margin-block-start: 1em; }
 
 .is-dark { background: var(--midnight); color: var(--on-dark); }
+/* White-first (Kondor Brain: white field dominant). A daylight stage: white with a restrained royal/cyan light,
+   used for page heads, the story scene and accent panels. Midnight stays only for the hero, closing panel and footer. */
+.is-light { background: #fff; color: var(--ink); }
+.is-tint { background: var(--ice-2); color: var(--ink); }
+.is-light .btn--light, .is-tint .btn--light { --btn-bg: var(--royal); --btn-fg: #fff; box-shadow: none; }
+.is-light .btn--light:hover, .is-tint .btn--light:hover { --btn-bg: var(--royal-hover); --btn-fg: #fff; }
 .is-dark .lead, .is-dark .prose { color: var(--on-dark-soft); }
 .is-dark .muted { color: var(--on-dark-mute); }
 
@@ -131,6 +137,13 @@ a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
     radial-gradient(40% 40% at 12% 90%, rgba(43, 63, 217, 0.55), transparent 70%);
   filter: blur(10px);
 }
+.is-light.aurora::before, .is-light .aurora::before {
+  background:
+    radial-gradient(38% 42% at var(--ax, 72%) var(--ay, 38%), rgba(76, 99, 255, 0.16), transparent 70%),
+    radial-gradient(30% 34% at calc(var(--ax, 72%) + 14%) calc(var(--ay, 38%) + 22%), rgba(25, 211, 226, 0.14), transparent 70%),
+    radial-gradient(40% 40% at 12% 90%, rgba(43, 63, 217, 0.07), transparent 70%);
+}
+.is-light.aurora::after, .is-light .aurora::after { opacity: 0.05; }
 .aurora::after {
   content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.18; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -285,11 +298,13 @@ a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
 
 /* ---------- Professional band (glass) ---------- */
 .pro-band { position: relative; padding-block: calc(var(--section) * 0.55); background: var(--ice); }
-.pro-band__card { position: relative; overflow: hidden; isolation: isolate; border-radius: var(--r-xl); background: var(--midnight); color: #fff; padding: clamp(2rem, 1.5rem + 3vw, 4rem); display: grid; grid-template-columns: 1fr auto; gap: var(--s-4); align-items: center; }
-.pro-band__card::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 120% at 100% 0%, rgba(76, 99, 255, 0.75), transparent 60%), radial-gradient(40% 80% at 85% 100%, rgba(25, 211, 226, 0.45), transparent 60%); }
-.pro-band__card p { font-size: var(--fs-lead); line-height: 1.5; color: var(--on-dark-soft); max-width: 44rem; }
-.pro-band__card strong { display: block; color: #fff; font: 700 var(--fs-h3)/1.2 var(--font-display); letter-spacing: -0.02em; margin-block-end: 0.4rem; }
-.pro-band__stripes { position: absolute; inset-block: 0; inset-inline-end: 0; width: 40%; opacity: 0.22; z-index: -1; }
+.pro-band__card .btn--light { --btn-bg: var(--royal); --btn-fg: #fff; box-shadow: none; }
+.pro-band__card .btn--light:hover { --btn-bg: var(--royal-hover); --btn-fg: #fff; }
+.pro-band__card { position: relative; overflow: hidden; isolation: isolate; border-radius: var(--r-xl); background: #fff; color: var(--ink); border: 1px solid var(--line); padding: clamp(2rem, 1.5rem + 3vw, 4rem); display: grid; grid-template-columns: 1fr auto; gap: var(--s-4); align-items: center; }
+.pro-band__card::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 120% at 100% 0%, rgba(76, 99, 255, 0.12), transparent 60%), radial-gradient(40% 80% at 85% 100%, rgba(25, 211, 226, 0.12), transparent 60%); }
+.pro-band__card p { font-size: var(--fs-lead); line-height: 1.5; color: var(--ink-soft); max-width: 44rem; }
+.pro-band__card strong { display: block; color: var(--ink); font: 700 var(--fs-h3)/1.2 var(--font-display); letter-spacing: -0.02em; margin-block-end: 0.4rem; }
+.pro-band__stripes { position: absolute; inset-block: 0; inset-inline-end: 0; width: 40%; opacity: 0.35; z-index: -1; }
 .pro-band__stripes svg { width: 100%; height: 100%; }
 @media (max-width: 47.99rem) { .pro-band__card { grid-template-columns: 1fr; } }
 

@@ -1,4 +1,4 @@
-// Formulation signature scene (v3), real-time 3D — played inside the homepage hero (v4).
+// Formulation signature scene (v3), real-time 3D. White-first branch: matte, calm, daylight (Kondor Brain review).
 // Story, scrubbed by the pinned scroll range (state.p 0 → 1):
 //   01 a tear of Boswellia resin, lit like a studio product shot
 //   02 the resin disintegrates into micronized dust that spins into a vortex
@@ -148,10 +148,10 @@ void main(){
   // 02 micronized: grains lift off as the surface opens, then join one slow vortex
   float tb = max(smoothstep(0.0, 0.55, th - n), uBurst);
   tb = 1.0 - pow(1.0 - tb, 3.0);
-  float ang = aBurst.y + uTime * 0.12 * aBurst.w + uBurst * 2.2 / (0.5 + aBurst.x * 0.35);
+  float ang = aBurst.y + uTime * 0.12 * aBurst.w + uBurst * 1.2 / (0.5 + aBurst.x * 0.35);
   vec3 vortex = vec3(cos(ang) * aBurst.x, aBurst.z + sin(uTime * 0.7 + aRand.z * 6.2831) * 0.06, sin(ang) * aBurst.x);
   vec3 pos = mix(start, vortex, tb);
-  pos += normalize(start + vec3(0.0001)) * sin(tb * 3.14159) * 0.55 * aRand.w;
+  pos += normalize(start + vec3(0.0001)) * sin(tb * 3.14159) * 0.14 * aRand.w;
 
   // 03 microcrystalline: ordered lattice (staggered arrival)
   float tl = ioc(smoothstep(aRand.w * 0.35, aRand.w * 0.35 + 0.65, uLattice));
@@ -170,8 +170,7 @@ void main(){
   vec3 col = mix(uAmber, uGold, aRand.y);
   col = mix(col, uIce, tl * 0.85);
   col = mix(col, uCream, tc);
-  float sparkle = pow(max(0.0, sin(uTime * 1.7 + aRand.z * 40.0)), 14.0) * (0.35 + tl);
-  vColor = col * (1.0 + sparkle * 1.4);
+  vColor = col; // matte grains: no sparkle (no "glowing particles as science")
   vAlpha = born * 0.78 * (1.0 - blur * 0.72) * (1.0 - 0.25 * tl) * (1.0 - 0.45 * tc) * (1.0 - uFade);
   vBlur = blur;
 }`;
@@ -244,11 +243,11 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   // ---- 01 resin tear
   const resinGeo = resinGeometry(noise);
   const resinMat = new THREE.MeshPhysicalMaterial({
-    color: 0xc9781a, roughness: 0.24, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.1,
-    sheen: 0.35, sheenColor: new THREE.Color(0xffb35a), sheenRoughness: 0.45,
-    emissive: new THREE.Color(0x5c2700), emissiveIntensity: 0.4, envMapIntensity: 1.0,
+    // White-first / Kondor Brain: a matte, natural resin — no emissive glow, no glossy "product shot" sheen.
+    color: 0xb9762a, roughness: 0.68, metalness: 0, clearcoat: 0.12, clearcoatRoughness: 0.6,
+    sheen: 0.15, sheenColor: new THREE.Color(0xe0b07a), sheenRoughness: 0.8, envMapIntensity: 0.8,
   });
-  const resinU = { uDissolve: { value: 0 }, uEdge: { value: new THREE.Color(0xffc56b).multiplyScalar(4) }, uGlow: { value: new THREE.Color(0xff8a1f).multiplyScalar(0.75) } };
+  const resinU = { uDissolve: { value: 0 }, uEdge: { value: new THREE.Color(0x8a5a22).multiplyScalar(0.25) }, uGlow: { value: new THREE.Color(0x000000) } };
   resinMat.onBeforeCompile = (sh) => {
     Object.assign(sh.uniforms, resinU);
     sh.vertexShader = sh.vertexShader
@@ -278,6 +277,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   glow.scale.setScalar(6);
   glow.position.set(0, 0, -1.2);
   glow.renderOrder = -2;
+  glow.visible = false; // additive bloom has no place on a white field
   scene.add(glow);
 
   // ---- 03 lattice group (crystals + unit-cell lines); particles read its matrix
@@ -288,8 +288,8 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   const crystalGeo = new THREE.OctahedronGeometry(0.075, 0);
   crystalGeo.scale(1, 1.7, 1);
   const crystalMat = new THREE.MeshPhysicalMaterial({
-    color: 0xdfe6ff, roughness: 0.05, metalness: 0.05, clearcoat: 1, flatShading: true,
-    transparent: true, opacity: 0.9, envMapIntensity: 2.2, emissive: new THREE.Color(0x22348f), emissiveIntensity: 0.3,
+    color: 0xc4cbe6, roughness: 0.42, metalness: 0, clearcoat: 0.25, flatShading: true,
+    transparent: true, opacity: 0.9, envMapIntensity: 1.0,
   });
   const crystals = new THREE.InstancedMesh(crystalGeo, crystalMat, M * M * M);
   const crystalData = [];
@@ -310,7 +310,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   }
   const lineGeo = new THREE.BufferGeometry();
   lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
-  const lineMat = new THREE.LineBasicMaterial({ color: 0x8fa2ff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x5866b8, transparent: true, opacity: 0, depthWrite: false });
   const lines = new THREE.LineSegments(lineGeo, lineMat);
   lattice.add(lines);
 
@@ -370,12 +370,12 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     uTime: shared.uTime, uDissolve: resinU.uDissolve, uBurst: { value: 0 }, uLattice: { value: 0 }, uCapsule: { value: 0 }, uFade: { value: 0 },
     uResinMat: { value: new THREE.Matrix4() }, uLatMat: { value: new THREE.Matrix4() }, uCapMat: { value: new THREE.Matrix4() },
     uSize: { value: small ? 0.03 : 0.024 }, uProjScale: { value: 600 }, uFocus: { value: 7 }, uAperture: { value: 0.26 },
-    uAmber: { value: new THREE.Color(0xff9d2e) }, uGold: { value: new THREE.Color(0xffd27a) },
-    uIce: { value: new THREE.Color(0xdfe8ff) }, uCream: { value: new THREE.Color(0xffe6c4) },
+    uAmber: { value: new THREE.Color(0x9a6a36) }, uGold: { value: new THREE.Color(0xbf9a6c) },
+    uIce: { value: new THREE.Color(0x4d5aa6) }, uCream: { value: new THREE.Color(0xc8ad88) },
   };
   const pMat = new THREE.ShaderMaterial({
     uniforms: pU, vertexShader: PARTICLE_VERT, fragmentShader: SOFT_FRAG,
-    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    transparent: true, depthWrite: false,
   });
   const particles = new THREE.Points(pGeo, pMat);
   particles.frustumCulled = false;
@@ -394,10 +394,10 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   bGeo.setAttribute('aRand', new THREE.BufferAttribute(bRand, 4));
   const bU = {
     uTime: shared.uTime, uProjScale: pU.uProjScale, uOpacity: { value: 1 },
-    uA: { value: new THREE.Color(0x4c63ff) }, uB: { value: new THREE.Color(0x19d3e2) }, uC: { value: new THREE.Color(0xffc77a) },
+    uA: { value: new THREE.Color(0xb9c2f2) }, uB: { value: new THREE.Color(0xb3e3e8) }, uC: { value: new THREE.Color(0xe6d4bb) },
   };
   const bokeh = new THREE.Points(bGeo, new THREE.ShaderMaterial({
-    uniforms: bU, vertexShader: BOKEH_VERT, fragmentShader: SOFT_FRAG, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: bU, vertexShader: BOKEH_VERT, fragmentShader: SOFT_FRAG, transparent: true, depthWrite: false,
   }));
   bokeh.frustumCulled = false;
   bokeh.renderOrder = -3;
@@ -495,7 +495,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     particles.visible = d > 0 && fade < 1;
 
     // light: rim pulse when the halves close, glint sweeping the finished capsule
-    rim.intensity = 3.2 + flash * 7;
+    rim.intensity = 3.2 + flash * 1.2;
     glint.intensity = 3.2 * Math.sin(H * Math.PI);
     glint.position.set(lerp(-5, 5, H), 2.5, 4);
     key.intensity = 2.2 + H * 0.4;

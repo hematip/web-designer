@@ -61,7 +61,7 @@ const photo = photoOf(locale, 'professionals', 'entrance');
         <h2 id="comp-title">{composition.heading}</h2>
         <div class="prose spec" set:html={md(composition.body)} />
       </div>
-      <div class="pro-two__side is-dark aurora" data-reveal>
+      <div class="pro-two__side is-tint" data-reveal>
         <h2 id="mon-title" class="h3">{monitoring.heading}</h2>
         <div class="prose" set:html={md(monitoring.body)} />
       </div>
@@ -112,7 +112,7 @@ const photo = photoOf(locale, 'professionals', 'entrance');
   .pro-two { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: start; }
   .pro-two__main { grid-column: 1 / span 7; display: grid; gap: var(--s-3); padding: clamp(1.75rem, 1.2rem + 2vw, 3rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
   .pro-two__side { grid-column: 9 / span 4; display: grid; gap: var(--s-2); border-radius: var(--r-xl); padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem); }
-  .pro-two__side :global(.prose) { color: var(--on-dark-soft); }
+  .pro-two__side :global(.prose) { color: var(--ink-soft); }
   .h3 { font-size: var(--fs-h3); line-height: 1.2; }
   .spec :global(p) { padding-block: 0.9rem; border-bottom: 1px solid var(--line); margin: 0; }
   .spec :global(p:last-child) { border-bottom: 0; color: var(--ink-soft); }

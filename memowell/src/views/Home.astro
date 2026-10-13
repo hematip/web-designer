@@ -73,7 +73,7 @@ const blobs = [
   </section>
 
   <!-- 3 · Resin → K-Vie™ → capsule (real-time 3D), text in step with the scene -->
-  <section class="h-form is-dark" id="formulation" aria-labelledby="formulation-title" data-form>
+  <section class="h-form is-light" id="formulation" aria-labelledby="formulation-title" data-form>
     <div class="h-form__pin aurora" data-pointer data-form-pin>
       <div class="wrap h-form__grid">
         <div class="h-form__scene" data-form-scene>
@@ -147,7 +147,7 @@ const blobs = [
   </section>
 
   <!-- 5 · Evidence: the sentence lights up, the figure stays inside its context -->
-  <section class="h-evidence is-dark aurora" id="evidence" aria-labelledby="evidence-title">
+  <section class="h-evidence is-light aurora" id="evidence" aria-labelledby="evidence-title">
     <div class="wrap h-evidence__grid">
       <h2 id="evidence-title" class="h-evidence__title" data-split>{evidence.heading}</h2>
       <div class="h-evidence__statement" data-highlight set:html={highlight(md(evidenceParas[0]), evidence.highlight)} />
@@ -183,7 +183,7 @@ const blobs = [
   <!-- 7 · Professional band (homepage version) -->
   <aside class="pro-band" id="professionals" aria-label={pro.lead}>
     <div class="wrap">
-      <div class="pro-band__card on-dark h-pro" data-reveal>
+      <div class="pro-band__card h-pro" data-reveal>
         <div class="pro-band__stripes" aria-hidden="true"><Stripes id="home-pro" /></div>
         <p><strong>{pro.lead}</strong> {pro.body}</p>
         <div class="btn-row">{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
@@ -247,7 +247,7 @@ const blobs = [
   /* ============ Formulation story (3D) ============ */
   /* Resolved composition first (no JS / reduced motion): the chapters listed beside the closed capsule.
      While scrubbing, every chapter shares one cell and the scroll position decides which one is read. */
-  .h-form { border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); overflow: clip; }
+  .h-form { border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); overflow: clip; border: 1px solid var(--line); }
   .h-form__pin { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 1.5rem) 3rem; }
   .h-form__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
   .h-form__scene { display: contents; }
@@ -261,13 +261,13 @@ const blobs = [
   .h-form.is-3d .h-form__poster { opacity: 0; }
 
   .h-story { grid-column: 1 / span 6; grid-row: 1; position: relative; z-index: 2; display: grid; gap: var(--s-4); justify-items: start; }
-  .h-story__title { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.5rem); line-height: 1.04; letter-spacing: -0.035em; max-width: 18ch; color: #fff; text-wrap: balance; }
+  .h-story__title { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.5rem); line-height: 1.04; letter-spacing: -0.035em; max-width: 18ch; color: var(--ink); text-wrap: balance; }
   .h-story__chapters { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); width: 100%; }
   .h-chapter { display: grid; gap: 0.6rem; align-content: start; justify-items: start; }
-  .h-chapter__n { font: 700 0.8125rem/1 var(--font-body); letter-spacing: 0.16em; color: var(--cyan); }
-  .h-chapter__n span { color: rgba(255, 255, 255, 0.5); }
-  .h-chapter__label { font: 650 clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem)/1.1 var(--font-display); letter-spacing: -0.025em; color: #fff; max-width: 20ch; text-wrap: balance; }
-  .h-chapter__body { max-width: 34rem; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); line-height: 1.55; color: var(--on-dark-soft); }
+  .h-chapter__n { font: 700 0.8125rem/1 var(--font-body); letter-spacing: 0.16em; color: var(--royal); }
+  .h-chapter__n span { color: var(--ink-soft); }
+  .h-chapter__label { font: 650 clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem)/1.1 var(--font-display); letter-spacing: -0.025em; color: var(--ink); max-width: 20ch; text-wrap: balance; }
+  .h-chapter__body { max-width: 34rem; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); line-height: 1.55; color: var(--ink-soft); }
   .h-chapter__body :global(em) { font-style: italic; }
   .h-chapter .btn-row { margin-block-start: 0.5rem; }
   .h-story__rail { display: none; }
@@ -293,11 +293,11 @@ const blobs = [
   :global(.h-form.is-scrubbing) .h-chapter { grid-area: 1 / 1; gap: 1rem; opacity: 0; translate: 0 1.25rem; filter: blur(6px); pointer-events: none; }
   :global(.h-form.is-scrubbing) .h-chapter[data-state='past'] { translate: 0 -1.25rem; }
   :global(.h-form.is-scrubbing) .h-chapter[data-state='active'] { opacity: 1; translate: 0 0; filter: none; pointer-events: auto; }
-  :global(.h-form.is-scrubbing) .h-chapter__label { font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem); line-height: 1.04; max-width: 16ch; text-shadow: 0 2px 28px rgba(6, 12, 51, 0.6); }
+  :global(.h-form.is-scrubbing) .h-chapter__label { font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem); line-height: 1.04; max-width: 16ch; }
   :global(.h-form.is-scrubbing) .h-story__title { font-size: clamp(1.5rem, 1rem + 1.4vw, 2.25rem); line-height: 1.12; max-width: 26ch; }
   :global(.h-form.is-scrubbing) .h-story__rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; width: min(100%, 22rem); }
-  .h-story__rail span { position: relative; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, 0.18); overflow: hidden; }
-  .h-story__rail span::after { content: ''; position: absolute; inset: 0; background: var(--cyan); transform-origin: 0 50%; transform: scaleX(var(--fill, 0)); }
+  .h-story__rail span { position: relative; height: 3px; border-radius: 3px; background: rgba(43, 63, 217, 0.14); overflow: hidden; }
+  .h-story__rail span::after { content: ''; position: absolute; inset: 0; background: var(--royal); transform-origin: 0 50%; transform: scaleX(var(--fill, 0)); }
   :global([dir='rtl']) .h-story__rail span::after { transform-origin: 100% 50%; }
 
   /* ============ Marquee ============ */
@@ -343,13 +343,13 @@ const blobs = [
   :global(.h-who.is-horizontal) .h-who__card { width: clamp(26rem, 38vw, 36rem); min-height: 28rem; }
 
   /* ============ Evidence ============ */
-  .h-evidence { padding-block: var(--section); border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); }
+  .h-evidence { padding-block: var(--section); border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); border: 1px solid var(--line); }
   .h-evidence__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-5); }
   .h-evidence__title { grid-column: 1 / -1; }
   .h-evidence__statement { grid-column: 1 / span 11; }
-  .h-evidence__statement :global(p) { font: 600 clamp(1.75rem, 1.15rem + 2.3vw, 3.4rem)/1.18 var(--font-display); letter-spacing: -0.025em; color: #fff; }
+  .h-evidence__statement :global(p) { font: 600 clamp(1.75rem, 1.15rem + 2.3vw, 3.4rem)/1.18 var(--font-display); letter-spacing: -0.025em; color: var(--ink); }
   .h-evidence__statement :global(em) { font-style: italic; } /* journal title */
-  .h-evidence__statement :global(mark.figure) { background: none; color: var(--cyan); }
+  .h-evidence__statement :global(mark.figure) { background: none; color: var(--royal); }
   .h-evidence__meta { grid-column: 6 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
 
   /* ============ Directions ============ */
@@ -406,9 +406,9 @@ const blobs = [
     :global(.h-form.is-scrubbing) .h-form__frame { position: absolute; inset: calc(var(--header-h) + 0.25rem) var(--gutter) auto; height: 50svh; }
     :global(.h-form.is-scrubbing) .h-story {
       position: absolute; inset: auto 0 0; margin: 0; padding: 4rem var(--gutter) 1.75rem; gap: 0.85rem;
-      background: linear-gradient(to top, rgba(6, 12, 51, 0.92) 55%, rgba(6, 12, 51, 0));
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 55%, rgba(255, 255, 255, 0));
     }
-    :global(.h-form.is-scrubbing) .h-story__title { font-size: 1.0625rem; line-height: 1.25; color: var(--on-dark-soft); }
+    :global(.h-form.is-scrubbing) .h-story__title { font-size: 1.0625rem; line-height: 1.25; color: var(--ink-soft); }
     :global(.h-form.is-scrubbing) .h-chapter { gap: 0.6rem; }
     :global(.h-form.is-scrubbing) .h-chapter__label { font-size: clamp(1.625rem, 1.2rem + 2vw, 2.25rem); }
     :global(.h-form.is-scrubbing) .h-chapter__body { font-size: 1rem; line-height: 1.5; }

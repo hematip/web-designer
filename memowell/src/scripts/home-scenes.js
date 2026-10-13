@@ -169,9 +169,9 @@ mm.add(MQ.motion, () => {
   if (!block) return;
   const split = SplitText.create(block, { type: 'words', tag: 'span', aria: 'none' });
   const words = split.words;
-  gsap.set(words, { color: '#8a93c7' });
+  gsap.set(words, { color: '#6a7196' });
   gsap.to(words, {
-    color: (i, el) => (el.closest('mark') ? '#19d3e2' : '#ffffff'),
+    color: (i, el) => (el.closest('mark') ? '#2b3fd9' : '#0a1240'),
     ease: 'none', stagger: 0.1,
     scrollTrigger: { trigger: block, start: 'top 82%', end: 'bottom 52%', scrub: 0.5 },
   });

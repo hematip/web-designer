@@ -1,5 +1,5 @@
 ---
-// Inner-page opening (v2): a rounded midnight aurora stage with breadcrumb pills, oversized H1 and the
+// Inner-page opening (v2; white-first): a rounded daylight stage with breadcrumb pills, oversized H1 and the
 // approved intro copy. Optional media slot on the side.
 import { getSite, href, md } from '../lib/content.js';
 
@@ -8,7 +8,7 @@ const { locale, title, body, crumbs = [], note, wide = false } = Astro.props;
 const ui = getSite(locale).data.ui;
 const hasMedia = Astro.slots.has('media');
 ---
-<header class:list={['page-head', 'is-dark', 'aurora', { 'page-head--media': hasMedia }]} data-pointer>
+<header class:list={['page-head', 'is-light', 'is-light-head', 'aurora', { 'page-head--media': hasMedia }]} data-pointer>
   <div class="wrap page-head__grid">
     <div class="page-head__copy">
       <nav class="breadcrumb" aria-label={ui.breadcrumb}>
@@ -29,6 +29,7 @@ const hasMedia = Astro.slots.has('media');
 
 <style>
   .page-head {
+    border: 1px solid var(--line); border-block-start: 0;
     margin: 0 clamp(0.5rem, 1.5vw, 1.5rem); border-radius: 0 0 var(--r-xl) var(--r-xl);
     padding-block: calc(var(--header-h) + clamp(3rem, 2rem + 4vw, 6rem)) clamp(3rem, 2rem + 4vw, 6rem);
   }
@@ -38,13 +39,13 @@ const hasMedia = Astro.slots.has('media');
   .page-head__media { grid-column: 8 / span 5; position: relative; }
   .page-head h1 { max-width: 16ch; font-size: clamp(2.5rem, 1.5rem + 4vw, 5.5rem); letter-spacing: -0.045em; line-height: 0.98; }
   .page-head h1.page-head__wide { max-width: 22ch; }
-  .page-head__lead { margin-block-start: var(--s-4); max-width: 42rem; font-size: var(--fs-lead); line-height: 1.55; color: var(--on-dark-soft); }
+  .page-head__lead { margin-block-start: var(--s-4); max-width: 42rem; font-size: var(--fs-lead); line-height: 1.55; color: var(--ink-soft); }
   .page-head__copy :global(.btn-row) { margin-block-start: var(--s-4); }
   .page-head__note {
-    margin-block-end: var(--s-4); max-width: 46rem; font-style: italic; color: #fff;
-    padding: 0.85rem 1.25rem; border-radius: var(--r-m); background: rgba(25, 211, 226, 0.12); border: 1px solid rgba(25, 211, 226, 0.4);
+    margin-block-end: var(--s-4); max-width: 46rem; color: var(--ink);
+    padding: 0.85rem 1.25rem; border-radius: var(--r-m); background: rgba(43, 63, 217, 0.06); border: 1px solid rgba(43, 63, 217, 0.22);
   }
-  .page-head__rings { position: absolute; z-index: 0; width: 46rem; inset-inline-end: -12rem; top: 50%; translate: 0 -50%; fill: none; stroke: rgba(255, 255, 255, 0.08); pointer-events: none; }
+  .page-head__rings { position: absolute; z-index: 0; width: 46rem; inset-inline-end: -12rem; top: 50%; translate: 0 -50%; fill: none; stroke: rgba(43, 63, 217, 0.1); pointer-events: none; }
   @media (max-width: 63.99rem) {
     .page-head__copy, .page-head--media .page-head__copy, .page-head__media { grid-column: 1 / -1; }
     .page-head__media { margin-block-start: var(--s-5); }
