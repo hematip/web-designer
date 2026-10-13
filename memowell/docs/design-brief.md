@@ -243,3 +243,8 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Fallbacks:** reduced motion and no JS show the resolved composition (intro beside the still closed capsule, five chapters listed); without WebGL the SVG capsule poster stays. Keyboard focus into a hidden chapter scrolls to it.
 - **Must not imply:** no body, bloodstream, brain or mechanism; no dark→light "clarity" tied to memory; the capsule is not shown "working"; nothing links the scene to an outcome. The story depicts only the processing words in the copy.
 - **Retired:** the v2 hero bottle, orbit rings, glow and fact chips (the bottle remains in the closing panel; the chips' fragments remain in the marquee).
+
+## Version 5: page order restored, hero film pending (2026-10-13)
+
+- **Reverted from v4:** the approved hero question followed directly by a transformation that ends on a capsule reads as problem → product → solution (Kondor rule 7, montage causality). Order is now hero question → "why" (inflammation research, "not a settled answer") → the formulation story in 3D, with the v4 chapter system unchanged.
+- **Hero:** the approved question on the aurora, scaled to fit one screen on laptops. A silent hero film (Memowell cognitive-moment grammar, no product, no on-screen text) is in concept approval; nothing generated yet.

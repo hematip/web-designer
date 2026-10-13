@@ -1,4 +1,4 @@
-// Homepage cinematic scenes (v2; hero v4). Every scene animates *from* states set here; the HTML is already the
+// Homepage cinematic scenes (v2; formulation story v5). Every scene animates *from* states set here; the HTML is already the
 // resolved composition, so reduced motion, no-JS and failures show complete content.
 import { gsap, ScrollTrigger, SplitText, mm, MQ, getLenis } from './motion.js';
 
@@ -15,18 +15,25 @@ mm.add(MQ.motion, () => {
   });
 });
 
-// ---------------------------------------------------------------- Hero (v4): resin → K-Vie™ → capsule
-// The pinned hero scrubs one number. It decides which chapter is read (the approved hero first, then the
-// five formulation chapters) and where the 3D scene stands, so text and scene always change together and
-// reverse scroll, fast skips and anchors resolve to the same frame. Each chapter plays its stage of the scene
-// in the first part of its range and holds the resolved frame while it is read.
-// Without WebGL (or before it loads) the static SVG capsule poster stays in place; with reduced motion the
-// hero is the resolved composition (intro, capsule, the five chapters listed) and the scene shows its last frame.
-const hero = $('[data-hero]');
+// ---------------------------------------------------------------- Hero
+mm.add(MQ.motion, () => {
+  const hero = $('[data-hero]');
+  if (!hero) return;
+  const intro = gsap.from($$('[data-hero-in]', hero), { y: 30, autoAlpha: 0, duration: 1.2, stagger: 0.12, ease: 'expo.out', delay: 0.35 });
+  return () => intro.revert();
+});
+
+// ---------------------------------------------------------------- Resin → K-Vie™ → capsule (3D)
+// The pinned range scrubs one number. It decides which of the five chapters is read and where the 3D scene
+// stands, so text and scene always change together and reverse scroll, fast skips and anchors resolve to the
+// same frame. Each chapter plays its stage in the first part of its range and holds the resolved frame while it
+// is read. Without WebGL (or before it loads) the static SVG capsule poster stays in place; with reduced motion
+// the chapters are listed beside the scene's last frame.
+const form = $('[data-form]');
 const sceneState = { p: 0 };
-// Scene range [from, to] played by each chapter: 0 intro (resin), 1 resin, 2 micronized, 3 microcrystalline,
-// 4 K-Vie™ (crystals condense), 5 vegetarian capsule (the halves close, the capsule turns in the light).
-const HERO_SCENE = [[0, 0.05], [0.05, 0.13], [0.13, 0.42], [0.42, 0.62], [0.62, 0.74], [0.74, 1]];
+// Scene range [from, to] played by each chapter: resin, micronized, microcrystalline,
+// K-Vie™ (crystals condense), vegetarian capsule (the halves close, the capsule turns in the light).
+const STAGES = [[0, 0.13], [0.13, 0.42], [0.42, 0.62], [0.62, 0.74], [0.74, 1]];
 const PLAY = 0.7; // share of a chapter's range that plays its stage; the rest holds for reading
 const ease = (x) => x * x * (3 - 2 * x);
 let sceneMode = null;
@@ -38,66 +45,57 @@ function setSceneMode(mode) {
   scene?.setMode(mode);
 }
 function loadScene() {
-  if (!hero || sceneLoad) return;
+  if (!form || sceneLoad) return;
   sceneLoad = import('./formulation-3d.js')
     .then(({ createFormulationScene }) => {
       scene = createFormulationScene({
-        section: hero,
-        canvas: $('[data-form-canvas]', hero),
-        frame: $('[data-form-frame]', hero),
+        section: form,
+        canvas: $('[data-form-canvas]', form),
+        frame: $('[data-form-frame]', form),
         state: sceneState,
         mode: sceneMode ?? 'static',
-        onReady: () => hero.classList.add('is-3d'),
-        onFail: () => hero.classList.remove('is-3d'),
+        onReady: () => form.classList.add('is-3d'),
+        onFail: () => form.classList.remove('is-3d'),
       });
       ScrollTrigger.addEventListener('refresh', () => scene?.resize());
     })
-    .catch(() => hero.classList.remove('is-3d'));
+    .catch(() => form.classList.remove('is-3d'));
 }
-if (hero) {
-  // The scene is the first thing on the page, but it never blocks it: load once the browser is idle.
-  const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 400));
-  idle(loadScene, { timeout: 1500 });
+if (form) {
+  // Load the renderer well before the section is reached; the rest of the page never waits for it.
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      io.disconnect();
+      loadScene();
+    }
+  }, { rootMargin: '150% 0px' });
+  io.observe(form);
 }
 
-function buildHero(mobile) {
-  if (!hero) return null;
-  const intro = $('.h-hero__intro', hero);
-  const chapters = $$('.h-chapter', hero);
-  const rail = $$('[data-hero-rail] span', hero);
-  // Chapter starts as fractions of the pinned range. Desktop: the intro is chapter 0 in the same cell.
-  // Phone: the intro reads in flow above, so the pinned scene tells chapters 1–5 only.
+function buildFormulation(mobile) {
+  if (!form) return null;
+  const chapters = $$('.h-chapter', form);
+  const rail = $$('[data-form-rail] span', form);
   const n = chapters.length;
-  const starts = mobile
-    ? [0, ...chapters.map((_, k) => k / n)]
-    : JSON.parse(hero.dataset.chapters || '[0]');
-  const from = (i) => (mobile && i === 0 ? -Infinity : starts[i]);
-  const to = (i) => (i + 1 < starts.length ? starts[i + 1] : 1);
+  const from = (k) => k / n;
+  const to = (k) => (k + 1) / n;
   const st = { t: 0 };
   let active = -1;
 
   const sync = () => {
     const t = st.t;
-    let i = mobile ? 1 : 0;
-    for (let k = i; k < starts.length; k++) if (t >= from(k)) i = k;
-    // Scene: play this chapter's stage, then hold it.
-    const [a, b] = HERO_SCENE[Math.min(i, HERO_SCENE.length - 1)];
-    const span = to(i) - Math.max(0, from(i));
-    const local = span > 0 ? ease(Math.min(1, (t - Math.max(0, from(i))) / (span * PLAY))) : 1;
-    sceneState.p = a + (b - a) * Math.max(0, local);
-    // Text
+    const i = Math.min(n - 1, Math.floor(t * n));
+    const [a, b] = STAGES[Math.min(i, STAGES.length - 1)];
+    const local = ease(Math.min(1, Math.max(0, (t - from(i)) / ((to(i) - from(i)) * PLAY))));
+    sceneState.p = a + (b - a) * local;
     if (i !== active) {
       active = i;
-      if (!mobile) hero.classList.toggle('is-story', i > 0);
-      chapters.forEach((c, k) => { c.dataset.state = k + 1 < i ? 'past' : k + 1 === i ? 'active' : 'future'; });
+      chapters.forEach((c, k) => { c.dataset.state = k < i ? 'past' : k === i ? 'active' : 'future'; });
     }
-    rail.forEach((r, k) => {
-      const f = Math.min(1, Math.max(0, (t - from(k + 1)) / (to(k + 1) - from(k + 1))));
-      r.style.setProperty('--fill', f.toFixed(3));
-    });
+    rail.forEach((r, k) => r.style.setProperty('--fill', Math.min(1, Math.max(0, (t - from(k)) * n)).toFixed(3)));
   };
 
-  hero.classList.add('is-scrubbing');
+  form.classList.add('is-scrubbing');
   setSceneMode(mobile ? 'mobile' : 'desktop');
   sync();
   const tween = gsap.to(st, {
@@ -105,9 +103,9 @@ function buildHero(mobile) {
     ease: 'none',
     onUpdate: sync,
     scrollTrigger: {
-      trigger: mobile ? $('[data-hero-scene]', hero) : $('[data-hero-pin]', hero),
+      trigger: mobile ? $('[data-form-scene]', form) : $('[data-form-pin]', form),
       start: 'top top',
-      end: mobile ? '+=400%' : '+=460%',
+      end: mobile ? '+=400%' : '+=420%',
       pin: true,
       scrub: 0.9,
       anticipatePin: 1,
@@ -117,32 +115,27 @@ function buildHero(mobile) {
 
   // Keyboard: focusing a link in a chapter that is not on screen scrolls to where that chapter is read.
   const onFocus = (e) => {
-    const owner = e.target.closest('[data-chapter]');
+    const owner = e.target.closest('.h-chapter');
     if (!owner) return;
-    const i = Number(owner.dataset.chapter);
-    if (i === active || (mobile && i === 0)) return;
+    const i = chapters.indexOf(owner);
+    if (i === active) return;
     const trig = tween.scrollTrigger;
-    const at = Math.max(0, from(i)) + (to(i) - Math.max(0, from(i))) * 0.85;
-    const y = trig.start + (trig.end - trig.start) * at;
+    const y = trig.start + (trig.end - trig.start) * (from(i) + (to(i) - from(i)) * 0.85);
     const lenis = getLenis();
     if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
     else window.scrollTo(0, y);
   };
-  hero.addEventListener('focusin', onFocus);
-
-  // Intro: the approved hero rises in on load.
-  const introIn = gsap.from($$('[data-hero-in]', intro), { y: 30, autoAlpha: 0, duration: 1.2, stagger: 0.12, ease: 'expo.out', delay: 0.35 });
+  form.addEventListener('focusin', onFocus);
 
   return () => {
-    hero.removeEventListener('focusin', onFocus);
-    introIn.revert();
-    hero.classList.remove('is-scrubbing', 'is-story');
+    form.removeEventListener('focusin', onFocus);
+    form.classList.remove('is-scrubbing');
     chapters.forEach((c) => delete c.dataset.state);
     rail.forEach((r) => r.style.removeProperty('--fill'));
   };
 }
-mm.add(MQ.desktop, () => buildHero(false));
-mm.add(MQ.mobile, () => buildHero(true));
+mm.add(MQ.desktop, () => buildFormulation(false));
+mm.add(MQ.mobile, () => buildFormulation(true));
 mm.add('(prefers-reduced-motion: reduce)', () => {
   sceneState.p = 1;
   setSceneMode('static');

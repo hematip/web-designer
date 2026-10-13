@@ -51,9 +51,8 @@ Full record: `docs/design-brief.md` → "Version 2".
 
 ### Homepage signature scenes
 
-1. **Hero (v4): resin → K-Vie™ → capsule, told while you scroll** (real-time 3D; the whole hero pins on desktop, the scene pins on phones):
-   - the approved hero (eyebrow, headline, lead, buttons) opens beside a lit amber Boswellia resin tear;
-   - as you scroll, the hero text gives way to the approved §3 heading and five chapters, one at a time, each changing together with its stage of the scene:
+1. **Resin → K-Vie™ → capsule, told while you scroll** (v5 order: hero question → "why" → this story; real-time 3D, pinned on desktop, the scene pins on phones). Placing it in the hero (v4) was reverted: the hero question followed by a transformation ending on a capsule read as problem → product → solution.
+   - the approved §3 heading and five chapters appear one at a time, each changing together with its stage of the scene:
      1. *Resin of Boswellia trees — frankincense*: the resin tear turns in the light;
      2. *Micronized*: it disintegrates from the base up and the dust spins into a slow vortex;
      3. *Microcrystalline*: the dust snaps into a rotating 3D crystal lattice;
@@ -62,8 +61,8 @@ Full record: `docs/design-brief.md` → "Version 2".
    - each chapter plays its stage in the first ~70% of its scroll range and holds the resolved frame while it is read; one scrubbed value drives text and scene, so reverse scroll and skips land on the same frame;
    - chapter texts are whole approved sentences (§3 and the `/memowell` sentence "One bottle holds 90 vegetarian capsules."), in order; a five-part rail shows progress;
    - keyboard: tabbing to a link in a chapter that is not on screen scrolls to that chapter;
-   - phones: the hero text reads first in normal flow, then the scene takes the screen with the chapter text over its lower part;
-   - reduced motion / no JavaScript: the resolved composition (hero text beside the closed capsule, the five chapters listed below); without WebGL the SVG capsule poster stays.
+   - phones: the scene takes the screen with the chapter text over its lower part;
+   - reduced motion / no JavaScript: the five chapters listed beside the closed capsule; without WebGL the SVG capsule poster stays.
 
    It shows the "difference from ordinary frankincense" using only the copy's own words. No body, bloodstream, brain or mechanism appears, and nothing is tied to a memory outcome.
 2. **Who it was studied in:** the four groups move as a pinned horizontal card track.
