@@ -23,7 +23,7 @@ const products = section(page, 'products');
       <h2 id="other-title" data-split>{products.heading}</h2>
       <ul class="products" role="list">
         {products.items.map((p: any) => (
-          <li data-reveal><a class="product-link" href={settings.kondor_url} rel="noopener"><strong>{p.title}</strong></a></li>
+          <li data-reveal><a class={`product-link product-link--${p.title.toLowerCase()}`} href={settings.kondor_url} rel="noopener"><strong>{p.title}</strong></a></li>
         ))}
       </ul>
       <div class="prose" set:html={md(products.body)} />
@@ -35,8 +35,9 @@ const products = section(page, 'products');
 
 <style>
   .about-actions { margin-block-start: var(--s-4); }
-  .kondor-mark { background: #fff; border-radius: var(--r-xl); padding: clamp(2rem, 4vw, 4rem); display: grid; place-items: center; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.6); rotate: -3deg; }
-  .kondor-mark img { width: min(100%, 20rem); }
+  /* Parent logo: the exact master, straight, on a clean white plane (no rotation, no shadow). */
+  .kondor-mark { background: #fff; border-radius: var(--r-xl); padding: clamp(2rem, 4vw, 4rem); display: grid; place-items: center; }
+  .kondor-mark img { width: min(100%, 20rem); min-width: 8.75rem; }
   .other .wrap { display: grid; gap: var(--s-4); }
   .products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-3); }
   .product-link {
@@ -44,8 +45,12 @@ const products = section(page, 'products');
     border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none;
     font: 700 clamp(1.75rem, 1.3rem + 1.5vw, 2.75rem)/1 var(--font-display); letter-spacing: -0.04em; transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
   }
-  .product-link::before { content: ''; position: absolute; z-index: -1; width: 14rem; height: 14rem; inset-inline-end: -4rem; top: -5rem; border-radius: 50%; background: radial-gradient(circle, rgba(76, 99, 255, 0.25), transparent 70%); }
+  .product-link::before { content: ''; position: absolute; z-index: -1; width: 14rem; height: 14rem; inset-inline-end: -4rem; top: -5rem; border-radius: 50%; background: radial-gradient(circle, var(--glow, rgba(76, 99, 255, 0.25)), transparent 70%); }
+  /* Each product keeps its own colour family; Inflawell has no family in the brand rules, so it stays neutral. */
+  .product-link--strowell { --glow: rgba(139, 63, 196, 0.26); --hover: #7a2fb3; }
+  .product-link--genuwell { --glow: rgba(40, 150, 80, 0.26); --hover: #1f7a44; }
+  .product-link--inflawell { --glow: rgba(120, 128, 150, 0.22); --hover: var(--ink); }
   .product-link strong { font-weight: 700; }
-  .product-link:hover { transform: translateY(-6px); box-shadow: var(--shadow-soft); color: var(--royal); }
+  .product-link:hover { transform: translateY(-6px); box-shadow: var(--shadow-soft); color: var(--hover, var(--royal)); }
   @media (max-width: 47.99rem) { .products { grid-template-columns: 1fr; } }
 </style>

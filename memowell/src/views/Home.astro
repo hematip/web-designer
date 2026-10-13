@@ -233,7 +233,6 @@ const blobs = [
   .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; position: relative; z-index: 2; }
   .h-hero__intro { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; }
   .h-hero__title { font-size: var(--fs-display); line-height: 0.95; letter-spacing: -0.045em; max-width: 11.5ch; }
-  .h-hero__title :global(.accent) { color: var(--cyan); padding-inline-end: 0.04em; }
   .h-hero__lead { max-width: 34rem; font-size: var(--fs-lead); line-height: 1.55; color: var(--on-dark-soft); }
   /* The hero fits one screen on laptops too: the intro scales with the viewport height. */
   @media (min-width: 56.25rem) {
@@ -349,7 +348,7 @@ const blobs = [
   .h-evidence__title { grid-column: 1 / -1; }
   .h-evidence__statement { grid-column: 1 / span 11; }
   .h-evidence__statement :global(p) { font: 600 clamp(1.75rem, 1.15rem + 2.3vw, 3.4rem)/1.18 var(--font-display); letter-spacing: -0.025em; color: #fff; }
-  .h-evidence__statement :global(em) { font-family: var(--font-accent); font-weight: 400; font-style: italic; letter-spacing: 0; }
+  .h-evidence__statement :global(em) { font-style: italic; } /* journal title */
   .h-evidence__statement :global(mark.figure) { background: none; color: var(--cyan); }
   .h-evidence__meta { grid-column: 6 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
 

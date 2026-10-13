@@ -32,7 +32,6 @@
   /* Type */
   --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
   --font-body: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-accent: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --font-arabic: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', 'Geeza Pro', sans-serif;
 
   --fs-small: 1.0625rem;
@@ -87,7 +86,16 @@ h2 { font-size: var(--fs-h2); line-height: 1.05; letter-spacing: -0.03em; }
 h3 { font-size: var(--fs-h3); line-height: 1.22; letter-spacing: -0.015em; }
 strong { font-weight: 700; }
 em { font-style: italic; }
-.accent { font-family: var(--font-accent); font-style: italic; font-weight: 400; letter-spacing: -0.005em; }
+/* Emphasis: Kondor's two thin product-colour strokes under one word (no decorative italic). Kept inside the
+   line box so masked line reveals do not clip them. */
+.accent {
+  --stroke: var(--accent-stroke, var(--royal));
+  background:
+    linear-gradient(var(--stroke) 0 0) 0 calc(100% - 0.17em) / 100% 0.04em no-repeat,
+    linear-gradient(var(--stroke) 0 0) 0 calc(100% - 0.245em) / 100% 0.04em no-repeat;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.is-dark .accent { --accent-stroke: var(--cyan); }
 
 a { color: var(--royal); text-decoration: underline; text-decoration-thickness: 0.08em; text-underline-offset: 0.2em; }
 a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
@@ -314,7 +322,7 @@ a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
 .site-footer .lang-switch .is-unavailable { color: var(--on-dark-soft); }
 .site-footer__last { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); padding-block: var(--s-4); border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 1rem; }
 .site-footer__brand { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; }
-.site-footer__brand img { width: 7.5rem; background: #fff; border-radius: 14px; padding: 0.55rem 0.8rem; }
+.site-footer__brand img { width: 8.75rem; background: #fff; border-radius: 14px; padding: 0.55rem 0.8rem; }
 .site-footer__slogan { font: 800 clamp(2.5rem, 7vw, 8.5rem)/0.9 var(--font-display); letter-spacing: -0.05em; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22); padding-block: var(--s-3) var(--s-2); user-select: none; text-align: center; }
 @media (max-width: 63.99rem) { .site-footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } .site-footer__slogan { white-space: normal; } }
 @media (max-width: 30rem) { .site-footer__cols { grid-template-columns: 1fr; } }
