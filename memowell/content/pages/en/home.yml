@@ -97,7 +97,7 @@ sections:
       width: 1600
       height: 2143
       widths: [640, 1024, 1600]
-      focus: "60% 55%"
+      focus: "50% 40%"
       alt: ""
       note: "Illustrative image"
     heading: "Where to find Memowell"

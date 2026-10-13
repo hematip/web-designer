@@ -18,7 +18,7 @@ sections:
       width: 1024
       height: 1542
       widths: [640, 1024]
-      focus: "50% 60%"
+      focus: "45% 60%"
       alt: ""
       note: "Illustrative image"
     heading: "What is in it"
@@ -44,9 +44,9 @@ sections:
     photo:
       src: "/img/photos/wellness-lunch"
       width: 2000
-      height: 1328
+      height: 1063
       widths: [640, 1024, 1600, 2000]
-      focus: "90% 0%"
+      focus: "40% 30%"
       alt: ""
       note: "Illustrative image"
 

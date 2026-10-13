@@ -11,9 +11,9 @@ sections:
     # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
     photo:
       src: "/img/photos/hcp-evidence"
-      width: 2000
-      height: 857
-      widths: [640, 1024, 1600, 2000]
+      width: 2400
+      height: 1029
+      widths: [640, 1024, 1600, 2400]
       focus: "72% 40%"
       alt: ""
       note: "Illustrative image"

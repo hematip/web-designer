@@ -14,7 +14,7 @@ sections:
       width: 1600
       height: 2000
       widths: [640, 1024, 1600]
-      focus: "50% 30%"
+      focus: "50% 55%"
       alt: ""
       note: "Illustrative image"
   - id: article-template
