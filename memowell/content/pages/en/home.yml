@@ -92,6 +92,15 @@ sections:
       - { label: "Go to the professional section", href: "/science/professionals" }
 
   - id: availability
+    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield, official bottle cutout composited, not generated). Needs client approval: see README.
+    photo:
+      src: "/img/photos/where-pharmacy"
+      width: 1600
+      height: 2143
+      widths: [640, 1024, 1600]
+      focus: "60% 55%"
+      alt: ""
+      note: "Illustrative image"
     heading: "Where to find Memowell"
     body: |-
       Availability, packaging and approved uses differ by country. Tell us where you are and we will point you to the right source.

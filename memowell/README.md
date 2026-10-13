@@ -150,7 +150,7 @@ These are interface or structural words, and none of them is a claim. They are a
 
 ### Visual and other decisions to confirm
 
-**Illustrative photography (needs Kondor sign-off before go-live).** Five AI-generated, text-free photos were made with the Kondor Brain brand-creative skill (Higgsfield, GPT Image 2.5) in the Memowell blue/indigo/cyan palette, one per audience:
+**Illustrative photography (needs Kondor sign-off before go-live).** At the agency's request every photo on the site is generated; the supplied bottle-in-hand and capsule-in-hand photos are no longer used. Eight AI-generated, text-free photos were made with the Kondor Brain brand-creative skill (Higgsfield, GPT Image 2.5) in the Memowell blue/indigo/cyan palette, one per audience:
 
 | Photo | Audience | Where |
 |---|---|---|
@@ -159,6 +159,9 @@ These are interface or structural words, and none of them is a claim. They are a
 | `caregiver-walk` | Caregivers | `/memory-health`, page head |
 | `caregiver-planner` | Caregivers | Home, "why" section |
 | `wellness-lunch` | Wellness | `/memowell`, "How to take it" (official bottle cutout composited at real scale with `scripts/prepare-photo.mjs`; the bottle is not generated) |
+| `where-pharmacy` | Wellness | Home, "Where to find Memowell" (official bottle cutout composited on the counter) |
+| `partners-counter` | Pharmacy / distribution | `/about/partners` (official bottle cutout composited on the counter) |
+| `capsule-resin` | All | `/memowell`, "What is in it" (generated cream capsule beside frankincense resin) |
 
 - **Conflict with brief Part 6:** the brief says no AI-generated people presented as patients or doctors. The agency asked for all four audiences, so the client must approve these, or remove them in the CMS (Pages → section → Photo).
 - Each photo carries a visible "Illustrative image" note (new copy, flagged) and empty alt text, because it is decorative next to the approved copy.

@@ -17,6 +17,7 @@ const { data: page, fallback } = getPage(locale, 'memowell');
 const s = (id: string) => section(page, id);
 const intro = s('intro'), composition = s('composition'), directions = s('directions'), cautions = s('cautions'), storage = s('storage'), summary = s('summary');
 const directionsPhoto = photoOf(locale, 'memowell', 'directions');
+const compositionPhoto = photoOf(locale, 'memowell', 'composition');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
   <PageHead locale={locale} title={intro.heading} body={intro.body}>
@@ -32,9 +33,7 @@ const directionsPhoto = photoOf(locale, 'memowell', 'directions');
           ? <p class="amount">{composition.per_capsule_amount}</p>
           : <Pending label="amount of active ingredient per capsule" detail="Not supplied by the client (brief Part 9). Shown here once confirmed." />}
       </div>
-      <figure class="split__media capsule-frame" data-reveal>
-        <img src="/img/capsule-in-hand-1000.webp" srcset="/img/capsule-in-hand-640.webp 640w, /img/capsule-in-hand-1000.webp 1000w" sizes="(min-width: 64rem) 480px, 92vw" width="1000" height="1500" alt={composition.image_alt} loading="lazy" />
-      </figure>
+      {compositionPhoto && <div class="split__media capsule-frame" data-reveal><Photo photo={compositionPhoto} variant="fill" sizes="(min-width: 64rem) 480px, 92vw" /></div>}
     </div>
   </section>
 
@@ -92,7 +91,6 @@ const directionsPhoto = photoOf(locale, 'memowell', 'directions');
   .split__text { grid-column: 1 / span 6; display: grid; gap: var(--s-3); justify-items: start; }
   .split__media { grid-column: 8 / span 5; }
   .capsule-frame { aspect-ratio: 4 / 5; border-radius: var(--r-xl); overflow: hidden; background: #fff; box-shadow: var(--shadow-soft); }
-  .capsule-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 55%; }
   .amount { font-weight: 700; }
 
   .directions { padding-top: 0; }

@@ -3,11 +3,13 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Action from '../components/Action.astro';
 import Form from '../components/Form.astro';
-import { getPage, getSite, section, md } from '../lib/content.js';
+import Photo from '../components/Photo.astro';
+import { getPage, getSite, section, md, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'partners');
 const intro = section(page, 'intro');
+const photo = photoOf(locale, 'partners', 'intro');
 const form = section(page, 'form');
 const nav = getSite(locale).data.nav;
 const about = nav.find((n: any) => n.href === '/about');
@@ -22,9 +24,7 @@ const crumbs = [{ label: about?.label ?? 'About', href: '/about' }];
         <div class="prose spec" set:html={md(intro.body)} />
         <div class="btn-row">{intro.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
       </div>
-      <figure class="partner-photo" data-reveal>
-        <img src="/img/bottle-in-hand-1000.webp" srcset="/img/bottle-in-hand-640.webp 640w, /img/bottle-in-hand-1000.webp 1000w" sizes="(min-width: 64rem) 420px, 92vw" width="1000" height="1333" alt={intro.image_alt} loading="lazy" />
-      </figure>
+      {photo && <div class="partner-photo" data-reveal><Photo photo={photo} variant="fill" sizes="(min-width: 64rem) 420px, 92vw" /></div>}
     </div>
   </section>
 
@@ -43,7 +43,6 @@ const crumbs = [{ label: about?.label ?? 'About', href: '/about' }];
   .spec :global(p) { padding-block: 0.6rem; font-size: var(--fs-lead); line-height: 1.55; }
   .spec :global(p + p) { border-top: 1px solid var(--line); padding-block-start: 1.2rem; }
   .partner-photo { grid-column: 8 / span 5; border-radius: var(--r-xl); overflow: hidden; min-height: 26rem; }
-  .partner-photo img { width: 100%; height: 100%; object-fit: cover; }
   .partner-form { padding-top: calc(var(--section) * 0.5); }
   .partner-form__inner { display: grid; gap: var(--s-3); padding: clamp(2rem, 1.5rem + 2vw, 3.5rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
   @media (max-width: 63.99rem) {

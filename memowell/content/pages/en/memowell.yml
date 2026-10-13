@@ -12,6 +12,15 @@ sections:
     image_alt: "The Memowell bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
 
   - id: composition
+    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
+    photo:
+      src: "/img/photos/capsule-resin"
+      width: 1024
+      height: 1542
+      widths: [640, 1024]
+      focus: "50% 60%"
+      alt: ""
+      note: "Illustrative image"
     heading: "What is in it"
     body: |-
       The active compounds are boswellic acids, drawn from the resin of *Boswellia* trees — the tree that produces frankincense.
