@@ -5,4 +5,4 @@ For every website, landing page, UX copy, visual-system, or design-revision task
 ## Projects
 
 - `memowell/` — Memowell® site for Kondor Pharma (Astro + Decap CMS). Start with `memowell/README.md` (handoff list) and `memowell/docs/design-brief.md` (design record). Approved copy is verbatim — run `npm run build && npm run check:content` after any content change.
-- `nutrition-tracker/` — نخودچی, Persian nutrition & activity PWA (private MVP). Brief: `nutrition-tracker/docs/product-ux-brief.md` (§18 = current decisions). App: `nutrition-tracker/app/` — run `npm test && npm run build` after changes; `scripts/smoke.mjs` drives the full flow. Calculation rules (brief §9) and food values need clinical review before any public release.
+- `nutrition-tracker/` — frozen snapshot. The project continues as Limino in the `hematip/Limino` repository; make changes there, not here.

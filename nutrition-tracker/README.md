@@ -1,3 +1,5 @@
+> **Moved:** this project continues as **Limino (لیمینو)** in [`hematip/Limino`](https://github.com/hematip/Limino) — code, docs and the new brand live there. This folder is a frozen snapshot.
+
 # Nutrition & activity tracker (Persian web app)
 
 Early-stage project: a Persian web app for calorie counting, BMI, food and activity logging, macros/protein and reports.
