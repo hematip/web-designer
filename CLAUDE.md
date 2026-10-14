@@ -5,4 +5,4 @@ For every website, landing page, UX copy, visual-system, or design-revision task
 ## Projects
 
 - `memowell/` — Memowell® site for Kondor Pharma (Astro + Decap CMS). Start with `memowell/README.md` (handoff list) and `memowell/docs/design-brief.md` (design record). Approved copy is verbatim — run `npm run build && npm run check:content` after any content change.
-- `nutrition-tracker/` — Persian nutrition & activity web app (research stage). Start with `nutrition-tracker/docs/benchmark.md`.
+- `nutrition-tracker/` — Persian nutrition & activity web app (brief stage). Start with `nutrition-tracker/docs/product-ux-brief.md`, then `docs/benchmark.md`. Calculation rules in brief §9 need clinical review before release.
