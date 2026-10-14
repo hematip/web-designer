@@ -1,28 +1,33 @@
-// Admin commands for a small private deployment:
-//   npm run invite -- users
-//   npm run invite -- reset-password <username> <new-password>
-//   npm run invite -- delete-user <username>
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
-import { hashPassword, openDb } from './db.js';
+// Admin commands (uses DATABASE_URL if set, else the SQLite file):
+//   npm run admin -- users
+//   npm run admin -- reset-password <username> <new-password>
+//   npm run admin -- delete-user <username>
+import { hashPassword } from './auth.js';
+import { openStoreFromEnv } from './stores.js';
 
-const here = dirname(fileURLToPath(import.meta.url));
-const db = openDb(process.env.DB_FILE || join(here, '..', 'data', 'nokhodchi.db'));
+const store = await openStoreFromEnv();
 const [cmd, a, b] = process.argv.slice(2);
-
-if (cmd === 'users') {
-  const rows = db.prepare(`SELECT u.username, u.display_name, datetime(u.created_at/1000,'unixepoch') AS created,
-    (SELECT COUNT(*) FROM records r WHERE r.user_id = u.id AND r.deleted = 0) AS records FROM users u ORDER BY u.id`).all();
-  console.table(rows);
-} else if (cmd === 'reset-password' && a && b) {
-  if (b.length < 6) throw new Error('password must be at least 6 characters');
-  const r = db.prepare('UPDATE users SET pass_hash = ? WHERE username = ?').run(await hashPassword(b), a.toLowerCase());
-  db.prepare('DELETE FROM sessions WHERE user_id = (SELECT id FROM users WHERE username = ?)').run(a.toLowerCase());
-  console.log(r.changes ? 'password reset; existing sessions signed out' : 'no such user');
-} else if (cmd === 'delete-user' && a) {
-  const r = db.prepare('DELETE FROM users WHERE username = ?').run(a.toLowerCase());
-  console.log(r.changes ? 'deleted' : 'no such user');
-} else {
-  console.log('usage: users | reset-password <username> <new-password> | delete-user <username>');
+try {
+  if (cmd === 'users') {
+    console.table(await store.listUsers());
+  } else if (cmd === 'reset-password' && a && b) {
+    if (b.length < 6) throw new Error('password must be at least 6 characters');
+    const u = await store.findUser(a.toLowerCase());
+    if (!u) console.log('no such user');
+    else {
+      await store.setPassword(u.id, await hashPassword(b));
+      console.log('password reset; existing sessions signed out');
+    }
+  } else if (cmd === 'delete-user' && a) {
+    const u = await store.findUser(a.toLowerCase());
+    if (!u) console.log('no such user');
+    else {
+      await store.deleteUser(u.id);
+      console.log('deleted');
+    }
+  } else {
+    console.log('usage: users | reset-password <username> <new-password> | delete-user <username>');
+  }
+} finally {
+  await store.close();
 }
-db.close();

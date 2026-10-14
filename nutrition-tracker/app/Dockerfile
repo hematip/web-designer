@@ -11,6 +11,7 @@ WORKDIR /app
 ENV NODE_ENV=production PORT=8787 DB_FILE=/data/nokhodchi.db STATIC_DIR=/app/dist
 COPY --from=build /app/dist ./dist
 COPY server ./server
+COPY --from=build /app/node_modules/postgres ./node_modules/postgres
 COPY package.json ./
 VOLUME /data
 EXPOSE 8787

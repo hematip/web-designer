@@ -1,9 +1,7 @@
 // HTTP API + static file server. No framework; node:http only.
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize, resolve } from 'node:path';
-import {
-  COLLECTIONS, createSession, deleteSession, hashPassword, sessionUser, sync, verifyPassword,
-} from './db.js';
+import { COLLECTIONS, SESSION_MS, SYNC_PAGE, hashPassword, newToken, tokenHash, verifyPassword } from './auth.js';
 
 const COOKIE = 'nk_sid';
 const MAX_BODY = 2 * 1024 * 1024;
@@ -62,6 +60,16 @@ function sessionCookie(req, cfg, token, maxAge) {
 }
 
 async function readJson(req) {
+  if (req.body !== undefined && req.body !== null) {
+    if (Buffer.isBuffer(req.body) || typeof req.body === 'string') {
+      try {
+        return JSON.parse(String(req.body) || '{}');
+      } catch {
+        throw Object.assign(new Error('bad json'), { status: 400 });
+      }
+    }
+    return req.body;
+  }
   let size = 0;
   const chunks = [];
   for await (const chunk of req) {
@@ -76,17 +84,20 @@ async function readJson(req) {
   }
 }
 
-// Simple fixed-window limiter for auth endpoints.
-const attempts = new Map();
-function limited(key, max = 10, windowMs = 10 * 60 * 1000) {
-  const now = Date.now();
-  const a = attempts.get(key);
-  if (!a || a.reset < now) {
-    attempts.set(key, { n: 1, reset: now + windowMs });
-    return false;
-  }
-  a.n++;
-  return a.n > max;
+// Simple fixed-window limiter for auth endpoints (per server instance).
+function makeLimiter() {
+  const attempts = new Map();
+  return function limited(key, max = 10, windowMs = 10 * 60 * 1000) {
+    const now = Date.now();
+    const a = attempts.get(key);
+    if (!a || a.reset < now) {
+      if (attempts.size > 10000) attempts.clear();
+      attempts.set(key, { n: 1, reset: now + windowMs });
+      return false;
+    }
+    a.n++;
+    return a.n > max;
+  };
 }
 
 const USERNAME = /^[a-z0-9_.]{3,24}$/i;
@@ -96,7 +107,7 @@ function publicUser(u) {
 }
 
 // ---- API ----
-async function api(req, res, cfg, db, path) {
+async function api(req, res, cfg, store, path, limited) {
   const method = req.method;
   // Reject cross-site writes (cookies are SameSite=Lax; this adds an Origin check).
   if (method !== 'GET') {
@@ -111,7 +122,13 @@ async function api(req, res, cfg, db, path) {
   const ip = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '';
   const token = cookies(req)[COOKIE];
 
-  if (path === '/api/health' && method === 'GET') return send(res, 200, { ok: true });
+  if (path === '/api/health' && method === 'GET') return send(res, 200, { ok: true, storage: store.kind });
+
+  const startSession = async (userId) => {
+    const t = newToken();
+    await store.createSession(tokenHash(t), userId, Date.now() + SESSION_MS);
+    return sessionCookie(req, cfg, t, SESSION_MS / 1000);
+  };
 
   if (path === '/api/signup' && method === 'POST') {
     if (limited(`signup:${ip}`)) return send(res, 429, { error: 'rate' });
@@ -124,31 +141,27 @@ async function api(req, res, cfg, db, path) {
     if (!USERNAME.test(username)) return send(res, 400, { error: 'username' });
     if (!displayName) return send(res, 400, { error: 'displayName' });
     if (password.length < 6 || password.length > 200) return send(res, 400, { error: 'password' });
-    if (db.prepare('SELECT 1 FROM users WHERE username = ?').get(username)) return send(res, 409, { error: 'taken' });
-    const hash = await hashPassword(password);
-    const { lastInsertRowid } = db.prepare('INSERT INTO users (username, display_name, pass_hash, created_at) VALUES (?, ?, ?, ?)')
-      .run(username, displayName, hash, Date.now());
-    const t = createSession(db, Number(lastInsertRowid));
-    return send(res, 201, { user: { username, displayName } }, { 'Set-Cookie': sessionCookie(req, cfg, t, 31536000) });
+    const id = await store.createUser(username, displayName, await hashPassword(password));
+    if (id == null) return send(res, 409, { error: 'taken' });
+    return send(res, 201, { user: { username, displayName } }, { 'Set-Cookie': await startSession(id) });
   }
 
   if (path === '/api/login' && method === 'POST') {
     const b = await readJson(req);
     const username = String(b.username || '').trim().toLowerCase();
     if (limited(`login:${ip}:${username}`) || limited(`login-ip:${ip}`, 40)) return send(res, 429, { error: 'rate' });
-    const row = db.prepare('SELECT id, username, display_name AS displayName, pass_hash FROM users WHERE username = ?').get(username);
-    const ok = row ? await verifyPassword(String(b.password || ''), row.pass_hash) : (await hashPassword('x'), false);
+    const row = await store.findUser(username);
+    const ok = row ? await verifyPassword(String(b.password || ''), row.passHash) : (await hashPassword('x'), false);
     if (!ok) return send(res, 401, { error: 'credentials' });
-    const t = createSession(db, row.id);
-    return send(res, 200, { user: publicUser(row) }, { 'Set-Cookie': sessionCookie(req, cfg, t, 31536000) });
+    return send(res, 200, { user: publicUser(row) }, { 'Set-Cookie': await startSession(row.id) });
   }
 
   if (path === '/api/logout' && method === 'POST') {
-    deleteSession(db, token);
+    if (token) await store.deleteSession(tokenHash(token));
     return send(res, 200, { ok: true }, { 'Set-Cookie': sessionCookie(req, cfg, '', 0) });
   }
 
-  const user = sessionUser(db, token);
+  const user = token ? await store.sessionUser(tokenHash(token)) : null;
   if (!user) return send(res, 401, { error: 'auth' });
 
   if (path === '/api/me' && method === 'GET') return send(res, 200, { user: publicUser(user) });
@@ -167,25 +180,35 @@ async function api(req, res, cfg, db, path) {
       // Don't let a skewed client clock push records far into the future.
       clean.push({ col: c.col, id: c.id, data: c.data ?? null, deleted: !!c.deleted, updatedAt: Math.min(updatedAt, Date.now() + 5 * 60000) });
     }
-    return send(res, 200, sync(db, user.id, since, clean));
+    const { rows, extra } = await store.sync(user.id, since, clean);
+    const more = rows.length > SYNC_PAGE;
+    if (more) rows.pop();
+    // The cursor only advances over the page itself; losing writes come back as extras.
+    const maxSeq = rows.reduce((m, r) => Math.max(m, r.seq), since);
+    for (const r of extra) if (!rows.some((x) => x.col === r.col && x.id === r.id)) rows.push(r);
+    return send(res, 200, {
+      seq: maxSeq,
+      more,
+      changes: rows.map((r) => ({ col: r.col, id: r.id, data: r.data, updatedAt: r.updatedAt, deleted: r.deleted })),
+    });
   }
 
   if (path === '/api/password' && method === 'POST') {
     const b = await readJson(req);
     if (limited(`pw:${user.id}`)) return send(res, 429, { error: 'rate' });
-    const row = db.prepare('SELECT pass_hash FROM users WHERE id = ?').get(user.id);
-    if (!(await verifyPassword(String(b.oldPassword || ''), row.pass_hash))) return send(res, 401, { error: 'credentials' });
+    const row = await store.getUser(user.id);
+    if (!(await verifyPassword(String(b.oldPassword || ''), row.passHash))) return send(res, 401, { error: 'credentials' });
     const pw = String(b.newPassword || '');
     if (pw.length < 6 || pw.length > 200) return send(res, 400, { error: 'password' });
-    db.prepare('UPDATE users SET pass_hash = ? WHERE id = ?').run(await hashPassword(pw), user.id);
-    return send(res, 200, { ok: true });
+    await store.setPassword(user.id, await hashPassword(pw)); // signs out every device…
+    return send(res, 200, { ok: true }, { 'Set-Cookie': await startSession(user.id) }); // …except this one
   }
 
   if (path === '/api/account' && method === 'DELETE') {
     const b = await readJson(req);
-    const row = db.prepare('SELECT pass_hash FROM users WHERE id = ?').get(user.id);
-    if (!(await verifyPassword(String(b.password || ''), row.pass_hash))) return send(res, 401, { error: 'credentials' });
-    db.prepare('DELETE FROM users WHERE id = ?').run(user.id); // cascades to sessions and records
+    const row = await store.getUser(user.id);
+    if (!(await verifyPassword(String(b.password || ''), row.passHash))) return send(res, 401, { error: 'credentials' });
+    await store.deleteUser(user.id); // cascades to sessions and records
     return send(res, 200, { ok: true }, { 'Set-Cookie': sessionCookie(req, cfg, '', 0) });
   }
 
@@ -215,11 +238,15 @@ async function serveStatic(req, res, cfg, path) {
   return send(res, 200, body, { 'Content-Type': TYPES[ext] || 'application/octet-stream', 'Cache-Control': cache });
 }
 
-export function createHandler(cfg, db) {
+/** `store` may be a store or a promise of one (lazy connection on serverless platforms). */
+export function createHandler(cfg, store) {
+  const limited = makeLimiter();
   return async (req, res) => {
     const url = new URL(req.url, 'http://x');
+    // On Vercel the API is reached through a rewrite that passes the original path.
+    const path = url.searchParams.has('__path') ? `/api/${url.searchParams.get('__path')}` : url.pathname;
     try {
-      if (url.pathname.startsWith('/api/')) return await api(req, res, cfg, db, url.pathname);
+      if (path.startsWith('/api/')) return await api(req, res, cfg, await store, path, limited);
       if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, 'method', { 'Content-Type': 'text/plain' });
       return await serveStatic(req, res, cfg, url.pathname);
     } catch (e) {

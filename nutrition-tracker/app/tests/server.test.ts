@@ -1,21 +1,45 @@
-import { test, before, after } from 'node:test';
+import { describe, test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer, type Server } from 'node:http';
+import { PGlite } from '@electric-sql/pglite';
 // @ts-ignore plain JS module
-import { openDb } from '../server/db.js';
+import { openSqliteStore } from '../server/store-sqlite.js';
+// @ts-ignore plain JS module
+import { openPgStore } from '../server/store-pg.js';
 // @ts-ignore plain JS module
 import { createHandler } from '../server/app.js';
 
+async function pgliteStore() {
+  const pg = new PGlite();
+  const run = (q: { query: PGlite['query'] }) => async (text: string, params: unknown[] = []) => (await q.query(text, params)).rows;
+  return openPgStore({
+    query: run(pg),
+    exec: (text: string) => pg.exec(text),
+    tx: (fn: (t: unknown) => unknown) => pg.transaction((tx) => fn(run(tx as never)) as never),
+    end: () => pg.close(),
+  });
+}
+
+const STORES: [string, () => Promise<{ close: () => Promise<void> }>][] = [
+  ['sqlite', async () => openSqliteStore(':memory:')],
+  ['postgres (PGlite)', pgliteStore],
+];
+
+for (const [name, makeStore] of STORES) describe(`API on ${name}`, () => {
 let server: Server;
+let store: { close: () => Promise<void> };
 let base = '';
 before(async () => {
-  const db = openDb(':memory:');
-  server = createServer(createHandler({ inviteCode: 'family', staticDir: '/nonexistent', cookieSecure: false }, db));
+  store = await makeStore();
+  server = createServer(createHandler({ inviteCode: 'family', staticDir: '/nonexistent', cookieSecure: false }, store));
   await new Promise<void>((r) => server.listen(0, '127.0.0.1', () => r()));
   const addr = server.address() as { port: number };
   base = `http://127.0.0.1:${addr.port}`;
 });
-after(() => server.close());
+after(async () => {
+  server.close();
+  await store.close();
+});
 
 async function call(path: string, body?: unknown, cookie = '', method = body ? 'POST' : 'GET') {
   const res = await fetch(base + path, {
@@ -82,4 +106,25 @@ test('account deletion needs the password and removes data', async () => {
   assert.equal((await call('/api/account', { password: 'nope' }, b, 'DELETE')).status, 401);
   assert.equal((await call('/api/account', { password: 'secret2' }, b, 'DELETE')).status, 200);
   assert.equal((await call('/api/login', { username: 'reza', password: 'secret2' })).status, 401);
+});
+
+test('password change keeps this device signed in', async () => {
+  const a = (await call('/api/login', { username: 'sara', password: 'secret1' })).cookie;
+  const other = (await call('/api/login', { username: 'sara', password: 'secret1' })).cookie;
+  const r = await call('/api/password', { oldPassword: 'secret1', newPassword: 'secret9' }, a);
+  assert.equal(r.status, 200);
+  assert.equal((await call('/api/me', undefined, r.cookie)).status, 200);
+  assert.equal((await call('/api/me', undefined, other)).status, 401);
+});
+
+test('pre-parsed bodies (Vercel) are accepted', async () => {
+  const handler = createHandler({ inviteCode: 'family', staticDir: '/nonexistent', cookieSecure: false }, store);
+  const res: { statusCode?: number; body?: string; writeHead: (s: number) => void; end: (b: string) => void } = {
+    writeHead(s: number) { this.statusCode = s; },
+    end(b: string) { this.body = b; },
+  };
+  const req = { method: 'POST', url: '/api/handler?__path=login', headers: { 'content-type': 'application/json', host: 'x' }, socket: {}, body: { username: 'sara', password: 'secret9' } };
+  await handler(req as never, res as never);
+  assert.equal(res.statusCode, 200);
+});
 });

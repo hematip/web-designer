@@ -22,12 +22,22 @@
 
 ```bash
 npm install
-npm test                  # ۲۳ آزمون: محاسبات، داده‌ها، API و همگام‌سازی
+npm test                  # ۳۲ آزمون: محاسبات، داده‌ها، و API روی SQLite و Postgres
 npm run build             # ساخت اپ در dist/ به‌همراه sw.js
 INVITE_CODE=family npm start   # http://localhost:8787
 ```
 
 برای توسعه: `INVITE_CODE=family npm run dev:server` در یک ترمینال و `npm run dev` در ترمینال دیگر (http://localhost:5173).
+
+## ذخیره‌سازی
+
+دو حالت دارد و بقیهٔ کد در هر دو یکی است:
+- **SQLite:** پیش‌فرض، برای سرور مجازی یا اجرای محلی. یک فایل است و پایگاه‌دادهٔ جدا لازم نیست.
+- **Postgres:** وقتی `DATABASE_URL` یا `POSTGRES_URL` تنظیم شده باشد. Vercel به این حالت نیاز دارد، چون فایل‌ها روی آن ماندگار نیستند. با Supabase، Neon یا هر Postgres دیگری کار می‌کند.
+  - جدول‌ها در اولین اتصال خودکار ساخته می‌شوند، داخل اسکیمای جدای `nt`.
+  - این اسکیما از طریق API عمومی Supabase در دسترس نیست.
+
+آزمون‌های API روی هر دو حالت اجرا می‌شوند. برای Postgres از PGlite استفاده می‌شود.
 
 ## تنظیمات (متغیرهای محیطی)
 
@@ -35,10 +45,23 @@ INVITE_CODE=family npm start   # http://localhost:8787
 |---|---|---|
 | `INVITE_CODE` | خالی | کد دعوت مشترک برای ثبت‌نام. اگر خالی باشد، ثبت‌نام بسته است. |
 | `PORT` | `8787` | پورت سرور |
-| `DB_FILE` | `data/nokhodchi.db` | فایل SQLite. **از این فایل بکاپ بگیرید.** |
+| `DATABASE_URL` | خالی | آدرس Postgres. اگر تنظیم شود، به‌جای SQLite استفاده می‌شود. برای Supabase از آدرس **pooler** (پورت ۶۵۴۳) استفاده کنید. |
+| `DB_FILE` | `data/nokhodchi.db` | فایل SQLite وقتی `DATABASE_URL` نیست. **از این فایل بکاپ بگیرید.** |
 | `COOKIE_SECURE` | خودکار | پشت HTTPS، کوکی‌ها Secure می‌شوند (از روی `X-Forwarded-Proto`). `1` یعنی همیشه Secure. |
 
-## انتشار برای خانواده و دوستان
+## انتشار روی Vercel
+
+- ریپو به یک پروژهٔ Vercel وصل است. هر push به `main` خودکار منتشر می‌شود.
+- تنظیمات در `vercel.json` است:
+  - `npm run build`، خروجی `dist/`
+  - API به‌صورت Vercel Function در `api/handler.js`، منطقهٔ `fra1`
+  - هدرهای امنیتی و کش
+- متغیرهای لازم در پروژهٔ Vercel:
+  - `DATABASE_URL`، یا `POSTGRES_URL` که اتصال Neon از بخش Storage خودکار می‌سازد
+  - `INVITE_CODE`
+- بدون پایگاه‌داده، خود اپ باز می‌شود ولی ورود و همگام‌سازی پیام «سرور در دسترس نیست» می‌دهند.
+
+## انتشار روی سرور مجازی (جایگزین)
 
 نصب روی گوشی (به‌ویژه آیفون) و کار آفلاین فقط روی **HTTPS** کار می‌کند. ساده‌ترین راه، یک سرور مجازی کوچک (ترجیحاً داخل ایران، تا در قطعی اینترنت بین‌الملل هم در دسترس بماند) با یک دامنه است:
 
@@ -65,11 +88,11 @@ nokhodchi.example.ir {
 ## دستورهای ادمین
 
 ```bash
-npm run invite -- users                                  # فهرست کاربران
-npm run invite -- reset-password <username> <new-pass>   # رمز فراموش‌شده
-npm run invite -- delete-user <username>
+npm run admin -- users                                   # فهرست کاربران
+npm run admin -- reset-password <username> <new-pass>    # رمز فراموش‌شده
+npm run admin -- delete-user <username>
 ```
-داخل Docker: `docker exec -it nokhodchi node server/admin.js users`
+داخل Docker: `docker exec -it nokhodchi node server/admin.js users`. برای Postgres، همین دستورها را با `DATABASE_URL` تنظیم‌شده اجرا کنید.
 
 ## آزمون دستی سرتاسری
 
@@ -82,7 +105,8 @@ OUT=shots node scripts/smoke.mjs
 ## ساختار
 
 ```
-server/       API و سرو فایل‌ها (node:http + node:sqlite)، دستورهای ادمین
+server/       API (node:http)، ذخیره‌سازی SQLite و Postgres، دستورهای ادمین
+api/          ورودی Vercel Function
 src/lib/      محاسبات، جست‌وجوی فارسی، تاریخ شمسی، ذخیرهٔ محلی و همگام‌سازی
 src/data/     بانک غذا و فعالیت‌ها
 src/screens/  صفحه‌ها و شیت‌ها
