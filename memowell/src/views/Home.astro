@@ -21,6 +21,8 @@ const accentWord = (text: string, word?: string) =>
 const highlight = (html: string, phrase?: string) =>
   phrase ? html.replace(phrase, `<mark class="figure">${phrase}</mark>`) : html;
 const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
+const evidenceStudy = (evidenceParas[0] ?? '').match(/^([\s\S]*?prescribed care\.)\s+([\s\S]+)$/);
+const directionsParas = (directions.body ?? '').split(/\n\s*\n/).filter(Boolean);
 const whyParas = (why.body ?? '').split(/\n\s*\n/).filter(Boolean);
 // Recompose the approved heading without changing its wording; other translations keep their full heading.
 const whyTitle = why.heading.match(/^(One factor researchers study is) (inflammation in the nervous system)$/);
@@ -32,12 +34,6 @@ const whyPhoto = photoOf(locale, 'home', 'why');
 const wherePhoto = photoOf(locale, 'home', 'availability');
 // Formulation story: one chapter per stage of the 3D scene (resin → capsule).
 const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
-const blobs = [
-  'M60 8c28 0 52 18 52 46s-22 50-52 50S6 86 6 56 32 8 60 8z',
-  'M66 6c26 4 46 26 42 54s-30 46-58 42S6 74 10 46 40 2 66 6z',
-  'M58 4c32-2 56 22 54 52s-28 50-56 48S4 80 6 50 26 6 58 4z',
-  'M62 10c24 0 50 14 48 44s-26 52-54 50S8 82 8 52 38 10 62 10z',
-];
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-home">
 
@@ -142,41 +138,43 @@ const blobs = [
     </div>
   </section>
 
-  <!-- 4 · Who it was studied in: horizontal track on desktop -->
-  <section class="h-who" id="who" aria-labelledby="who-title" data-who>
-    <div class="h-who__pin" data-who-pin>
-      <div class="wrap h-who__head">
-        <h2 id="who-title" data-split>{who.heading}</h2>
-        <div class="h-who__intro">
+  <!-- 4 · An open research index: all four groups stay in normal reading flow. -->
+  <section class="h-who" id="who" aria-labelledby="who-title">
+    <div class="wrap h-who__layout">
+      <div class="h-who__head">
+        <h2 id="who-title" set:html={accentWord(who.heading, 'studied')} />
+        <div class="h-who__intro" data-reveal>
           <p class="lead" set:html={mdInline(who.body)} />
           <Action action={who.inline_action} locale={locale} variant="link" />
         </div>
       </div>
-      <div class="h-who__viewport">
-        <ol class="h-who__track" role="list" data-who-track>
-          {who.items.map((item: any, i: number) => (
-            <li class={`h-who__card h-who__card--${i + 1}`}>
-              <div class="h-who__art" aria-hidden="true">
-                <svg viewBox="0 0 120 112"><path d={blobs[i]} /></svg>
-                <span class="h-who__num">{String(i + 1).padStart(2, '0')}</span>
-              </div>
+      <ol class="h-who__list" role="list">
+        {who.items.map((item: any, i: number) => (
+          <li class="h-who__entry" data-reveal>
+            <span class="h-who__number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class="h-who__detail">
               <h3>{item.title}</h3>
               <p>{item.body}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
   <!-- 5 · Evidence: the sentence lights up, the figure stays inside its context -->
-  <section class="h-evidence is-dark aurora" id="evidence" aria-labelledby="evidence-title">
-    <div class="wrap h-evidence__grid">
-      <h2 id="evidence-title" class="h-evidence__title" data-split>{evidence.heading}</h2>
-      <div class="h-evidence__statement" data-highlight set:html={highlight(md(evidenceParas[0]), evidence.highlight)} />
+  <section class="h-evidence is-dark" id="evidence" aria-labelledby="evidence-title">
+    <div class="wrap">
+      <h2 id="evidence-title" class="h-evidence__title" data-reveal set:html={accentWord(evidence.heading, 'research')} />
+      <div class="h-evidence__study">
+        <div class="h-evidence__context" data-reveal>
+          {evidenceStudy && <div class="prose" set:html={md(evidenceStudy[1])} />}
+          <Sources dois={evidence.sources} locale={locale} />
+        </div>
+        <div class="h-evidence__statement" data-highlight set:html={highlight(md(evidenceStudy?.[2] ?? evidenceParas[0]), evidence.highlight)} />
+      </div>
       <div class="h-evidence__meta" data-reveal>
         <div class="prose" set:html={md(evidenceParas.slice(1).join('\n\n'))} />
-        <Sources dois={evidence.sources} locale={locale} />
         <div class="btn-row">
           {evidence.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
         </div>
@@ -187,9 +185,9 @@ const blobs = [
   <!-- 6 · One capsule with each of the three main meals -->
   <section class="h-dir" id="directions" aria-labelledby="directions-title" data-dir>
     <div class="wrap h-dir__grid">
+      <h2 id="directions-title" class="h-dir__title" data-reveal>{directions.heading}</h2>
       <div class="h-dir__copy">
-        <h2 id="directions-title" data-split>{directions.heading}</h2>
-        <div class="prose" set:html={md(directions.body)} />
+        {directionsParas.map((p: string, i: number) => <div class:list={['h-dir__paragraph', { 'h-dir__note': i > 0 }]} data-reveal set:html={md(p)} />)}
         <div class="btn-row">{directions.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
       </div>
       <div class="h-dir__stage" aria-hidden="true" data-dir-stage>
@@ -204,34 +202,37 @@ const blobs = [
   </section>
 
   <!-- 7 · Professional band (homepage version) -->
-  <aside class="pro-band" id="professionals" aria-label={pro.lead}>
+  <aside class="h-pro" id="professionals" aria-labelledby="professionals-title">
     <div class="wrap">
-      <div class="pro-band__card on-dark h-pro" data-reveal>
-        <div class="pro-band__stripes" aria-hidden="true"><Stripes id="home-pro" /></div>
-        <p><strong>{pro.lead}</strong> {pro.body}</p>
-        <div class="btn-row">{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
+      <div class="h-pro__panel" data-reveal>
+        <h2 id="professionals-title">{pro.lead}</h2>
+        <div class="h-pro__copy">
+          <p>{pro.body}</p>
+          <div class="btn-row">{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}</div>
+        </div>
       </div>
     </div>
   </aside>
 
-  <!-- 8 · Where to find it: bento -->
+  <!-- 8 · Availability: the original pharmacy conversation, shown without a crop. -->
   <section class="h-where" id="where" aria-labelledby="where-title">
     <div class="wrap h-where__grid">
-      <div class="h-where__card" data-reveal>
+      <div class="h-where__copy" data-reveal>
         <h2 id="where-title">{availability.heading}</h2>
         <div class="prose" set:html={md(availability.body)} />
         <div class="btn-row">{availability.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
       </div>
-      {wherePhoto && <div class="h-where__photo" data-reveal><Photo photo={wherePhoto} variant="fill" sizes="(min-width: 64rem) 34vw, 92vw" /></div>}
+      {wherePhoto && <div class="h-where__photo" style={`--photo-ratio: ${wherePhoto.width} / ${wherePhoto.height}`} data-reveal><Photo photo={wherePhoto} variant="portrait" sizes="(min-width: 64rem) 40vw, 92vw" /></div>}
     </div>
   </section>
 
   <!-- 9 · Closing -->
   <section class="h-close" id="closing" aria-labelledby="closing-title">
     <div class="wrap">
-      <div class="h-close__panel is-dark aurora" data-pointer>
+      <div class="h-close__panel is-dark">
+        <div class="h-close__pattern" aria-hidden="true"><Stripes id="home-close" /></div>
         <div class="h-close__copy">
-          <h2 id="closing-title" data-split>{closing.heading}</h2>
+          <h2 id="closing-title" data-reveal>{closing.heading}</h2>
           <div class="prose lead" set:html={md(closing.body)} />
           <div class="btn-row">
             {closing.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
@@ -368,71 +369,78 @@ const blobs = [
   .h-why__grid--text { grid-template-columns: minmax(0, 1fr); max-width: calc(48rem + 2 * var(--gutter)); }
   .h-why__grid--text > * { grid-column: 1; }
 
-  /* ============ Who: track ============ */
-  .h-who { padding-block: var(--section); overflow: clip; }
-  .h-who__head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-3); align-items: end; margin-block-end: var(--s-5); }
-  .h-who__head h2 { grid-column: 1 / span 6; }
-  .h-who__intro { grid-column: 8 / span 5; display: grid; gap: var(--s-2); justify-items: start; }
-  .h-who__viewport { width: 100%; max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
-  .h-who__track { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
-  .h-who__card {
-    position: relative; display: grid; gap: var(--s-2); align-content: start; min-height: 22rem; padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem);
-    border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); overflow: hidden; isolation: isolate;
-  }
-  .h-who__card h3 { font-size: clamp(1.5rem, 1.25rem + 0.9vw, 2.125rem); line-height: 1.12; letter-spacing: -0.025em; max-width: 16ch; }
-  .h-who__card p { color: var(--ink-soft); font-size: var(--fs-body); max-width: 30rem; }
-  .h-who__art { position: relative; width: 6.5rem; height: 6rem; margin-block-end: var(--s-3); }
-  .h-who__art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .h-who__num { position: absolute; inset: 0; display: grid; place-items: center; font: 800 2rem/1 var(--font-display); color: #fff; letter-spacing: -0.03em; }
-  .h-who__card--1 .h-who__art path { fill: var(--royal); }
-  .h-who__card--2 .h-who__art path { fill: var(--midnight); }
-  .h-who__card--3 .h-who__art path { fill: #13a8b6; }
-  .h-who__card--4 .h-who__art path { fill: var(--electric); }
-  .h-who__card::after { content: ''; position: absolute; z-index: -1; width: 18rem; height: 18rem; inset-inline-end: -6rem; inset-block-end: -8rem; border-radius: 50%; background: radial-gradient(circle, rgba(76, 99, 255, 0.16), transparent 70%); }
-  :global(.h-who.is-horizontal) .h-who__pin { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 1rem) 2rem; }
-  :global(.h-who.is-horizontal) { padding-block: 0; }
-  :global(.h-who.is-horizontal) .h-who__viewport { max-width: none; padding-inline: 0; }
-  :global(.h-who.is-horizontal) .h-who__track { display: flex; width: max-content; gap: var(--s-3); padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2)); }
-  :global(.h-who.is-horizontal) .h-who__card { width: clamp(26rem, 38vw, 36rem); min-height: 28rem; }
+  /* ============ Who: research index ============ */
+  .h-who { padding-block: var(--section); }
+  .h-who__layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(3rem, 5vw, 6rem); align-items: start; }
+  .h-who__head { position: sticky; top: calc(var(--header-h) + 2rem); display: grid; gap: var(--s-4); }
+  .h-who__head h2 { max-width: 12ch; font-size: clamp(2.5rem, 1.4rem + 2.7vw, 4rem); line-height: 1.03; letter-spacing: -0.04em; }
+  .h-who__head :global(.accent) { --accent-stroke: var(--cyan); }
+  .h-who__intro { display: grid; gap: var(--s-3); justify-items: start; }
+  .h-who__intro :global(.lead) { font-size: var(--fs-body); line-height: var(--lh-body); }
+  .h-who__list { list-style: none; margin: 0; padding: 0; border-block-start: 1px solid var(--line-strong); }
+  .h-who__entry { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); column-gap: var(--s-3); padding-block: var(--s-4); border-block-end: 1px solid var(--line-strong); }
+  .h-who__number { font: 700 3.25rem/0.95 var(--font-display); letter-spacing: -0.07em; color: var(--royal); }
+  .h-who__detail { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: var(--s-3); align-items: start; }
+  .h-who__detail h3 { font-size: clamp(1.375rem, 1.05rem + 0.7vw, 1.875rem); line-height: 1.16; letter-spacing: -0.025em; }
+  .h-who__detail p { color: var(--ink-soft); font-size: var(--fs-body); line-height: var(--lh-body); max-width: 40ch; }
 
   /* ============ Evidence ============ */
   .h-evidence { padding-block: var(--section); border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); }
-  .h-evidence__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-5); }
-  .h-evidence__title { grid-column: 1 / -1; }
-  .h-evidence__statement { grid-column: 1 / span 11; }
-  .h-evidence__statement :global(p) { font: 600 clamp(1.75rem, 1.15rem + 2.3vw, 3.4rem)/1.18 var(--font-display); letter-spacing: -0.025em; color: #fff; }
+  .h-evidence__title { margin-block-end: var(--s-5); }
+  .h-evidence__study { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 5rem); padding-block: var(--s-5); border-block: 1px solid rgba(255, 255, 255, 0.22); }
+  .h-evidence__context { display: grid; align-content: start; gap: var(--s-4); }
+  .h-evidence__context :global(.prose) { font-size: var(--fs-body); }
+  .h-evidence__context :global(.sources) { font-size: 0.875rem; overflow-wrap: anywhere; }
+  .h-evidence__statement :global(p) { font: 600 clamp(1.625rem, 1.1rem + 1.5vw, 2.5rem)/1.3 var(--font-display); letter-spacing: -0.025em; color: #fff; }
   .h-evidence__statement :global(em) { font-style: italic; } /* journal title */
   .h-evidence__statement :global(mark.figure) { background: none; color: var(--cyan); }
-  .h-evidence__meta { grid-column: 6 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
+  .h-evidence__meta { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-4); align-items: center; padding-block-start: var(--s-4); }
+  .h-evidence__meta :global(.prose) { font-size: var(--fs-body); max-width: 31rem; }
 
   /* ============ Directions ============ */
   .h-dir { padding-block: var(--section); }
-  .h-dir__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-5); align-items: center; }
-  .h-dir__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-3); justify-items: start; }
-  .h-dir__stage { grid-column: 7 / span 6; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); align-items: end; padding-top: 6rem; }
-  .h-plate { position: relative; display: grid; place-items: center; }
-  .h-plate__dish { width: 100%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #fff 0 52%, #eef1ff 53% 64%, #fff 65%); box-shadow: 0 30px 50px -25px rgba(10, 18, 64, 0.35), inset 0 0 0 1px var(--line); display: grid; place-items: center; }
+  .h-dir__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s-4); align-items: start; }
+  .h-dir__title { grid-column: 1 / span 5; max-width: 12ch; }
+  .h-dir__copy { grid-column: 7 / span 6; display: grid; gap: var(--s-3); justify-items: start; }
+  .h-dir__paragraph { color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.55; }
+  .h-dir__note { font-size: var(--fs-body); line-height: var(--lh-body); padding-block-start: var(--s-3); border-block-start: 1px solid var(--line-strong); }
+  .h-dir__stage { grid-column: 1 / -1; width: 100%; max-width: 64rem; justify-self: center; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 5vw, 5rem); align-items: end; padding-block: 6rem 1.5rem; }
+  .h-plate { position: relative; display: grid; place-items: center; width: 100%; max-width: 16rem; justify-self: center; }
+  .h-plate__dish { width: 100%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #fff 0 53%, #edf0fb 54% 62%, #fff 63%); box-shadow: 0 22px 48px -32px rgba(10, 18, 64, 0.35), inset 0 0 0 1px var(--line); display: grid; place-items: center; }
   .h-plate__dish span { width: 64%; aspect-ratio: 1; border-radius: 50%; border: 1px dashed var(--line-strong); }
-  .h-plate__cap { position: absolute; width: 46%; top: 50%; left: 50%; translate: -50% -50%; rotate: -18deg; filter: drop-shadow(0 10px 10px rgba(10, 18, 64, 0.25)); }
-  .h-plate--2 { translate: 0 -1.5rem; }
+  .h-plate__cap { position: absolute; width: 38%; top: 50%; left: 50%; translate: -50% -50%; rotate: -18deg; filter: drop-shadow(0 10px 10px rgba(10, 18, 64, 0.25)); }
 
-  /* ============ Where (bento) ============ */
-  .h-where { padding-block: calc(var(--section) * 0.4) var(--section); }
-  .h-where__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-3); }
-  .h-where__card { display: grid; gap: var(--s-3); align-content: center; justify-items: start; padding: clamp(2rem, 1.5rem + 3vw, 4.5rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
-  .h-where__photo { border-radius: var(--r-xl); overflow: hidden; min-height: 24rem; }
+  /* ============ Professional route ============ */
+  .h-pro { padding-block: 0 calc(var(--section) * 0.35); }
+  .h-pro__panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; padding: clamp(1.5rem, 4vw, 4rem); border: 1px solid var(--line-strong); border-radius: var(--r-l); background: var(--ice-2); }
+  .h-pro__panel h2 { max-width: 20ch; font-size: clamp(1.75rem, 1.3rem + 1.1vw, 2.5rem); line-height: 1.15; letter-spacing: -0.03em; }
+  .h-pro__copy { display: grid; gap: var(--s-3); color: var(--ink-soft); font-size: var(--fs-body); }
+
+  /* ============ Availability ============ */
+  .h-where { padding-block: calc(var(--section) * 0.65) var(--section); }
+  .h-where__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
+  .h-where__copy { display: grid; gap: var(--s-4); justify-items: start; }
+  .h-where__copy h2 { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3vw, 4rem); line-height: 1.04; letter-spacing: -0.04em; }
+  .h-where__copy :global(.prose) { font-size: var(--fs-lead); line-height: 1.55; max-width: 31rem; }
+  .h-where__photo { min-width: 0; }
+  .h-where__photo :global(.photo) { aspect-ratio: var(--photo-ratio); border-radius: var(--r-m); border-end-end-radius: clamp(3rem, 6vw, 6rem); box-shadow: none; }
 
   /* ============ Closing ============ */
   .h-close { padding-block: 0 var(--section); }
-  .h-close__panel { border-radius: var(--r-xl); padding: clamp(2.5rem, 2rem + 4vw, 6rem); display: grid; grid-template-columns: 1.15fr 1fr; gap: var(--s-5); align-items: center; }
-  .h-close__panel::before { background: radial-gradient(50% 60% at var(--ax, 75%) var(--ay, 30%), rgba(76, 99, 255, 0.95), transparent 70%), radial-gradient(40% 50% at 20% 100%, rgba(25, 211, 226, 0.45), transparent 70%), linear-gradient(135deg, #1a2aa8, #060c33); }
+  .h-close__panel { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-xl); padding: clamp(2rem, 4vw, 5rem); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: var(--s-5); align-items: center; }
+  .h-close__pattern { position: absolute; z-index: -1; inset-inline-end: -8%; top: -8%; width: 60%; height: 75%; opacity: 0.1; pointer-events: none; }
+  .h-close__pattern :global(svg) { width: 100%; height: 100%; }
   .h-close__copy { display: grid; gap: var(--s-3); justify-items: start; }
-  .h-close__copy h2 { max-width: 14ch; }
-  .h-close__visual { position: relative; display: grid; place-items: center; min-height: 26rem; }
-  .h-close__bottle { position: absolute; width: 38%; inset-inline-start: 0; bottom: 0; filter: drop-shadow(0 40px 40px rgba(0, 0, 0, 0.5)); }
-  .h-close__note { position: relative; margin-inline-start: 22%; rotate: 4deg; }
+  .h-close__copy h2 { max-width: 13ch; }
+  .h-close__copy .btn-row { align-items: flex-start; }
+  .h-close__visual { display: grid; grid-template-columns: minmax(0, 1fr) 7rem; gap: var(--s-3); align-items: end; min-width: 0; }
+  .h-close__bottle { grid-column: 2; grid-row: 1; width: 100%; height: auto; filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.4)); }
+  .h-close__note { grid-column: 1; grid-row: 1; min-width: 0; }
 
   /* ============ Responsive ============ */
+  @media (max-width: 79.99rem) {
+    .h-who__detail { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
+  }
   @media (max-width: 63.99rem) {
     .h-why__grid { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); max-width: calc(38rem + 2 * var(--gutter)); }
     .h-why__heading, .h-why__body, .h-why__footer, .h-why__photo { grid-column: 1; grid-row: auto; }
@@ -440,11 +448,19 @@ const blobs = [
     .h-why__photo { position: static; width: min(100%, 38rem); }
     .h-why__photo :global(.photo) { aspect-ratio: 5 / 4; }
     .h-why__body, .h-why__footer { width: 100%; max-width: var(--measure); }
-    .h-who__head h2, .h-who__intro { grid-column: 1 / -1; }
-    .h-evidence__statement, .h-evidence__meta { grid-column: 1 / -1; }
-    .h-dir__copy, .h-dir__stage { grid-column: 1 / -1; }
+    .h-who__layout { grid-template-columns: minmax(0, 1fr); gap: var(--s-5); max-width: calc(40rem + 2 * var(--gutter)); }
+    .h-who__head { position: static; gap: var(--s-3); }
+    .h-who__head h2 { max-width: 18ch; }
+    .h-evidence__study, .h-evidence__meta { grid-template-columns: minmax(0, 1fr); }
+    .h-evidence__meta { gap: var(--s-3); }
+    .h-dir__grid { grid-template-columns: minmax(0, 1fr); max-width: calc(38rem + 2 * var(--gutter)); }
+    .h-dir__title, .h-dir__copy, .h-dir__stage { grid-column: 1 / -1; }
+    .h-dir__title { max-width: 18ch; }
+    .h-dir__copy { max-width: var(--measure); }
+    .h-pro__panel { grid-template-columns: minmax(0, 1fr); }
     .h-where__grid, .h-close__panel { grid-template-columns: 1fr; }
-    .h-close__visual { min-height: 22rem; }
+    .h-where__grid { max-width: calc(38rem + 2 * var(--gutter)); }
+    .h-close__visual { grid-template-columns: minmax(0, 23rem) 7rem; justify-content: center; }
   }
   /* The story stacks at the same width where its motion switches to the phone version:
      the scene takes the screen with the chapter text over its lower part. */
@@ -483,9 +499,18 @@ const blobs = [
     .h-why__title { font-size: clamp(2rem, 9vw, 2.5rem); }
     .h-why__context { margin-block-end: var(--s-2); font-size: 1rem; }
     .h-why__photo :global(.photo) { aspect-ratio: 1; }
-    .h-who__track { grid-template-columns: 1fr; }
-    .h-dir__stage { gap: var(--s-2); padding-top: 4rem; }
-    .h-close__note { margin-inline-start: 18%; }
-    .h-close__bottle { width: 34%; }
+    .h-who__entry { grid-template-columns: 2.25rem minmax(0, 1fr); gap: var(--s-2); padding-block: var(--s-3); }
+    .h-who__number { font-size: 2.25rem; }
+    .h-who__detail h3 { font-size: 1.5rem; }
+    .h-evidence__title { margin-block-end: var(--s-4); }
+    .h-evidence__study { padding-block: var(--s-4); }
+    .h-dir__stage { gap: var(--s-2); padding-top: 7rem; }
+    .h-close__panel { padding: var(--s-3); border-radius: var(--r-l); }
+    .h-close__copy :global(.lead) { font-size: var(--fs-body); line-height: var(--lh-body); }
+    .h-close__visual { display: flex; flex-direction: column; align-items: center; gap: var(--s-4); }
+    /* The real actions and their status stay above; the duplicate document is decorative. */
+    .h-close__note { display: none; }
+    .h-close__bottle { width: 7rem; }
+    .h-close__pattern { top: auto; bottom: 0; width: 100%; height: 24rem; opacity: 0.07; }
   }
 </style>

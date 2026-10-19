@@ -179,28 +179,6 @@ mm.add('(prefers-reduced-motion: reduce)', () => {
   setSceneMode('static');
 });
 
-// ---------------------------------------------------------------- Who: horizontal track (desktop)
-mm.add(MQ.desktop, () => {
-  const section = $('[data-who]');
-  const track = $('[data-who-track]');
-  if (!section || !track) return;
-  section.classList.add('is-horizontal');
-  const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
-  const tween = gsap.to(track, {
-    x: () => -distance(), ease: 'none',
-    scrollTrigger: { trigger: $('[data-who-pin]', section), start: 'top top', end: () => `+=${distance()}`, pin: true, scrub: 0.7, invalidateOnRefresh: true, anticipatePin: 1 },
-  });
-  gsap.from($$('.h-who__card', track), {
-    y: 60, rotate: (i) => (i % 2 ? 3 : -3), autoAlpha: 0, duration: 1, ease: 'power3.out', stagger: 0.1,
-    scrollTrigger: { trigger: section, start: 'top 70%', once: true },
-  });
-  ScrollTrigger.refresh();
-  return () => { section.classList.remove('is-horizontal'); tween.kill(); };
-});
-mm.add(MQ.mobile, () => {
-  gsap.from('.h-who__card', { y: 50, autoAlpha: 0, duration: 0.9, ease: 'power3.out', stagger: 0.12, scrollTrigger: { trigger: '[data-who-track]', start: 'top 85%', once: true } });
-});
-
 // ---------------------------------------------------------------- Evidence: the sentence lights up
 mm.add(MQ.motion, () => {
   const block = $('[data-highlight] p');

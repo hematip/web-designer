@@ -65,8 +65,8 @@ Full record: `docs/design-brief.md` → "Version 2".
    - reduced motion / no JavaScript: the five chapters listed beside the closed capsule; without WebGL the SVG capsule poster stays.
 
    It shows the "difference from ordinary frankincense" using only the copy's own words. No body, bloodstream, brain or mechanism appears, and nothing is tied to a memory outcome.
-2. **Who it was studied in:** the four groups move as a pinned horizontal card track.
-3. **Evidence:** the approved sentence lights up word by word. "3.11 points higher on MMSE" resolves in cyan inside its full sentence.
+2. **Who it was studied in:** an open numbered index of the four groups, with a sticky introduction on wide screens and ordinary vertical reading flow on smaller screens.
+3. **Evidence:** study context and its source sit beside the result sentence, which lights up word by word. "3.11 points higher on MMSE" resolves in cyan inside its full sentence.
 4. **One capsule with each of the three main meals:** a capsule drops in and splits onto three plates.
 5. **Hero film (v7, Kondor Brain):** a silent 15-second Seedance 2.5 film behind the approved hero copy — "the wall of names": a grandmother shows her granddaughter the family photo wall, tells their stories, checks one name on the back of a frame, and they hang a new photo of the two of them (scenario and direction in `docs/kondor-brain/hero-film-direction-v3.md`, approved by the client; it replaced the v2 market film, which the client rejected). Concept: meaningful connection. No product, no text in frame, no headscarves (client instruction). It plays once and holds its last frame; a pause/play button sits in the hero corner (WCAG 2.2.2). Reduced motion never starts it; the poster is the last frame. Phones load a 720p file; WebM (VP9) first, MP4 (H.264) for Safari. `[LOCAL REGULATORY REVIEW REQUIRED]`: AI-generated people need Kondor sign-off. The two button labels ("Pause video", "Play video") are new interface words in CMS → Shared site text.
 6. **Supporting motion:**
@@ -74,7 +74,7 @@ Full record: `docs/design-brief.md` → "Version 2".
    - a scroll-linked fact marquee (moves only with scroll; nothing loops on its own);
    - an aurora that follows the pointer;
    - batched reveals on inner pages.
-7. **Below 900px:** no pins; scenes play scrubbed in normal flow, and the card track becomes a stack.
+7. **Below 900px:** the directions scene plays scrubbed in normal flow. The formulation scene keeps its existing phone pin and chapter system; the audience index has no pin at any width.
 8. **Reduced motion and no JavaScript:** final composed states, with no Lenis.
 
 ## Domains (configure at the host; the hosting provider is still open)
@@ -147,7 +147,7 @@ These are interface or structural words, and none of them is a claim. They are a
 | Hero story chapter titles (v4, visible `h3` headings) | "Resin of Boswellia trees — frankincense", "Micronized", "Microcrystalline", "K-Vie™ · standardised to 40% boswellic acids", "Vegetarian and gluten-free" | Fragments of the approved §3 copy and the label ("90 vegetarian capsules … Gluten-free"). Chapter texts under them are whole approved sentences, unchanged. Editable in CMS → Pages → home → formulation → Story chapters. Chapters 2 and 4 depend on the pending K-Vie™ scientific-officer approval (item 8) |
 | Footer (v2, decorative) | Outline "LIVE WELL, STAY WELL" | The catalogue slogan, unchanged and repeated from the footer line |
 | Homepage §2 and §5 | "Source: DOI …" lines | Same format as the science page; satisfies "every number keeps its source" |
-| Homepage §5 | The phrase "3.11 points higher on MMSE" is typographically highlighted inside its own sentence | No words changed; context (85 people, six months, placebo, source) stays in the same sentence |
+| Homepage §5 | The phrase "3.11 points higher on MMSE" is typographically highlighted inside its own sentence | No words changed; context (85 people, six months, placebo, source) remains alongside the result in the same study block |
 | Pending states | "This form will open soon." (brief example) · "This file will be available soon." · "Coming soon" · "Articles will appear here after scientific review." | Honest states for missing destinations |
 | Interface | "Skip to main content", "Menu", "Close", "Main", "Language", "Breadcrumb", "Home", "On this page", "Source:", "Sources:", "Sources", "required", "Send", "Published", "Last reviewed", "Author", "Category", "All articles", "Previous", "Next", "Page {n} of {total}", "Related", "Page not found", "This page does not exist. Use the menu, or go to the home page." | Needed for navigation and accessibility |
 | Image alt text | Bottle, capsule and bottle-in-hand descriptions | Descriptive only, no claims |
