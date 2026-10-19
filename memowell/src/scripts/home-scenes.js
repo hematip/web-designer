@@ -23,6 +23,44 @@ mm.add(MQ.motion, () => {
   return () => intro.revert();
 });
 
+// ---------------------------------------------------------------- Hero film
+// Silent, plays once and holds its last frame (no loop). A visible pause/play control covers WCAG 2.2.2.
+// With reduced motion it never starts: the poster is the film's last frame.
+{
+  const video = $('[data-hero-film]');
+  const toggle = $('[data-hero-film-toggle]');
+  if (video && toggle) {
+    const label = $('[data-label]', toggle);
+    const sync = () => {
+      const paused = video.paused;
+      toggle.setAttribute('aria-pressed', String(paused));
+      label.textContent = paused ? toggle.dataset.labelPlay : toggle.dataset.labelPause;
+    };
+    toggle.addEventListener('click', () => {
+      if (video.paused) { if (video.ended) video.currentTime = 0; video.play().catch(() => {}); }
+      else video.pause();
+    });
+    video.addEventListener('play', sync);
+    video.addEventListener('pause', sync);
+    video.addEventListener('ended', sync);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // Phones get the 720p pair; WebM (VP9) first, MP4 (H.264) for Safari.
+    if (window.matchMedia('(max-width: 56.24rem)').matches && video.dataset.src) {
+      const base = video.dataset.src;
+      video.querySelectorAll('source').forEach((el) => el.remove());
+      [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
+        const el = document.createElement('source');
+        el.src = `${base}-720.${ext}`; el.type = type; video.append(el);
+      });
+      video.load();
+    }
+    if (!reduce.matches) {
+      toggle.hidden = false;
+      video.play().then(sync).catch(() => sync());
+    }
+  }
+}
+
 // ---------------------------------------------------------------- Resin → K-Vie™ → capsule (3D)
 // The pinned range scrubs one number. It decides which of the five chapters is read and where the 3D scene
 // stands, so text and scene always change together and reverse scroll, fast skips and anchors resolve to the

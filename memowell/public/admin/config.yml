@@ -287,6 +287,8 @@ collections:
           - { name: skip_link, label: "Skip link", widget: string, i18n: true }
           - { name: menu, label: "Menu button", widget: string, i18n: true }
           - { name: close, label: "Close button", widget: string, i18n: true }
+          - { name: pause_video, label: "Hero film: pause button", widget: string, i18n: true }
+          - { name: play_video, label: "Hero film: play button", widget: string, i18n: true }
           - { name: main_nav, label: "Main navigation name", widget: string, i18n: true }
           - { name: language, label: "Language switcher name", widget: string, i18n: true }
           - { name: on_this_page, label: "On this page", widget: string, i18n: true }

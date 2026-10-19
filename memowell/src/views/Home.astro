@@ -6,7 +6,7 @@ import Sources from '../components/Sources.astro';
 import Stripes from '../components/Stripes.astro';
 import Capsule from '../components/Capsule.astro';
 import Photo from '../components/Photo.astro';
-import { getPage, section, md, mdInline, photoOf } from '../lib/content.js';
+import { getPage, getSite, section, md, mdInline, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'home');
@@ -22,6 +22,9 @@ const highlight = (html: string, phrase?: string) =>
   phrase ? html.replace(phrase, `<mark class="figure">${phrase}</mark>`) : html;
 const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
 const marquee = hero.marquee ?? [];
+const ui = getSite(locale).data.ui;
+// Hero film (Kondor Brain, VIDEO-SCENARIO-v2 "the market"): silent, plays once and holds its last frame.
+const film = { src: '/video/hero-market', poster: '/video/hero-market-poster.webp' };
 const whyPhoto = photoOf(locale, 'home', 'why');
 const wherePhoto = photoOf(locale, 'home', 'availability');
 // Formulation story: one chapter per stage of the 3D scene (resin → capsule).
@@ -37,6 +40,13 @@ const blobs = [
 
   <!-- 1 · Hero (v5): the approved question on the aurora; the formulation story follows "why" -->
   <section class="h-hero is-dark aurora" data-pointer aria-labelledby="hero-title" data-hero>
+    <div class="h-hero__film" aria-hidden="true">
+      <!-- Sources are chosen in home-scenes.js (720p on phones); the 1080p pair is the no-JS fallback. -->
+      <video data-hero-film data-src={film.src} muted playsinline preload="metadata" poster={film.poster} width="1920" height="1080">
+        <source src={`${film.src}-1080.webm`} type="video/webm" />
+        <source src={`${film.src}-1080.mp4`} type="video/mp4" />
+      </video>
+    </div>
     <div class="wrap h-hero__grid">
       <div class="h-hero__intro">
         <p class="eyebrow" data-hero-in>{hero.eyebrow}</p>
@@ -47,6 +57,10 @@ const blobs = [
         </div>
       </div>
     </div>
+    <button class="h-hero__toggle" type="button" data-hero-film-toggle data-label-pause={ui.pause_video} data-label-play={ui.play_video} hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /><path class="i-play" d="M8 5.5v13l11-6.5z" /></svg>
+      <span class="visually-hidden" data-label>{ui.pause_video}</span>
+    </button>
     <div class="h-cue" aria-hidden="true"><span></span></div>
   </section>
 
@@ -230,6 +244,23 @@ const blobs = [
 <style>
   /* ============ Hero ============ */
   .h-hero { min-height: max(100svh, 44rem); display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 2.5rem) 4.5rem; border-radius: 0 0 var(--r-xl) var(--r-xl); }
+  /* Film: a daylight panel on the reading column's far side, dissolving into the midnight stage. */
+  .h-hero__film { position: absolute; inset-block: 0; inset-inline-end: 0; width: 64%; z-index: -1; overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%); mask-image: linear-gradient(90deg, transparent 0%, #000 34%); }
+  :global([dir='rtl']) .h-hero__film { -webkit-mask-image: linear-gradient(270deg, transparent 0%, #000 34%); mask-image: linear-gradient(270deg, transparent 0%, #000 34%); }
+  .h-hero__film video { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; }
+  .h-hero__film::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6, 12, 51, 0.45), transparent 28%); }
+  .h-hero__toggle {
+    position: absolute; z-index: 3; inset-inline-end: var(--gutter); bottom: 1.5rem; display: grid; place-items: center;
+    width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(6, 12, 51, 0.55);
+    color: #fff; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .h-hero__toggle[hidden] { display: none; }
+  .h-hero__toggle svg { width: 1.25rem; height: 1.25rem; fill: currentColor; }
+  .h-hero__toggle .i-play { display: none; }
+  .h-hero__toggle[aria-pressed='true'] .i-play { display: inline; }
+  .h-hero__toggle[aria-pressed='true'] .i-pause { display: none; }
+  .h-hero__toggle:hover { background: #fff; color: var(--midnight); }
   .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; position: relative; z-index: 2; }
   .h-hero__intro { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; }
   .h-hero__title { font-size: var(--fs-display); line-height: 0.95; letter-spacing: -0.045em; max-width: 11.5ch; }
@@ -393,6 +424,14 @@ const blobs = [
      the scene takes the screen with the chapter text over its lower part. */
   @media (max-width: 56.24rem) {
     .h-hero__intro { grid-column: 1 / -1; }
+    /* Phone: the film fills the top of the hero and fades into midnight under the text. */
+    .h-hero { justify-content: flex-end; padding-block-start: calc(var(--header-h) + 34vh); }
+    .h-hero__film { inset: 0 0 auto; width: auto; height: 66vh;
+      -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 100%); mask-image: linear-gradient(180deg, #000 50%, transparent 100%); }
+    :global([dir='rtl']) .h-hero__film { -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 100%); mask-image: linear-gradient(180deg, #000 50%, transparent 100%); }
+    .h-hero__film video { object-position: 55% 50%; }
+    .h-hero__film::after { background: linear-gradient(0deg, rgba(6, 12, 51, 0.75) 0%, rgba(6, 12, 51, 0.35) 40%, rgba(6, 12, 51, 0) 65%), linear-gradient(180deg, rgba(6, 12, 51, 0.5), transparent 25%); }
+    .h-hero__toggle { top: calc(var(--header-h) + 0.75rem); bottom: auto; }
     /* Full-bleed here so the pinned scene has no gaps at the screen edges. */
     .h-form { margin-inline: 0; border-radius: 0; }
     .h-form__pin { display: block; min-height: 0; padding-block: var(--section) 0; }
