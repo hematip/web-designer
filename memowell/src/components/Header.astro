@@ -41,7 +41,6 @@ const inSection = (item: any) => item.children?.some((c: any) => c.href === rout
     </nav>
 
     <LangSwitch locale={locale} routePath={routePath} />
-    <a class="btn btn--small site-header__action" href={href(locale, site.header_action.href)}>{site.header_action.label}</a>
 
     <button class="site-header__menu-btn" type="button" aria-expanded="false" aria-controls="menu-panel" data-menu-open>
       <Icon name="menu" /><span>{ui.menu}</span>
@@ -76,7 +75,6 @@ const inSection = (item: any) => item.children?.some((c: any) => c.href === rout
     </ul>
   </nav>
   <div class="menu-panel__extras">
-    <a class="btn" href={href(locale, site.header_action.href)}>{site.header_action.label}</a>
     <LangSwitch locale={locale} routePath={routePath} />
   </div>
 </div>

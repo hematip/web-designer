@@ -207,8 +207,9 @@ a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
   border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 20px 50px -24px rgba(6, 12, 51, 0.45);
 }
 [dir='rtl'] .site-header__bar { padding: 0.55rem 1.4rem 0.55rem 0.6rem; }
-.site-header__logo { flex: none; display: block; }
-.site-header__logo img { width: 8.75rem; height: auto; }
+.site-header__logo { flex: none; display: flex; align-items: center; min-height: 3rem; line-height: 0; }
+/* The leaf extends above the lettering; offset the image to centre the visible wordmark. */
+.site-header__logo img { width: 8.75rem; height: auto; transform: translateY(-20%); }
 .site-nav { margin-inline-start: auto; }
 .site-nav__list { display: flex; flex-wrap: wrap; align-items: center; gap: 0.15rem; list-style: none; margin: 0; padding: 0; }
 .site-nav__item { position: relative; }
@@ -240,7 +241,7 @@ a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
 
 .site-header__menu-btn { display: none; }
 @media (max-width: 74.99rem) {
-  .site-nav, .site-header__bar > .lang-switch, .site-header__action { display: none; }
+  .site-nav, .site-header__bar > .lang-switch { display: none; }
   .site-header__menu-btn {
     display: inline-flex; margin-inline-start: auto; align-items: center; gap: 0.5rem; min-height: 3rem; padding: 0.5rem 1.15rem;
     border-radius: 999px; border: 0; background: var(--ink); color: #fff; font: 700 1.0625rem/1 var(--font-body); cursor: pointer;
