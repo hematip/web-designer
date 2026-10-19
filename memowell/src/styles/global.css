@@ -210,7 +210,7 @@ a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
 .site-header__logo { flex: none; display: flex; align-items: center; min-height: 3rem; line-height: 0; }
 /* The leaf extends above the lettering; offset the image to centre the visible wordmark. */
 .site-header__logo img { width: 8.75rem; height: auto; transform: translateY(-20%); }
-.site-nav { margin-inline-start: auto; }
+.site-nav { margin-inline: auto; }
 .site-nav__list { display: flex; flex-wrap: wrap; align-items: center; gap: 0.15rem; list-style: none; margin: 0; padding: 0; }
 .site-nav__item { position: relative; }
 .site-nav__link, .site-nav__toggle {
