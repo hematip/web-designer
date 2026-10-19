@@ -21,6 +21,9 @@ const accentWord = (text: string, word?: string) =>
 const highlight = (html: string, phrase?: string) =>
   phrase ? html.replace(phrase, `<mark class="figure">${phrase}</mark>`) : html;
 const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
+const whyParas = (why.body ?? '').split(/\n\s*\n/).filter(Boolean);
+// Recompose the approved heading without changing its wording; other translations keep their full heading.
+const whyTitle = why.heading.match(/^(One factor researchers study is) (inflammation in the nervous system)$/);
 const marquee = hero.marquee ?? [];
 const ui = getSite(locale).data.ui;
 // Hero film (Kondor Brain, VIDEO-SCENARIO-v3 "the wall of names"): silent, plays once and holds its last frame.
@@ -73,13 +76,19 @@ const blobs = [
 
   <!-- 2 · Why memory changes -->
   <section class="h-why" id="why" aria-labelledby="why-title">
-    <div class="wrap h-why__grid">
-      <div class="h-why__lead">
-        <h2 id="why-title" class="h-why__title" data-split>{why.heading}</h2>
-        {whyPhoto && <div class="h-why__photo" data-reveal><Photo photo={whyPhoto} variant="card" sizes="(min-width: 64rem) 52vw, 92vw" /></div>}
+    <div class:list={['wrap', 'h-why__grid', { 'h-why__grid--text': !whyPhoto }]}>
+      <div class="h-why__heading" data-reveal>
+        <h2 id="why-title" class="h-why__title">
+          {whyTitle ? <><span class="h-why__context">{whyTitle[1]}</span>{' '}<span set:html={accentWord(whyTitle[2], 'inflammation')} /></> : why.heading}
+        </h2>
       </div>
+      {whyPhoto && <div class="h-why__photo" data-reveal><Photo photo={whyPhoto} variant="portrait" sizes="(min-width: 64rem) 43vw, (min-width: 40rem) 70vw, 92vw" /></div>}
       <div class="h-why__body" data-reveal>
-        <div class="prose" set:html={md(why.body)} />
+        {whyParas.map((p: string, i: number) => (
+          <div class:list={['h-why__paragraph', { 'h-why__note': i > 0 }]} role={i > 0 ? 'note' : undefined} set:html={md(p)} />
+        ))}
+      </div>
+      <div class="h-why__footer" data-reveal>
         <p><Action action={why.inline_action} locale={locale} variant="link" /></p>
         <Sources dois={why.sources} locale={locale} />
       </div>
@@ -342,11 +351,22 @@ const blobs = [
 
   /* ============ Why ============ */
   .h-why { padding-block: var(--section); }
-  .h-why__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-5); align-items: start; }
-  .h-why__lead { grid-column: 1 / span 7; position: sticky; top: calc(var(--header-h) + 2rem); display: grid; gap: var(--s-5); }
-  .h-why__title { font-size: clamp(2.25rem, 1.3rem + 3vw, 4.25rem); line-height: 1.03; letter-spacing: -0.04em; }
-  .h-why__body { grid-column: 8 / span 5; display: grid; gap: var(--s-3); justify-items: start; padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); background: #fff; border-radius: var(--r-xl); border: 1px solid var(--line); box-shadow: var(--shadow-soft); }
-  .h-why__body :global(.prose) { font-size: var(--fs-lead); line-height: 1.55; }
+  .h-why__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(2.5rem, 5.5vw, 6rem); row-gap: var(--s-4); align-items: start; }
+  .h-why__heading, .h-why__body, .h-why__footer { grid-column: 2; min-width: 0; }
+  .h-why__heading { grid-row: 1; }
+  .h-why__title { max-width: 19ch; font-size: clamp(2.5rem, 1.25rem + 3vw, 4rem); line-height: 1.04; letter-spacing: -0.04em; text-wrap: pretty; }
+  .h-why__context { display: block; margin-block-end: var(--s-3); font: 600 1.125rem/1.5 var(--font-body); letter-spacing: 0; color: var(--ink-soft); }
+  .h-why__title :global(.accent) { --accent-stroke: var(--cyan); }
+  .h-why__photo { grid-column: 1; grid-row: 1 / span 3; min-width: 0; }
+  .h-why__photo :global(.photo) { border-radius: var(--r-m); border-start-start-radius: clamp(3rem, 6vw, 6rem); box-shadow: none; }
+  .h-why__body { display: grid; gap: var(--s-4); max-width: var(--measure); color: var(--ink-soft); font-size: var(--fs-body); line-height: var(--lh-body); }
+  .h-why__paragraph :global(p + p) { margin-block-start: 1em; }
+  .h-why__note { border-inline-start: 3px solid var(--cyan); padding-inline-start: var(--s-3); color: var(--ink); font-weight: 600; }
+  .h-why__footer { display: grid; gap: var(--s-2); justify-items: start; border-block-start: 1px solid var(--line-strong); padding-block-start: var(--s-3); }
+  .h-why__footer :global(.text-link) { font-size: 1rem; }
+  .h-why__footer :global(.sources) { font-size: 0.875rem; overflow-wrap: anywhere; }
+  .h-why__grid--text { grid-template-columns: minmax(0, 1fr); max-width: calc(48rem + 2 * var(--gutter)); }
+  .h-why__grid--text > * { grid-column: 1; }
 
   /* ============ Who: track ============ */
   .h-who { padding-block: var(--section); overflow: clip; }
@@ -414,8 +434,12 @@ const blobs = [
 
   /* ============ Responsive ============ */
   @media (max-width: 63.99rem) {
-    .h-why__lead, .h-why__body { grid-column: 1 / -1; }
-    .h-why__lead { position: static; }
+    .h-why__grid { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); max-width: calc(38rem + 2 * var(--gutter)); }
+    .h-why__heading, .h-why__body, .h-why__footer, .h-why__photo { grid-column: 1; grid-row: auto; }
+    .h-why__title { max-width: 22ch; }
+    .h-why__photo { position: static; width: min(100%, 38rem); }
+    .h-why__photo :global(.photo) { aspect-ratio: 5 / 4; }
+    .h-why__body, .h-why__footer { width: 100%; max-width: var(--measure); }
     .h-who__head h2, .h-who__intro { grid-column: 1 / -1; }
     .h-evidence__statement, .h-evidence__meta { grid-column: 1 / -1; }
     .h-dir__copy, .h-dir__stage { grid-column: 1 / -1; }
@@ -456,6 +480,9 @@ const blobs = [
     .h-cue { display: none; }
   }
   @media (max-width: 40rem) {
+    .h-why__title { font-size: clamp(2rem, 9vw, 2.5rem); }
+    .h-why__context { margin-block-end: var(--s-2); font-size: 1rem; }
+    .h-why__photo :global(.photo) { aspect-ratio: 1; }
     .h-who__track { grid-template-columns: 1fr; }
     .h-dir__stage { gap: var(--s-2); padding-top: 4rem; }
     .h-close__note { margin-inline-start: 18%; }
