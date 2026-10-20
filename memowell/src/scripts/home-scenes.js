@@ -234,13 +234,25 @@ mm.add(MQ.motion, () => {
   if (!panel) return;
   const parts = [...$('.h-close__copy', panel).children];
   const bottle = $('.h-close__bottle', panel);
-  const entrance = gsap.timeline({
-    scrollTrigger: { trigger: panel.closest('#closing'), start: 'top 60%', once: true },
-  });
+  const section = panel.closest('#closing');
+  const entrance = gsap.timeline({ paused: true });
   entrance.from(panel, { opacity: 0, y: 64, scale: 0.97, duration: 1.2, ease: 'power3.out' }, 0);
   entrance.from(parts, { opacity: 0, y: 70, duration: 1.05, stagger: 0.22, ease: 'power3.out' }, 0.2);
   if (bottle) entrance.from(bottle, { opacity: 0, y: 120, scale: 0.86, duration: 1.45, ease: 'power3.out' }, 0.35);
-  const revealForFocus = () => entrance.progress(1);
+  const revealForFocus = () => entrance.progress(1).pause();
+  const playEntrance = () => panel.contains(document.activeElement) ? revealForFocus() : entrance.restart();
+  const resetEntrance = () => {
+    if (!panel.contains(document.activeElement)) entrance.pause(0);
+  };
+  // Reset only outside the viewport, so reverse scrolling never hides a visible panel.
+  ScrollTrigger.create({
+    trigger: section, start: 'top bottom', end: 'bottom top',
+    onLeave: resetEntrance, onLeaveBack: resetEntrance,
+  });
+  ScrollTrigger.create({
+    trigger: section, start: 'top 60%', end: 'bottom top',
+    onEnter: playEntrance, onEnterBack: playEntrance,
+  });
   panel.addEventListener('focusin', revealForFocus);
   return () => panel.removeEventListener('focusin', revealForFocus);
 });

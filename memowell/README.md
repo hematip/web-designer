@@ -73,7 +73,7 @@ Full record: `docs/design-brief.md` → "Version 2".
    - hero load choreography (masked line reveal, the intro rising in);
    - a scroll-linked fact marquee (moves only with scroll; nothing loops on its own);
    - pointer-following aurora on the remaining relevant stages; the homepage hero keeps its original family film on a calmer navy field;
-   - one-time closing-banner Appear: the heading, paragraph and contact action enter in order, followed by the bottle; reduced motion stays static and keyboard focus completes the entrance;
+   - closing-banner Appear replays on each full scroll re-entry from either direction: the heading, paragraph and contact action enter in order, followed by the bottle; reset waits until the section leaves the viewport, reduced motion stays static and keyboard focus completes the entrance;
    - batched reveals on inner pages.
 7. **Below 900px:** the directions scene plays scrubbed in normal flow. The formulation scene keeps its existing phone pin and chapter system; the audience index has no pin at any width.
 8. **Reduced motion and no JavaScript:** final composed states, with no Lenis.
