@@ -393,8 +393,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-who__frame :global(.photo) { width: 100%; height: 100%; border-radius: inherit; box-shadow: none; }
   .h-who__frame :global(.photo img) { object-position: var(--who-focus); }
   .h-who__list { list-style: none; margin: 0; padding: 0; }
-  .h-who__entry { display: grid; align-content: center; gap: var(--s-3); padding-block: var(--s-5); border-block-start: 1px solid var(--line-strong); }
-  .h-who__entry:last-child { border-block-end: 1px solid var(--line-strong); }
+  .h-who__entry { display: grid; align-content: center; gap: var(--s-3); padding-block: var(--s-5); }
   .h-who__detail { display: grid; gap: var(--s-3); }
   .h-who__detail h3 { max-width: 18ch; font-size: clamp(2rem, 1.3rem + 1.8vw, 3rem); line-height: 1.1; letter-spacing: -0.03em; }
   .h-who__detail p { color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.6; max-width: 35ch; }
@@ -402,7 +401,10 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   :global(.h-who.is-story) { --who-stage-h: min(60rem, calc(100svh - var(--header-h) - 2rem)); }
   :global(.h-who.is-story) .h-who__head { position: sticky; top: calc(var(--header-h) + 1rem); height: var(--who-stage-h); grid-template-rows: auto auto minmax(0, 1fr); }
   :global(.h-who.is-story) .h-who__gallery { height: auto; }
-  :global(.h-who.is-story) .h-who__entry { min-height: var(--who-stage-h); }
+  :global(.h-who.is-story) .h-who__entry { display: block; align-content: start; min-height: var(--who-stage-h); padding-block-start: var(--who-entry-inset); }
+  :global(.h-who.is-story) .h-who__entry:not(:last-child) { margin-block-end: calc(-1 * var(--who-entry-inset)); }
+  :global(.h-who.is-story) .h-who__detail { position: sticky; top: var(--who-detail-top); }
+  :global(.h-who.is-story) .h-who__entry:last-child .h-who__detail { position: static; }
   :global(.h-who__gallery.is-focused) { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) 4.5rem; }
   :global(.h-who__gallery.is-focused) .h-who__frame { grid-row: 2; border-radius: var(--r-s); }
   :global(.h-who__gallery.is-focused) :global(.h-who__frame.is-active) { grid-column: 1 / -1; grid-row: 1; border-radius: var(--r-m); }

@@ -187,7 +187,9 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
   const section = $('[data-who-story]');
   if (!section) return;
   const gallery = $('[data-who-gallery]', section);
+  const head = $('.h-who__head', section);
   const entries = $$('[data-who-entry]', section);
+  const details = entries.map((entry) => $('.h-who__detail', entry));
   const frames = $$('[data-who-frame]', section);
   if (!section || !gallery || frames.length !== entries.length || !entries.length) return;
 
@@ -210,9 +212,25 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
   };
   const story = ScrollTrigger.create({
     trigger: section, start: 'top bottom', end: 'bottom top',
-    onRefresh: () => {
+    onRefreshInit: () => {
       Flip.killFlipsOf(frames);
-      starts = entries.map((entry) => entry.getBoundingClientRect().top + window.scrollY + entry.offsetHeight * 0.3 - window.innerHeight * 0.55);
+      // Measure the featured-photo layout, excluding the introduction and thumbnail strip.
+      select(0, false);
+      const photo = frames[0];
+      const stickyTop = parseFloat(getComputedStyle(head).top);
+      const photoCenter = stickyTop + gallery.offsetTop + photo.offsetTop + photo.offsetHeight / 2;
+      details.forEach((detail, i) => {
+        const top = photoCenter - detail.offsetHeight / 2;
+        detail.style.setProperty('--who-detail-top', `${top}px`);
+        entries[i].style.setProperty('--who-entry-inset', `${top - stickyTop}px`);
+      });
+    },
+    onRefresh: () => {
+      starts = entries.map((entry, i) => {
+        const textTop = parseFloat(details[i].style.getPropertyValue('--who-detail-top'));
+        const inset = parseFloat(getComputedStyle(entry).paddingTop);
+        return entry.getBoundingClientRect().top + window.scrollY + inset - textTop;
+      });
       sync(false);
     },
     onUpdate: () => sync(),
@@ -225,6 +243,8 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
     section.classList.remove('is-story');
     gallery.classList.remove('is-focused');
     frames.forEach((frame) => frame.classList.remove('is-active'));
+    details.forEach((detail) => detail.style.removeProperty('--who-detail-top'));
+    entries.forEach((entry) => entry.style.removeProperty('--who-entry-inset'));
   };
 });
 
