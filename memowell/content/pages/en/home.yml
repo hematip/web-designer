@@ -112,4 +112,3 @@ sections:
       This site cannot tell you whether Memowell suits you. Your doctor or pharmacist can — and the conversation goes better with the facts in hand.
     actions:
       - { label: "Contact us", href: "/contact" }
-      - { label: "Download a one-page summary (PDF)", kind: summary }

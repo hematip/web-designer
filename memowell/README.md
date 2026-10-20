@@ -65,7 +65,7 @@ Full record: `docs/design-brief.md` → "Version 2".
    - reduced motion / no JavaScript: the five chapters listed beside the closed capsule; without WebGL the SVG capsule poster stays.
 
    It shows the "difference from ordinary frankincense" using only the copy's own words. No body, bloodstream, brain or mechanism appears, and nothing is tied to a memory outcome.
-2. **Who it was studied in:** four large numbered reading stages beside an illustrative photo contact sheet. On wide, tall screens the gallery stays beside the text and re-composes to feature the current context, with four keyboard-accessible anchor links. The text stays in native vertical flow. Phones show each photograph below its corresponding group; short screens and reduced motion use the static composition.
+2. **Who it was studied in:** four large numbered reading stages beside an illustrative photo contact sheet. On wide, tall screens the gallery stays beside the text and re-composes to feature the current context. The client removed the photo number badges and the numbered navigation beneath the gallery. The text stays in native vertical flow. Phones show each photograph below its corresponding group; short screens and reduced motion use the static composition.
 3. **Evidence:** study context and its source sit beside the result sentence, which lights up word by word. "3.11 points higher on MMSE" resolves in cyan inside its full sentence.
 4. **One capsule with each of the three main meals:** a capsule drops in and splits onto three plates.
 5. **Hero film (v7, Kondor Brain):** a silent 15-second Seedance 2.5 film behind the approved hero copy — "the wall of names": a grandmother shows her granddaughter the family photo wall, tells their stories, checks one name on the back of a frame, and they hang a new photo of the two of them (scenario and direction in `docs/kondor-brain/hero-film-direction-v3.md`, approved by the client; it replaced the v2 market film, which the client rejected). Concept: meaningful connection. No product, no text in frame, no headscarves (client instruction). It plays once and holds its last frame; a pause/play button sits in the hero corner (WCAG 2.2.2). Reduced motion never starts it; the poster is the last frame. Phones load a 720p file; WebM (VP9) first, MP4 (H.264) for Safari. `[LOCAL REGULATORY REVIEW REQUIRED]`: AI-generated people need Kondor sign-off. The two button labels ("Pause video", "Play video") are new interface words in CMS → Shared site text.
@@ -95,7 +95,7 @@ Also on hosting:
 
 ## Placeholders and pending items (single handoff list, brief Part 8.4)
 
-Every item below is built around and never invented. Preview pages keep local pending markers where relevant. At the client's request the homepage closing panel omits its internal PDF approval note; its unavailable-file status remains visible.
+Every item below is built around and never invented. Preview pages keep local pending markers where relevant. At the client's request the homepage closing panel no longer offers the unavailable PDF; other pages retain their truthful unavailable-file states.
 
 ### Open gaps from the brief (Part 9)
 
@@ -114,7 +114,7 @@ Every item below is built around and never invented. Preview pages keep local pe
 | 11 | Is Iran / Persian in scope? (memowell.ir appears in the catalogue) | Project scope | Not built | Client |
 | 12 | Which language `memowell.ru` opens in | Domain setup | See Domains above | Client |
 | 13 | French and Arabic translations | `/fr/`, `/ar/` | Structure, switcher and RTL built; content falls back to English in preview only; unpublished in production | Client's translator + scientific officer |
-| 14 | One-page summary PDF | Header action target, home §9, `/memowell`, `/who-its-for`, `/science` | **Draft produced** (`deliverables/`). Buttons show "This file will be available soon." until it is approved and set in Settings → Downloads | Scientific officer |
+| 14 | One-page summary PDF | `/memowell`, `/who-its-for`, `/science` | **Draft produced** (`deliverables/`). Buttons show "This file will be available soon." until it is approved and set in Settings → Downloads. The homepage PDF action was removed at the client's request | Scientific officer |
 | 15 | Catalogue PDF for partners | `/about/partners` | Button disabled, "This file will be available soon." | Client |
 | 16 | Amazon listing URL(s) | `/about/availability` | Approved sentence shown without a link; Settings → `amazon_urls` | Client |
 | 17 | Terms of use text | `/terms` | Draft page, not generated in production; footer shows the label without a link | Client |

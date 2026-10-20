@@ -189,7 +189,6 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
   const gallery = $('[data-who-gallery]', section);
   const entries = $$('[data-who-entry]', section);
   const frames = $$('[data-who-frame]', section);
-  const markers = $$('[data-who-marker]', section);
   if (!section || !gallery || frames.length !== entries.length || !entries.length) return;
 
   section.classList.add('is-story');
@@ -201,7 +200,6 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
     const state = animate ? Flip.getState(frames) : null;
     gallery.classList.toggle('is-focused', next >= 0);
     frames.forEach((frame, i) => frame.classList.toggle('is-active', i === next));
-    markers.forEach((marker, i) => i === next ? marker.setAttribute('aria-current', 'location') : marker.removeAttribute('aria-current'));
     active = next;
     if (state) Flip.from(state, { duration: 0.75, ease: 'power3.inOut', absolute: true });
   };
@@ -227,7 +225,6 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
     section.classList.remove('is-story');
     gallery.classList.remove('is-focused');
     frames.forEach((frame) => frame.classList.remove('is-active'));
-    markers.forEach((marker) => marker.removeAttribute('aria-current'));
   };
 });
 
