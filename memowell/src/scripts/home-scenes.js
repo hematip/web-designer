@@ -228,17 +228,18 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
   };
 });
 
-// ---------------------------------------------------------------- Closing: one calm entrance into the conversation
+// ---------------------------------------------------------------- Closing: a visible, staged entrance into the conversation
 mm.add(MQ.motion, () => {
   const panel = $('[data-close-appear]');
   if (!panel) return;
   const parts = [...$('.h-close__copy', panel).children];
   const bottle = $('.h-close__bottle', panel);
   const entrance = gsap.timeline({
-    scrollTrigger: { trigger: panel, start: 'top 85%', once: true },
+    scrollTrigger: { trigger: panel.closest('#closing'), start: 'top 60%', once: true },
   });
-  entrance.from(parts, { opacity: 0, y: 28, duration: 0.85, stagger: 0.12, ease: 'power3.out' }, 0);
-  if (bottle) entrance.from(bottle, { opacity: 0, y: 48, duration: 1.1, ease: 'power3.out' }, 0.15);
+  entrance.from(panel, { opacity: 0, y: 64, scale: 0.97, duration: 1.2, ease: 'power3.out' }, 0);
+  entrance.from(parts, { opacity: 0, y: 70, duration: 1.05, stagger: 0.22, ease: 'power3.out' }, 0.2);
+  if (bottle) entrance.from(bottle, { opacity: 0, y: 120, scale: 0.86, duration: 1.45, ease: 'power3.out' }, 0.35);
   const revealForFocus = () => entrance.progress(1);
   panel.addEventListener('focusin', revealForFocus);
   return () => panel.removeEventListener('focusin', revealForFocus);
