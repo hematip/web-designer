@@ -11,7 +11,7 @@ The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-app
 |---|---|---|
 | Site | Astro 5 (static HTML, no client framework) | Fast, accessible pages that any host can serve. Correct URLs, titles and meta for SEO, which matters because the blog is the main search entry |
 | CMS | Decap CMS 3.16.3 at `/admin` | Git-based, so content lives in this repo. Editorial workflow (**Draft → In review → Ready**) and side-by-side EN/FR/AR editing from day one |
-| Type (v2) | Bricolage Grotesque (display), Plus Jakarta Sans (body/UI, with no slashed zero), Instrument Serif Italic (single accent words), IBM Plex Sans Arabic | All OFL, self-hosted via npm |
+| Type | Bricolage Grotesque (display), Plus Jakarta Sans (body/UI, with no slashed zero), IBM Plex Sans Arabic | All OFL, self-hosted via npm |
 | Motion (v2) | GSAP 3.15 (ScrollTrigger, SplitText; standard no-charge licence) + Lenis 1.3.26 smooth scroll | One GSAP-ticker clock. `gsap.matchMedia` handles desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it |
 | 3D (v3, in the hero since v4) | Three.js r186 (WebGL), only in the home hero scene (`src/scripts/formulation-3d.js`) | Loaded as a separate chunk once the browser is idle after first paint, so the page never waits for it. All geometry is procedural (no external models or textures). Without WebGL the static SVG capsule poster stays |
 
@@ -33,8 +33,8 @@ node scripts/build-summary-pdf.mjs                                  # rebuild th
 ## How content works
 
 - `content/pages/<lang>/<page>.yml` holds the page copy, `content/site/<lang>/strings.yml` the navigation, footer, disclaimers and UI text, and `content/articles/<lang>/*.md` the blog. `content/settings/*.yml` holds downloads, form endpoints, contact details and published languages.
-- **Publishing gate.** The production build shows only entries whose `status` is `approved`. Drafts appear only in the preview build, clearly marked.
-- **Languages.** EN is the default at `/`; FR is at `/fr/` and AR at `/ar/`, with a full RTL layout. In the production build they stay unpublished until `published_locales` in Settings includes them. Until a translation exists, the preview shows the English original inside the mirrored layout with a "translation pending" banner. Nothing is machine-translated for publication.
+- **Publishing gate.** The production build shows only entries whose `status` is `approved`. Drafts appear only in the preview build. The client removed the global preview banner; local pending states and `noindex` remain.
+- **Languages.** EN is the default at `/`; FR is at `/fr/` and AR at `/ar/`, with a full RTL layout. In the production build they stay unpublished until `published_locales` in Settings includes them. Until a translation exists, the preview shows the English original inside the mirrored layout with English language semantics. Nothing is machine-translated for publication.
 - **Honest states.**
   - Forms stay disabled with the notice "This form will open soon." until an endpoint is set in Settings.
   - The summary and catalogue buttons show "This file will be available soon." until a file is approved.
@@ -145,7 +145,7 @@ These are interface or structural words, and none of them is a claim. They are a
 | Hero (v2) | The word "names" is set in the italic accent face | Typography only; no words change |
 | Scroll marquee (v2, decorative) | "90 vegetarian capsules", "Gluten-free", "NPN 80107357", "Memory health", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada" | Fragments of approved copy and the bottle label. Editable in CMS → Pages → home → hero. (The v2 hero chips were removed in v4) |
 | Hero story chapter titles (v4, visible `h3` headings) | "Resin of Boswellia trees — frankincense", "Micronized", "Microcrystalline", "K-Vie™ · standardised to 40% boswellic acids", "Vegetarian and gluten-free" | Fragments of the approved §3 copy and the label ("90 vegetarian capsules … Gluten-free"). Chapter texts under them are whole approved sentences, unchanged. Editable in CMS → Pages → home → formulation → Story chapters. Chapters 2 and 4 depend on the pending K-Vie™ scientific-officer approval (item 8) |
-| Footer (v2, decorative) | Outline "LIVE WELL, STAY WELL" | The catalogue slogan, unchanged and repeated from the footer line |
+| Footer (decorative) | Solid two-line "LIVE WELL, STAY WELL" beside the official Memowell logo | The catalogue slogan, unchanged and repeated from the footer line |
 | Homepage §2 and §5 | "Source: DOI …" lines | Same format as the science page; satisfies "every number keeps its source" |
 | Homepage §5 | The phrase "3.11 points higher on MMSE" is typographically highlighted inside its own sentence | No words changed; context (85 people, six months, placebo, source) remains alongside the result in the same study block |
 | Pending states | "This form will open soon." (brief example) · "This file will be available soon." · "Coming soon" · "Articles will appear here after scientific review." | Honest states for missing destinations |

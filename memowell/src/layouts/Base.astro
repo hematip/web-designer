@@ -51,17 +51,8 @@ const robots = IS_PREVIEW || noindex || fallback || status !== 'approved' ? 'noi
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
   </head>
-  <body class:list={[bodyClass, { 'fallback-text': siteStrings.fallback, 'has-preview-banner': IS_PREVIEW }]}>
+  <body class:list={[bodyClass, { 'fallback-text': siteStrings.fallback }]}>
     <a class="skip-link" href="#main">{ui.skip_link}</a>
-    {IS_PREVIEW && (
-      <aside class="preview-banner" aria-label="Preview build" lang="en" dir="ltr">
-        <div class="wrap">
-          <strong>Preview build — not for publication.</strong> Drafts, pending translations and open gaps are marked in yellow.
-          {status !== 'approved' && <> This page is <strong>{status}</strong>.</>}
-          {fallback && <> No approved {info.name} translation yet — English original shown.</>}
-        </div>
-      </aside>
-    )}
     <Header locale={locale} routePath={routePath} />
     <main id="main" tabindex="-1" lang={fallback ? 'en' : undefined} class:list={{ 'fallback-block': fallback }}>
       <slot />
