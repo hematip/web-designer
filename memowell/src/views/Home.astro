@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Action from '../components/Action.astro';
-import Note from '../components/Note.astro';
 import Sources from '../components/Sources.astro';
 import Stripes from '../components/Stripes.astro';
 import Capsule from '../components/Capsule.astro';
@@ -32,13 +31,21 @@ const ui = getSite(locale).data.ui;
 const film = { src: '/video/hero-names', poster: '/video/hero-names-poster.webp' };
 const whyPhoto = photoOf(locale, 'home', 'why');
 const wherePhoto = photoOf(locale, 'home', 'availability');
+// Existing illustrative scenes: care, family, everyday planning and active mid-life.
+const whoPhotos = [
+  photoOf(locale, 'who-its-for', 'intro'),
+  photoOf(locale, 'memory-health', 'intro'),
+  whyPhoto,
+  photoOf(locale, 'memowell', 'directions'),
+];
+const whoPhotoFocus = ['55% 24%', '50% 26%', '50% 12%', '40% 0%'];
 // Formulation story: one chapter per stage of the 3D scene (resin → capsule).
 const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-home">
 
-  <!-- 1 · Hero (v5): the approved question on the aurora; the formulation story follows "why" -->
-  <section class="h-hero is-dark aurora" data-pointer aria-labelledby="hero-title" data-hero>
+  <!-- 1 · The approved question and family film; the formulation story follows "why". -->
+  <section class="h-hero is-dark" aria-labelledby="hero-title" data-hero>
     <div class="h-hero__film" aria-hidden="true">
       <!-- Sources are chosen in home-scenes.js (720p on phones); the 1080p pair is the no-JS fallback. -->
       <video data-hero-film data-src={film.src} muted playsinline preload="metadata" poster={film.poster} width="1920" height="1080">
@@ -138,8 +145,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </section>
 
-  <!-- 4 · An open research index: all four groups stay in normal reading flow. -->
-  <section class="h-who" id="who" aria-labelledby="who-title">
+  <!-- 4 · Four research contexts come into focus; the complete copy stays in reading flow. -->
+  <section class="h-who" id="who" aria-labelledby="who-title" data-who-story>
     <div class="wrap h-who__layout">
       <div class="h-who__head">
         <h2 id="who-title" set:html={accentWord(who.heading, 'studied')} />
@@ -147,15 +154,30 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           <p class="lead" set:html={mdInline(who.body)} />
           <Action action={who.inline_action} locale={locale} variant="link" />
         </div>
+        <div class="h-who__gallery" data-who-gallery aria-hidden="true">
+          {whoPhotos.map((photo, i) => photo && (
+            <div class="h-who__frame" data-who-frame style={`--who-focus: ${whoPhotoFocus[i]}`}>
+              <Photo photo={photo} variant="fill" sizes="(min-width: 64rem) 45vw, 1px" />
+              <span class="h-who__frame-index">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+          ))}
+        </div>
+        <div class="h-who__gallery-foot">
+          {whoPhotos[0]?.note && <p class="h-who__image-note">{whoPhotos[0].note}</p>}
+          <nav class="h-who__rail" aria-label={ui.on_this_page}>
+            {who.items.map((item: any, i: number) => <a href={`#who-group-${i + 1}`} aria-label={item.title} data-who-marker>{String(i + 1).padStart(2, '0')}</a>)}
+          </nav>
+        </div>
       </div>
       <ol class="h-who__list" role="list">
         {who.items.map((item: any, i: number) => (
-          <li class="h-who__entry" data-reveal>
+          <li class="h-who__entry" id={`who-group-${i + 1}`} data-who-entry>
             <span class="h-who__number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <div class="h-who__detail">
               <h3>{item.title}</h3>
               <p>{item.body}</p>
             </div>
+            {whoPhotos[i] && <div class="h-who__mobile-photo" aria-hidden="true" style={`--study-ratio: ${whoPhotos[i].width} / ${whoPhotos[i].height}`}><Photo photo={whoPhotos[i]} variant="portrait" sizes="(max-width: 63.99rem) 92vw, 1px" /></div>}
           </li>
         ))}
       </ol>
@@ -235,12 +257,11 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           <h2 id="closing-title" data-reveal>{closing.heading}</h2>
           <div class="prose lead" set:html={md(closing.body)} />
           <div class="btn-row">
-            {closing.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
+            {closing.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} showPendingNote={false} />)}
           </div>
         </div>
         <div class="h-close__visual" aria-hidden="true">
           <img class="h-close__bottle" src="/img/bottle-560.webp" width="895" height="1713" alt="" loading="lazy" />
-          <div class="h-close__note" data-reveal><Note locale={locale} state="complete" /></div>
         </div>
       </div>
     </div>
@@ -253,7 +274,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
 <style>
   /* ============ Hero ============ */
-  .h-hero { min-height: max(100svh, 44rem); display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 2.5rem) 4.5rem; border-radius: 0 0 var(--r-xl) var(--r-xl); }
+  .h-hero { position: relative; isolation: isolate; overflow: clip; min-height: max(100svh, 44rem); display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 2.5rem) 4.5rem; border-radius: 0 0 var(--r-xl) var(--r-xl); }
   /* Film: a daylight panel on the reading column's far side, dissolving into the midnight stage. */
   .h-hero__film { position: absolute; inset-block: 0; inset-inline-end: 0; width: 64%; z-index: -1; overflow: hidden;
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%); mask-image: linear-gradient(90deg, transparent 0%, #000 34%); }
@@ -274,15 +295,16 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__toggle[aria-pressed='true'] .i-pause { display: none; }
   .h-hero__toggle:hover { background: #fff; color: var(--midnight); }
   .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; position: relative; z-index: 2; }
-  .h-hero__intro { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; }
-  .h-hero__title { font-size: var(--fs-display); line-height: 0.95; letter-spacing: -0.045em; max-width: 11.5ch; }
-  .h-hero__lead { max-width: 34rem; font-size: var(--fs-lead); line-height: 1.55; color: var(--on-dark-soft); }
+  .h-hero__intro { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
+  .h-hero__intro .eyebrow { padding: 0; border: 0; border-radius: 0; background: none; color: var(--cyan); font-size: 1rem; }
+  .h-hero__intro .eyebrow::before { display: none; }
+  .h-hero__title { font-size: clamp(2.5rem, 1.5rem + 4vw, 6rem); line-height: 1.03; letter-spacing: -0.04em; max-width: 18ch; }
+  .h-hero__lead { max-width: 36rem; font-size: var(--fs-body); line-height: 1.65; color: var(--on-dark-soft); }
   /* The hero fits one screen on laptops too: the intro scales with the viewport height. */
   @media (min-width: 56.25rem) {
     .h-hero { min-height: 100svh; padding-block: calc(var(--header-h) + 1rem) 3rem; }
-    .h-hero__intro { gap: min(var(--s-4), 3svh); }
-    .h-hero__title { font-size: min(var(--fs-display), 10svh); }
-    .h-hero__lead { max-width: 40rem; font-size: min(var(--fs-lead), 2.7svh); }
+    .h-hero__intro { gap: var(--s-3); }
+    .h-hero__title { font-size: min(clamp(2.5rem, 1.5rem + 4vw, 6rem), max(2.5rem, 9svh)); }
   }
   .h-cue { position: absolute; z-index: 2; bottom: 1.5rem; left: 50%; translate: -50% 0; width: 2px; height: 3.5rem; background: rgba(255, 255, 255, 0.15); border-radius: 2px; overflow: hidden; }
   .h-cue span { display: block; width: 100%; height: 40%; background: var(--cyan); }
@@ -344,11 +366,10 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   :global([dir='rtl']) .h-story__rail span::after { transform-origin: 100% 50%; }
 
   /* ============ Marquee ============ */
-  .h-marquee { overflow: hidden; padding-block: 1.6rem; border-bottom: 1px solid var(--line); }
+  .h-marquee { overflow: hidden; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
   .h-marquee__track { display: flex; width: max-content; gap: 0; will-change: transform; }
-  .h-marquee__item { display: inline-flex; align-items: center; gap: 2rem; padding-inline: 1rem; font: 700 clamp(1.5rem, 1rem + 2vw, 2.75rem)/1 var(--font-display); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
-  .h-marquee__item:nth-child(even) { color: transparent; -webkit-text-stroke: 1.2px var(--royal); }
-  .h-marquee__item i { width: 0.7em; height: 0.7em; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, var(--cyan) 45%, var(--royal)); }
+  .h-marquee__item { display: inline-flex; align-items: center; gap: var(--s-4); padding-inline: var(--s-2); font: 600 clamp(1.0625rem, 0.9rem + 0.6vw, 1.5rem)/1.3 var(--font-body); color: var(--ink-soft); white-space: nowrap; }
+  .h-marquee__item i { width: 0.35rem; height: 0.35rem; flex: none; border-radius: 50%; background: var(--royal); }
 
   /* ============ Why ============ */
   .h-why { padding-block: var(--section); }
@@ -357,7 +378,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-why__heading { grid-row: 1; }
   .h-why__title { max-width: 19ch; font-size: clamp(2.5rem, 1.25rem + 3vw, 4rem); line-height: 1.04; letter-spacing: -0.04em; text-wrap: pretty; }
   .h-why__context { display: block; margin-block-end: var(--s-3); font: 600 1.125rem/1.5 var(--font-body); letter-spacing: 0; color: var(--ink-soft); }
-  .h-why__title :global(.accent) { --accent-stroke: var(--cyan); }
   .h-why__photo { grid-column: 1; grid-row: 1 / span 3; min-width: 0; }
   .h-why__photo :global(.photo) { border-radius: var(--r-m); border-start-start-radius: clamp(3rem, 6vw, 6rem); box-shadow: none; }
   .h-why__body { display: grid; gap: var(--s-4); max-width: var(--measure); color: var(--ink-soft); font-size: var(--fs-body); line-height: var(--lh-body); }
@@ -369,20 +389,37 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-why__grid--text { grid-template-columns: minmax(0, 1fr); max-width: calc(48rem + 2 * var(--gutter)); }
   .h-why__grid--text > * { grid-column: 1; }
 
-  /* ============ Who: research index ============ */
+  /* ============ Who: a contact sheet resolves into four research portraits ============ */
   .h-who { padding-block: var(--section); }
-  .h-who__layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(3rem, 5vw, 6rem); align-items: start; }
-  .h-who__head { position: sticky; top: calc(var(--header-h) + 2rem); display: grid; gap: var(--s-4); }
-  .h-who__head h2 { max-width: 12ch; font-size: clamp(2.5rem, 1.4rem + 2.7vw, 4rem); line-height: 1.03; letter-spacing: -0.04em; }
-  .h-who__head :global(.accent) { --accent-stroke: var(--cyan); }
-  .h-who__intro { display: grid; gap: var(--s-3); justify-items: start; }
+  .h-who__layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(3rem, 6vw, 6rem); align-items: start; }
+  .h-who__head { display: grid; gap: var(--s-2); }
+  .h-who__head h2 { max-width: 17ch; font-size: clamp(2.5rem, 1.4rem + 2.7vw, 4rem); line-height: 1.03; letter-spacing: -0.04em; }
+  .h-who__intro { display: grid; gap: 0.5rem; justify-items: start; }
   .h-who__intro :global(.lead) { font-size: var(--fs-body); line-height: var(--lh-body); }
-  .h-who__list { list-style: none; margin: 0; padding: 0; border-block-start: 1px solid var(--line-strong); }
-  .h-who__entry { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); column-gap: var(--s-3); padding-block: var(--s-4); border-block-end: 1px solid var(--line-strong); }
-  .h-who__number { font: 700 3.25rem/0.95 var(--font-display); letter-spacing: -0.07em; color: var(--royal); }
-  .h-who__detail { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: var(--s-3); align-items: start; }
-  .h-who__detail h3 { font-size: clamp(1.375rem, 1.05rem + 0.7vw, 1.875rem); line-height: 1.16; letter-spacing: -0.025em; }
-  .h-who__detail p { color: var(--ink-soft); font-size: var(--fs-body); line-height: var(--lh-body); max-width: 40ch; }
+  .h-who__gallery { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 0.5rem; height: clamp(17rem, 32svh, 22rem); margin-block-start: var(--s-2); }
+  .h-who__frame { position: relative; min-width: 0; min-height: 0; overflow: hidden; border-radius: var(--r-m); }
+  .h-who__frame :global(.photo) { width: 100%; height: 100%; border-radius: inherit; box-shadow: none; }
+  .h-who__frame :global(.photo img) { object-position: var(--who-focus); }
+  .h-who__frame :global(.photo__note) { display: none; }
+  .h-who__frame-index { position: absolute; inset-inline-end: 0.6rem; bottom: 0.6rem; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; color: #fff; background: var(--midnight); font: 700 0.875rem/1 var(--font-body); }
+  .h-who__gallery-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-1); }
+  .h-who__image-note { font-size: 0.75rem; color: var(--ink-soft); }
+  .h-who__rail { display: flex; gap: 0.25rem; }
+  .h-who__rail a { display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; border-radius: var(--r-s); border: 1px solid var(--line-strong); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 1rem; }
+  .h-who__rail a:hover, .h-who__rail a[aria-current='location'] { background: var(--royal); border-color: var(--royal); color: #fff; }
+  .h-who__list { list-style: none; margin: 0; padding: 0; }
+  .h-who__entry { display: grid; align-content: center; gap: var(--s-3); padding-block: var(--s-5); border-block-start: 1px solid var(--line-strong); }
+  .h-who__entry:last-child { border-block-end: 1px solid var(--line-strong); }
+  .h-who__number { font: 700 clamp(4rem, 7vw, 7rem)/0.9 var(--font-display); letter-spacing: -0.07em; color: var(--royal); }
+  .h-who__detail { display: grid; gap: var(--s-3); }
+  .h-who__detail h3 { max-width: 18ch; font-size: clamp(2rem, 1.3rem + 1.8vw, 3rem); line-height: 1.1; letter-spacing: -0.03em; }
+  .h-who__detail p { color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.6; max-width: 35ch; }
+  .h-who__mobile-photo { display: none; }
+  :global(.h-who.is-story) .h-who__head { position: sticky; top: calc(var(--header-h) + 1rem); }
+  :global(.h-who.is-story) .h-who__entry { min-height: 64svh; }
+  :global(.h-who__gallery.is-focused) { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) 4.5rem; }
+  :global(.h-who__gallery.is-focused) .h-who__frame { grid-row: 2; border-radius: var(--r-s); }
+  :global(.h-who__gallery.is-focused) :global(.h-who__frame.is-active) { grid-column: 1 / -1; grid-row: 1; border-radius: var(--r-m); }
 
   /* ============ Evidence ============ */
   .h-evidence { padding-block: var(--section); border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); }
@@ -427,20 +464,17 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
   /* ============ Closing ============ */
   .h-close { padding-block: 0 var(--section); }
-  .h-close__panel { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-xl); padding: clamp(2rem, 4vw, 5rem); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: var(--s-5); align-items: center; }
+  .h-close__panel { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-xl); padding: clamp(2rem, 4vw, 5rem); display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr); gap: var(--s-5); align-items: center; }
   .h-close__pattern { position: absolute; z-index: -1; inset-inline-end: -8%; top: -8%; width: 60%; height: 75%; opacity: 0.1; pointer-events: none; }
   .h-close__pattern :global(svg) { width: 100%; height: 100%; }
   .h-close__copy { display: grid; gap: var(--s-3); justify-items: start; }
-  .h-close__copy h2 { max-width: 13ch; }
+  .h-close__copy h2 { max-width: 18ch; }
+  .h-close__copy :global(.lead) { max-width: 42ch; }
   .h-close__copy .btn-row { align-items: flex-start; }
-  .h-close__visual { display: grid; grid-template-columns: minmax(0, 1fr) 7rem; gap: var(--s-3); align-items: end; min-width: 0; }
-  .h-close__bottle { grid-column: 2; grid-row: 1; width: 100%; height: auto; filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.4)); }
-  .h-close__note { grid-column: 1; grid-row: 1; min-width: 0; }
+  .h-close__visual { display: grid; place-items: center; min-width: 0; }
+  .h-close__bottle { width: min(100%, 11rem); height: auto; filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.4)); }
 
   /* ============ Responsive ============ */
-  @media (max-width: 79.99rem) {
-    .h-who__detail { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
-  }
   @media (max-width: 63.99rem) {
     .h-why__grid { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); max-width: calc(38rem + 2 * var(--gutter)); }
     .h-why__heading, .h-why__body, .h-why__footer, .h-why__photo { grid-column: 1; grid-row: auto; }
@@ -451,6 +485,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-who__layout { grid-template-columns: minmax(0, 1fr); gap: var(--s-5); max-width: calc(40rem + 2 * var(--gutter)); }
     .h-who__head { position: static; gap: var(--s-3); }
     .h-who__head h2 { max-width: 18ch; }
+    .h-who__gallery, .h-who__image-note { display: none; }
+    .h-who__mobile-photo { display: block; }
+    .h-who__mobile-photo :global(.photo) { aspect-ratio: var(--study-ratio); border-radius: var(--r-m); box-shadow: none; }
     .h-evidence__study, .h-evidence__meta { grid-template-columns: minmax(0, 1fr); }
     .h-evidence__meta { gap: var(--s-3); }
     .h-dir__grid { grid-template-columns: minmax(0, 1fr); max-width: calc(38rem + 2 * var(--gutter)); }
@@ -460,7 +497,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-pro__panel { grid-template-columns: minmax(0, 1fr); }
     .h-where__grid, .h-close__panel { grid-template-columns: 1fr; }
     .h-where__grid { max-width: calc(38rem + 2 * var(--gutter)); }
-    .h-close__visual { grid-template-columns: minmax(0, 23rem) 7rem; justify-content: center; }
   }
   /* The story stacks at the same width where its motion switches to the phone version:
      the scene takes the screen with the chapter text over its lower part. */
@@ -499,18 +535,20 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-why__title { font-size: clamp(2rem, 9vw, 2.5rem); }
     .h-why__context { margin-block-end: var(--s-2); font-size: 1rem; }
     .h-why__photo :global(.photo) { aspect-ratio: 1; }
-    .h-who__entry { grid-template-columns: 2.25rem minmax(0, 1fr); gap: var(--s-2); padding-block: var(--s-3); }
-    .h-who__number { font-size: 2.25rem; }
-    .h-who__detail h3 { font-size: 1.5rem; }
+    .h-who__entry { gap: var(--s-3); padding-block: var(--s-5); }
+    .h-who__number { font-size: 3.5rem; }
+    .h-who__detail h3 { font-size: 2rem; }
     .h-evidence__title { margin-block-end: var(--s-4); }
     .h-evidence__study { padding-block: var(--s-4); }
     .h-dir__stage { gap: var(--s-2); padding-top: 7rem; }
     .h-close__panel { padding: var(--s-3); border-radius: var(--r-l); }
     .h-close__copy :global(.lead) { font-size: var(--fs-body); line-height: var(--lh-body); }
-    .h-close__visual { display: flex; flex-direction: column; align-items: center; gap: var(--s-4); }
-    /* The real actions and their status stay above; the duplicate document is decorative. */
-    .h-close__note { display: none; }
     .h-close__bottle { width: 7rem; }
     .h-close__pattern { top: auto; bottom: 0; width: 100%; height: 24rem; opacity: 0.07; }
+  }
+  @media (max-width: 30rem) {
+    :global(.page-home .site-header__bar) { padding-inline: 0.6rem; gap: 0.5rem; }
+    :global(.page-home .site-header__logo img) { width: 7.5rem; }
+    :global(.page-home .site-header__menu-btn) { padding-inline: 0.8rem; }
   }
 </style>

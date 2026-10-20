@@ -10,8 +10,9 @@ interface Props {
   locale: string;
   variant?: 'primary' | 'secondary' | 'light' | 'link';
   small?: boolean;
+  showPendingNote?: boolean;
 }
-const { action, locale, variant = 'primary', small = false } = Astro.props;
+const { action, locale, variant = 'primary', small = false, showPendingNote = true } = Astro.props;
 const ui = getSite(locale).data.ui;
 
 let target: string | null = action.href ?? null;
@@ -49,6 +50,6 @@ const isDownload = action.kind === 'summary' || action.kind === 'catalogue';
       {isDownload && <Icon name="download" class="arrow" />}
     </a>
     <span class="action-status">{pendingText}</span>
-    {IS_PREVIEW && pendingNote && <span class="pending small" style="margin-top:.5rem">{pendingNote}</span>}
+    {IS_PREVIEW && showPendingNote && pendingNote && <span class="pending small" style="margin-top:.5rem">{pendingNote}</span>}
   </span>
 )}

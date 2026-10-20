@@ -12,7 +12,7 @@ The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-app
 | Site | Astro 5 (static HTML, no client framework) | Fast, accessible pages that any host can serve. Correct URLs, titles and meta for SEO, which matters because the blog is the main search entry |
 | CMS | Decap CMS 3.16.3 at `/admin` | Git-based, so content lives in this repo. Editorial workflow (**Draft → In review → Ready**) and side-by-side EN/FR/AR editing from day one |
 | Type | Bricolage Grotesque (display), Plus Jakarta Sans (body/UI, with no slashed zero), IBM Plex Sans Arabic | All OFL, self-hosted via npm |
-| Motion (v2) | GSAP 3.15 (ScrollTrigger, SplitText; standard no-charge licence) + Lenis 1.3.26 smooth scroll | One GSAP-ticker clock. `gsap.matchMedia` handles desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it |
+| Motion | GSAP 3.15 (ScrollTrigger, SplitText, Flip; standard no-charge licence) + Lenis 1.3.26 smooth scroll | One GSAP-ticker clock. `gsap.matchMedia` handles desktop, mobile and reduced motion. HTML renders complete content; JS enhances it |
 | 3D (v3, in the hero since v4) | Three.js r186 (WebGL), only in the home hero scene (`src/scripts/formulation-3d.js`) | Loaded as a separate chunk once the browser is idle after first paint, so the page never waits for it. All geometry is procedural (no external models or textures). Without WebGL the static SVG capsule poster stays |
 
 ## Commands
@@ -65,14 +65,14 @@ Full record: `docs/design-brief.md` → "Version 2".
    - reduced motion / no JavaScript: the five chapters listed beside the closed capsule; without WebGL the SVG capsule poster stays.
 
    It shows the "difference from ordinary frankincense" using only the copy's own words. No body, bloodstream, brain or mechanism appears, and nothing is tied to a memory outcome.
-2. **Who it was studied in:** an open numbered index of the four groups, with a sticky introduction on wide screens and ordinary vertical reading flow on smaller screens.
+2. **Who it was studied in:** four large numbered reading stages beside an illustrative photo contact sheet. On wide, tall screens the gallery stays beside the text and re-composes to feature the current context, with four keyboard-accessible anchor links. The text stays in native vertical flow. Phones show each photograph below its corresponding group; short screens and reduced motion use the static composition.
 3. **Evidence:** study context and its source sit beside the result sentence, which lights up word by word. "3.11 points higher on MMSE" resolves in cyan inside its full sentence.
 4. **One capsule with each of the three main meals:** a capsule drops in and splits onto three plates.
 5. **Hero film (v7, Kondor Brain):** a silent 15-second Seedance 2.5 film behind the approved hero copy — "the wall of names": a grandmother shows her granddaughter the family photo wall, tells their stories, checks one name on the back of a frame, and they hang a new photo of the two of them (scenario and direction in `docs/kondor-brain/hero-film-direction-v3.md`, approved by the client; it replaced the v2 market film, which the client rejected). Concept: meaningful connection. No product, no text in frame, no headscarves (client instruction). It plays once and holds its last frame; a pause/play button sits in the hero corner (WCAG 2.2.2). Reduced motion never starts it; the poster is the last frame. Phones load a 720p file; WebM (VP9) first, MP4 (H.264) for Safari. `[LOCAL REGULATORY REVIEW REQUIRED]`: AI-generated people need Kondor sign-off. The two button labels ("Pause video", "Play video") are new interface words in CMS → Shared site text.
 6. **Supporting motion:**
    - hero load choreography (masked line reveal, the intro rising in);
    - a scroll-linked fact marquee (moves only with scroll; nothing loops on its own);
-   - an aurora that follows the pointer;
+   - pointer-following aurora on the remaining relevant stages; the homepage hero keeps its original family film on a calmer navy field;
    - batched reveals on inner pages.
 7. **Below 900px:** the directions scene plays scrubbed in normal flow. The formulation scene keeps its existing phone pin and chapter system; the audience index has no pin at any width.
 8. **Reduced motion and no JavaScript:** final composed states, with no Lenis.
@@ -95,7 +95,7 @@ Also on hosting:
 
 ## Placeholders and pending items (single handoff list, brief Part 8.4)
 
-Every item below is built around and never invented. In the preview build each one is marked in yellow on the page where it applies.
+Every item below is built around and never invented. Preview pages keep local pending markers where relevant. At the client's request the homepage closing panel omits its internal PDF approval note; its unavailable-file status remains visible.
 
 ### Open gaps from the brief (Part 9)
 
@@ -141,7 +141,7 @@ These are interface or structural words, and none of them is a claim. They are a
 | Where | Text | Note |
 |---|---|---|
 | Header action | "Taking this to your doctor" → `/memowell#summary` | The approved `/memowell` heading reused as the "doctor summary" action; avoids a dead PDF link |
-| Summary card (decorative, `aria-hidden`) | Title "Taking this to your doctor"; rows "What is in it", "What the research found", "How to take it", "Five questions worth asking" | Fragments of approved headings and the `/memowell` §6 sentence; also a heading in the draft PDF |
+| Summary card on `/memowell` (decorative, `aria-hidden`) | Title "Taking this to your doctor"; rows "What is in it", "What the research found", "How to take it", "Five questions worth asking" | Fragments of approved headings and the `/memowell` §6 sentence; also a heading in the draft PDF. The duplicate homepage card is retired |
 | Hero (v2) | The word "names" is set in the italic accent face | Typography only; no words change |
 | Scroll marquee (v2, decorative) | "90 vegetarian capsules", "Gluten-free", "NPN 80107357", "Memory health", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada" | Fragments of approved copy and the bottle label. Editable in CMS → Pages → home → hero. (The v2 hero chips were removed in v4) |
 | Hero story chapter titles (v4, visible `h3` headings) | "Resin of Boswellia trees — frankincense", "Micronized", "Microcrystalline", "K-Vie™ · standardised to 40% boswellic acids", "Vegetarian and gluten-free" | Fragments of the approved §3 copy and the label ("90 vegetarian capsules … Gluten-free"). Chapter texts under them are whole approved sentences, unchanged. Editable in CMS → Pages → home → formulation → Story chapters. Chapters 2 and 4 depend on the pending K-Vie™ scientific-officer approval (item 8) |

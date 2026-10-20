@@ -1,6 +1,9 @@
 // Homepage cinematic scenes (v2; formulation story v5). Every scene animates *from* states set here; the HTML is already the
 // resolved composition, so reduced motion, no-JS and failures show complete content.
 import { gsap, ScrollTrigger, SplitText, mm, MQ, getLenis } from './motion.js';
+import { Flip } from 'gsap/Flip';
+
+gsap.registerPlugin(Flip);
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -177,6 +180,55 @@ mm.add(MQ.mobile, () => buildFormulation(true));
 mm.add('(prefers-reduced-motion: reduce)', () => {
   sceneState.p = 1;
   setSceneMode('static');
+});
+
+// ---------------------------------------------------------------- Who: four contexts move from contact sheet to focus
+mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: no-preference)', () => {
+  const section = $('[data-who-story]');
+  if (!section) return;
+  const gallery = $('[data-who-gallery]', section);
+  const entries = $$('[data-who-entry]', section);
+  const frames = $$('[data-who-frame]', section);
+  const markers = $$('[data-who-marker]', section);
+  if (!section || !gallery || frames.length !== entries.length || !entries.length) return;
+
+  section.classList.add('is-story');
+  let active = -2;
+  let starts = [];
+  const select = (next, animate) => {
+    if (active === next) return;
+    Flip.killFlipsOf(frames);
+    const state = animate ? Flip.getState(frames) : null;
+    gallery.classList.toggle('is-focused', next >= 0);
+    frames.forEach((frame, i) => frame.classList.toggle('is-active', i === next));
+    markers.forEach((marker, i) => i === next ? marker.setAttribute('aria-current', 'location') : marker.removeAttribute('aria-current'));
+    active = next;
+    if (state) Flip.from(state, { duration: 0.75, ease: 'power3.inOut', absolute: true });
+  };
+  const sync = (animate = true) => {
+    let next = -1;
+    starts.forEach((start, i) => { if (window.scrollY >= start) next = i; });
+    select(next, animate);
+  };
+  const story = ScrollTrigger.create({
+    trigger: section, start: 'top bottom', end: 'bottom top',
+    onRefresh: () => {
+      Flip.killFlipsOf(frames);
+      starts = entries.map((entry) => entry.getBoundingClientRect().top + window.scrollY + entry.offsetHeight * 0.3 - window.innerHeight * 0.55);
+      sync(false);
+    },
+    onUpdate: () => sync(),
+  });
+  ScrollTrigger.refresh();
+  return () => {
+    story.kill();
+    Flip.killFlipsOf(frames);
+    gsap.set(frames, { clearProps: 'all' });
+    section.classList.remove('is-story');
+    gallery.classList.remove('is-focused');
+    frames.forEach((frame) => frame.classList.remove('is-active'));
+    markers.forEach((marker) => marker.removeAttribute('aria-current'));
+  };
 });
 
 // ---------------------------------------------------------------- Evidence: the sentence lights up
