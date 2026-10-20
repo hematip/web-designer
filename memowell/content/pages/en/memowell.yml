@@ -20,7 +20,6 @@ sections:
       widths: [640, 1024]
       focus: "45% 60%"
       alt: ""
-      note: "Illustrative image"
     heading: "What is in it"
     body: |-
       The active compounds are boswellic acids, drawn from the resin of *Boswellia* trees — the tree that produces frankincense.
@@ -48,7 +47,6 @@ sections:
       widths: [640, 1024, 1600, 2000]
       focus: "40% 30%"
       alt: ""
-      note: "Illustrative image"
 
   - id: cautions
     heading: "Before you start"

@@ -32,7 +32,6 @@ sections:
       widths: [640, 1024, 1600]
       focus: "50% 48%"
       alt: ""
-      note: "Illustrative image"
 
   - id: formulation
     # v4: told inside the hero, one chapter per stage of the 3D scene (resin → capsule).
@@ -99,7 +98,6 @@ sections:
       widths: [640, 1024, 1600]
       focus: "50% 40%"
       alt: ""
-      note: "Illustrative image"
     heading: "Where to find Memowell"
     body: |-
       Availability, packaging and approved uses differ by country. Tell us where you are and we will point you to the right source.

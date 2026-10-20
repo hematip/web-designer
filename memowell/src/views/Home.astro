@@ -161,7 +161,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
             </div>
           ))}
         </div>
-        {whoPhotos[0]?.note && <p class="h-who__image-note">{whoPhotos[0].note}</p>}
       </div>
       <ol class="h-who__list" role="list">
         {who.items.map((item: any, i: number) => (
@@ -245,17 +244,16 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   <!-- 9 · Closing -->
   <section class="h-close" id="closing" aria-labelledby="closing-title">
     <div class="wrap">
-      <div class="h-close__panel is-dark">
+      <div class="h-close__panel is-dark" data-close-appear>
         <div class="h-close__copy">
-          <h2 id="closing-title" data-reveal set:html={accentWord(closing.heading, 'conversation')} />
+          <h2 id="closing-title" set:html={accentWord(closing.heading, 'conversation')} />
           <div class="prose lead" set:html={md(closing.body)} />
-          <div class="btn-row">
-            {closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}
+          <div class="h-close__action">
+            {closing.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}
           </div>
         </div>
         <div class="h-close__visual" aria-hidden="true">
-          <div class="h-close__speech h-close__speech--back"></div>
-          <div class="h-close__speech h-close__speech--front"><div class="h-close__pattern"><Stripes id="home-close" /></div></div>
+          <div class="h-close__pattern"><Stripes id="home-close" blob={false} color="var(--royal)" /></div>
           <img class="h-close__bottle" src="/img/bottle-560.webp" width="895" height="1713" alt="" loading="lazy" />
         </div>
       </div>
@@ -395,8 +393,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-who__frame { position: relative; min-width: 0; min-height: 0; overflow: hidden; border-radius: var(--r-m); }
   .h-who__frame :global(.photo) { width: 100%; height: 100%; border-radius: inherit; box-shadow: none; }
   .h-who__frame :global(.photo img) { object-position: var(--who-focus); }
-  .h-who__frame :global(.photo__note) { display: none; }
-  .h-who__image-note { font-size: 0.75rem; color: var(--ink-soft); }
   .h-who__list { list-style: none; margin: 0; padding: 0; }
   .h-who__entry { display: grid; align-content: center; gap: var(--s-3); padding-block: var(--s-5); border-block-start: 1px solid var(--line-strong); }
   .h-who__entry:last-child { border-block-end: 1px solid var(--line-strong); }
@@ -406,7 +402,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-who__detail p { color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.6; max-width: 35ch; }
   .h-who__mobile-photo { display: none; }
   :global(.h-who.is-story) { --who-stage-h: min(60rem, calc(100svh - var(--header-h) - 2rem)); }
-  :global(.h-who.is-story) .h-who__head { position: sticky; top: calc(var(--header-h) + 1rem); height: var(--who-stage-h); grid-template-rows: auto auto minmax(0, 1fr) auto; }
+  :global(.h-who.is-story) .h-who__head { position: sticky; top: calc(var(--header-h) + 1rem); height: var(--who-stage-h); grid-template-rows: auto auto minmax(0, 1fr); }
   :global(.h-who.is-story) .h-who__gallery { height: auto; }
   :global(.h-who.is-story) .h-who__entry { min-height: var(--who-stage-h); }
   :global(.h-who__gallery.is-focused) { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) 4.5rem; }
@@ -456,23 +452,19 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
   /* ============ Closing ============ */
   .h-close { padding-block: 0 var(--section); }
-  .h-close__panel { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-xl); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr); align-items: stretch; }
-  .h-close__pattern { position: absolute; inset: 0; opacity: 0.14; pointer-events: none; overflow: hidden; border-radius: inherit; }
+  .h-close__panel { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-xl); display: grid; grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; padding: clamp(2rem, 4vw, 4rem); }
+  .h-close__pattern { position: absolute; z-index: -1; inset: -30% 15% -30% -60%; opacity: 0.3; pointer-events: none; overflow: hidden; transform: rotate(12deg); -webkit-mask-image: linear-gradient(90deg, #000, transparent 95%); mask-image: linear-gradient(90deg, #000, transparent 95%); }
   .h-close__pattern :global(svg) { width: 100%; height: 100%; }
-  .h-close__copy { display: grid; align-content: center; gap: var(--s-4); justify-items: start; padding: clamp(2rem, 4vw, 5rem); }
-  .h-close__copy h2 { max-width: 16ch; font-size: clamp(2.5rem, 1.4rem + 2.7vw, 4.5rem); line-height: 1.04; letter-spacing: -0.04em; }
-  .h-close__copy h2 :global(.accent) { color: var(--cyan); }
+  .h-close__copy { grid-column: 2; grid-row: 1; display: grid; align-content: center; gap: var(--s-4); min-width: 0; justify-items: start; }
+  .h-close__copy h2 { max-width: 100%; font-size: clamp(1.5rem, 2.6vw, 2.25rem); line-height: 1.25; letter-spacing: -0.025em; }
+  .h-close__copy h2 :global(.accent) { display: block; margin-block-start: 0.25rem; color: var(--cyan); font-size: clamp(2.3rem, 6vw, 5.5rem); line-height: 1.05; letter-spacing: -0.045em; }
   .h-close__copy :global(.lead) { max-width: 40ch; font-size: var(--fs-body); line-height: var(--lh-body); }
-  .h-close__copy .btn-row { align-items: flex-start; }
-  .h-close__visual { position: relative; isolation: isolate; display: grid; place-items: center; min-width: 0; min-height: 32rem; margin: var(--s-2); border-radius: calc(var(--r-xl) - var(--s-2)); background: var(--ice); }
-  .h-close__speech { position: absolute; width: 73%; height: 48%; border-radius: var(--r-l); }
-  .h-close__speech::after { content: ''; position: absolute; width: 2.5rem; height: 3rem; background: inherit; clip-path: polygon(0 0, 100% 0, 0 100%); }
-  .h-close__speech--back { top: 10%; inset-inline-end: 7%; background: var(--cyan); }
-  .h-close__speech--back::after { top: 100%; inset-inline-end: 18%; transform: scaleX(-1); }
-  .h-close__speech--front { bottom: 12%; inset-inline-start: 7%; background: var(--royal); }
-  .h-close__speech--front::after { top: 100%; inset-inline-start: 18%; }
-  .h-close__bottle { position: relative; width: clamp(10rem, 12vw, 13rem); height: auto; transform: rotate(-6deg); filter: drop-shadow(0 18px 16px rgba(8, 13, 51, 0.24)); }
-  :global([dir='rtl']) .h-close__bottle { transform: rotate(6deg); }
+  .h-close__action { width: 100%; border-block-start: 1px solid rgba(255, 255, 255, 0.25); }
+  .h-close__action :global(.text-link) { display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 5.5rem; gap: var(--s-3); color: #fff; font-size: 1.375rem; text-decoration: none; }
+  .h-close__action :global(.arrow) { flex: none; width: 3rem; height: 3rem; padding: 0.875rem; border-radius: 50%; background: var(--cyan); color: var(--midnight); }
+  .h-close__action :global(.text-link:hover .arrow) { background: #fff; }
+  .h-close__visual { position: relative; isolation: isolate; grid-column: 1; grid-row: 1; display: grid; place-items: center; min-width: 0; min-height: 26rem; }
+  .h-close__bottle { position: relative; width: min(100%, 17rem); height: auto; filter: drop-shadow(0 20px 16px rgba(0, 0, 0, 0.3)); }
 
   /* ============ Responsive ============ */
   @media (max-width: 63.99rem) {
@@ -485,7 +477,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-who__layout { grid-template-columns: minmax(0, 1fr); gap: var(--s-5); max-width: calc(40rem + 2 * var(--gutter)); }
     .h-who__head { position: static; gap: var(--s-3); }
     .h-who__head h2 { max-width: 18ch; }
-    .h-who__gallery, .h-who__image-note { display: none; }
+    .h-who__gallery { display: none; }
     .h-who__mobile-photo { display: block; }
     .h-who__mobile-photo :global(.photo) { aspect-ratio: var(--study-ratio); border-radius: var(--r-m); box-shadow: none; }
     .h-evidence__study, .h-evidence__meta { grid-template-columns: minmax(0, 1fr); }
@@ -495,9 +487,15 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-dir__title { max-width: 18ch; }
     .h-dir__copy { max-width: var(--measure); }
     .h-pro__panel { grid-template-columns: minmax(0, 1fr); }
-    .h-where__grid, .h-close__panel { grid-template-columns: 1fr; }
+    .h-where__grid { grid-template-columns: 1fr; }
     .h-where__grid { max-width: calc(38rem + 2 * var(--gutter)); }
-    .h-close__visual { min-height: 25rem; }
+  }
+  @media (max-width: 47.99rem) {
+    .h-close__panel { grid-template-columns: minmax(0, 1fr); gap: var(--s-3); }
+    .h-close__copy, .h-close__visual { grid-column: 1; grid-row: auto; }
+    .h-close__visual { min-height: 20rem; }
+    .h-close__bottle { width: 11rem; }
+    .h-close__pattern { inset: -10% -30%; }
   }
   /* The story stacks at the same width where its motion switches to the phone version:
      the scene takes the screen with the chapter text over its lower part. */
@@ -542,11 +540,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-evidence__title { margin-block-end: var(--s-4); }
     .h-evidence__study { padding-block: var(--s-4); }
     .h-dir__stage { gap: var(--s-2); padding-top: 7rem; }
-    .h-close__panel { border-radius: var(--r-l); }
-    .h-close__copy { padding: var(--s-3); }
-    .h-close__copy h2 { font-size: clamp(2rem, 8vw, 2.5rem); }
-    .h-close__visual { min-height: 23rem; margin: var(--s-1); border-radius: calc(var(--r-l) - var(--s-1)); }
-    .h-close__bottle { width: 10rem; }
+    .h-close__panel { padding: var(--s-3); border-radius: var(--r-l); }
   }
   @media (max-width: 30rem) {
     :global(.page-home .site-header__bar) { padding-inline: 0.6rem; gap: 0.5rem; }

@@ -16,7 +16,6 @@ sections:
       widths: [640, 1024, 1600]
       focus: "50% 55%"
       alt: ""
-      note: "Illustrative image"
   - id: article-template
     # Fixed line shown on every article (template part 7).
     fixed_line: "This article is general information, not medical advice. Talk to your doctor about your own situation."

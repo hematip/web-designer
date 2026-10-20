@@ -16,7 +16,6 @@ sections:
       widths: [640, 1024, 1600, 2400]
       focus: "72% 40%"
       alt: ""
-      note: "Illustrative image"
 
   - id: studies
     columns: ["Study", "Population", "Design", "Primary findings", "Source"]

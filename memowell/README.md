@@ -21,7 +21,7 @@ The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-app
 npm install
 npm run dev              # local development at http://localhost:4321
 npm run build            # production build → dist/ (EN only, approved content only)
-npm run build:preview    # review build → dist-preview/ (EN/FR/AR, drafts, yellow pending markers, noindex)
+npm run build:preview    # review build → dist-preview/ (EN/FR/AR, drafts, muted pending notes, noindex)
 npm run check:content    # verifies the copy deck verbatim, banned words, disclaimers and internal links (run after build)
 npm run cms              # local CMS backend; then open http://localhost:4321/admin/
 node scripts/a11y-check.mjs http://localhost:4321 / /memowell/   # axe-core WCAG A/AA scan of a running build
@@ -73,6 +73,7 @@ Full record: `docs/design-brief.md` → "Version 2".
    - hero load choreography (masked line reveal, the intro rising in);
    - a scroll-linked fact marquee (moves only with scroll; nothing loops on its own);
    - pointer-following aurora on the remaining relevant stages; the homepage hero keeps its original family film on a calmer navy field;
+   - one-time closing-banner Appear: the heading, paragraph and contact action enter in order, followed by the bottle; reduced motion stays static and keyboard focus completes the entrance;
    - batched reveals on inner pages.
 7. **Below 900px:** the directions scene plays scrubbed in normal flow. The formulation scene keeps its existing phone pin and chapter system; the audience index has no pin at any width.
 8. **Reduced motion and no JavaScript:** final composed states, with no Lenis.
@@ -171,7 +172,7 @@ These are interface or structural words, and none of them is a claim. They are a
 v6 (2026-10-13): all eight regenerated through the **Kondor Brain plugin** (approval packet `docs/kondor-brain/approval-packet-v1.md`, site review findings): broader casting for the UAE/GCC market, no white trousers, fewer table scenes, restrained blue, bottle composited at ≤6% of frame height with the official `memowell-front.png` (scene generated without it). GPT Image 2.5 (high, 2k) on Higgsfield. The plugin's capsule reference photo could not be passed to the generator (upload blocked in this environment), so the capsule is matched by description only.
 
 - **Conflict with brief Part 6:** the brief says no AI-generated people presented as patients or doctors. The agency asked for all four audiences, so the client must approve these, or remove them in the CMS (Pages → section → Photo).
-- Each photo carries a visible "Illustrative image" note (new copy, flagged) and empty alt text, because it is decorative next to the approved copy.
+- The client removed the visible "Illustrative image" labels. Provenance stays in the source comments and this handoff record; decorative photographs keep empty alt text next to the approved copy. This presentation change is not a certification of advertising compliance in every jurisdiction.
 
 - **No charts.** Only between-group differences were supplied; a chart would also need scientific-officer approval (brief Part 4).
 - **No people photography** is used. The concept needs none.

@@ -27,7 +27,7 @@
   --glass-line: rgba(255, 255, 255, 0.16);
   --focus: #0a1240;
   --focus-on-dark: #ffd34d;
-  --pending-bg: #fff4d6;
+  --pending-bg: #f0f2f8;
 
   /* Type */
   --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
@@ -291,8 +291,10 @@ a:hover { color: var(--royal-hover); text-decoration-thickness: 0.14em; }
 .product-disclaimer__box p { color: var(--ink); }
 
 /* ---------- Pending / preview markers ---------- */
-.pending { display: block; border: 2px dashed #e2b33a; background: var(--pending-bg); color: #4a3300; border-radius: var(--r-s); padding: 0.75rem 1rem; font-size: 1rem; line-height: 1.45; }
-.pending strong { color: #2e2000; }
+.pending { display: block; border: 1px solid #d5dbea; background: var(--pending-bg); color: #505a78; border-radius: var(--r-s); padding: 0.65rem 0.8rem; font-size: 0.9375rem; line-height: 1.5; }
+.pending strong { color: #283255; }
+.is-dark .pending { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.16); color: var(--on-dark-soft); }
+.is-dark .pending strong { color: var(--on-dark); }
 
 /* ---------- Cards ---------- */
 .card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-l); padding: clamp(1.5rem, 1rem + 1.5vw, 2.5rem); }
