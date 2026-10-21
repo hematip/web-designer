@@ -8,16 +8,6 @@ gsap.registerPlugin(Flip);
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-// ---------------------------------------------------------------- Scroll-linked fact band
-mm.add(MQ.motion, () => {
-  const track = $('[data-marquee]');
-  if (!track) return;
-  gsap.fromTo(track, { xPercent: 0 }, {
-    xPercent: -33.333, ease: 'none',
-    scrollTrigger: { trigger: track.parentElement, start: 'top bottom', end: 'bottom top', scrub: 0.5 },
-  });
-});
-
 // ---------------------------------------------------------------- Hero
 mm.add(MQ.motion, () => {
   const hero = $('[data-hero]');
