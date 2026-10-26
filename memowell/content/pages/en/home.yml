@@ -19,9 +19,9 @@ sections:
     marquee: ["Memory health", "90 vegetarian capsules", "Gluten-free", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada", "NPN 80107357"]
 
   - id: why
-    heading: "One factor researchers study is inflammation in the nervous system"
+    heading: "One thing researchers are looking at: inflammation in the nervous system"
     body: |-
-      In Alzheimer's disease, researchers have linked inflammation in the nervous system to the protein build-up that disrupts how nerve cells communicate. That build-up is associated with the symptoms families notice first: forgetting names, losing the thread of a conversation, repeating a question.
+      In Alzheimer's disease, researchers have linked inflammation in the nervous system to a build-up of protein. That build-up disrupts how nerve cells communicate with each other. It is associated with the changes families often notice first: forgetting names, losing the thread of a conversation, repeating a question.
 
       This is an area of active research, not a settled answer.
     inline_action: { label: "Read more about memory health", href: "/memory-health" }

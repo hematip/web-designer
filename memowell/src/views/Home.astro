@@ -33,7 +33,7 @@ const whyParas = (why.body ?? '').split(/\n\s*\n/).filter(Boolean);
 const whyMoments = (html: string) => ['forgetting names', 'losing the thread of a conversation', 'repeating a question']
   .reduce((h, m) => h.replace(m, `<span class="h-why__moment">${m}</span>`), html);
 // Recompose the approved heading without changing its wording; other translations keep their full heading.
-const whyTitle = why.heading.match(/^(One factor researchers study is) (inflammation in the nervous system)$/);
+const whyTitle = why.heading.match(/^(One thing researchers are looking at:) (inflammation in the nervous system)$/);
 const ui = getSite(locale).data.ui;
 // Hero film (Kondor Brain, VIDEO-SCENARIO-v3 "the wall of names"): silent, plays once and holds its last frame.
 const film = { src: '/video/hero-names', poster: '/video/hero-names-poster.webp' };

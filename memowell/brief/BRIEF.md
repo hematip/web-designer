@@ -313,9 +313,9 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 *Note:* the headline comes from the brand's own Instagram story: "Finding yourself searching for names or little things more often lately?" The first paragraph answers it in the voice of the hero film ("the wall of names").
 
 **2. Why memory changes**
-> ## One factor researchers study is inflammation in the nervous system
+> ## One thing researchers are looking at: inflammation in the nervous system
 >
-> In Alzheimer's disease, researchers have linked inflammation in the nervous system to the protein build-up that disrupts how nerve cells communicate. That build-up is associated with the symptoms families notice first: forgetting names, losing the thread of a conversation, repeating a question.
+> In Alzheimer's disease, researchers have linked inflammation in the nervous system to a build-up of protein. That build-up disrupts how nerve cells communicate with each other. It is associated with the changes families often notice first: forgetting names, losing the thread of a conversation, repeating a question.
 >
 > This is an area of active research, not a settled answer. [Read more about memory health]
 
