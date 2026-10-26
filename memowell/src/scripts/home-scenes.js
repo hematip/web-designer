@@ -134,6 +134,114 @@ mm.add(MQ.motion, () => {
   }
 }
 
+// ---------------------------------------------------------------- Why: one thread ties the subject to its caveat
+// A single cyan thread (the section's own "thread of a conversation"; the film's "connection") enters at the top,
+// underlines the research subject, runs down between photo and text, lights the three moments families notice,
+// and becomes the rule of "not a settled answer". It is drawn from measured anchors, so it follows the real layout.
+// No anatomy or mechanism is drawn. Reduced motion shows the finished thread; without JS the note keeps its CSS rule.
+{
+  const why = $('[data-why]');
+  const svg = why && $('[data-why-thread]', why);
+  const path = svg && $('path', svg);
+  const title = why && $('[data-why-title]', why);
+  const note = why && $('[data-why-note]', why);
+  if (why && path && title && note) {
+    const moments = $$('.h-why__moment', why);
+    const state = { p: 1 };
+    let length = 0;
+
+    const build = () => {
+      const box = why.getBoundingClientRect();
+      const rtl = getComputedStyle(why).direction === 'rtl';
+      // Last display line of the subject, measured on its text (not the split line boxes, which are full width).
+      const rects = [];
+      // (Line splitting may move text out of the subject span, so walk the heading and skip only the lead-in.)
+      // Measure the settled layout: neutralise the heading's entrance transforms for this read, then restore them.
+      const moved = [...title.querySelectorAll('*')].filter((el) => el.style.transform || el.style.translate);
+      const saved = moved.map((el) => [el.style.transform, el.style.translate]);
+      moved.forEach((el) => { el.style.transform = 'none'; el.style.translate = 'none'; });
+      const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+      const range = document.createRange();
+      for (let t = walker.nextNode(); t; t = walker.nextNode()) {
+        if (!t.textContent.trim() || t.parentElement.closest('.h-why__context')) continue;
+        range.selectNodeContents(t);
+        rects.push(...[...range.getClientRects()].filter((r) => r.width > 1));
+      }
+      moved.forEach((el, i) => { el.style.transform = saved[i][0]; el.style.translate = saved[i][1]; });
+      if (!rects.length) return;
+      const bottom = Math.max(...rects.map((r) => r.bottom));
+      const last = rects.filter((r) => r.bottom > bottom - 4);
+      const ul = Math.min(...last.map((r) => r.left)) - box.left;
+      const ur = Math.max(...last.map((r) => r.right)) - box.left;
+      const uy = bottom - box.top - 2;
+      const n = note.getBoundingClientRect();
+      const ny = n.top - box.top, nb = n.bottom - box.top;
+      const nx = (rtl ? n.right : n.left) - box.left + (rtl ? -1.5 : 1.5);
+      const dir = rtl ? -1 : 1;
+      const gap = parseFloat(getComputedStyle(why.querySelector('.h-why__grid')).columnGap) || 32;
+      // Runs down the middle of the gutter between photo and reading column (or just outside the column).
+      const photo = $('.h-why__photo', why)?.getBoundingClientRect();
+      const body = $('.h-why__body', why).getBoundingClientRect();
+      const sideBySide = photo && photo.width && (photo.right <= body.left || photo.left >= body.right);
+      const gx = sideBySide
+        ? ((rtl ? photo.left + body.right : photo.right + body.left) / 2) - box.left
+        : nx - dir * Math.max(14, gap * 0.6);
+      const sx = (rtl ? ur : ul) - dir * Math.max(14, gap * 0.45); // enters in the margin before the subject
+      const start = rtl ? ur : ul, end = rtl ? ul : ur;
+      const r = 26;
+      const swing = Math.min(120, Math.abs(end - gx) * 0.35 + 40);
+      const d = [
+        `M ${sx} 0`,
+        `L ${sx} ${uy - r}`,
+        `Q ${sx} ${uy} ${sx + dir * r} ${uy}`,
+        `L ${start + dir * 0} ${uy}`,
+        `L ${end} ${uy}`,
+        `C ${end + dir * swing} ${uy} ${gx} ${uy + swing * 0.6} ${gx} ${uy + swing * 1.4}`,
+        `L ${gx} ${ny - r}`,
+        `C ${gx} ${ny} ${nx} ${ny - r * 0.4} ${nx} ${ny + r * 0.6}`,
+        `L ${nx} ${nb}`,
+      ].join(' ');
+      path.setAttribute('d', d);
+      length = path.getTotalLength();
+      path.style.strokeDasharray = `${length} ${length}`;
+      apply();
+    };
+    const apply = () => { path.style.strokeDashoffset = String(length * (1 - state.p)); };
+
+    why.classList.add('has-thread');
+    const ro = new ResizeObserver(() => build());
+    ro.observe(why);
+    document.fonts?.ready.then(build);
+    ScrollTrigger.addEventListener('refresh', build);
+    build();
+
+    mm.add(MQ.motion, () => {
+      state.p = 0;
+      apply();
+      moments.forEach((m) => m.style.setProperty('--lit', '0%'));
+      const tween = gsap.to(state, {
+        p: 1,
+        ease: 'none',
+        onUpdate: apply,
+        scrollTrigger: { trigger: why, start: 'top 72%', endTrigger: note, end: 'bottom 62%', scrub: 0.6 },
+      });
+      const lights = moments.map((m) => ScrollTrigger.create({
+        trigger: m, start: 'top 68%',
+        onEnter: () => m.style.setProperty('--lit', '100%'),
+        onLeaveBack: () => m.style.setProperty('--lit', '0%'),
+      }));
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+        lights.forEach((t) => t.kill());
+        moments.forEach((m) => m.style.removeProperty('--lit'));
+        state.p = 1;
+        apply();
+      };
+    });
+  }
+}
+
 // ---------------------------------------------------------------- Resin → K-Vie™ → capsule (3D)
 // The pinned range scrubs one number. It decides which of the five chapters is read and where the 3D scene
 // stands, so text and scene always change together and reverse scroll, fast skips and anchors resolve to the
