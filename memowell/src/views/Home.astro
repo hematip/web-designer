@@ -55,10 +55,12 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     <div class="wrap h-hero__grid">
       <div class="h-hero__intro">
         <h1 id="hero-title" class="h-hero__title" data-split="load" set:html={accentWord(hero.heading, hero.accent)} />
+        {hero.lead && <p class="h-hero__answer" data-hero-in>{hero.lead}</p>}
         <div class="h-hero__lead" data-hero-in set:html={md(hero.body)} />
         <div class="btn-row" data-hero-in>
           {hero.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
         </div>
+        {hero.trust && <p class="h-hero__trust" data-hero-in>{hero.trust}</p>}
       </div>
     </div>
     <button class="h-hero__toggle" type="button" data-hero-film-toggle data-label-pause={ui.pause_video} data-label-play={ui.play_video} hidden>
@@ -280,6 +282,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; position: relative; z-index: 2; }
   .h-hero__intro { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
   .h-hero__title { font-size: clamp(2.5rem, 1.5rem + 4vw, 6rem); line-height: 1.03; letter-spacing: -0.04em; max-width: 18ch; }
+  .h-hero__answer { max-width: 34rem; font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.6rem); line-height: 1.45; color: #fff; }
+  .h-hero__trust { font-size: 0.95rem; color: var(--on-dark-soft); }
   .h-hero__lead { max-width: 36rem; font-size: var(--fs-body); line-height: 1.65; color: var(--on-dark-soft); }
   /* The hero fits one screen on laptops too: the intro scales with the viewport height. */
   @media (min-width: 56.25rem) {

@@ -300,15 +300,17 @@ Meta title: `Memowell® — Memory Health Supplement | Kondor Pharma`
 Meta description: `Memowell is a boswellic acid supplement for memory and cognitive health, studied in published clinical research. See who it was studied in, and take an informed question to your doctor.`
 
 **1. Hero**
-> Memory health
+> # Reaching for names a little more often lately?
 >
-> # Searching for names a little more often lately?
+> Behind every name is someone you love. Noticing a change is a good reason to understand it, and to talk it through with your doctor.
 >
-> Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma in Canada. This site explains what it is, who it has been studied in, and what the published research found — so you can take an informed question to your doctor or pharmacist.
+> Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma in Canada. Here is who it was studied in, and what the research found.
 >
-> [See who it was studied in] [What the research found]
+> [Who it was studied in] [What the research found]
+>
+> Licensed by Health Canada · NPN 80107357
 
-*Note:* the headline comes from the brand's own Instagram story: "Finding yourself searching for names or little things more often lately?"
+*Note:* the headline comes from the brand's own Instagram story: "Finding yourself searching for names or little things more often lately?" The first paragraph answers it in the voice of the hero film ("the wall of names").
 
 **2. Why memory changes**
 > ## One factor researchers study is inflammation in the nervous system

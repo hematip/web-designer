@@ -4,12 +4,15 @@ meta_title: "Memowell® — Memory Health Supplement | Kondor Pharma"
 meta_description: "Memowell is a boswellic acid supplement for memory and cognitive health, studied in published clinical research. See who it was studied in, and take an informed question to your doctor."
 sections:
   - id: hero
-    heading: "Searching for names a little more often lately?"
+    heading: "Reaching for names a little more often lately?"
+    # The answer to the heading, in the voice of the hero film ("the wall of names"); set larger than the body.
+    lead: "Behind every name is someone you love. Noticing a change is a good reason to understand it, and to talk it through with your doctor."
     body: |-
-      Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma in Canada. This site explains what it is, who it has been studied in, and what the published research found — so you can take an informed question to your doctor or pharmacist.
+      Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma in Canada. Here is who it was studied in, and what the research found.
     actions:
-      - { label: "See who it was studied in", href: "/who-its-for" }
+      - { label: "Who it was studied in", href: "/who-its-for" }
       - { label: "What the research found", href: "/science" }
+    trust: "Licensed by Health Canada · NPN 80107357"
     # Design fields (v2). accent = word set in the italic accent face (no words change).
     # marquee = fragments of approved copy and the bottle label, decorative (aria-hidden). Flagged in README.
     accent: "names"
