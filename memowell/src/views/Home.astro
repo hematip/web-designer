@@ -305,7 +305,15 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__statement :global(.h-hero__love) { background: linear-gradient(var(--cyan), var(--cyan)) no-repeat 0 100% / var(--love, 100%) 0.08em; padding-block-end: 0.06em; }
   .h-hero__support { font-size: var(--fs-lead); line-height: 1.5; color: var(--on-dark-soft); text-wrap: pretty; }
   /* About the product: set apart by a hairline, smaller and calmer than the answer. */
-  .h-hero__meta { display: grid; gap: var(--s-3); justify-items: start; max-width: 34rem; margin-block-start: var(--s-5); padding-block-start: var(--s-3); border-block-start: 1px solid var(--glass-line); }
+  .h-hero__meta { position: relative; display: grid; gap: var(--s-3); justify-items: start; max-width: 34rem; margin-block-start: var(--s-5); padding-block-start: var(--s-3); }
+  .h-hero__meta::before { content: ''; position: absolute; inset: 0 0 auto; height: 1px; background: var(--glass-line); transform: scaleX(var(--rule, 1)); transform-origin: 0 50%; }
+  :global([dir='rtl']) .h-hero__meta::before { transform-origin: 100% 50%; }
+  /* With motion, the hero copy waits (hidden, not removed) for its entrance, so the settled text never flashes first.
+     Failsafe: if the script never starts, it appears after 4 s anyway. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .h-hero:not(.is-playing) :is(.h-hero__title, .h-hero__answer, .h-hero__meta) { visibility: hidden; animation: h-hero-failsafe 0s 4s forwards; }
+  }
+  @keyframes h-hero-failsafe { to { visibility: visible; } }
   .h-hero__lead { font-size: var(--fs-small); line-height: 1.6; color: var(--on-dark-soft); }
   .h-hero__trust { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.9375rem; letter-spacing: 0.01em; color: var(--on-dark-mute); font-variant-numeric: tabular-nums; }
   .h-hero__trust::before { content: ''; width: 0.45rem; height: 0.45rem; flex: none; border-radius: 50%; background: var(--cyan); }

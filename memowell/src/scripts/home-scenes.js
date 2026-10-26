@@ -9,6 +9,12 @@ const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
 // ---------------------------------------------------------------- Hero
+// Resolves when the hero entrance has settled (or there is none); heavy work such as the 3D scene waits for it.
+let heroSettled;
+const heroDone = new Promise((resolve) => { heroSettled = resolve; });
+setTimeout(() => heroSettled(), 5000);
+if (!window.matchMedia(MQ.motion).matches || !$('[data-hero]')) heroSettled();
+
 // Text performance (film "the wall of names"): the question rises line by line, but "names" arrives a beat late,
 // the way a name does; then the answer follows word by word and "someone you love" is underlined. No blur or
 // fog-to-clarity effect. The HTML is the settled composition: reduced motion and no-JS show it as is, and focusing
@@ -21,6 +27,7 @@ mm.add(MQ.motion, () => {
   const statement = $('[data-hero-statement]', hero);
   const love = $('.h-hero__love', statement);
   const rest = $$('[data-hero-in]', hero);
+  const meta = $('.h-hero__meta', hero);
   let tl = null;
   let lines = null, words = null;
 
@@ -31,21 +38,25 @@ mm.add(MQ.motion, () => {
     word?.classList.remove('is-reaching');
     gsap.set([...(lines ?? []), ...(words ?? []), word, ...rest].filter(Boolean), { clearProps: 'opacity,visibility,transform,translate' });
     love?.style.removeProperty('--love');
+    meta?.style.removeProperty('--rule');
   };
-  const settle = reset;
+  const settle = () => { reset(); heroSettled(); };
 
   const play = () => {
-    tl = gsap.timeline({ delay: 0.2, onComplete: settle });
-    tl.from(lines, { yPercent: 110, duration: 1.05, ease: 'expo.out', stagger: 0.09 }, 0);
+    tl = gsap.timeline({ delay: 0.1, onComplete: settle });
+    tl.from(lines, { yPercent: 110, duration: 1, ease: 'expo.out', stagger: 0.08 }, 0);
     if (word) {
-      tl.fromTo(word, { autoAlpha: 0, y: '0.32em' }, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power3.out', immediateRender: true }, 1.3)
-        .call(() => word.classList.add('is-reaching'), null, 0.55)
-        .call(() => word.classList.remove('is-reaching'), null, 1.75);
+      tl.fromTo(word, { autoAlpha: 0, y: '0.32em' }, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out', immediateRender: true }, 0.8)
+        .call(() => word.classList.add('is-reaching'), null, 0.35)
+        .call(() => word.classList.remove('is-reaching'), null, 1.2);
     }
-    tl.from(words, { yPercent: 105, duration: 0.8, ease: 'expo.out', stagger: 0.045 }, 1.75);
-    if (love) tl.fromTo(love, { '--love': '0%' }, { '--love': '100%', duration: 0.9, ease: 'power2.inOut', immediateRender: true }, '>-0.2');
+    tl.from(words, { yPercent: 105, duration: 0.7, ease: 'expo.out', stagger: 0.035 }, 1.15);
+    if (love) tl.fromTo(love, { '--love': '0%' }, { '--love': '100%', duration: 0.8, ease: 'power2.inOut', immediateRender: true }, '>-0.2');
+    if (meta) tl.fromTo(meta, { '--rule': 0 }, { '--rule': 1, duration: 0.9, ease: 'power3.inOut', immediateRender: true }, 1.45);
     // Opacity only (no visibility), so links stay focusable during the entrance.
-    tl.from(rest, { opacity: 0, y: 24, duration: 1, ease: 'expo.out', stagger: 0.1 }, 2.05);
+    tl.from(rest, { opacity: 0, y: 20, duration: 0.9, ease: 'expo.out', stagger: 0.08 }, 1.6);
+    // From-states are rendered now, in this same frame, so the CSS pre-hide can lift without a flash.
+    hero.classList.add('is-playing');
   };
 
   // One splitter per subtree: masked lines for the question, masked words for the statement. The entrance plays
@@ -169,7 +180,10 @@ if (form) {
       loadScene();
     }
   }, { rootMargin: '150% 0px' });
-  io.observe(form);
+  // Compiling the 3D scene blocks the main thread; start only after the hero entrance has settled,
+  // or as soon as the visitor scrolls, so it never stalls the hero text.
+  const scrolled = new Promise((resolve) => window.addEventListener('scroll', resolve, { once: true, passive: true }));
+  Promise.race([heroDone, scrolled]).then(() => io.observe(form));
 }
 
 function buildFormulation(mobile) {
