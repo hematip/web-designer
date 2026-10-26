@@ -29,7 +29,7 @@ const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
 const evidenceStudy = (evidenceParas[0] ?? '').match(/^([\s\S]*?prescribed care\.)\s+([\s\S]+)$/);
 const directionsParas = (directions.body ?? '').split(/\n\s*\n/).filter(Boolean);
 const whyParas = (why.body ?? '').split(/\n\s*\n/).filter(Boolean);
-// The three moments families notice first get a quiet emphasis that the thread lights (typographic only).
+// The three moments families notice first get a quiet typographic emphasis (words unchanged).
 const whyMoments = (html: string) => ['forgetting names', 'losing the thread of a conversation', 'repeating a question']
   .reduce((h, m) => h.replace(m, `<span class="h-why__moment">${m}</span>`), html);
 // Recompose the approved heading without changing its wording; other translations keep their full heading.
@@ -87,11 +87,10 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   </section>
 
   <!-- 2 · Why memory changes -->
-  <section class="h-why" id="why" aria-labelledby="why-title" data-why>
-    <svg class="h-why__thread" aria-hidden="true" focusable="false" data-why-thread><path /></svg>
+  <section class="h-why" id="why" aria-labelledby="why-title">
     <div class:list={['wrap', 'h-why__grid', { 'h-why__grid--text': !whyPhoto }]}>
       <div class="h-why__heading">
-        <h2 id="why-title" class="h-why__title" data-split data-why-title>
+        <h2 id="why-title" class="h-why__title" data-split>
           {whyTitle ? <><span class="h-why__context">{whyTitle[1]}</span>{' '}<span class="h-why__subject" set:html={accentWord(whyTitle[2], 'inflammation')} /></> : why.heading}
         </h2>
       </div>
@@ -100,7 +99,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
         {whyParas.map((p: string, i: number) => (
           i === 0
             ? <div class="h-why__paragraph" data-reveal set:html={whyMoments(md(p))} />
-            : <div class="h-why__note" role="note" data-why-note set:html={md(p)} />
+            : <div class="h-why__note" role="note" data-reveal set:html={md(p)} />
         ))}
       </div>
       <div class="h-why__footer" data-reveal>
@@ -391,7 +390,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   :global([dir='rtl']) .h-story__rail span::after { transform-origin: 100% 50%; }
 
   /* ============ Why ============ */
-  /* 2 · Why: a full-width research subject, then photo and reading column; one cyan thread ties them together. */
+  /* 2 · Why: a full-width research subject, then photo and reading column. */
   .h-why { position: relative; padding-block: var(--section); }
   .h-why__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto auto 1fr; column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: start; }
   .h-why__heading { grid-column: 1 / -1; grid-row: 1; min-width: 0; }
@@ -402,15 +401,12 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-why__photo :global(.photo) { border-radius: var(--r-m); border-start-start-radius: clamp(3rem, 6vw, 6rem); box-shadow: none; }
   .h-why__body { grid-column: 7 / span 6; grid-row: 2; display: grid; gap: var(--s-5); max-width: 36rem; min-width: 0; margin-block-start: clamp(3rem, 6vw, 6rem); color: var(--ink-soft); font-size: var(--fs-body); line-height: var(--lh-body); }
   .h-why__paragraph :global(p + p) { margin-block-start: 1em; }
-  .h-why__paragraph :global(.h-why__moment) { color: var(--ink); font-weight: 600; background: linear-gradient(var(--cyan), var(--cyan)) no-repeat 0 100% / var(--lit, 100%) 2px; transition: background-size 0.9s var(--ease-out); }
-  /* The research caveat: a pull statement. Its rule is CSS; with motion the thread draws it instead. */
-  .h-why__note { padding-inline-start: var(--s-4); border-inline-start: 3px solid var(--cyan); font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1vw, 2.25rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
-  :global(.h-why.has-thread) .h-why__note { border-inline-start-color: transparent; }
+  .h-why__paragraph :global(.h-why__moment) { color: var(--ink); font-weight: 600; }
+  /* The research caveat: a pull statement. */
+  .h-why__note { font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1vw, 2.25rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
   .h-why__footer { grid-column: 7 / span 6; grid-row: 3; align-self: start; display: grid; gap: var(--s-2); justify-items: start; max-width: 36rem; margin-block-start: var(--s-5); border-block-start: 1px solid var(--line-strong); padding-block-start: var(--s-3); }
   .h-why__footer :global(.text-link) { font-size: 1rem; }
   .h-why__footer :global(.sources) { font-size: 0.875rem; overflow-wrap: anywhere; }
-  .h-why__thread { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-  .h-why__thread path { fill: none; stroke: var(--cyan); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
   .h-why__grid--text { grid-template-columns: minmax(0, 1fr); max-width: calc(48rem + 2 * var(--gutter)); }
   .h-why__grid--text > * { grid-column: 1; }
 
