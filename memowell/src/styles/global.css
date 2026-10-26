@@ -15,6 +15,7 @@
   --midnight-3: #15207a;
   --cyan: #19d3e2;
   --cyan-ink: #00707f;
+  --cyan-deep: #0c78a8; /* dark tone of --cyan for accents on light grounds (4.5:1 on ice), bluer than --cyan-ink */
   --stripe: #5ebac8;
   --cream: #f2dfc2;
   --amber: #e2a245;
