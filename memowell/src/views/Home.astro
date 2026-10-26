@@ -19,6 +19,12 @@ const accentWord = (text: string, word?: string) =>
   word && text.includes(word) ? text.replace(word, `<span class="accent">${word}</span>`) : text;
 const highlight = (html: string, phrase?: string) =>
   phrase ? html.replace(phrase, `<mark class="figure">${phrase}</mark>`) : html;
+// Hero answer: the first sentence is the statement, the rest supports it. "someone you love" carries the emphasis.
+const heroAnswer = hero.lead ? (() => {
+  const m = String(hero.lead).match(/^(.+?[.?!])\s+([\s\S]+)$/);
+  const statement = m ? m[1] : String(hero.lead);
+  return { statement: statement.replace('someone you love', '<span class="h-hero__love">someone you love</span>'), rest: m ? m[2] : '' };
+})() : null;
 const evidenceParas = (evidence.body ?? '').split(/\n\s*\n/);
 const evidenceStudy = (evidenceParas[0] ?? '').match(/^([\s\S]*?prescribed care\.)\s+([\s\S]+)$/);
 const directionsParas = (directions.body ?? '').split(/\n\s*\n/).filter(Boolean);
@@ -54,13 +60,20 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
     <div class="wrap h-hero__grid">
       <div class="h-hero__intro">
-        <h1 id="hero-title" class="h-hero__title" data-split="load" set:html={accentWord(hero.heading, hero.accent)} />
-        {hero.lead && <p class="h-hero__answer" data-hero-in>{hero.lead}</p>}
-        <div class="h-hero__lead" data-hero-in set:html={md(hero.body)} />
-        <div class="btn-row" data-hero-in>
-          {hero.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
+        <h1 id="hero-title" class="h-hero__title" data-hero-title set:html={accentWord(hero.heading, hero.accent)} />
+        {heroAnswer && (
+          <p class="h-hero__answer" data-hero-answer>
+            <span class="h-hero__statement" data-hero-statement set:html={heroAnswer.statement} />{' '}
+            {heroAnswer.rest && <span class="h-hero__support" data-hero-in>{heroAnswer.rest}</span>}
+          </p>
+        )}
+        <div class="h-hero__meta">
+          <div class="h-hero__lead" data-hero-in set:html={md(hero.body)} />
+          <div class="btn-row" data-hero-in>
+            {hero.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
+          </div>
+          {hero.trust && <p class="h-hero__trust" data-hero-in>{hero.trust}</p>}
         </div>
-        {hero.trust && <p class="h-hero__trust" data-hero-in>{hero.trust}</p>}
       </div>
     </div>
     <button class="h-hero__toggle" type="button" data-hero-film-toggle data-label-pause={ui.pause_video} data-label-play={ui.play_video} hidden>
@@ -280,16 +293,29 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__toggle[aria-pressed='true'] .i-pause { display: none; }
   .h-hero__toggle:hover { background: #fff; color: var(--midnight); }
   .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; position: relative; z-index: 2; }
-  .h-hero__intro { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
-  .h-hero__title { font-size: clamp(2.5rem, 1.5rem + 4vw, 6rem); line-height: 1.03; letter-spacing: -0.04em; max-width: 18ch; }
-  .h-hero__answer { max-width: 34rem; font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.6rem); line-height: 1.45; color: #fff; }
-  .h-hero__trust { font-size: 0.95rem; color: var(--on-dark-soft); }
-  .h-hero__lead { max-width: 36rem; font-size: var(--fs-body); line-height: 1.65; color: var(--on-dark-soft); }
-  /* The hero fits one screen on laptops too: the intro scales with the viewport height. */
+  .h-hero__intro { grid-column: 1 / span 7; display: grid; justify-items: start; }
+  .h-hero__title { font-size: clamp(2.5rem, 1.5rem + 4vw, 6rem); line-height: 1.02; letter-spacing: -0.04em; max-width: 18ch; }
+  /* "names" is the word being reached for: cyan, and (in motion) it arrives a beat after its line. */
+  .h-hero__title :global(.accent) { position: relative; display: inline-block; color: var(--cyan); }
+  .h-hero__title :global(.accent)::after { content: ''; position: absolute; inset-inline: 0.04em; bottom: 0.1em; height: 0.06em; border-radius: 1em; background: currentColor; opacity: 0; transform: scaleX(0.3); transition: opacity 0.5s var(--ease), transform 0.7s var(--ease-out); }
+  .h-hero__title :global(.accent.is-reaching)::after { opacity: 0.55; transform: scaleX(1); }
+  /* The answer: one large statement, then a quieter supporting line. */
+  .h-hero__answer { display: grid; gap: var(--s-2); max-width: 34rem; margin-block-start: var(--s-4); }
+  .h-hero__statement { font-family: var(--font-display); font-size: clamp(1.625rem, 1.3rem + 1.1vw, 2.375rem); font-weight: 500; line-height: 1.18; letter-spacing: -0.02em; color: #fff; text-wrap: balance; }
+  .h-hero__statement :global(.h-hero__love) { background: linear-gradient(var(--cyan), var(--cyan)) no-repeat 0 100% / var(--love, 100%) 0.08em; padding-block-end: 0.06em; }
+  .h-hero__support { font-size: var(--fs-lead); line-height: 1.5; color: var(--on-dark-soft); text-wrap: pretty; }
+  /* About the product: set apart by a hairline, smaller and calmer than the answer. */
+  .h-hero__meta { display: grid; gap: var(--s-3); justify-items: start; max-width: 34rem; margin-block-start: var(--s-5); padding-block-start: var(--s-3); border-block-start: 1px solid var(--glass-line); }
+  .h-hero__lead { font-size: var(--fs-small); line-height: 1.6; color: var(--on-dark-soft); }
+  .h-hero__trust { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.9375rem; letter-spacing: 0.01em; color: var(--on-dark-mute); font-variant-numeric: tabular-nums; }
+  .h-hero__trust::before { content: ''; width: 0.45rem; height: 0.45rem; flex: none; border-radius: 50%; background: var(--cyan); }
+  /* The hero fits one screen on laptops too: type and spacing scale with the viewport height. */
   @media (min-width: 56.25rem) {
     .h-hero { min-height: 100svh; padding-block: calc(var(--header-h) + 1rem) 3rem; }
-    .h-hero__intro { gap: var(--s-3); }
-    .h-hero__title { font-size: min(clamp(2.5rem, 1.5rem + 4vw, 6rem), max(2.5rem, 9svh)); }
+    .h-hero__title { font-size: min(clamp(2.5rem, 1.5rem + 4vw, 6rem), max(2.5rem, 8.5svh)); }
+    .h-hero__statement { font-size: min(clamp(1.625rem, 1.3rem + 1.1vw, 2.375rem), max(1.5rem, 3.6svh)); }
+    .h-hero__answer { margin-block-start: min(var(--s-4), 3svh); }
+    .h-hero__meta { margin-block-start: min(var(--s-5), 4.5svh); }
   }
   .h-cue { position: absolute; z-index: 2; bottom: 1.5rem; left: 50%; translate: -50% 0; width: 2px; height: 3.5rem; background: rgba(255, 255, 255, 0.15); border-radius: 2px; overflow: hidden; }
   .h-cue span { display: block; width: 100%; height: 40%; background: var(--cyan); }

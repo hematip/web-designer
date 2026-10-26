@@ -297,7 +297,7 @@ Keep to these if anything has to be adjusted, and flag every adjustment:
 
 ### HOME `/`
 Meta title: `Memowell® — Memory Health Supplement | Kondor Pharma`
-Meta description: `Memowell is a boswellic acid supplement for memory and cognitive health, studied in published clinical research. See who it was studied in, and take an informed question to your doctor.`
+Meta description: `Memowell® is a dietary supplement for memory and cognitive health. See who it was studied in and what the research found, then talk it through with your doctor.`
 
 **1. Hero**
 > # Reaching for names a little more often lately?

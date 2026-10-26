@@ -9,11 +9,80 @@ const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
 // ---------------------------------------------------------------- Hero
+// Text performance (film "the wall of names"): the question rises line by line, but "names" arrives a beat late,
+// the way a name does; then the answer follows word by word and "someone you love" is underlined. No blur or
+// fog-to-clarity effect. The HTML is the settled composition: reduced motion and no-JS show it as is, and focusing
+// anything in the hero completes the sequence so no action is ever waiting behind an entrance.
 mm.add(MQ.motion, () => {
   const hero = $('[data-hero]');
   if (!hero) return;
-  const intro = gsap.from($$('[data-hero-in]', hero), { y: 30, autoAlpha: 0, duration: 1.2, stagger: 0.12, ease: 'expo.out', delay: 0.35 });
-  return () => intro.revert();
+  const title = $('[data-hero-title]', hero);
+  const word = $('.accent', title);
+  const statement = $('[data-hero-statement]', hero);
+  const love = $('.h-hero__love', statement);
+  const rest = $$('[data-hero-in]', hero);
+  let tl = null;
+  let lines = null, words = null;
+
+  // Back to the settled HTML state (units stay split; only the entrance's inline values are removed).
+  const reset = () => {
+    tl?.kill();
+    tl = null;
+    word?.classList.remove('is-reaching');
+    gsap.set([...(lines ?? []), ...(words ?? []), word, ...rest].filter(Boolean), { clearProps: 'opacity,visibility,transform,translate' });
+    love?.style.removeProperty('--love');
+  };
+  const settle = reset;
+
+  const play = () => {
+    tl = gsap.timeline({ delay: 0.2, onComplete: settle });
+    tl.from(lines, { yPercent: 110, duration: 1.05, ease: 'expo.out', stagger: 0.09 }, 0);
+    if (word) {
+      tl.fromTo(word, { autoAlpha: 0, y: '0.32em' }, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power3.out', immediateRender: true }, 1.3)
+        .call(() => word.classList.add('is-reaching'), null, 0.55)
+        .call(() => word.classList.remove('is-reaching'), null, 1.75);
+    }
+    tl.from(words, { yPercent: 105, duration: 0.8, ease: 'expo.out', stagger: 0.045 }, 1.75);
+    if (love) tl.fromTo(love, { '--love': '0%' }, { '--love': '100%', duration: 0.9, ease: 'power2.inOut', immediateRender: true }, '>-0.2');
+    // Opacity only (no visibility), so links stay focusable during the entrance.
+    tl.from(rest, { opacity: 0, y: 24, duration: 1, ease: 'expo.out', stagger: 0.1 }, 2.05);
+  };
+
+  // One splitter per subtree: masked lines for the question, masked words for the statement. The entrance plays
+  // once. A re-split during it (width change, e.g. a scrollbar appearing) rebuilds it at the same moment on the new
+  // units; a re-split after it changes nothing visible.
+  let played = false;
+  const ready = () => {
+    if (!lines || !words) return;
+    if (!played) { played = true; play(); return; }
+    if (!tl) return reset();
+    const at = tl.totalTime();
+    reset();
+    play();
+    tl.totalTime(at, true);
+  };
+  // Split once the fonts are in, so the first measurement is final and the entrance is not cut short.
+  let titleSplit = null, statementSplit = null, live = true;
+  (document.fonts?.ready ?? Promise.resolve()).then(() => {
+    if (!live) return;
+    titleSplit = SplitText.create(title, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: (self) => { lines = self.lines; ready(); } });
+    statementSplit = SplitText.create(statement, { type: 'words', mask: 'words', tag: 'span', aria: 'none', autoSplit: true, onSplit: (self) => {
+      // Span units (valid inside the paragraph) need inline-block so their transform applies.
+      gsap.set([...self.masks, ...self.words], { display: 'inline-block' });
+      words = self.words;
+      ready();
+    } });
+  });
+
+  const finish = () => tl?.progress(1);
+  hero.addEventListener('focusin', finish);
+  return () => {
+    hero.removeEventListener('focusin', finish);
+    live = false;
+    settle();
+    titleSplit?.revert();
+    statementSplit?.revert();
+  };
 });
 
 // ---------------------------------------------------------------- Hero film
