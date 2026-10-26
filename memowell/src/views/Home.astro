@@ -299,7 +299,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__toggle:hover { background: #fff; color: var(--midnight); }
   .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; position: relative; z-index: 2; }
   .h-hero__intro { grid-column: 1 / span 7; display: grid; justify-items: start; }
-  .h-hero__title { font-size: clamp(2.5rem, 1.5rem + 4vw, 6rem); line-height: 1.02; letter-spacing: -0.04em; max-width: 18ch; }
+  .h-hero__title { font-size: clamp(2.5rem, 1.5rem + 4vw, 6rem); line-height: 1.02; letter-spacing: -0.025em; max-width: 18ch; }
   /* "names" is the word being reached for: cyan, and (in motion) it arrives a beat after its line. */
   .h-hero__title :global(.accent) { position: relative; display: inline-block; color: var(--cyan); }
   .h-hero__title :global(.accent)::after { content: ''; position: absolute; inset-inline: 0.04em; bottom: 0.1em; height: 0.06em; border-radius: 1em; background: currentColor; opacity: 0; transform: scaleX(0.3); transition: opacity 0.5s var(--ease), transform 0.7s var(--ease-out); }
@@ -350,7 +350,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-form.is-3d .h-form__poster { opacity: 0; }
 
   .h-story { grid-column: 1 / span 6; grid-row: 1; position: relative; z-index: 2; display: grid; gap: var(--s-4); justify-items: start; }
-  .h-story__title { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.5rem); line-height: 1.04; letter-spacing: -0.035em; max-width: 18ch; color: #fff; text-wrap: balance; }
+  .h-story__title { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.5rem); line-height: 1.04; letter-spacing: -0.022em; max-width: 18ch; color: #fff; text-wrap: balance; }
   .h-story__chapters { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); width: 100%; }
   .h-chapter { display: grid; gap: 0.6rem; align-content: start; justify-items: start; }
   .h-chapter__n { font: 700 0.8125rem/1 var(--font-body); letter-spacing: 0.16em; color: var(--cyan); }
@@ -394,7 +394,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-why { position: relative; padding-block: var(--section); }
   .h-why__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto auto 1fr; column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: start; }
   .h-why__heading { grid-column: 1 / -1; grid-row: 1; min-width: 0; }
-  .h-why__title { max-width: 17ch; font-size: clamp(2.75rem, 1rem + 5.2vw, 6.5rem); line-height: 1; letter-spacing: -0.045em; }
+  .h-why__title { max-width: 17ch; font-size: clamp(2.75rem, 1rem + 5.2vw, 6.5rem); line-height: 1; letter-spacing: -0.028em; }
   .h-why__context { display: block; margin-block-end: var(--s-3); font: 600 clamp(1.125rem, 1rem + 0.45vw, 1.4rem)/1.4 var(--font-body); letter-spacing: 0; color: var(--ink-soft); }
   .h-why__title :global(.accent) { color: var(--cyan-deep); }
   .h-why__photo { grid-column: 1 / span 5; grid-row: 2 / span 2; min-width: 0; margin-block-start: clamp(3rem, 6vw, 6rem); }
@@ -414,7 +414,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-who { padding-block: var(--section); }
   .h-who__layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(3rem, 6vw, 6rem); align-items: start; }
   .h-who__head { display: grid; gap: var(--s-2); }
-  .h-who__head h2 { max-width: 17ch; font-size: clamp(2.5rem, 1.4rem + 2.7vw, 4rem); line-height: 1.03; letter-spacing: -0.04em; }
+  .h-who__head h2 { max-width: 17ch; font-size: clamp(2.5rem, 1.4rem + 2.7vw, 4rem); line-height: 1.03; letter-spacing: -0.025em; }
   .h-who__intro { display: grid; gap: 0.5rem; justify-items: start; }
   .h-who__intro :global(.lead) { font-size: var(--fs-body); line-height: var(--lh-body); }
   .h-who__gallery { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 0.5rem; height: clamp(17rem, 32svh, 22rem); margin-block-start: var(--s-2); }
@@ -424,7 +424,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-who__list { list-style: none; margin: 0; padding: 0; }
   .h-who__entry { display: grid; align-content: center; gap: var(--s-3); padding-block: var(--s-5); }
   .h-who__detail { display: grid; gap: var(--s-3); }
-  .h-who__detail h3 { max-width: 18ch; font-size: clamp(2rem, 1.3rem + 1.8vw, 3rem); line-height: 1.1; letter-spacing: -0.03em; }
+  .h-who__detail h3 { max-width: 18ch; font-size: clamp(2rem, 1.3rem + 1.8vw, 3rem); line-height: 1.1; letter-spacing: -0.02em; }
   .h-who__detail p { color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.6; max-width: 35ch; }
   .h-who__mobile-photo { display: none; }
   :global(.h-who.is-story) { --who-stage-h: min(60rem, calc(100svh - var(--header-h) - 2rem)); }
@@ -467,14 +467,14 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* ============ Professional route ============ */
   .h-pro { padding-block: 0 calc(var(--section) * 0.35); }
   .h-pro__panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; padding: clamp(1.5rem, 4vw, 4rem); border: 1px solid var(--line-strong); border-radius: var(--r-l); background: var(--ice-2); }
-  .h-pro__panel h2 { max-width: 20ch; font-size: clamp(1.75rem, 1.3rem + 1.1vw, 2.5rem); line-height: 1.15; letter-spacing: -0.03em; }
+  .h-pro__panel h2 { max-width: 20ch; font-size: clamp(1.75rem, 1.3rem + 1.1vw, 2.5rem); line-height: 1.15; letter-spacing: -0.02em; }
   .h-pro__copy { display: grid; gap: var(--s-3); color: var(--ink-soft); font-size: var(--fs-body); }
 
   /* ============ Availability ============ */
   .h-where { padding-block: calc(var(--section) * 0.65) var(--section); }
   .h-where__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
   .h-where__copy { display: grid; gap: var(--s-4); justify-items: start; }
-  .h-where__copy h2 { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3vw, 4rem); line-height: 1.04; letter-spacing: -0.04em; }
+  .h-where__copy h2 { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3vw, 4rem); line-height: 1.04; letter-spacing: -0.025em; }
   .h-where__copy :global(.prose) { font-size: var(--fs-lead); line-height: 1.55; max-width: 31rem; }
   .h-where__photo { min-width: 0; }
   .h-where__photo :global(.photo) { aspect-ratio: var(--photo-ratio); border-radius: var(--r-m); border-end-end-radius: clamp(3rem, 6vw, 6rem); box-shadow: none; }
@@ -486,7 +486,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-close__pattern :global(svg) { width: 100%; height: 100%; }
   .h-close__copy { grid-column: 2; grid-row: 1; display: grid; align-content: center; gap: var(--s-4); min-width: 0; justify-items: start; }
   .h-close__copy h2 { max-width: 100%; font-size: clamp(1.5rem, 2.6vw, 2.25rem); line-height: 1.25; letter-spacing: -0.025em; }
-  .h-close__copy h2 :global(.accent) { display: block; margin-block-start: 0.25rem; color: var(--cyan); font-size: clamp(2.3rem, 6vw, 5.5rem); line-height: 1.05; letter-spacing: -0.045em; }
+  .h-close__copy h2 :global(.accent) { display: block; margin-block-start: 0.25rem; color: var(--cyan); font-size: clamp(2.3rem, 6vw, 5.5rem); line-height: 1.05; letter-spacing: -0.028em; }
   .h-close__copy :global(.lead) { max-width: 40ch; font-size: var(--fs-body); line-height: var(--lh-body); }
   .h-close__action { width: 100%; border-block-start: 1px solid rgba(255, 255, 255, 0.25); }
   .h-close__action :global(.text-link) { display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 5.5rem; gap: var(--s-3); color: #fff; font-size: 1.375rem; text-decoration: none; }

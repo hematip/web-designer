@@ -11,7 +11,7 @@ The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-app
 |---|---|---|
 | Site | Astro 5 (static HTML, no client framework) | Fast, accessible pages that any host can serve. Correct URLs, titles and meta for SEO, which matters because the blog is the main search entry |
 | CMS | Decap CMS 3.16.3 at `/admin` | Git-based, so content lives in this repo. Editorial workflow (**Draft → In review → Ready**) and side-by-side EN/FR/AR editing from day one |
-| Type | Bricolage Grotesque (display), Plus Jakarta Sans (body/UI, with no slashed zero), IBM Plex Sans Arabic | All OFL, self-hosted via npm |
+| Type | IBM Plex Sans (all Latin text), IBM Plex Sans Arabic (AR) | All OFL, self-hosted via npm. One family across EN/FR/AR; reasons in `docs/design-brief.md` ("Typeface change") |
 | Motion | GSAP 3.15 (ScrollTrigger, SplitText, Flip; standard no-charge licence) + Lenis 1.3.26 smooth scroll | One GSAP-ticker clock. `gsap.matchMedia` handles desktop, mobile and reduced motion. HTML renders complete content; JS enhances it |
 | 3D (v3, in the hero since v4) | Three.js r186 (WebGL), only in the home hero scene (`src/scripts/formulation-3d.js`) | Loaded as a separate chunk once the browser is idle after first paint, so the page never waits for it. All geometry is procedural (no external models or textures). Without WebGL the static SVG capsule poster stays |
 
@@ -44,7 +44,7 @@ node scripts/build-summary-pdf.mjs                                  # rebuild th
 
 - Midnight/cobalt aurora stages alternate with bright ice-white reading sections.
 - v4: the hero is the formulation story (resin → capsule) in real-time 3D; the official bottle appears in the closing panel.
-- Oversized Bricolage display type with one italic accent word.
+- Large IBM Plex Sans display type with one colour accent word.
 - Bento cards, 32–44px radii, and a floating glass pill navigation.
 
 Full record: `docs/design-brief.md` → "Version 2".

@@ -158,7 +158,7 @@ This matches the owner's standing preference in the skill's taste profile: cinem
 |---|---|
 | Treatment | Deep midnight/cobalt immersive bands alternate with bright ice-white reading sections. The label's royal-cyan colours become luminous aurora gradients. Glass chips and cards, oversized display type with one italic serif accent word, bento grids, large 28–40px radii and subtle grain |
 | Hero | The product sits in an open field on a midnight aurora. A giant headline uses an italic accent on "names". The official bottle has a glow halo and orbit rings, with floating glass fact chips taken from the label |
-| Type | Bricolage Grotesque Variable (display, 700); Plus Jakarta Sans Variable (body/UI, 400–700; unslashed zero); Instrument Serif Italic (accent words only); IBM Plex Sans Arabic (AR). All OFL |
+| Type | IBM Plex Sans Variable for every Latin role (headings 600, body 450, UI 600–700, with italics); IBM Plex Sans Arabic (AR). All OFL, self-hosted. Replaced Bricolage Grotesque / Plus Jakarta Sans on 2026-10-26; see "Typeface change" below |
 | Colour | midnight #060C33 / #0C1650; royal #2B3FD9; electric #4C63FF; cyan #19D3E2 (accents on dark only); ice #F4F6FF; cream capsule #F2DFC2. Text contrast stays ≥ 4.5:1, mostly ≥ 7:1 |
 | Motion engine | GSAP 3.15 (ScrollTrigger, SplitText) + Lenis 1.3.26, on one GSAP ticker clock. `gsap.matchMedia` for desktop, mobile and reduced motion. HTML renders the final state; JS only animates from it. Three.js r186 renders the formulation scene (v3; the hero since v4) from the same ticker |
 
@@ -371,3 +371,16 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Copy (client-directed; Part 4 updated):** heading lead-in "One factor researchers study is" → "One thing researchers are looking at:" (plainer, less causal). The paragraph is split into three shorter sentences with the same claim scope and hedges ("linked", "associated", Alzheimer's context, same source); "symptoms families notice first" → "changes families often notice first" (calmer, less clinical, more cautious). The caveat sentence, link label and DOI are unchanged.
 - **Verification:** both builds and content checks passed; desktop 1440 and phone 390 rendered without overflow or browser errors.
 - **Accent colour (follow-up):** "inflammation" changes from royal blue to a dark tone of the hero cyan. `--cyan-ink` (#00707f) read as green, so a new token `--cyan-deep` (#0c78a8, hue 198°) is used: blue-cyan, continuous with the hero, 4.56:1 on the ice background (hero cyan would be 1.7:1 there).
+
+## Typeface change: IBM Plex Sans (2026-10-26)
+
+- **Client feedback:** the headline typeface read as "fantasy". It was Bricolage Grotesque (all headings); body/UI was Plus Jakarta Sans.
+- **Candidates compared on the real hero and "Why" headings, on dark and light grounds:** IBM Plex Sans; Plus Jakarta Sans for everything; Source Serif 4 headings; Inter Tight. Client chose IBM Plex Sans.
+- **Why IBM Plex Sans:**
+  1. **Serious, scientific character without coldness.** Plex was drawn for technical and research contexts. Its plain, engineered shapes suit a pharmaceutical brand presenting published research, and it has none of the decorative swing that read as "fantasy".
+  2. **Readable for older readers and people with memory difficulties.** Easily confused characters (I, l, 1; 0 and O) are clearly distinct, counters are open and spacing is generous. This serves the brief's first priority: readability for older people and their caregivers.
+  3. **One visual voice across EN, FR and AR.** The Arabic version already uses IBM Plex Sans Arabic, the sister of this family. Latin and Arabic pages now share proportions and tone instead of mixing three unrelated families.
+  4. **One family for every role.** Headings, body and interface use the same family at different weights, which keeps hierarchy consistent and removes one font download.
+  5. **Open licence, self-hosted.** OFL, installed from npm (`@fontsource-variable/ibm-plex-sans` 5.3.0, variable weight 100–700 with italics) like the previous fonts; no third-party font requests.
+- **Implementation:** `--font-display` and `--font-body` both point to IBM Plex Sans; headings move from 700 to 600; negative tracking tuned for the tighter Bricolage is eased everywhere (for example −0.04em → −0.025em, −0.045em → −0.028em). The Bricolage and Jakarta packages stay installed only because `scripts/build-summary-pdf.mjs` (the draft doctor summary PDF) still embeds them; the site no longer loads them.
+- **Verification:** production and preview builds and both content checks passed. Inspected the home page full-length at 1440 and 390, the hero at 1280×720, `/memowell` at 1440 and `/science` at 390. No page among the ten main routes scrolls horizontally at 320 or 390 (the overflow script lists only the decorative header rings, which are clipped and do not make the page scroll).

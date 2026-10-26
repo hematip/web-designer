@@ -43,7 +43,7 @@ const products = section(page, 'products');
   .product-link {
     position: relative; overflow: hidden; isolation: isolate; display: flex; align-items: flex-end; min-height: 12rem; padding: var(--s-4);
     border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none;
-    font: 700 clamp(1.75rem, 1.3rem + 1.5vw, 2.75rem)/1 var(--font-display); letter-spacing: -0.04em; transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+    font: 700 clamp(1.75rem, 1.3rem + 1.5vw, 2.75rem)/1 var(--font-display); letter-spacing: -0.025em; transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
   }
   .product-link::before { content: ''; position: absolute; z-index: -1; width: 14rem; height: 14rem; inset-inline-end: -4rem; top: -5rem; border-radius: 50%; background: radial-gradient(circle, var(--glow, rgba(76, 99, 255, 0.25)), transparent 70%); }
   /* Each product keeps its own colour family; Inflawell has no family in the brand rules, so it stays neutral. */
