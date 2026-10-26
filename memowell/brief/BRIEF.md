@@ -304,7 +304,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > Behind every name is someone you love. Noticing a change is a good reason to understand it, and to talk it through with your doctor.
 >
-> Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma in Canada. Here is who it was studied in, and what the research found.
+> Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma.
 >
 > [Who it was studied in] [What the research found]
 >
