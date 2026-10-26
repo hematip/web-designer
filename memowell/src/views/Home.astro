@@ -54,7 +54,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
     <div class="wrap h-hero__grid">
       <div class="h-hero__intro">
-        <p class="eyebrow" data-hero-in>{hero.eyebrow}</p>
         <h1 id="hero-title" class="h-hero__title" data-split="load" set:html={accentWord(hero.heading, hero.accent)} />
         <div class="h-hero__lead" data-hero-in set:html={md(hero.body)} />
         <div class="btn-row" data-hero-in>
@@ -280,8 +279,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__toggle:hover { background: #fff; color: var(--midnight); }
   .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; position: relative; z-index: 2; }
   .h-hero__intro { grid-column: 1 / span 7; display: grid; gap: var(--s-3); justify-items: start; }
-  .h-hero__intro .eyebrow { padding: 0; border: 0; border-radius: 0; background: none; color: var(--cyan); font-size: 1rem; }
-  .h-hero__intro .eyebrow::before { display: none; }
   .h-hero__title { font-size: clamp(2.5rem, 1.5rem + 4vw, 6rem); line-height: 1.03; letter-spacing: -0.04em; max-width: 18ch; }
   .h-hero__lead { max-width: 36rem; font-size: var(--fs-body); line-height: 1.65; color: var(--on-dark-soft); }
   /* The hero fits one screen on laptops too: the intro scales with the viewport height. */
