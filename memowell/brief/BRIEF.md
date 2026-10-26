@@ -324,11 +324,13 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **3. What is in it**
 > ## Boswellic acids, in a formulation built for absorption
 >
-> The active compounds in Memowell come from the resin of *Boswellia* trees — frankincense. The resin contains boswellic acids, which have been studied for anti-inflammatory activity.
->
 > Boswellic acids are poorly absorbed in the digestive system. Kondor Pharma developed K-Vie™, a micronized, microcrystalline form standardised to 40% boswellic acids, to address that.
 >
+> AKBA is one of the boswellic acids.
+>
 > [More about the formulation]
+
+*Note (2026-10-26, client direction):* the resin chapter is removed; the story starts at K-Vie™ and passes through AKBA (acetyl-11-keto-β-boswellic acid) to the capsule. Chapter labels: Micronized · Microcrystalline · K-Vie™ · standardised to 40% boswellic acids · AKBA · acetyl-11-keto-β-boswellic acid · Vegetarian and gluten-free.
 
 *Note:* the catalogue's "about three times similar formulations" is deliberately omitted until the scientific officer rules on that comparison.
 

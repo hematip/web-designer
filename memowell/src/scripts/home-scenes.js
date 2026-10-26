@@ -134,7 +134,7 @@ mm.add(MQ.motion, () => {
   }
 }
 
-// ---------------------------------------------------------------- Resin → K-Vie™ → capsule (3D)
+// ---------------------------------------------------------------- K-Vie™ → AKBA → capsule (3D)
 // The pinned range scrubs one number. It decides which of the five chapters is read and where the 3D scene
 // stands, so text and scene always change together and reverse scroll, fast skips and anchors resolve to the
 // same frame. Each chapter plays its stage in the first part of its range and holds the resolved frame while it
@@ -142,9 +142,9 @@ mm.add(MQ.motion, () => {
 // the chapters are listed beside the scene's last frame.
 const form = $('[data-form]');
 const sceneState = { p: 0 };
-// Scene range [from, to] played by each chapter: resin, micronized, microcrystalline,
-// K-Vie™ (crystals condense), vegetarian capsule (the halves close, the capsule turns in the light).
-const STAGES = [[0, 0.13], [0.13, 0.42], [0.42, 0.62], [0.62, 0.74], [0.74, 1]];
+// Scene range [from, to] played by each chapter: micronized (granules → dust), microcrystalline (lattice),
+// K-Vie™ · 40% (two in five crystals gold), AKBA (the molecule builds), vegetarian capsule (the halves close).
+const STAGES = [[0, 0.2], [0.2, 0.4], [0.4, 0.56], [0.56, 0.78], [0.78, 1]];
 const PLAY = 0.7; // share of a chapter's range that plays its stage; the rest holds for reading
 const ease = (x) => x * x * (3 - 2 * x);
 let sceneMode = null;

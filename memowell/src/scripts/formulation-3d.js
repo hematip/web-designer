@@ -1,17 +1,19 @@
-// Formulation signature scene (v3), real-time 3D — played inside the homepage hero (v4).
-// Story, scrubbed by the pinned scroll range (state.p 0 → 1):
-//   01 a tear of Boswellia resin, lit like a studio product shot
-//   02 the resin disintegrates into micronized dust that spins into a vortex
-//   03 the dust snaps into a rotating microcrystalline lattice (crystals + unit-cell lines)
-//   04 the lattice condenses into a capsule-shaped cloud; the two capsule halves slide shut around it
-//   05 the closed cream capsule turns in the light (hero frame)
-// Everything is procedural (no external models). Copy stays in HTML; this canvas is decorative.
+// Formulation signature scene (v6: K-Vie™ → AKBA → capsule), real-time 3D in the homepage formulation section.
+// Story, scrubbed by the pinned scroll range (state.p 0 → 1), one stage per chapter:
+//   01 micronized: coarse golden granules break into fine dust that spins into a vortex
+//   02 microcrystalline: the dust snaps into a rotating lattice (crystals + unit-cell lines)
+//   03 K-Vie™ · 40%: 40% of the lattice's crystals light gold (standardised to 40% boswellic acids)
+//   04 AKBA: the lattice clears and the dust gathers onto acetyl-11-keto-β-boswellic acid, built bond by bond
+//      from its real 3D conformer (PubChem CID 11168203, see akba.js)
+//   05 vegetarian capsule: the molecule recedes, its dust condenses into the capsule and the halves close
+// Procedural apart from the molecule's atom coordinates. Copy stays in HTML; this canvas is decorative.
 // One clock: frames are drawn from the GSAP ticker that already drives Lenis.
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js';
 import { SimplexNoise } from 'three/addons/math/SimplexNoise.js';
-import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { mergeVertices, mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { AKBA_ATOMS, AKBA_BONDS } from './akba.js';
 import { gsap } from './motion.js';
 
 // ---------------------------------------------------------------- helpers
@@ -49,33 +51,35 @@ float fsnoise(vec3 v){
   vec4 m=max(0.5-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0); m=m*m;
   return 105.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
 }
-// Where the resin surface gives way first (bottom → top, broken up by noise). Shared by the
-// resin's dissolve and the particles' birth so every grain leaves exactly where the surface opens.
+// Where the granules' surface gives way first (bottom → top, broken up by noise). Shared by the
+// granules' dissolve and the particles' birth so every grain leaves exactly where the surface opens.
 float dissolveField(vec3 p){ return clamp(0.5 + fsnoise(p*1.7)*0.30 + p.y*0.17, 0.0, 1.0); }
 `;
 
 // ---------------------------------------------------------------- geometry
-function resinGeometry(noise) {
-  let g = new THREE.IcosahedronGeometry(1, 40);
-  g.deleteAttribute('normal');
-  g.deleteAttribute('uv');
-  g = mergeVertices(g);
-  const pos = g.attributes.position;
+// A loose cluster of coarse, faceted K-Vie™ granules (before micronizing): noise-displaced low-poly crystals.
+function granulesGeometry(noise) {
+  const spots = [
+    [0, 0.05, 0, 1], [-0.95, -0.35, 0.25, 0.62], [0.9, -0.3, -0.2, 0.7], [0.35, 0.78, 0.35, 0.55],
+    [-0.45, 0.72, -0.4, 0.5], [0.15, -0.88, 0.45, 0.48], [-0.2, -0.2, -0.95, 0.46], [1.05, 0.55, -0.6, 0.38], [-1.1, 0.35, -0.55, 0.36],
+  ];
   const v = new THREE.Vector3();
-  for (let i = 0; i < pos.count; i++) {
-    v.fromBufferAttribute(pos, i).normalize();
-    const theta = Math.acos(THREE.MathUtils.clamp(v.y, -1, 1)); // 0 = tip, PI = base
-    const phi = Math.atan2(v.z, v.x);
-    const r = Math.sin(theta) * Math.pow(Math.sin(theta / 2), 1.05) * 1.1;
-    const x = Math.cos(phi) * r;
-    const z = Math.sin(phi) * r;
-    const y = Math.cos(theta) * 1.3 - 0.1;
-    // Organic, lumpy surface of a natural resin tear.
-    const n = noise.noise3d(x * 1.3, y * 1.3, z * 1.3) * 0.08 + noise.noise3d(x * 3.4 + 7, y * 3.4, z * 3.4) * 0.025;
-    pos.setXYZ(i, x + v.x * n, y + v.y * n * 0.6, z + v.z * n);
-  }
-  g.computeVertexNormals();
-  return g;
+  const parts = spots.map(([x, y, z, sz], k) => {
+    let g = new THREE.IcosahedronGeometry(sz * 0.62, 1);
+    g.deleteAttribute('normal');
+    g.deleteAttribute('uv');
+    g = mergeVertices(g);
+    const pos = g.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      v.fromBufferAttribute(pos, i);
+      v.multiplyScalar(1 + noise.noise3d(v.x * 2.2 + k * 3.1, v.y * 2.2, v.z * 2.2) * 0.2);
+      pos.setXYZ(i, v.x + x, v.y * 0.86 + y, v.z + z);
+    }
+    g = g.toNonIndexed(); // flat facets read as crystal, not resin
+    g.computeVertexNormals();
+    return g;
+  });
+  return mergeGeometries(parts);
 }
 
 // Two-piece capsule, built along +X. Cream body and cap, same colour as the approved product photo.
@@ -128,13 +132,14 @@ function glowTexture() {
 // ---------------------------------------------------------------- particle shaders
 const PARTICLE_VERT = /* glsl */ `
 ${NOISE_GLSL}
-attribute vec3 aStart;   // point on the resin surface (resin object space)
+attribute vec3 aStart;   // point on a granule surface (granule object space)
 attribute vec4 aBurst;   // vortex: radius, angle, height, angular speed
 attribute vec3 aLattice; // lattice node (lattice group space)
+attribute vec3 aMol;     // point on an AKBA atom or bond (molecule group space)
 attribute vec3 aCap;     // point inside the capsule (capsule space)
 attribute vec4 aRand;    // size, colour, phase, stagger
-uniform float uTime, uDissolve, uBurst, uLattice, uCapsule, uFade;
-uniform mat4 uResinMat, uLatMat, uCapMat;
+uniform float uTime, uDissolve, uBurst, uLattice, uKv, uMol, uCapsule, uFade;
+uniform mat4 uGrainMat, uLatMat, uMolMat, uCapMat;
 uniform float uSize, uProjScale, uFocus, uAperture;
 uniform vec3 uAmber, uGold, uIce, uCream;
 varying vec3 vColor; varying float vAlpha; varying float vBlur;
@@ -143,9 +148,9 @@ void main(){
   float n = dissolveField(aStart);
   float th = uDissolve * 1.08;
   float born = smoothstep(n - 0.015, n + 0.03, th);
-  vec3 start = (uResinMat * vec4(aStart, 1.0)).xyz;
+  vec3 start = (uGrainMat * vec4(aStart, 1.0)).xyz;
 
-  // 02 micronized: grains lift off as the surface opens, then join one slow vortex
+  // 01 micronized: grains lift off as the surface opens, then join one slow vortex
   float tb = max(smoothstep(0.0, 0.55, th - n), uBurst);
   tb = 1.0 - pow(1.0 - tb, 3.0);
   float ang = aBurst.y + uTime * 0.12 * aBurst.w + uBurst * 2.2 / (0.5 + aBurst.x * 0.35);
@@ -153,11 +158,15 @@ void main(){
   vec3 pos = mix(start, vortex, tb);
   pos += normalize(start + vec3(0.0001)) * sin(tb * 3.14159) * 0.55 * aRand.w;
 
-  // 03 microcrystalline: ordered lattice (staggered arrival)
+  // 02 microcrystalline: ordered lattice (staggered arrival)
   float tl = ioc(smoothstep(aRand.w * 0.35, aRand.w * 0.35 + 0.65, uLattice));
   pos = mix(pos, (uLatMat * vec4(aLattice, 1.0)).xyz, tl);
 
-  // 04 K-Vie: condense into the capsule volume
+  // 04 AKBA: the dust gathers onto the molecule's atoms and bonds (staggered)
+  float tm = ioc(smoothstep(aRand.w * 0.3, aRand.w * 0.3 + 0.7, uMol));
+  pos = mix(pos, (uMolMat * vec4(aMol, 1.0)).xyz, tm);
+
+  // 05 capsule: condense into the capsule volume
   float tc = ioc(smoothstep(aRand.z * 0.3, aRand.z * 0.3 + 0.7, uCapsule));
   pos = mix(pos, (uCapMat * vec4(aCap, 1.0)).xyz, tc);
 
@@ -165,14 +174,17 @@ void main(){
   float dist = max(-mv.z, 0.1);
   float blur = clamp(abs(dist - uFocus) * uAperture, 0.0, 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = min(uSize * aRand.x * (1.0 - 0.35 * tl) * (1.0 - 0.3 * tc) * (1.0 + blur * 2.6) * uProjScale / dist, 64.0);
+  gl_PointSize = min(uSize * aRand.x * (1.0 - 0.35 * tl) * (1.0 - 0.4 * tm * (1.0 - tc)) * (1.0 - 0.3 * tc) * (1.0 + blur * 2.6) * uProjScale / dist, 64.0);
 
   vec3 col = mix(uAmber, uGold, aRand.y);
   col = mix(col, uIce, tl * 0.85);
+  // 03 K-Vie™ · 40%: two in five grains turn gold with the lit crystals
+  col = mix(col, uGold, uKv * step(aRand.y, 0.4) * (1.0 - tm));
+  col = mix(col, uIce, tm * 0.7 * (1.0 - tc));
   col = mix(col, uCream, tc);
   float sparkle = pow(max(0.0, sin(uTime * 1.7 + aRand.z * 40.0)), 14.0) * (0.35 + tl);
   vColor = col * (1.0 + sparkle * 1.4);
-  vAlpha = born * 0.78 * (1.0 - blur * 0.72) * (1.0 - 0.25 * tl) * (1.0 - 0.45 * tc) * (1.0 - uFade);
+  vAlpha = born * 0.78 * (1.0 - blur * 0.72) * (1.0 - 0.25 * tl) * (1.0 - 0.55 * tm * (1.0 - tc)) * (1.0 - 0.45 * tc) * (1.0 - uFade);
   vBlur = blur;
 }`;
 
@@ -241,16 +253,16 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   const noise = new SimplexNoise();
   const shared = { uTime: { value: 0 } };
 
-  // ---- 01 resin tear
-  const resinGeo = resinGeometry(noise);
-  const resinMat = new THREE.MeshPhysicalMaterial({
-    color: 0xc9781a, roughness: 0.24, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.1,
-    sheen: 0.35, sheenColor: new THREE.Color(0xffb35a), sheenRoughness: 0.45,
-    emissive: new THREE.Color(0x5c2700), emissiveIntensity: 0.4, envMapIntensity: 1.0,
+  // ---- 01 coarse K-Vie™ granules (micronized in chapter 1)
+  const grainGeo = granulesGeometry(noise);
+  const grainMat = new THREE.MeshPhysicalMaterial({
+    color: 0xd9a85e, roughness: 0.34, metalness: 0, clearcoat: 0.7, clearcoatRoughness: 0.18, flatShading: true,
+    sheen: 0.25, sheenColor: new THREE.Color(0xffd9a0), sheenRoughness: 0.5,
+    emissive: new THREE.Color(0x4a2600), emissiveIntensity: 0.3, envMapIntensity: 1.1,
   });
-  const resinU = { uDissolve: { value: 0 }, uEdge: { value: new THREE.Color(0xffc56b).multiplyScalar(4) }, uGlow: { value: new THREE.Color(0xff8a1f).multiplyScalar(0.75) } };
-  resinMat.onBeforeCompile = (sh) => {
-    Object.assign(sh.uniforms, resinU);
+  const grainU = { uDissolve: { value: 0 }, uEdge: { value: new THREE.Color(0xffc56b).multiplyScalar(4) }, uGlow: { value: new THREE.Color(0xff8a1f).multiplyScalar(0.75) } };
+  grainMat.onBeforeCompile = (sh) => {
+    Object.assign(sh.uniforms, grainU);
     sh.vertexShader = sh.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vObjPos;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObjPos = position;');
@@ -266,11 +278,11 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
         outgoingLight += uEdge * dEdge;
         #include <opaque_fragment>`);
   };
-  resinMat.customProgramCacheKey = () => 'memowell-resin';
-  const resinRoot = new THREE.Group();
-  const resin = new THREE.Mesh(resinGeo, resinMat);
-  resinRoot.add(resin);
-  scene.add(resinRoot);
+  grainMat.customProgramCacheKey = () => 'memowell-granules';
+  const grainRoot = new THREE.Group();
+  const grains = new THREE.Mesh(grainGeo, grainMat);
+  grainRoot.add(grains);
+  scene.add(grainRoot);
 
   // Warm/cool light bloom behind the subject (cheap stand-in for a bloom pass on a transparent canvas).
   const glowMat = new THREE.SpriteMaterial({ map: glowTexture(), color: 0xffb04a, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false });
@@ -288,7 +300,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   const crystalGeo = new THREE.OctahedronGeometry(0.075, 0);
   crystalGeo.scale(1, 1.7, 1);
   const crystalMat = new THREE.MeshPhysicalMaterial({
-    color: 0xdfe6ff, roughness: 0.05, metalness: 0.05, clearcoat: 1, flatShading: true,
+    color: 0xffffff, roughness: 0.05, metalness: 0.05, clearcoat: 1, flatShading: true,
     transparent: true, opacity: 0.9, envMapIntensity: 2.2, emissive: new THREE.Color(0x22348f), emissiveIntensity: 0.3,
   });
   const crystals = new THREE.InstancedMesh(crystalGeo, crystalMat, M * M * M);
@@ -297,8 +309,14 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     const ix = i % M, iy = Math.floor(i / M) % M, iz = Math.floor(i / (M * M));
     const p = new THREE.Vector3(ix, iy, iz).subScalar((M - 1) / 2).multiplyScalar(L_SIZE / (M - 1));
     const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.random() * 3, Math.random() * 3, Math.random() * 3));
-    crystalData.push({ p, q, d: p.length() / (L_SIZE * 0.87) });
+    crystalData.push({ p, q, d: p.length() / (L_SIZE * 0.87), lit: false });
   }
+  // K-Vie™ is standardised to 40% boswellic acids: exactly two in five crystals light gold in chapter 3.
+  const order = crystalData.map((_, i) => i).sort(() => Math.random() - 0.5);
+  order.slice(0, Math.round(crystalData.length * 0.4)).forEach((i) => { crystalData[i].lit = true; });
+  const iceCrystal = new THREE.Color(0xdfe6ff), goldCrystal = new THREE.Color(0xffc25a), dimCrystal = new THREE.Color(0x7d89c4);
+  const cTmp = new THREE.Color();
+  crystalData.forEach((_, i) => crystals.setColorAt(i, iceCrystal));
   lattice.add(crystals);
   const linePos = [];
   const step = L_SIZE / (M - 1), h = L_SIZE / 2;
@@ -314,7 +332,43 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   const lines = new THREE.LineSegments(lineGeo, lineMat);
   lattice.add(lines);
 
-  // ---- 04/05 capsule
+  // ---- 04 AKBA, ball-and-stick from its real 3D conformer (heavy atoms; carbon ice, oxygen gold)
+  const MOL_SCALE = 0.175; // ångström → scene units: the ~13.5 Å molecule spans about 2.4 units
+  const molGroup = new THREE.Group();
+  scene.add(molGroup);
+  const atomGeo = new THREE.IcosahedronGeometry(1, 3);
+  const atomMat = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff, roughness: 0.16, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08, envMapIntensity: 1.6,
+    emissive: new THREE.Color(0x1a2470), emissiveIntensity: 0.22,
+  });
+  const atomData = AKBA_ATOMS.map(([el, x, y, z], i) => ({
+    p: new THREE.Vector3(x, y, z).multiplyScalar(MOL_SCALE), r: el === 'O' ? 0.092 : 0.074, o: i / (AKBA_ATOMS.length - 1),
+  }));
+  const atoms = new THREE.InstancedMesh(atomGeo, atomMat, atomData.length);
+  AKBA_ATOMS.forEach(([el], i) => atoms.setColorAt(i, new THREE.Color(el === 'O' ? 0xffb347 : 0xe4eaff)));
+  molGroup.add(atoms);
+  const bondGeo = new THREE.CylinderGeometry(1, 1, 1, 12, 1, true);
+  bondGeo.translate(0, 0.5, 0); // grows from its first atom
+  const bondMat = new THREE.MeshPhysicalMaterial({
+    color: 0xc9d3ff, roughness: 0.3, metalness: 0, clearcoat: 0.6, envMapIntensity: 1.2, emissive: new THREE.Color(0x1a2470), emissiveIntensity: 0.18,
+  });
+  const UP = new THREE.Vector3(0, 1, 0), ALT = new THREE.Vector3(1, 0, 0);
+  const bondData = [];
+  AKBA_BONDS.forEach(([a, b, ord], k) => {
+    const A = atomData[a].p, B = atomData[b].p;
+    const dir = B.clone().sub(A);
+    const len = dir.length();
+    dir.normalize();
+    const side = new THREE.Vector3().crossVectors(dir, Math.abs(dir.y) < 0.9 ? UP : ALT).normalize();
+    const q = new THREE.Quaternion().setFromUnitVectors(UP, dir);
+    (ord === 2 ? [-0.032, 0.032] : [0]).forEach((off) => bondData.push({
+      a: A.clone().addScaledVector(side, off), q, len, r: ord === 2 ? 0.015 : 0.021, o: k / (AKBA_BONDS.length - 1),
+    }));
+  });
+  const bonds = new THREE.InstancedMesh(bondGeo, bondMat, bondData.length);
+  molGroup.add(bonds);
+
+  // ---- 05 capsule
   const capRoot = new THREE.Group();
   const capIdle = new THREE.Group();
   capRoot.add(capIdle);
@@ -340,9 +394,10 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   // ---- particles
   const n = small ? 13 : 19; // n - 1 divisible by M - 1, so crystals sit on particle nodes
   const N = n * n * n;
-  const sampler = new MeshSurfaceSampler(resin).build();
+  const sampler = new MeshSurfaceSampler(grains).build();
   const aStart = new Float32Array(N * 3), aBurst = new Float32Array(N * 4), aLattice = new Float32Array(N * 3);
-  const aCap = new Float32Array(N * 3), aRand = new Float32Array(N * 4);
+  const aCap = new Float32Array(N * 3), aRand = new Float32Array(N * 4), aMol = new Float32Array(N * 3);
+  const jit = new THREE.Vector3();
   const tmp = new THREE.Vector3();
   const sp = L_SIZE / (n - 1);
   for (let i = 0; i < N; i++) {
@@ -357,6 +412,16 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
       x = (Math.random() * 2 - 1) * CAP.capTip; y = (Math.random() * 2 - 1) * CAP.rBody; z = (Math.random() * 2 - 1) * CAP.rBody;
     } while (!insideCapsule(x, y, z, 0.9));
     aCap.set([x, y, z], i * 3);
+    // AKBA: a soft halo around the atoms and along the bonds
+    if (Math.random() < 0.55) {
+      const at = atomData[Math.floor(Math.random() * atomData.length)];
+      jit.randomDirection().multiplyScalar(at.r + 0.02 + Math.random() * 0.12).add(at.p);
+    } else {
+      const bd = bondData[Math.floor(Math.random() * bondData.length)];
+      jit.set(0, Math.random() * bd.len, 0).applyQuaternion(bd.q).add(bd.a);
+      jit.x += (Math.random() - 0.5) * 0.05; jit.y += (Math.random() - 0.5) * 0.05; jit.z += (Math.random() - 0.5) * 0.05;
+    }
+    aMol.set([jit.x, jit.y, jit.z], i * 3);
     aRand.set([0.55 + Math.random() * 1.0, Math.random(), Math.random(), Math.random()], i * 4);
   }
   const pGeo = new THREE.BufferGeometry();
@@ -364,11 +429,14 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   pGeo.setAttribute('aStart', new THREE.BufferAttribute(aStart, 3));
   pGeo.setAttribute('aBurst', new THREE.BufferAttribute(aBurst, 4));
   pGeo.setAttribute('aLattice', new THREE.BufferAttribute(aLattice, 3));
+  pGeo.setAttribute('aMol', new THREE.BufferAttribute(aMol, 3));
   pGeo.setAttribute('aCap', new THREE.BufferAttribute(aCap, 3));
   pGeo.setAttribute('aRand', new THREE.BufferAttribute(aRand, 4));
   const pU = {
-    uTime: shared.uTime, uDissolve: resinU.uDissolve, uBurst: { value: 0 }, uLattice: { value: 0 }, uCapsule: { value: 0 }, uFade: { value: 0 },
-    uResinMat: { value: new THREE.Matrix4() }, uLatMat: { value: new THREE.Matrix4() }, uCapMat: { value: new THREE.Matrix4() },
+    uTime: shared.uTime, uDissolve: grainU.uDissolve, uBurst: { value: 0 }, uLattice: { value: 0 }, uKv: { value: 0 }, uMol: { value: 0 },
+    uCapsule: { value: 0 }, uFade: { value: 0 },
+    uGrainMat: { value: new THREE.Matrix4() }, uLatMat: { value: new THREE.Matrix4() }, uMolMat: { value: new THREE.Matrix4() },
+    uCapMat: { value: new THREE.Matrix4() },
     uSize: { value: small ? 0.03 : 0.024 }, uProjScale: { value: 600 }, uFocus: { value: 7 }, uAperture: { value: 0.26 },
     uAmber: { value: new THREE.Color(0xff9d2e) }, uGold: { value: new THREE.Color(0xffd27a) },
     uIce: { value: new THREE.Color(0xdfe8ff) }, uCream: { value: new THREE.Color(0xffe6c4) },
@@ -404,15 +472,18 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   scene.add(bokeh);
 
   // ---------------------------------------------------------------- camera path (keyed to story progress)
+  // Stage ranges (state.p) per chapter: micronized 0–0.2, microcrystalline 0.2–0.4, K-Vie™ 40% 0.4–0.56,
+  // AKBA 0.56–0.78, capsule 0.78–1 (home-scenes.js STAGES). Each chapter holds on its stage's last frame.
   const keys = [
-    { p: 0.0, pos: [0.0, 0.25, 7.6], tgt: [0, 0.15, 0] },
-    { p: 0.14, pos: [1.6, 0.55, 5.4], tgt: [0, 0.2, 0] },
-    { p: 0.3, pos: [0.5, 1.3, 8.2], tgt: [0, 0.3, 0] },
-    { p: 0.42, pos: [-2.2, 4.6, 7.2], tgt: [0, 0, 0] },
-    { p: 0.56, pos: [-4.6, 2.0, 6.4], tgt: [0, 0, 0] },
-    { p: 0.66, pos: [-3.0, 1.3, 6.8], tgt: [0, 0, 0] },
-    { p: 0.8, pos: [0.9, 0.5, 6.4], tgt: [0, 0, 0] },
-    { p: 1.0, pos: [0.15, 0.25, 5.3], tgt: [0, 0, 0] },
+    { p: 0.0, pos: [0.0, 0.3, 7.4], tgt: [0, 0.05, 0] },   // coarse granules
+    { p: 0.1, pos: [1.5, 0.6, 5.8], tgt: [0, 0.1, 0] },
+    { p: 0.2, pos: [0.5, 1.4, 8.2], tgt: [0, 0.2, 0] },    // micronized vortex
+    { p: 0.34, pos: [-2.2, 4.4, 7.0], tgt: [0, 0, 0] },    // lattice from above
+    { p: 0.48, pos: [-4.4, 2.0, 6.2], tgt: [0, 0, 0] },    // two in five crystals gold
+    { p: 0.62, pos: [-1.8, 1.0, 5.6], tgt: [0, 0, 0] },    // into the lattice
+    { p: 0.76, pos: [0.3, 0.45, 5.0], tgt: [0, 0, 0] },    // AKBA
+    { p: 0.88, pos: [0.9, 0.5, 6.4], tgt: [0, 0, 0] },     // capsule forming
+    { p: 1.0, pos: [0.15, 0.25, 5.3], tgt: [0, 0, 0] },    // capsule
   ];
   const posCurve = new THREE.CatmullRomCurve3(keys.map((k) => new THREE.Vector3(...k.pos)), false, 'centripetal');
   const tgtCurve = new THREE.CatmullRomCurve3(keys.map((k) => new THREE.Vector3(...k.tgt)), false, 'centripetal');
@@ -432,7 +503,8 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
 
   // ---------------------------------------------------------------- evaluate the whole frame from (p, t)
   const m4 = new THREE.Matrix4(), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
-  const amberGlow = new THREE.Color(0xffa63c), iceGlow = new THREE.Color(0x7d8cff), creamGlow = new THREE.Color(0xffe2bd);
+  const amberGlow = new THREE.Color(0xffa63c), iceGlow = new THREE.Color(0x7d8cff), creamGlow = new THREE.Color(0xffe2bd), goldGlow = new THREE.Color(0xffc25a);
+  const qI = new THREE.Quaternion();
   let mode = initialMode;
 
   function evaluate(p, t) {
@@ -440,56 +512,86 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     const time = motion ? t : 0;
     shared.uTime.value = time;
 
-    const d = seg(p, 0.13, 0.33);
-    const burst = inOutCubic(seg(p, 0.22, 0.42));
-    const L = seg(p, 0.38, 0.55);
-    const C = seg(p, 0.64, 0.8);
-    const S = outCubic(seg(p, 0.72, 0.86));
-    const fade = seg(p, 0.83, 0.88);
-    const H = inOutCubic(seg(p, 0.86, 1));
-    const flash = bump(p, 0.85, 0.885);
+    const d = seg(p, 0.02, 0.16);                        // 01 granules break up
+    const burst = inOutCubic(seg(p, 0.07, 0.19));         //    into the vortex
+    const L = seg(p, 0.22, 0.36);                         // 02 lattice
+    const crystalOut = smooth(seg(p, 0.56, 0.64));        //    clears for the molecule
+    const kv = smooth(seg(p, 0.41, 0.52)) * (1 - crystalOut); // 03 40% of crystals gold
+    const mol = seg(p, 0.57, 0.7);                        // 04 dust gathers onto AKBA
+    const molIn = seg(p, 0.6, 0.74);                      //    atoms and bonds build
+    const molOut = smooth(seg(p, 0.79, 0.87));            // 05 molecule recedes
+    const C = seg(p, 0.8, 0.92);                          //    dust condenses into the capsule
+    const S = outCubic(seg(p, 0.84, 0.94));               //    halves close
+    const fade = seg(p, 0.93, 0.96);
+    const H = inOutCubic(seg(p, 0.94, 1));
+    const flash = bump(p, 0.935, 0.96);
 
-    // resin
-    resinU.uDissolve.value = d;
-    resin.visible = d < 1;
-    resin.rotation.set(0.12, time * 0.15 + p * 1.6, -0.08);
-    resinRoot.position.y = Math.sin(time * 0.8) * 0.04;
-    resinRoot.updateMatrixWorld(true);
-    pU.uResinMat.value.copy(resin.matrixWorld);
+    // granules
+    grainU.uDissolve.value = d;
+    grains.visible = d < 1;
+    grains.rotation.set(0.12, time * 0.15 + p * 1.6, -0.08);
+    grainRoot.position.y = Math.sin(time * 0.8) * 0.04;
+    grainRoot.updateMatrixWorld(true);
+    pU.uGrainMat.value.copy(grains.matrixWorld);
 
     // lattice
-    lattice.rotation.set(0.42, -0.7 + 1.25 * smooth(seg(p, 0.36, 0.74)) + time * 0.02, 0.08);
+    lattice.rotation.set(0.42, -0.7 + 1.25 * smooth(seg(p, 0.2, 0.64)) + time * 0.02, 0.08);
     lattice.updateMatrixWorld(true);
     pU.uLatMat.value.copy(lattice.matrixWorld);
-    const crystalOut = smooth(seg(p, 0.63, 0.73));
     for (let i = 0; i < crystalData.length; i++) {
       const c = crystalData[i];
       const k = outCubic(clamp01(L * 1.6 - c.d * 0.6)) * (1 - crystalOut);
-      s3.setScalar(Math.max(k, 0.0001));
+      s3.setScalar(Math.max(k * (c.lit ? 1 + kv * 0.35 : 1), 0.0001));
       v3.copy(c.p).multiplyScalar(1 - crystalOut * 0.6);
       m4.compose(v3, c.q, s3);
       crystals.setMatrixAt(i, m4);
+      crystals.setColorAt(i, cTmp.copy(iceCrystal).lerp(c.lit ? goldCrystal : dimCrystal, c.lit ? kv : kv * 0.6));
     }
     crystals.instanceMatrix.needsUpdate = true;
+    crystals.instanceColor.needsUpdate = true;
     crystals.visible = L > 0 && crystalOut < 1;
-    lineMat.opacity = 0.26 * smooth(seg(p, 0.44, 0.56)) * (1 - seg(p, 0.62, 0.7));
+    lineMat.opacity = 0.26 * smooth(seg(p, 0.26, 0.38)) * (1 - seg(p, 0.55, 0.6));
     lines.visible = lineMat.opacity > 0.001;
 
+    // AKBA: atoms appear along the chain and each bond grows from its first atom
+    molGroup.rotation.set(0.28, -0.75 + 1.1 * smooth(seg(p, 0.56, 0.86)) + time * 0.04, 0.1);
+    molGroup.position.y = motion ? Math.sin(time * 0.8) * 0.03 : 0;
+    molGroup.updateMatrixWorld(true);
+    pU.uMolMat.value.copy(molGroup.matrixWorld);
+    const live = 1 - molOut;
+    for (let i = 0; i < atomData.length; i++) {
+      const a = atomData[i];
+      const k = outCubic(clamp01(molIn * 1.5 - a.o * 0.5)) * live;
+      m4.compose(a.p, qI, s3.setScalar(Math.max(a.r * k, 0.0001)));
+      atoms.setMatrixAt(i, m4);
+    }
+    for (let i = 0; i < bondData.length; i++) {
+      const b = bondData[i];
+      const k = outCubic(clamp01(molIn * 1.5 - b.o * 0.5 - 0.05)) * live;
+      m4.compose(b.a, b.q, s3.set(Math.max(b.r * live, 0.0001), Math.max(b.len * k, 0.0001), Math.max(b.r * live, 0.0001)));
+      bonds.setMatrixAt(i, m4);
+    }
+    atoms.instanceMatrix.needsUpdate = true;
+    bonds.instanceMatrix.needsUpdate = true;
+    molGroup.visible = molIn > 0 && molOut < 1;
+
     // capsule
-    capRoot.rotation.set(0.12, lerp(0.7, -0.32, smooth(seg(p, 0.66, 1))), -0.38);
+    capRoot.rotation.set(0.12, lerp(0.7, -0.32, smooth(seg(p, 0.8, 1))), -0.38);
     capIdle.position.y = motion ? Math.sin(time * 0.9) * 0.035 : 0;
     capIdle.rotation.y = motion ? Math.sin(time * 0.35) * 0.06 * (0.4 + H) : 0;
     body.position.set(lerp(-1.9, 0, S), lerp(0.45, 0, S), lerp(1.6, 0, S));
     cap.position.set(lerp(1.9, 0, S), lerp(-0.45, 0, S), lerp(-1.6, 0, S));
     body.rotation.set((1 - S) * 1.4, 0, (1 - S) * 0.35);
     cap.rotation.set(-(1 - S) * 1.4, 0, -(1 - S) * 0.35);
-    body.visible = cap.visible = p > 0.72;
+    body.visible = cap.visible = p > 0.84;
     capRoot.updateMatrixWorld(true);
     pU.uCapMat.value.copy(capIdle.matrixWorld);
 
     // particles
     pU.uBurst.value = burst;
     pU.uLattice.value = L;
+    pU.uKv.value = kv;
+    pU.uMol.value = mol;
     pU.uCapsule.value = C;
     pU.uFade.value = fade;
     particles.visible = d > 0 && fade < 1;
@@ -500,12 +602,12 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     glint.position.set(lerp(-5, 5, H), 2.5, 4);
     key.intensity = 2.2 + H * 0.4;
 
-    // glow behind the subject
+    // glow behind the subject: amber granules → ice lattice → gold 40% → ice molecule → cream capsule
     const gc = glowMat.color;
-    if (p < 0.4) gc.copy(amberGlow).lerp(iceGlow, seg(p, 0.3, 0.4));
-    else if (p < 0.66) gc.copy(iceGlow);
-    else gc.copy(iceGlow).lerp(creamGlow, seg(p, 0.66, 0.8));
-    glowMat.opacity = (0.5 - 0.15 * seg(p, 0.2, 0.4) + 0.12 * seg(p, 0.7, 0.86)) + flash * 0.5;
+    if (p < 0.4) gc.copy(amberGlow).lerp(iceGlow, seg(p, 0.12, 0.24));
+    else if (p < 0.78) gc.copy(iceGlow).lerp(goldGlow, kv * 0.55);
+    else gc.copy(iceGlow).lerp(creamGlow, seg(p, 0.8, 0.9));
+    glowMat.opacity = (0.5 - 0.15 * seg(p, 0.12, 0.24) + 0.1 * kv + 0.12 * seg(p, 0.84, 0.94)) + flash * 0.5;
 
     // camera
     const u = keyU(p);

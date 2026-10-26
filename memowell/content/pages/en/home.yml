@@ -36,17 +36,16 @@ sections:
       alt: ""
 
   - id: formulation
-    # v4: told inside the hero, one chapter per stage of the 3D scene (resin → capsule).
-    # Chapter bodies are whole sentences of the approved copy deck (brief Part 4, HOME §3 and MEMOWELL);
-    # labels are approved fragments, decorative and flagged in README. Do not reword.
+    # v6: one chapter per stage of the 3D scene, K-Vie™ → AKBA → capsule (client direction 2026-10-26).
+    # Chapter bodies are whole sentences of the copy deck (brief Part 4, HOME §3); labels are short fragments. Do not reword.
     heading: "Boswellic acids, in a formulation built for absorption"
     chapters:
-      - label: "Resin of Boswellia trees — frankincense"
-        body: "The active compounds in Memowell come from the resin of *Boswellia* trees — frankincense. The resin contains boswellic acids, which have been studied for anti-inflammatory activity."
       - label: "Micronized"
         body: "Boswellic acids are poorly absorbed in the digestive system. Kondor Pharma developed K-Vie™, a micronized, microcrystalline form standardised to 40% boswellic acids, to address that."
       - label: "Microcrystalline"
       - label: "K-Vie™ · standardised to 40% boswellic acids"
+      - label: "AKBA · acetyl-11-keto-β-boswellic acid"
+        body: "AKBA is one of the boswellic acids."
       - label: "Vegetarian and gluten-free"
         body: "One bottle holds 90 vegetarian capsules."
     actions:
