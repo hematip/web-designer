@@ -372,7 +372,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > [Read all three studies] · [For healthcare professionals]
 
-*Note:* source DOI 10.1002/alz.063660. "3.11" is displayed large inside one panel that also carries the population, duration, comparison with placebo and source. "Randomised" follows the study design in the professional table.
+*Note:* source DOI 10.1002/alz.063660. "3.11" is displayed large inside one panel that also carries the population, duration, comparison with placebo and source. "Randomised" follows the study design in the professional table; the client confirmed it for the public page on 2026-10-27.
 
 **6. How to take it**
 > ## How to take it
