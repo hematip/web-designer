@@ -546,14 +546,16 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     const open = smooth(seg(p, 0.64, 0.72));              //    and opens on its way
     const mol = seg(p, 0.63, 0.76);                       //    dust gathers onto AKBA
     const molIn = seg(p, 0.64, 0.77);                     //    which grows out of it while travelling, bond by bond
-    const align = smooth(seg(p, 0.78, 0.84));             // 05 AKBA turns to the capsule axis and shrinks to fit
-    const SB = outCubic(seg(p, 0.79, 0.88));              //    the body half slides over it along that axis
-    const SC = outCubic(seg(p, 0.83, 0.92));              //    the cap slides in and telescopes over the body
-    const C = seg(p, 0.79, 0.88);                         //    the dust goes in with it
-    const sealed = seg(p, 0.92, 0.94);                    //    closed: the molecule is inside
-    const fade = seg(p, 0.92, 0.95);
-    const H = inOutCubic(seg(p, 0.93, 1));
-    const flash = bump(p, 0.905, 0.94);
+    const turn = smooth(seg(p, 0.62, 0.78));              // 04 AKBA eases round as it builds, broadside for reading
+    const spin = smooth(seg(p, 0.78, 0.87));              // 05 the finished molecule makes one full turn with the scroll
+    const align = smooth(seg(p, 0.86, 0.9));              //    then lines up with the capsule axis and shrinks to fit
+    const SB = outCubic(seg(p, 0.87, 0.93));              //    the body half slides over it along that axis
+    const SC = outCubic(seg(p, 0.9, 0.96));               //    the cap slides in and telescopes over the body
+    const C = seg(p, 0.87, 0.93);                         //    the dust goes in with it
+    const sealed = seg(p, 0.96, 0.97);                    //    closed: the molecule is inside
+    const fade = seg(p, 0.95, 0.975);
+    const H = inOutCubic(seg(p, 0.96, 1));
+    const flash = bump(p, 0.95, 0.975);
 
     // granules
     grainU.uDissolve.value = d;
@@ -599,21 +601,21 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
 
     // capsule: both halves travel only along the capsule's own axis (local x); the cap (r 0.52) arrives last
     // and slides over the body's open end (r 0.5), so they telescope instead of passing through each other
-    capRoot.rotation.set(0.12, lerp(0.7, -0.32, smooth(seg(p, 0.78, 1))), -0.38);
+    capRoot.rotation.set(0.12, lerp(0.7, -0.32, smooth(seg(p, 0.84, 1))), -0.38);
     capIdle.position.y = motion ? Math.sin(time * 0.9) * 0.035 : 0;
     capIdle.rotation.y = motion ? Math.sin(time * 0.35) * 0.06 * (0.4 + H) : 0;
     body.position.set(lerp(-3.6, 0, SB), 0, 0);
     cap.position.set(lerp(3.6, 0, SC), 0, 0);
     body.rotation.set(0, 0, 0);
     cap.rotation.set(0, 0, 0);
-    body.visible = p > 0.79;
-    cap.visible = p > 0.83;
+    body.visible = p > 0.87;
+    cap.visible = p > 0.9;
     capRoot.updateMatrixWorld(true);
     pU.uCapMat.value.copy(capIdle.matrixWorld);
 
     // AKBA: rides with the crystal and grows out of it (atoms along the chain, bonds from their first atom);
     // in chapter 5 it lines up with the capsule and shrinks to fit inside it, where the closing halves hide it
-    molGroup.rotation.set(0.28, -0.75 + 1.1 * smooth(seg(p, 0.56, 0.86)) + time * 0.04, 0.1);
+    molGroup.rotation.set(0.28 + 0.25 * Math.sin(spin * Math.PI), -0.75 + turn * 0.9 + spin * Math.PI * 2 + time * 0.04, 0.1);
     if (align > 0) {
       molGroup.quaternion.slerp(capIdle.getWorldQuaternion(qCap), align);
       capIdle.getWorldPosition(v3b);
@@ -660,7 +662,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     if (p < 0.4) gc.copy(amberGlow).lerp(iceGlow, seg(p, 0.12, 0.24));
     else if (p < 0.78) gc.copy(iceGlow).lerp(goldGlow, kv * 0.55);
     else gc.copy(iceGlow).lerp(creamGlow, seg(p, 0.8, 0.9));
-    glowMat.opacity = (0.5 - 0.15 * seg(p, 0.12, 0.24) + 0.1 * kv + 0.12 * seg(p, 0.84, 0.92)) + flash * 0.5;
+    glowMat.opacity = (0.5 - 0.15 * seg(p, 0.12, 0.24) + 0.1 * kv + 0.12 * seg(p, 0.9, 0.96)) + flash * 0.5;
 
     // camera
     const u = keyU(p);
