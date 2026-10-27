@@ -171,8 +171,8 @@ function setSceneMode(mode) {
 function loadScene() {
   if (!form || sceneLoad) return;
   sceneLoad = import('./formulation-3d.js')
-    .then(({ createFormulationScene }) => {
-      scene = createFormulationScene({
+    .then(async ({ createFormulationScene }) => {
+      scene = await createFormulationScene({
         section: form,
         canvas: $('[data-form-canvas]', form),
         frame: $('[data-form-frame]', form),
@@ -181,22 +181,30 @@ function loadScene() {
         onReady: () => form.classList.add('is-3d'),
         onFail: () => form.classList.remove('is-3d'),
       });
+      if (sceneMode) scene?.setMode(sceneMode); // the layout may have changed while it was being built
       ScrollTrigger.addEventListener('refresh', () => scene?.resize());
     })
     .catch(() => form.classList.remove('is-3d'));
 }
 if (form) {
-  // Load the renderer well before the section is reached; the rest of the page never waits for it.
-  const io = new IntersectionObserver((entries) => {
-    if (entries.some((e) => e.isIntersecting)) {
-      io.disconnect();
-      loadScene();
-    }
-  }, { rootMargin: '150% 0px' });
-  // Compiling the 3D scene blocks the main thread; start only after the hero entrance has settled,
-  // or as soon as the visitor scrolls, so it never stalls the hero text.
-  const scrolled = new Promise((resolve) => window.addEventListener('scroll', resolve, { once: true, passive: true }));
-  Promise.race([heroDone, scrolled]).then(() => io.observe(form));
+  // Build the renderer ahead of the section, but in a quiet moment: once the hero entrance has settled and the
+  // visitor has paused scrolling, in idle time. If they come within reach of the section first, start then. The build
+  // itself is staged (formulation-3d.js), so neither path stalls a scroll; until it is ready the poster shows.
+  let lastScroll = 0;
+  const onScroll = () => { lastScroll = performance.now(); };
+  const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 200));
+  const near = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) start();
+  }, { rootMargin: '60% 0px' });
+  const start = () => {
+    window.removeEventListener('scroll', onScroll);
+    near.disconnect();
+    loadScene();
+  };
+  const whenQuiet = () => idle(() => (performance.now() - lastScroll < 600 ? setTimeout(whenQuiet, 300) : start()), { timeout: 2000 });
+  window.addEventListener('scroll', onScroll, { passive: true });
+  near.observe(form);
+  heroDone.then(whenQuiet);
 }
 
 function buildFormulation(mobile) {

@@ -222,7 +222,10 @@ void main(){
 }`;
 
 // ---------------------------------------------------------------- scene
-export function createFormulationScene({ section, canvas, frame, state, mode: initialMode, onReady, onFail }) {
+// Built in stages with a painted frame between them, and shaders compiled in parallel, so building the scene never
+// freezes scrolling elsewhere on the page. Resolves with the controller (or null without WebGL).
+const pause = () => new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
+export async function createFormulationScene({ section, canvas, frame, state, mode: initialMode, onReady, onFail }) {
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -237,6 +240,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   renderer.toneMappingExposure = 1.05;
 
   const scene = new THREE.Scene();
+  await pause();
   const pmrem = new THREE.PMREMGenerator(renderer);
   const room = new RoomEnvironment();
   const envRT = pmrem.fromScene(room, 0.04);
@@ -257,6 +261,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   const noise = new SimplexNoise();
   const shared = { uTime: { value: 0 } };
 
+  await pause();
   // ---- 01 coarse K-Vie™ granules (micronized in chapter 1)
   const grainGeo = granulesGeometry(noise);
   const grainMat = new THREE.MeshPhysicalMaterial({
@@ -296,6 +301,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   glow.renderOrder = -2;
   scene.add(glow);
 
+  await pause();
   // ---- 03 lattice group (crystals + unit-cell lines); particles read its matrix
   const lattice = new THREE.Group();
   scene.add(lattice);
@@ -340,6 +346,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   const lines = new THREE.LineSegments(lineGeo, lineMat);
   lattice.add(lines);
 
+  await pause();
   // ---- 04 AKBA, ball-and-stick from its real 3D conformer (heavy atoms; carbon ice, oxygen gold)
   const MOL_SCALE = 0.175; // ångström → scene units: the ~13.5 Å molecule spans about 2.4 units
   const molGroup = new THREE.Group();
@@ -394,6 +401,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     new THREE.Vector3(0, 0, 0),
   );
 
+  await pause();
   // ---- 05 capsule
   const capRoot = new THREE.Group();
   const capIdle = new THREE.Group();
@@ -417,6 +425,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   const cap = new THREE.Mesh(capsuleHalf('cap'), capsuleMat);
   capIdle.add(body, cap);
 
+  await pause();
   // ---- particles
   const n = small ? 13 : 19; // n - 1 divisible by M - 1, so crystals sit on particle nodes
   const N = n * n * n;
@@ -475,6 +484,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   particles.frustumCulled = false;
   scene.add(particles);
 
+  await pause();
   // ---- distant bokeh for depth
   const B = small ? 90 : 200;
   const bPos = new Float32Array(B * 3), bRand = new Float32Array(B * 4);
@@ -497,6 +507,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   bokeh.renderOrder = -3;
   scene.add(bokeh);
 
+  await pause();
   // ---------------------------------------------------------------- camera path (keyed to story progress)
   // Stage ranges (state.p) per chapter: micronized 0–0.2, microcrystalline 0.2–0.4, K-Vie™ 40% 0.4–0.56,
   // AKBA 0.56–0.78, capsule 0.78–1 (home-scenes.js sceneAt). Each chapter drifts slowly through its stage's quiet
@@ -702,10 +713,10 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   // ---------------------------------------------------------------- loop
   // Ambient life (swirl, drift, float) advances only while the visitor scrolls through the pin and settles ~1.5 s
   // after, so nothing keeps moving on its own (WCAG 2.2.2). Idle frames are not redrawn.
-  let visible = false, ready = false, lost = false, dirty = true;
+  let visible = false, ready = false, lost = false, dirty = true, compiled = false;
   let lastTime = 0, sceneTime = 0, activity = 1, lastP = -1, lastT = -1;
   function draw(t) {
-    if (lost) return;
+    if (lost || !compiled) return; // a draw before the shaders are ready would compile them on the main thread
     evaluate(mode === 'static' ? 1 : state.p, t);
     renderer.render(scene, camera);
     if (!ready) {
@@ -743,8 +754,9 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   const onLost = (e) => { e.preventDefault(); lost = true; onFail?.(e); };
   canvas.addEventListener('webglcontextlost', onLost);
 
-  // Compile shaders before the first visible frame so the scene does not hitch on entry.
-  renderer.compile(scene, camera);
+  // Compile shaders before the first visible frame, in parallel where the browser supports it.
+  await renderer.compileAsync(scene, camera);
+  compiled = true;
   resize();
   draw(0);
 
