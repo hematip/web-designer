@@ -484,3 +484,10 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Fix found while building:** re-splitting text rebuilt timelines with `kill()`, which left elements frozen in their hidden from-state, so a new `from()` took the hidden state as its end; timelines are now `revert()`ed before rebuilding (intro and the shared text-motion helper).
 - **Closing:** even inline padding; the start side adds the width of the bottle's overlap, so the text sits as far from the bottle as from the panel's end (checked at 1440 and 1920).
 - **Verification:** production build and content check passed; entrance frames at reading pace; every panel fully open in view; no hidden text on inner pages; no browser errors on full scroll or direct jumps.
+
+## Last three sections differentiated (2026-10-27)
+
+- **Client feedback:** the last three sections (professional band, where to find it, closing) looked alike: each was a glass panel opening.
+- **Now one signature per section:** the glass panel stays only where it began, over the professional photograph. Where to find it has no panel: the copy enters line by line (heading from a mask, text, then the action), and the pharmacy photograph sits in an arched frame revealed from the bottom like a curtain while the image settles from a slight zoom. The closing is a typographic invitation on a dark stage: a large heading with two cyan strokes under "Talk it through", and the bottle on a soft light inside four concentric rings that open outward as it rises; the two dashed rings turn slowly in opposite directions as the section scrolls. Copy is unchanged.
+- **Behaviour:** both entrances replay when the section comes back into view; reduced motion shows them settled (no clip, no offset). Arabic mirrors the columns.
+- **Verification:** production and preview builds and both content checks passed. Screenshots at 1440×900 (EN, AR) and 390×844; rings concentric after the entrance; no browser errors on full scroll or direct jumps (EN, AR); no horizontal overflow; nothing left hidden under reduced motion.

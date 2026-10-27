@@ -287,36 +287,35 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </aside>
 
-  <!-- 8 · Where to find it: the pharmacy conversation, with the panel resting over the photograph's shelf edge. -->
+  <!-- 8 · Where to find it: plain copy with a staged entrance; the pharmacy photograph in an arched frame, revealed
+       from the bottom like a curtain while the image settles. -->
   <section class="h-where" id="where" aria-labelledby="where-title">
     <div class="wrap h-where__grid">
-      {wherePhoto && <div class="h-where__photo" style={`--photo-ratio: ${wherePhoto.width} / ${wherePhoto.height}`} data-reveal><Photo photo={wherePhoto} variant="portrait" sizes="(min-width: 64rem) 46vw, 92vw" /></div>}
-      <span class="glass-field glass-field--cyan h-where__field" aria-hidden="true"></span>
-      <span class="glass-field glass-field--royal h-where__field-b" aria-hidden="true"></span>
-      <Glass id="glass-where" shape="b" tone="light" class="h-where__panel">
-        <h2 id="where-title" data-glass-part>{availability.heading}</h2>
-        <div class="h-where__text" data-glass-part set:html={md(availability.body)} />
-        <div class="btn-row" data-glass-part>{availability.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
-      </Glass>
+      <div class="h-where__copy" data-intro data-text-motion="off">
+        <h2 id="where-title" class="h-where__title">{availability.heading}</h2>
+        {availability.body && <p class="h-where__text" data-intro-lines>{availability.body}</p>}
+        <div class="btn-row" data-intro-part>{availability.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
+      </div>
+      {wherePhoto && <div class="h-where__photo" style={`--photo-ratio: ${wherePhoto.width} / ${wherePhoto.height}`} data-where-photo><Photo photo={wherePhoto} variant="portrait" sizes="(min-width: 64rem) 40vw, 92vw" /></div>}
     </div>
   </section>
 
-  <!-- 9 · Closing: the bottle stands in front of a dark glass panel that carries the invitation to talk it through. -->
+  <!-- 9 · Closing: a large typographic invitation; the bottle stands on a soft light while rings open around it. -->
   <section class="h-close" id="closing" aria-labelledby="closing-title">
     <div class="wrap">
       <div class="h-close__stage is-dark" data-close>
-        <div class="h-close__fields" aria-hidden="true">
-          <span class="glass-field glass-field--royal"></span>
-          <span class="glass-field glass-field--cyan"></span>
+        <div class="h-close__copy" data-intro data-text-motion="off">
+          <h2 id="closing-title" class="h-close__title" set:html={accentWord(closing.heading, closing.accent ?? 'conversation')} />
+          <p class="h-close__text" data-intro-lines>{closing.body}</p>
+          <div class="btn-row" data-intro-part>{closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
         </div>
         <div class="h-close__visual" aria-hidden="true">
+          <svg class="h-close__rings" viewBox="0 0 600 600" data-close-rings>
+            <circle cx="300" cy="300" r="290" /><circle cx="300" cy="300" r="225" class="is-dashed" /><circle cx="300" cy="300" r="160" /><circle cx="300" cy="300" r="96" class="is-dashed" />
+          </svg>
+          <span class="h-close__light"></span>
           <img class="h-close__bottle" src="/img/bottle-560.webp" width="895" height="1713" alt="" loading="lazy" data-close-bottle />
         </div>
-        <Glass id="glass-close" shape="c" tone="dark" frost={false} class="h-close__panel">
-          <h2 id="closing-title" data-glass-part set:html={accentWord(closing.heading, closing.accent ?? 'conversation')} />
-          <p class="h-close__text" data-glass-part>{closing.body}</p>
-          <div class="btn-row" data-glass-part>{closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
-        </Glass>
       </div>
     </div>
   </section>
@@ -571,29 +570,32 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-pro__stage :global(.h-pro__glass h2) { max-width: 18ch; font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); line-height: 1.12; letter-spacing: -0.02em; }
   .h-pro__stage :global(.h-pro__glass p) { max-width: 34ch; }
 
-  /* ============ Where to find it: the panel rests over the photograph's shelf edge ============ */
-  .h-where { position: relative; overflow-x: clip; padding-block: var(--section); }
-  .h-where__grid { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-  .h-where__photo { grid-column: 1 / span 6; grid-row: 1; min-width: 0; position: relative; z-index: 0; }
-  .h-where__photo :global(.photo) { aspect-ratio: var(--photo-ratio); border-radius: var(--r-l); border-start-start-radius: clamp(3rem, 6vw, 6rem); box-shadow: none; }
-  .h-where__field { width: min(54vw, 44rem); aspect-ratio: 1; inset-inline-end: 10%; top: 50%; translate: 0 -62%; opacity: 0.9; }
-  .h-where__field-b { width: min(40vw, 32rem); aspect-ratio: 1; inset-inline-end: -4%; top: 50%; translate: 0 -18%; opacity: 0.7; }
-  .h-where__grid > :global(.h-where__panel) { grid-column: 5 / span 8; grid-row: 1; margin-inline-start: clamp(1rem, 3vw, 3rem); display: grid; gap: var(--s-3); justify-items: start; padding: clamp(3.25rem, 6vw, 5.75rem) clamp(3rem, 6.5vw, 6rem) clamp(3.75rem, 7vw, 6.5rem) clamp(3.5rem, 7vw, 7rem); }
-  .h-where__grid :global(.h-where__panel h2) { max-width: 12ch; font-size: clamp(2.25rem, 1.25rem + 2.6vw, 3.75rem); line-height: 1.04; letter-spacing: -0.025em; }
-  .h-where__text :global(p) { max-width: 30rem; color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  /* ============ Where to find it: copy beside an arched photograph ============ */
+  .h-where { position: relative; padding-block: var(--section); }
+  .h-where__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .h-where__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; }
+  .h-where__title { max-width: 11ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
+  .h-where__text { max-width: 30rem; color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  .h-where__photo { grid-column: 7 / span 5; min-width: 0; }
+  .h-where__photo :global(.photo) { aspect-ratio: var(--photo-ratio); border-radius: 999px 999px var(--r-l) var(--r-l); box-shadow: 0 50px 90px -60px rgba(10, 18, 64, 0.55); }
 
-  /* ============ Closing: the bottle stands in front of a dark glass panel ============ */
+  /* ============ Closing: typographic invitation; the bottle on a soft light inside opening rings ============ */
   .h-close { padding-block: 0 var(--section); }
-  .h-close__stage { position: relative; isolation: isolate; overflow: clip; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: center; min-height: clamp(30rem, 44vw, 40rem); padding: clamp(2.5rem, 5vw, 5rem) clamp(1.5rem, 4vw, 4rem); border-radius: var(--r-xl); }
-  .h-close__fields { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-  .h-close__fields span:nth-child(1) { width: min(50vw, 38rem); aspect-ratio: 1; inset-inline-end: 8%; top: -24%; opacity: 0.8; }
-  .h-close__fields span:nth-child(2) { width: min(34vw, 26rem); aspect-ratio: 1; inset-inline-start: 22%; bottom: -30%; opacity: 0.55; }
-  .h-close__visual { position: relative; z-index: 2; grid-column: 1 / span 4; grid-row: 1; display: grid; justify-items: end; min-width: 0; }
-  .h-close__bottle { width: min(100%, 15rem); height: auto; margin-inline-end: clamp(-3rem, -2.5vw, -1rem); filter: drop-shadow(0 30px 28px rgba(0, 0, 0, 0.45)); }
-  /* Even inline padding: the start side adds the width of the bottle's overlap, so the text sits as far from the bottle as from the panel's end. */
-  .h-close__stage > :global(.h-close__panel) { --pad: clamp(3rem, 5vw, 5rem); grid-column: 5 / span 7; grid-row: 1; display: grid; gap: var(--s-3); justify-items: start; padding: clamp(3.75rem, 6vw, 5.75rem) var(--pad) clamp(4rem, 6.5vw, 6.25rem) calc(var(--pad) + clamp(1rem, 2.5vw, 3rem)); }
-  .h-close__stage :global(.h-close__panel h2) { max-width: 17ch; font-size: clamp(2rem, 1.2rem + 2.4vw, 3.5rem); line-height: 1.06; letter-spacing: -0.025em; }
-  .h-close__text { max-width: 40ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  .h-close__stage { position: relative; isolation: isolate; overflow: clip; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; min-height: clamp(30rem, 44vw, 40rem); padding: clamp(3rem, 6vw, 6rem) clamp(1.75rem, 5vw, 5rem); border-radius: var(--r-xl);
+    background: radial-gradient(60% 80% at 78% 55%, rgba(43, 63, 217, 0.45), rgba(6, 12, 51, 0) 70%), var(--midnight); }
+  .h-close__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; }
+  .h-close__title { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.04; letter-spacing: -0.028em; }
+  /* Kondor's two thin product-colour strokes under the key phrase (drawn in by the intro entrance). */
+  /* Placed just under the baseline, inside the line box, so the line masks of the entrance never clip them. */
+  .h-close__title :global(.accent) { background: linear-gradient(var(--cyan) 0 0) 0 calc(100% - 0.13em) / 100% 0.04em no-repeat, linear-gradient(var(--cyan) 0 0) 0 calc(100% - 0.21em) / 100% 0.04em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .h-close__text { max-width: 38ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  .h-close__visual { position: relative; grid-column: 8 / span 5; display: grid; place-items: center; min-width: 0; aspect-ratio: 1; }
+  .h-close__visual > * { grid-area: 1 / 1; }
+  .h-close__rings { width: 100%; height: 100%; overflow: visible; }
+  .h-close__rings circle { fill: none; stroke: rgba(25, 211, 226, 0.45); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
+  .h-close__rings circle.is-dashed { stroke: rgba(201, 208, 242, 0.5); stroke-width: 1.5; stroke-dasharray: 2 9; }
+  .h-close__light { width: 70%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(25, 211, 226, 0.55), rgba(43, 63, 217, 0.3) 55%, rgba(43, 63, 217, 0) 100%); }
+  .h-close__bottle { position: relative; width: min(46%, 15rem); height: auto; filter: drop-shadow(0 30px 28px rgba(0, 0, 0, 0.45)); }
 
   /* ============ Evidence → Closing on tablets and phones ============ */
   @media (max-width: 56.24rem) {
@@ -608,14 +610,12 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-dir__arc { height: clamp(3.5rem, 15vw, 6rem); }
     .h-plate { gap: var(--s-2); }
     .h-dir__side > :global(.h-dir__panel) { padding: clamp(3rem, 12vw, 4.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 13vw, 5rem); }
-    .h-where__photo, .h-where__grid > :global(.h-where__panel) { grid-column: 1; grid-row: auto; }
-    .h-where__grid > :global(.h-where__panel) { margin: -22% calc(var(--gutter) * -0.25) 0; padding: clamp(3rem, 12vw, 4.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 13vw, 5rem); --glass-a1: 0.72; --glass-a2: 0.5; }
-    .h-where__field { top: 70%; inset-inline-end: -10%; width: 80vw; }
-    .h-where__field-b { top: 82%; inset-inline-end: -30%; width: 70vw; }
-    .h-close__stage { grid-template-columns: minmax(0, 1fr); padding: var(--s-4) var(--s-2) var(--s-3); border-radius: var(--r-l); }
-    .h-close__visual { grid-column: 1; grid-row: 1; justify-items: center; margin-block-end: -4rem; }
-    .h-close__bottle { width: 10rem; margin-inline-end: 0; }
-    .h-close__stage > :global(.h-close__panel) { grid-column: 1; grid-row: 2; padding: clamp(5rem, 18vw, 6rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 13vw, 5rem); }
+    .h-where__grid { row-gap: var(--s-5); }
+    .h-where__copy, .h-where__photo { grid-column: 1 / -1; }
+    .h-where__photo { width: min(100%, 26rem); justify-self: center; }
+    .h-close__stage { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding: var(--s-5) var(--s-3); border-radius: var(--r-l); background: radial-gradient(90% 50% at 50% 80%, rgba(43, 63, 217, 0.45), rgba(6, 12, 51, 0) 70%), var(--midnight); }
+    .h-close__copy, .h-close__visual { grid-column: 1; }
+    .h-close__visual { width: min(100%, 22rem); justify-self: center; }
   }
   @media (max-width: 56.24rem) {
     .h-pro__stage { display: block; }

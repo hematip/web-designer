@@ -442,12 +442,35 @@ mm.add('(max-width: 56.24rem) and (prefers-reduced-motion: no-preference), (max-
   return () => weeks.forEach((w) => w.style.removeProperty('--fill'));
 });
 
-// Closing: the bottle rises into place in front of the glass as the panel opens.
+// Where to find it: the arched photograph is revealed from the bottom like a curtain while the image settles from a
+// slight zoom; it replays when the section comes back into view.
 mm.add(MQ.motion, () => {
-  const bottle = $('[data-close-bottle]');
-  if (!bottle) return;
-  gsap.fromTo(bottle, { y: 90, opacity: 0, rotate: -4 }, {
-    y: 0, opacity: 1, rotate: 0, duration: 1.6, ease: 'power3.out', delay: 0.1,
-    scrollTrigger: { trigger: '[data-close]', start: 'top 90%', once: true },
-  });
+  const frame = $('[data-where-photo]');
+  const figure = frame && $('.photo', frame);
+  if (!figure) return;
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo(frame, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'power3.inOut' }, 0)
+    .fromTo(figure, { scale: 1.18 }, { scale: 1, duration: 2, ease: 'power3.out' }, 0.1);
+  ScrollTrigger.create({ trigger: frame, start: 'top 82%', end: 'bottom top', onEnter: () => tl.restart(), onEnterBack: () => tl.restart() });
+  ScrollTrigger.create({ trigger: frame, start: 'top bottom', end: 'bottom top', onLeave: () => tl.pause(0), onLeaveBack: () => tl.pause(0) });
+  return () => gsap.set([frame, figure], { clearProps: 'clipPath,transform' });
+});
+
+// Closing: the rings open outward around the bottle as it rises onto its light; while the section scrolls the dashed
+// rings turn slowly in opposite directions. Replays when the section comes back into view.
+mm.add(MQ.motion, () => {
+  const stage = $('[data-close]');
+  const bottle = $('[data-close-bottle]', stage ?? document);
+  const rings = stage ? $$('[data-close-rings] circle', stage) : [];
+  const light = stage && $('.h-close__light', stage);
+  if (!stage || !bottle) return;
+  gsap.set(rings, { svgOrigin: '300 300' }); // the rings' shared centre in the SVG's own coordinates
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo(rings, { scale: 0.55, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6, ease: 'power3.out', stagger: { each: 0.12, from: 'end' } }, 0)
+    .fromTo(light, { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4, ease: 'power2.out' }, 0.1)
+    .fromTo(bottle, { y: 90, opacity: 0, rotate: -5 }, { y: 0, opacity: 1, rotate: 0, duration: 1.6, ease: 'power3.out' }, 0.25);
+  ScrollTrigger.create({ trigger: stage, start: 'top 78%', end: 'bottom top', onEnter: () => tl.restart(), onEnterBack: () => tl.restart() });
+  ScrollTrigger.create({ trigger: stage, start: 'top bottom', end: 'bottom top', onLeave: () => tl.pause(0), onLeaveBack: () => tl.pause(0) });
+  const dashed = rings.filter((c) => c.classList.contains('is-dashed'));
+  dashed.forEach((c, i) => gsap.fromTo(c, { rotate: 0 }, { rotate: i % 2 ? -50 : 50, ease: 'none', scrollTrigger: { trigger: stage, start: 'top bottom', end: 'bottom top', scrub: 0.8 } }));
 });
