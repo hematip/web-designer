@@ -791,8 +791,8 @@ Text 1 and text 2 were written by the client and are fixed. Do not change them w
 
 *Note:* the homepage uses its own longer version (Home, section 7).
 
-**4. Market line** (footer, beside the language switcher)
-> Availability, packaging and approved uses differ by country. [See availability]
+**4. Market line** (retired from the footer on 2026-10-27 at the client's request, together with the footer language switcher; the header keeps the switcher)
+*Note:* former text, not published: "Availability, packaging and approved uses differ by country. [See availability]". It stays in `content/site/*/strings.yml → market_line` for the CMS.
 
 **5. Footer structure**
 | Column | Contents |

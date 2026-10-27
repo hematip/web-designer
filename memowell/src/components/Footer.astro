@@ -1,5 +1,4 @@
 ---
-import LangSwitch from './LangSwitch.astro';
 import { getSite, href, settings, IS_PREVIEW } from '../lib/content.js';
 import { pathIsLive } from '../lib/routes.js';
 
@@ -50,10 +49,6 @@ const isLive = (h: string) => /^(https?:|#|mailto:)/.test(h) || pathIsLive(local
       ))}
     </div>
 
-    <div class="site-footer__market">
-      <p>{site.market_line.body} <a href={href(locale, site.market_line.action.href)}>{site.market_line.action.label}</a></p>
-      <LangSwitch locale={locale} routePath={routePath} />
-    </div>
   </div>
 
   <div class="site-footer__base on-dark">
@@ -94,10 +89,6 @@ const isLive = (h: string) => /^(https?:|#|mailto:)/.test(h) || pathIsLive(local
   .site-footer__products a { display: inline-block; min-height: 1.5rem; color: inherit; }
   .site-footer__column :global(.pending) { margin-block-start: var(--s-1); font-size: 0.9375rem; }
 
-  .site-footer__market { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3) var(--s-5); padding-block: var(--s-4); border-block-start: 1px solid var(--line-strong); }
-  .site-footer__market p { max-width: 43rem; color: var(--ink-soft); font-size: 1rem; line-height: 1.7; }
-  .site-footer__market p a { display: inline-block; color: var(--royal); font-weight: 700; }
-  .site-footer__market :global(.lang-switch) { flex: none; background: var(--white); border: 1px solid var(--line-strong); }
 
   .site-footer__base { padding-block: var(--s-5) var(--s-4); background: var(--midnight); color: var(--on-dark-soft); }
   .site-footer__trust { display: grid; grid-template-columns: minmax(10rem, 1fr) minmax(0, 3.5fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; padding-block-end: var(--s-5); }
