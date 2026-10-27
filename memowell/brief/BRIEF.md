@@ -347,42 +347,70 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > Each of these has been studied. None of them is a diagnosis you can make from a website. [See the full picture]
 
+*Note (2026-10-27, client direction):* sections 5–9 were rewritten in a senior UX-writing pass: shorter sentences, the point first, labels that name the destination. Facts, numbers, populations, sources, claim scope and the doctor/pharmacist conversation are unchanged; nothing new is claimed. Former wording is in git history.
+
 **5. Evidence**
 > ## What the research found
 >
-> In a six-month trial published in *Alzheimer's & Dementia*, 85 people with Alzheimer's disease took either Memowell or a placebo alongside their prescribed care. At six months, the Memowell group scored 3.11 points higher on MMSE — a standard test of memory and orientation — than the placebo group.
+> Three published studies have looked at Memowell. The largest followed 85 people with Alzheimer's disease for six months.
 >
-> Two further studies looked at blood markers and at 80 people with cognitive difficulty after a brain injury.
+> The main result
+>
+> After six months, people who took Memowell alongside their prescribed care scored 3.11 points higher on the MMSE than people who took a placebo.
+>
+> The MMSE is a standard test of memory and orientation.
+>
+> **85 people** — with Alzheimer's disease
+>
+> **6 months** — alongside their prescribed care
+>
+> **Randomised** — compared with a placebo group
+>
+> **Published** — in Alzheimer's & Dementia, 2023
+>
+> Two further studies looked at blood markers, and at 80 people with cognitive difficulty after a brain injury.
 >
 > [Read all three studies] · [For healthcare professionals]
 
-*Note:* source DOI 10.1002/alz.063660. If you display "3.11" prominently, it must keep its context: population, duration, comparison with placebo, and source.
+*Note:* source DOI 10.1002/alz.063660. "3.11" is displayed large inside one panel that also carries the population, duration, comparison with placebo and source. "Randomised" follows the study design in the professional table.
 
-**6. How it is taken**
-> ## How it is taken
+**6. How to take it**
+> ## How to take it
 >
-> One capsule with each of the three main meals. Taken with food, the compounds are better absorbed.
+> One capsule with each of your three main meals.
 >
-> Give it eight weeks of regular use before judging the effect, and take it under your doctor's supervision — particularly alongside prescribed medicines.
+> **Breakfast** — One capsule
+>
+> **Lunch** — One capsule
+>
+> **Dinner** — One capsule
+>
+> Taking it with food helps the body absorb the compounds.
+>
+> Give it eight weeks
+>
+> Use it regularly for eight weeks before you judge the effect.
+>
+> Take it under your doctor's supervision, especially if you also take prescribed medicines.
 >
 > [Full directions, cautions and storage]
 
 **7. Professional band**
-> **Are you a doctor, pharmacist or dietitian?** The professional section has the study designs, full results tables, composition, and a form to send a scientific question to our scientific affairs team.
+> **Are you a doctor, pharmacist or dietitian?** Find the study designs, full results tables and composition, or send a scientific question to our scientific affairs team.
 >
-> [Go to the professional section]
+> [Open the professional section]
 
 **8. Where to find it**
 > ## Where to find Memowell
 >
-> Availability, packaging and approved uses differ by country. Tell us where you are and we will point you to the right source.
+> Availability, packaging and approved uses vary from country to country. See what applies where you live.
 >
-> [Availability by country]
+> [Check your country]
 
 **9. Closing**
-> ## The useful next step is a conversation
+> ## Talk it through with your doctor or pharmacist
 >
-> This site cannot tell you whether Memowell suits you. Your doctor or pharmacist can — and the conversation goes better with the facts in hand.
+> This site cannot tell you whether Memowell is right for you. Your doctor or pharmacist can, and the conversation is easier when you bring the facts with you.
 >
 > [Download a one-page summary (PDF)] · [Contact us]
 

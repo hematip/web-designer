@@ -1,0 +1,19 @@
+---
+// Kondor's frosted freeform panel: flat, neutral, softly frosted, asymmetric (brand panel grammar). The page behind
+// stays visible through it; it has no rim, outline or colour fill. Text inside is fully contained with generous
+// padding. motion.js opens it from a small seed, raises its [data-glass-part] children and lets the outline drift;
+// with reduced motion or no JS the resting shape and settled content stand as they are.
+import { glassShapes } from '../lib/glass-shapes.js';
+
+// frost: real backdrop blur, for panels over photographs. Panels over the soft colour fields use the veil only: the
+// fields are already soft, and it avoids a browser quirk where a clipped backdrop blur shows its rectangular box.
+interface Props { id: string; shape?: 'a' | 'b' | 'c'; tone?: 'light' | 'dark'; frost?: boolean; class?: string }
+const { id, shape = 'a', tone = 'light', frost = true, class: cls } = Astro.props;
+const { rest, drift } = glassShapes[shape];
+---
+<div class:list={['glass', `glass--${tone}`, { 'glass--veil': !frost }, cls]} data-glass={id} data-text-motion="off" style={`--glass-clip: url(#${id})`}>
+  <slot />
+</div>
+<svg class="glass__defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <clipPath id={id} clipPathUnits="objectBoundingBox"><path d={rest} data-glass-shape data-drift={drift} /></clipPath>
+</svg>

@@ -63,32 +63,52 @@ sections:
     inline_action: { label: "See the full picture", href: "/who-its-for" }
 
   - id: evidence
+    # Senior UX-writing pass (client direction 2026-10-27). Brief Part 4, HOME §5. The figure keeps its population,
+    # duration, comparison and source inside the same panel.
     heading: "What the research found"
+    lead: "Three published studies have looked at Memowell. The largest followed 85 people with Alzheimer's disease for six months."
+    eyebrow: "The main result"
+    # The large figure shown in the result panel (must appear in Body).
+    highlight: "3.11"
     body: |-
-      In a six-month trial published in *Alzheimer's & Dementia*, 85 people with Alzheimer's disease took either Memowell or a placebo alongside their prescribed care. At six months, the Memowell group scored 3.11 points higher on MMSE — a standard test of memory and orientation — than the placebo group.
+      After six months, people who took Memowell alongside their prescribed care scored 3.11 points higher on the MMSE than people who took a placebo.
 
-      Two further studies looked at blood markers and at 80 people with cognitive difficulty after a brain injury.
+      The MMSE is a standard test of memory and orientation.
+
+      Two further studies looked at blood markers, and at 80 people with cognitive difficulty after a brain injury.
+    items:
+      - { title: "85 people", body: "with Alzheimer's disease" }
+      - { title: "6 months", body: "alongside their prescribed care" }
+      - { title: "Randomised", body: "compared with a placebo group" }
+      - { title: "Published", body: "in Alzheimer's & Dementia, 2023" }
     sources: ["10.1002/alz.063660"]
-    # Typographic emphasis only: this phrase is highlighted inside its own sentence (context stays intact).
-    highlight: "3.11 points higher on MMSE"
     actions:
       - { label: "Read all three studies", href: "/science" }
       - { label: "For healthcare professionals", href: "/science/professionals" }
 
   - id: directions
-    heading: "How it is taken"
+    heading: "How to take it"
+    lead: "One capsule with each of your three main meals."
+    items:
+      - { title: "Breakfast", body: "One capsule" }
+      - { title: "Lunch", body: "One capsule" }
+      - { title: "Dinner", body: "One capsule" }
+    # Title of the eight-week panel.
+    eyebrow: "Give it eight weeks"
     body: |-
-      One capsule with each of the three main meals. Taken with food, the compounds are better absorbed.
+      Taking it with food helps the body absorb the compounds.
 
-      Give it eight weeks of regular use before judging the effect, and take it under your doctor's supervision — particularly alongside prescribed medicines.
+      Use it regularly for eight weeks before you judge the effect.
+
+      Take it under your doctor's supervision, especially if you also take prescribed medicines.
     actions:
       - { label: "Full directions, cautions and storage", href: "/memowell#directions" }
 
   - id: professionals
     lead: "Are you a doctor, pharmacist or dietitian?"
-    body: "The professional section has the study designs, full results tables, composition, and a form to send a scientific question to our scientific affairs team."
+    body: "Find the study designs, full results tables and composition, or send a scientific question to our scientific affairs team."
     actions:
-      - { label: "Go to the professional section", href: "/science/professionals" }
+      - { label: "Open the professional section", href: "/science/professionals" }
     # Illustrative photography (AI-generated in Higgsfield from the client's "dr" character element). Needs client approval: see README.
     # The left of the frame is kept quiet for the frosted glass panel that carries the text.
     photo:
@@ -110,13 +130,14 @@ sections:
       alt: ""
     heading: "Where to find Memowell"
     body: |-
-      Availability, packaging and approved uses differ by country. Tell us where you are and we will point you to the right source.
+      Availability, packaging and approved uses vary from country to country. See what applies where you live.
     actions:
-      - { label: "Availability by country", href: "/about/availability" }
+      - { label: "Check your country", href: "/about/availability" }
 
   - id: closing
-    heading: "The useful next step is a conversation"
+    heading: "Talk it through with your doctor or pharmacist"
+    accent: "Talk it through"
     body: |-
-      This site cannot tell you whether Memowell suits you. Your doctor or pharmacist can — and the conversation goes better with the facts in hand.
+      This site cannot tell you whether Memowell is right for you. Your doctor or pharmacist can, and the conversation is easier when you bring the facts with you.
     actions:
       - { label: "Contact us", href: "/contact" }

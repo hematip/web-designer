@@ -221,6 +221,7 @@ function buildFormulation(mobile) {
       start: 'top top',
       end: mobile ? '+=400%' : '+=420%',
       pin: true,
+      refreshPriority: 2,
       scrub: 0.9,
       anticipatePin: 1,
       invalidateOnRefresh: true,
@@ -321,124 +322,119 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
   };
 });
 
-// ---------------------------------------------------------------- Professionals: Kondor's frosted panel opens over the photograph
-// The panel is the brand's flat, neutral, freeform glass. It opens from a small seed into its resting shape as the
-// band arrives (blur and milkiness come up with it), the invitation rises inside it, and while the band scrolls
-// the outline drifts slowly between two shapes of the same family. One writer owns the clip path: `open` and `drift`
-// are combined into a single shape. Without motion the markup's resting shape and settled text stand as they are.
-const PRO_DRIFT = [0.04, 0.26, 0.08, 0.08, 0.28, 0.01, 0.5, 0.03, 0.66, 0.05, 0.76, 0.03, 0.88, 0.05, 0.99, 0.08, 0.99, 0.22,
-  0.97, 0.38, 0.95, 0.52, 0.95, 0.6, 0.97, 0.74, 0.99, 0.9, 0.86, 0.99, 0.68, 0.98, 0.5, 0.97, 0.36, 0.98, 0.2, 0.97,
-  0.05, 0.95, 0.01, 0.84, 0.02, 0.66, 0.03, 0.52, 0.02, 0.4, 0.04, 0.26];
-const proPath = (n) => {
-  const f = (v) => +v.toFixed(4);
-  let d = `M${f(n[0])} ${f(n[1])}`;
-  for (let i = 2; i < n.length; i += 6) d += `C${n.slice(i, i + 6).map(f).join(' ')}`;
-  return `${d}Z`;
+// ---------------------------------------------------------------- Glass sections (Evidence → Closing)
+// The glass panels themselves are opened by the shared controller in motion.js. Here: the professional photograph
+// settles behind its panel, and the soft colour fields behind the panels drift against the scroll so the frost
+// visibly changes as the page moves.
+mm.add(MQ.motion, () => {
+  const figure = $('[data-pro-photo] .photo');
+  if (figure) {
+    gsap.fromTo(figure, { scale: 1.08 }, {
+      scale: 1, ease: 'none', scrollTrigger: { trigger: '[data-pro]', start: 'top bottom', end: 'center center', scrub: true },
+    });
+  }
+  $$('.glass-field').forEach((field, i) => {
+    const dir = i % 2 ? -1 : 1;
+    gsap.fromTo(field, { yPercent: 16 * dir, xPercent: -6 * dir }, {
+      yPercent: -16 * dir, xPercent: 6 * dir, ease: 'none',
+      scrollTrigger: { trigger: field.closest('section, aside') ?? field, start: 'top bottom', end: 'bottom top', scrub: true },
+    });
+  });
+});
+
+// ---------------------------------------------------------------- How to take it: one day, then eight weeks
+// One scrubbed value is the time of day. The sun walks the arc from morning to evening (right to left in RTL, where
+// breakfast is on the right) and lights the arc behind it; as it reaches each meal the capsule drops onto that plate,
+// the plate gives a small settle and the meal's label comes up. Everything is a function of that value, so reverse
+// scroll and direct anchors land on the same frame. Desktop pins the day while it plays; phones scrub it in place.
+// Reduced motion and no-JS show the resolved day: every plate with its capsule, the arc drawn, no sun.
+const MEALS_AT = [0.2, 0.5, 0.8]; // when the sun reaches breakfast, lunch and dinner
+const ARC = [[20, 210], [260, -50], [740, -50], [980, 210]]; // the SVG path in its 1000×220 viewBox
+const bezier = (t, k) => {
+  const u = 1 - t;
+  return u * u * u * ARC[0][k] + 3 * u * u * t * ARC[1][k] + 3 * u * t * t * ARC[2][k] + t * t * t * ARC[3][k];
 };
-mm.add(MQ.motion, () => {
-  const band = $('[data-pro]');
-  const shape = $('[data-pro-shape]');
-  const glass = $('[data-pro-glass]');
-  if (!band || !shape || !glass) return;
-  const rest = shape.getAttribute('d').match(/-?\d*\.?\d+/g).map(Number);
-  if (rest.length !== PRO_DRIFT.length) return;
-  // The seed is the resting shape at about a fifth of its size, near the panel's upper start.
-  const seed = rest.map((v, i) => (i % 2 ? 0.4 + (v - 0.5) * 0.22 : 0.32 + (v - 0.5) * 0.26));
-  const st = { open: 0, drift: 0 };
-  const render = () => shape.setAttribute('d', proPath(rest.map((r, i) => {
-    const settled = r + (PRO_DRIFT[i] - r) * st.drift;
-    return seed[i] + (settled - seed[i]) * st.open;
-  })));
-  const parts = [...$('[data-pro-copy]', band).children];
-  const figure = $('[data-pro-photo] .photo', band);
-  const frost = getComputedStyle(glass).backdropFilter || getComputedStyle(glass).webkitBackdropFilter;
-  const milk = getComputedStyle(glass).backgroundColor;
-
-  const entrance = gsap.timeline({ paused: true, onUpdate: render });
-  entrance.fromTo(st, { open: 0 }, { open: 1, duration: 1.5, ease: 'expo.out' }, 0);
-  entrance.fromTo(glass, { backdropFilter: 'blur(0px) saturate(1)', webkitBackdropFilter: 'blur(0px) saturate(1)', backgroundColor: 'rgba(255, 255, 255, 0)' },
-    { backdropFilter: frost, webkitBackdropFilter: frost, backgroundColor: milk, duration: 1.2, ease: 'power2.out' }, 0);
-  entrance.from(parts, { opacity: 0, y: 36, duration: 0.95, stagger: 0.14, ease: 'power3.out' }, 0.45);
-  const settle = () => entrance.progress(1).pause();
-  const play = () => (band.contains(document.activeElement) ? settle() : entrance.restart());
-  const reset = () => { if (!band.contains(document.activeElement)) entrance.pause(0); };
-  entrance.pause(0);
-  render();
-
-  // Reset only outside the viewport, so reverse scrolling never hides a visible panel.
-  ScrollTrigger.create({ trigger: band, start: 'top bottom', end: 'bottom top', onLeave: reset, onLeaveBack: reset });
-  ScrollTrigger.create({ trigger: band, start: 'top 68%', end: 'bottom top', onEnter: play, onEnterBack: play });
-  const drift = gsap.to(st, {
-    drift: 1, ease: 'none', onUpdate: render,
-    scrollTrigger: { trigger: band, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
-  });
-  const zoom = figure && gsap.fromTo(figure, { scale: 1.08 }, {
-    scale: 1, ease: 'none', scrollTrigger: { trigger: band, start: 'top bottom', end: 'center center', scrub: true },
-  });
-  band.addEventListener('focusin', settle);
-  return () => {
-    band.removeEventListener('focusin', settle);
-    entrance.kill(); drift.scrollTrigger?.kill(); drift.kill(); zoom?.scrollTrigger?.kill(); zoom?.kill();
-    st.open = 1; st.drift = 0; render();
-  };
-});
-
-// ---------------------------------------------------------------- Closing: a visible, staged entrance into the conversation
-mm.add(MQ.motion, () => {
-  const panel = $('[data-close-appear]');
-  if (!panel) return;
-  const parts = [...$('.h-close__copy', panel).children];
-  const bottle = $('.h-close__bottle', panel);
-  const section = panel.closest('#closing');
-  const entrance = gsap.timeline({ paused: true });
-  entrance.from(panel, { opacity: 0, y: 64, scale: 0.97, duration: 1.2, ease: 'power3.out' }, 0);
-  entrance.from(parts, { opacity: 0, y: 70, duration: 1.05, stagger: 0.22, ease: 'power3.out' }, 0.2);
-  if (bottle) entrance.from(bottle, { opacity: 0, y: 120, scale: 0.86, duration: 1.45, ease: 'power3.out' }, 0.35);
-  const revealForFocus = () => entrance.progress(1).pause();
-  const playEntrance = () => panel.contains(document.activeElement) ? revealForFocus() : entrance.restart();
-  const resetEntrance = () => {
-    if (!panel.contains(document.activeElement)) entrance.pause(0);
-  };
-  // Reset only outside the viewport, so reverse scrolling never hides a visible panel.
-  ScrollTrigger.create({
-    trigger: section, start: 'top bottom', end: 'bottom top',
-    onLeave: resetEntrance, onLeaveBack: resetEntrance,
-  });
-  ScrollTrigger.create({
-    trigger: section, start: 'top 60%', end: 'bottom top',
-    onEnter: playEntrance, onEnterBack: playEntrance,
-  });
-  panel.addEventListener('focusin', revealForFocus);
-  return () => panel.removeEventListener('focusin', revealForFocus);
-});
-
-// ---------------------------------------------------------------- Evidence: the sentence lights up
-mm.add(MQ.motion, () => {
-  const block = $('[data-highlight] p');
-  if (!block) return;
-  const split = SplitText.create(block, { type: 'words', tag: 'span', aria: 'none' });
-  const words = split.words;
-  gsap.set(words, { color: '#8a93c7' });
-  gsap.to(words, {
-    color: (i, el) => (el.closest('mark') ? '#19d3e2' : '#ffffff'),
-    ease: 'none', stagger: 0.1,
-    scrollTrigger: { trigger: block, start: 'top 82%', end: 'bottom 52%', scrub: 0.5 },
-  });
-  return () => split.revert();
-});
-
-// ---------------------------------------------------------------- Directions: one capsule → three meals
-mm.add(MQ.motion, () => {
+function buildDay(pinned) {
+  const scene = $('[data-dir-scene]');
   const stage = $('[data-dir-stage]');
-  if (!stage) return;
-  const plates = $$('[data-dir-plate]', stage);
-  const caps = $$('[data-dir-cap]', stage);
-  const center = (el) => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; };
-  const offsetToMiddle = (i) => center(caps[1]) - center(caps[i]);
-  const tl = gsap.timeline({ scrollTrigger: { trigger: stage, start: 'top 85%', end: 'center 45%', scrub: 0.7, invalidateOnRefresh: true } });
-  tl.from(plates, { scale: 0.6, autoAlpha: 0, duration: 0.6, stagger: 0.12, ease: 'back.out(1.6)' }, 0)
-    .fromTo(caps, { x: (i) => offsetToMiddle(i), y: -170, scale: 1.25, autoAlpha: (i) => (i === 1 ? 1 : 0) }, { autoAlpha: 1, duration: 0.25 }, 0.2)
-    .to(caps, { x: 0, duration: 0.6, ease: 'power2.out' }, 0.55)
-    .to(caps, { y: 0, scale: 1, duration: 0.55, ease: 'power3.in', stagger: 0.12 }, 1.05)
-    .to(plates, { scale: 1.04, duration: 0.15, yoyo: true, repeat: 1, stagger: 0.12 }, 1.5);
+  if (!scene || !stage) return;
+  const sun = $('[data-dir-sun]', stage);
+  const lit = $('[data-dir-arc]', stage);
+  const svg = lit?.ownerSVGElement;
+  const meals = $$('[data-dir-meal]', stage);
+  const caps = meals.map((m) => $('[data-dir-cap]', m));
+  const plates = meals.map((m) => $('[data-dir-plate]', m));
+  const labels = meals.map((m) => $('.h-plate__label', m));
+  if (!sun || !svg || meals.length !== MEALS_AT.length) return;
+  const rtl = getComputedStyle(stage).direction === 'rtl';
+  const fall = gsap.parseEase('power2.in');
+  const rise = gsap.parseEase('power2.out');
+  const clamp = gsap.utils.clamp(0, 1);
+  let box = null;
+  const measure = () => {
+    const s = svg.getBoundingClientRect();
+    const d = stage.getBoundingClientRect();
+    box = { x: s.left - d.left, y: s.top - d.top, w: s.width, h: s.height };
+  };
+  const day = { p: 0 };
+  const render = () => {
+    if (!box) measure();
+    const t = clamp(day.p / 0.94);
+    const along = rtl ? 1 - t : t;
+    gsap.set(sun, { x: box.x + (bezier(along, 0) / 1000) * box.w, y: box.y + (bezier(along, 1) / 220) * box.h, opacity: t > 0.001 && t < 0.999 ? 1 : t >= 0.999 ? 0.9 : 0 });
+    lit.style.strokeDashoffset = rtl ? 1 + t : 1 - t;
+    MEALS_AT.forEach((at, i) => {
+      const k = clamp((day.p - (at - 0.1)) / 0.1); // the capsule's fall, ending as the sun arrives
+      const settle = clamp((day.p - at) / 0.06);
+      gsap.set(caps[i], { y: -150 * (1 - fall(k)), opacity: clamp(k * 3), scale: 1.25 - 0.25 * fall(k) });
+      gsap.set(plates[i], { scale: 1 + 0.05 * Math.sin(Math.PI * settle) });
+      gsap.set(labels[i], { opacity: 0.32 + 0.68 * rise(clamp((day.p - at + 0.02) / 0.08)) });
+    });
+  };
+  lit.style.strokeDasharray = '1 1';
+  render();
+  const st = ScrollTrigger.create({
+    trigger: pinned ? scene : stage,
+    // Pinned below the fixed header, so the heading stays readable while the day plays.
+    start: pinned ? () => `top ${Math.round(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) * 16 || 88) + 16}px` : 'top 80%',
+    end: pinned ? '+=140%' : 'bottom 45%',
+    pin: pinned,
+    scrub: 0.8,
+    refreshPriority: pinned ? 1 : 0,
+    invalidateOnRefresh: true,
+    onRefresh: () => { box = null; render(); },
+    onUpdate: (self) => { day.p = self.progress; render(); },
+  });
+  return () => {
+    st.kill();
+    gsap.set([sun, ...caps, ...plates, ...labels], { clearProps: 'all' });
+    lit.style.strokeDasharray = ''; lit.style.strokeDashoffset = '';
+  };
+}
+// Pin only where there is room for the whole day on screen.
+mm.add('(min-width: 56.25rem) and (min-height: 40rem) and (prefers-reduced-motion: no-preference)', () => buildDay(true));
+mm.add('(max-width: 56.24rem), (max-height: 39.99rem)', () => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  return buildDay(false);
+});
+
+// Eight weeks: the segments fill one after another as the panel scrolls up (decorative; the sentence says it).
+mm.add(MQ.motion, () => {
+  const weeks = $$('[data-week]');
+  if (!weeks.length) return;
+  const fill = { v: 0 };
+  const paint = () => weeks.forEach((w, i) => w.style.setProperty('--fill', gsap.utils.clamp(0, 1, fill.v * weeks.length - i).toFixed(3)));
+  paint();
+  gsap.to(fill, { v: 1, ease: 'none', onUpdate: paint, scrollTrigger: { trigger: '[data-weeks]', start: 'top 85%', end: 'top 35%', scrub: 0.6 } });
+  return () => weeks.forEach((w) => w.style.removeProperty('--fill'));
+});
+
+// Closing: the bottle rises into place in front of the glass as the panel opens.
+mm.add(MQ.motion, () => {
+  const bottle = $('[data-close-bottle]');
+  if (!bottle) return;
+  gsap.fromTo(bottle, { y: 90, opacity: 0, rotate: -4 }, {
+    y: 0, opacity: 1, rotate: 0, duration: 2, ease: 'power3.out', delay: 0.6,
+    scrollTrigger: { trigger: '[data-close]', start: 'top 72%', toggleActions: 'play none none reverse' },
+  });
 });
