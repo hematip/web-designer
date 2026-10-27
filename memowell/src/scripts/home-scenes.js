@@ -144,9 +144,10 @@ mm.add(MQ.motion, () => {
 // the chapters are listed beside the scene's last frame.
 const form = $('[data-form]');
 const sceneState = { p: 0, t: 0 }; // scene progress, scroll progress through the pin
-// Scroll each chapter gets, in % of the view height (desktop, phones). The capsule chapter has more room: the
-// molecule turns, then the two halves close around it.
-const CHAPTER_SCROLL = { desktop: [112, 112, 112, 112, 172], mobile: [104, 104, 104, 104, 160] };
+// Scroll each chapter gets, in % of the view height (desktop, phones). The two lattice chapters carry the least
+// change, so they are shorter; the capsule chapter has more room: the molecule turns, then the two halves close
+// around it.
+const CHAPTER_SCROLL = { desktop: [112, 84, 84, 112, 172], mobile: [104, 80, 80, 104, 160] };
 // Scroll → scene progress, as [chapter + share of that chapter's scroll, scene] knots on a smooth monotone curve.
 // Per chapter: its start, the point where its stage has resolved, its end. Stages: micronized 0–0.2 (granules →
 // dust), microcrystalline 0.2–0.4 (lattice), K-Vie™ · 40% 0.4–0.56 (two in five crystals gold), AKBA 0.56–0.78 (fly

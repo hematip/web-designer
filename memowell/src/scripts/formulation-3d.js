@@ -141,7 +141,7 @@ attribute vec3 aLattice; // lattice node (lattice group space)
 attribute vec3 aMol;     // point on an AKBA atom or bond (molecule group space)
 attribute vec3 aCap;     // point inside the capsule (capsule space)
 attribute vec4 aRand;    // size, colour, phase, stagger
-uniform float uTime, uDissolve, uBurst, uLattice, uKv, uMol, uCapsule, uFade;
+uniform float uTime, uDissolve, uBurst, uSwirl, uLattice, uKv, uMol, uCapsule, uFade;
 uniform mat4 uGrainMat, uLatMat, uMolMat, uCapMat;
 uniform float uSize, uProjScale, uFocus, uAperture;
 uniform vec3 uAmber, uGold, uIce, uCream;
@@ -156,7 +156,8 @@ void main(){
   // 01 micronized: grains lift off as the surface opens, then join one slow vortex
   float tb = max(smoothstep(0.0, 0.55, th - n), uBurst);
   tb = 1.0 - pow(1.0 - tb, 3.0);
-  float ang = aBurst.y + uTime * 0.12 * aBurst.w + uBurst * 2.2 / (0.5 + aBurst.x * 0.35);
+  // 02 the vortex keeps turning with the scroll (inner rings faster) while the dust settles into the lattice
+  float ang = aBurst.y + uTime * 0.12 * aBurst.w + (uBurst * 2.2 + uSwirl) / (0.5 + aBurst.x * 0.35);
   vec3 vortex = vec3(cos(ang) * aBurst.x, aBurst.z + sin(uTime * 0.7 + aRand.z * 6.2831) * 0.06, sin(ang) * aBurst.x);
   vec3 pos = mix(start, vortex, tb);
   pos += normalize(start + vec3(0.0001)) * sin(tb * 3.14159) * 0.55 * aRand.w;
@@ -458,7 +459,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   pGeo.setAttribute('aCap', new THREE.BufferAttribute(aCap, 3));
   pGeo.setAttribute('aRand', new THREE.BufferAttribute(aRand, 4));
   const pU = {
-    uTime: shared.uTime, uDissolve: grainU.uDissolve, uBurst: { value: 0 }, uLattice: { value: 0 }, uKv: { value: 0 }, uMol: { value: 0 },
+    uTime: shared.uTime, uDissolve: grainU.uDissolve, uBurst: { value: 0 }, uSwirl: { value: 0 }, uLattice: { value: 0 }, uKv: { value: 0 }, uMol: { value: 0 },
     uCapsule: { value: 0 }, uFade: { value: 0 },
     uGrainMat: { value: new THREE.Matrix4() }, uLatMat: { value: new THREE.Matrix4() }, uMolMat: { value: new THREE.Matrix4() },
     uCapMat: { value: new THREE.Matrix4() },
@@ -536,7 +537,8 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
 
     const d = seg(p, 0.02, 0.16);                        // 01 granules break up
     const burst = inOutCubic(seg(p, 0.07, 0.19));         //    into the vortex
-    const L = seg(p, 0.22, 0.36);                         // 02 lattice
+    const swirl = 2.6 * smooth(seg(p, 0.15, 0.34));        // 02 the dust vortex turns on as it settles
+    const L = seg(p, 0.22, 0.36);                         //    into the lattice
     const kv = smooth(seg(p, 0.41, 0.52));                // 03 40% of crystals gold
     const zoom = smooth(seg(p, 0.56, 0.66));              // 04 fly through the lattice
     const pass = seg(p, 0.58, 0.64);                      //    its crystals stream past and fade
@@ -565,7 +567,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
 
     // lattice: in chapter 4 it scales up around the target crystal, which is brought to the centre,
     // so the camera seems to fly into K-Vie™ while the other crystals stream past
-    lattice.rotation.set(0.42, -0.7 + 1.25 * smooth(seg(p, 0.2, 0.64)) + time * 0.02, 0.08);
+    lattice.rotation.set(0.42, -0.7 + 1.9 * smooth(seg(p, 0.2, 0.64)) + time * 0.05, 0.08);
     lattice.scale.setScalar(1 + zoom * 5);
     lattice.position.set(0, 0, 0);
     lattice.updateMatrixWorld(true);
@@ -642,6 +644,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
 
     // particles
     pU.uBurst.value = burst;
+    pU.uSwirl.value = swirl;
     pU.uLattice.value = L;
     pU.uKv.value = kv;
     pU.uMol.value = mol;
