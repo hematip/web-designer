@@ -545,15 +545,15 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     const mol = seg(p, 0.63, 0.76);                       //    dust gathers onto AKBA
     const molIn = seg(p, 0.64, 0.77);                     //    which grows out of it while travelling, bond by bond
     const turn = smooth(seg(p, 0.62, 0.78));              // 04 AKBA eases round as it builds, broadside for reading
-    const spin = smooth(seg(p, 0.78, 0.87));              // 05 the finished molecule makes one full turn with the scroll
-    const align = smooth(seg(p, 0.86, 0.9));              //    then lines up with the capsule axis and shrinks to fit
-    const SB = outCubic(seg(p, 0.87, 0.93));              //    the body half slides over it along that axis
-    const SC = outCubic(seg(p, 0.9, 0.96));               //    the cap slides in and telescopes over the body
-    const C = seg(p, 0.87, 0.93);                         //    the dust goes in with it
-    const sealed = seg(p, 0.96, 0.97);                    //    closed: the molecule is inside
-    const fade = seg(p, 0.95, 0.975);
-    const H = inOutCubic(seg(p, 0.96, 1));
-    const flash = bump(p, 0.95, 0.975);
+    const spin = smooth(seg(p, 0.78, 0.86));              // 05 the finished molecule makes one full turn with the scroll
+    const align = smooth(seg(p, 0.84, 0.9));              //    then lines up with the capsule axis and shrinks to fit
+    const SB = smooth(seg(p, 0.86, 0.95));                //    the body half glides over it along that axis
+    const SC = smooth(seg(p, 0.9, 0.98));                 //    the cap glides in and telescopes over the body
+    const C = smooth(seg(p, 0.86, 0.95));                 //    the dust goes in with it
+    const sealed = seg(p, 0.975, 0.985);                  //    closed: the molecule is inside
+    const fade = seg(p, 0.965, 0.985);
+    const H = inOutCubic(seg(p, 0.975, 1));
+    const flash = bump(p, 0.965, 0.99);
 
     // granules
     grainU.uDissolve.value = d;
@@ -606,7 +606,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     cap.position.set(lerp(3.6, 0, SC), 0, 0);
     body.rotation.set(0, 0, 0);
     cap.rotation.set(0, 0, 0);
-    body.visible = p > 0.87;
+    body.visible = p > 0.86;
     cap.visible = p > 0.9;
     capRoot.updateMatrixWorld(true);
     pU.uCapMat.value.copy(capIdle.matrixWorld);

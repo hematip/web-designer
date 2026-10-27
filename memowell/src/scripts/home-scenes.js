@@ -144,19 +144,21 @@ mm.add(MQ.motion, () => {
 // the chapters are listed beside the scene's last frame.
 const form = $('[data-form]');
 const sceneState = { p: 0, t: 0 }; // scene progress, scroll progress through the pin
-// Scroll progress → scene progress, as [scroll, scene] knots on a smooth monotone curve. Per chapter (a fifth of
-// the scroll each): its start, the point where its stage has resolved, its end. Stages: micronized 0–0.2 (granules
-// → dust), microcrystalline 0.2–0.4 (lattice), K-Vie™ · 40% 0.4–0.56 (two in five crystals gold), AKBA 0.56–0.78
-// (fly through the lattice, the molecule builds), vegetarian capsule 0.78–1 (the molecule turns, the halves close),
-// then the closed capsule holds for the last chapter's actions. Extra knots give the fly-through and the closing
-// more scroll.
-const sceneAt = monotone([
-  [0, 0], [0.128, 0.18], [0.2, 0.2],
-  [0.328, 0.375], [0.4, 0.4],
-  [0.528, 0.53], [0.6, 0.56],
-  [0.66, 0.625], [0.74, 0.765], [0.8, 0.78],
-  [0.85, 0.85], [0.955, 0.995], [0.975, 1], [1, 1],
-]);
+// Scroll each chapter gets, in % of the view height (desktop, phones). The capsule chapter has more room: the
+// molecule turns, then the two halves close around it.
+const CHAPTER_SCROLL = { desktop: [112, 112, 112, 112, 172], mobile: [104, 104, 104, 104, 160] };
+// Scroll → scene progress, as [chapter + share of that chapter's scroll, scene] knots on a smooth monotone curve.
+// Per chapter: its start, the point where its stage has resolved, its end. Stages: micronized 0–0.2 (granules →
+// dust), microcrystalline 0.2–0.4 (lattice), K-Vie™ · 40% 0.4–0.56 (two in five crystals gold), AKBA 0.56–0.78 (fly
+// through the lattice, the molecule builds), vegetarian capsule 0.78–1 (the molecule turns by 0.86, the halves
+// close by 0.99), then the closed capsule holds for the last chapter's actions.
+const SCENE_KNOTS = [
+  [0, 0], [0.64, 0.18], [1, 0.2],
+  [1.64, 0.375], [2, 0.4],
+  [2.64, 0.53], [3, 0.56],
+  [3.3, 0.625], [3.7, 0.765], [4, 0.78],
+  [4.28, 0.86], [4.82, 0.99], [4.92, 1], [5, 1],
+];
 let sceneMode = null;
 let scene = null;
 let sceneLoad = null;
@@ -201,21 +203,27 @@ function buildFormulation(mobile) {
   const chapters = $$('.h-chapter', form);
   const rail = $$('[data-form-rail] span', form);
   const n = chapters.length;
-  const from = (k) => k / n;
-  const to = (k) => (k + 1) / n;
+  const lengths = chapters.map((_, k) => CHAPTER_SCROLL[mobile ? 'mobile' : 'desktop'][k] ?? 112);
+  const total = lengths.reduce((a, b) => a + b, 0);
+  const bounds = lengths.reduce((acc, l) => [...acc, acc[acc.length - 1] + l / total], [0]);
+  const from = (k) => bounds[k];
+  const to = (k) => bounds[k + 1];
+  const at = (c) => { const k = Math.min(n - 1, Math.floor(c)); return from(k) + (to(k) - from(k)) * (c - k); };
+  const sceneAt = monotone(SCENE_KNOTS.filter(([c]) => c <= n).map(([c, p]) => [at(c), p]));
   const st = { t: 0 };
   let active = -1;
 
   const sync = () => {
     const t = st.t;
-    const i = Math.min(n - 1, Math.floor(t * n));
+    let i = 0;
+    while (i < n - 1 && t >= to(i)) i++;
     sceneState.p = sceneAt(t);
     sceneState.t = t;
     if (i !== active) {
       active = i;
       chapters.forEach((c, k) => { c.dataset.state = k < i ? 'past' : k === i ? 'active' : 'future'; });
     }
-    rail.forEach((r, k) => r.style.setProperty('--fill', Math.min(1, Math.max(0, (t - from(k)) * n)).toFixed(3)));
+    rail.forEach((r, k) => r.style.setProperty('--fill', Math.min(1, Math.max(0, (t - from(k)) / (to(k) - from(k)))).toFixed(3)));
   };
 
   form.classList.add('is-scrubbing');
@@ -228,7 +236,7 @@ function buildFormulation(mobile) {
     scrollTrigger: {
       trigger: mobile ? $('[data-form-scene]', form) : $('[data-form-pin]', form),
       start: 'top top',
-      end: mobile ? '+=520%' : '+=560%',
+      end: `+=${total}%`,
       pin: true,
       refreshPriority: 2,
       scrub: 1.4,
