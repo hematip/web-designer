@@ -137,8 +137,8 @@ mm.add(MQ.motion, () => {
   });
 
   // ---- Kondor glass panels (components/Glass.astro) ----
-  // Each panel opens from a small seed into its resting shape as it arrives (blur and milk come up with it), its
-  // [data-glass-part] children rise inside it, and while it scrolls through the viewport the outline drifts towards a
+  // Each panel opens from a small seed into its resting shape as it enters the view (blur and veil come up with it),
+  // its [data-glass-part] children rise inside it, and while it scrolls through the viewport the outline drifts towards a
   // second shape of the same family. One writer owns each clip path: `open` and `drift` combine into one shape.
   const numbers = (d) => (d.match(/-?\d*\.?\d+/g) || []).map(Number);
   const toPath = (n) => {
@@ -160,24 +160,25 @@ mm.add(MQ.motion, () => {
       return seed[i] + (settled - seed[i]) * st.open;
     })));
     const parts = glass.querySelectorAll('[data-glass-part]');
-    // Slow and smooth: the outline unfolds over ~2.6 s while the frost (--m: blur + veil) comes up, then the text.
+    // Prompt and smooth: the panel starts to open as soon as it enters the view; the outline unfolds over ~2 s with a
+    // soft ease-out while the frost (--m: blur + veil) comes up, and the text follows almost at once.
     const entrance = gsap.timeline({ paused: true, onUpdate: render });
-    entrance.fromTo(st, { open: 0 }, { open: 1, duration: 2.6, ease: 'power3.inOut' }, 0);
-    entrance.fromTo(glass, { '--m': 0 }, { '--m': 1, duration: 2.2, ease: 'sine.inOut' }, 0.15);
-    if (parts.length) entrance.from(parts, { opacity: 0, y: 28, duration: 1.3, stagger: 0.16, ease: 'power2.out' }, 1.1);
+    entrance.fromTo(st, { open: 0 }, { open: 1, duration: 2, ease: 'power2.out' }, 0);
+    entrance.fromTo(glass, { '--m': 0 }, { '--m': 1, duration: 1.6, ease: 'sine.out' }, 0);
+    if (parts.length) entrance.from(parts, { opacity: 0, y: 24, duration: 1, stagger: 0.1, ease: 'power2.out' }, 0.25);
     entrance.pause(0);
     render();
     const settle = () => entrance.progress(1).pause();
-    const play = () => (glass.contains(document.activeElement) ? settle() : entrance.restart());
-    const reset = () => { if (!glass.contains(document.activeElement)) entrance.pause(0); };
-    // Reset only outside the viewport, so reverse scrolling never hides a visible panel.
-    const outer = ScrollTrigger.create({ trigger: glass, start: 'top bottom', end: 'bottom top', onLeave: reset, onLeaveBack: reset });
-    const inner = ScrollTrigger.create({ trigger: glass, start: 'top 78%', end: 'bottom top', onEnter: play, onEnterBack: play });
-    const drifting = gsap.to(st, { drift: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: glass, start: 'top bottom', end: 'bottom top', scrub: 0.8 } });
+    const play = () => (glass.contains(document.activeElement) ? settle() : entrance.play());
+    // Opens once and stays open (no replay on re-entry). A panel inside a pinned scene ([data-pin-scene]) measures
+    // its position with that pin's spacing.
+    const pinnedContainer = glass.closest('[data-pin-scene]') || undefined;
+    const enter = ScrollTrigger.create({ trigger: glass, pinnedContainer, start: 'top 92%', once: true, onEnter: play });
+    const drifting = gsap.to(st, { drift: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: glass, pinnedContainer, start: 'top bottom', end: 'bottom top', scrub: 0.8 } });
     glass.addEventListener('focusin', settle);
     cleanups.push(() => {
       glass.removeEventListener('focusin', settle);
-      outer.kill(); inner.kill(); entrance.kill(); drifting.scrollTrigger?.kill(); drifting.kill();
+      enter.kill(); entrance.kill(); drifting.scrollTrigger?.kill(); drifting.kill();
       glass.style.removeProperty('--m');
       gsap.set(parts, { clearProps: 'opacity,transform' });
       shape.setAttribute('d', toPath(rest));

@@ -227,15 +227,16 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </section>
 
-  <!-- 6 · How to take it: one day. The sun crosses from morning to evening; at each meal a capsule lands on the plate.
-       Then the eight-week panel opens and its weeks fill. Desktop pins the day while it plays; phones scrub in place. -->
+  <!-- 6 · How to take it: one view. Left, one day: the sun crosses from morning to evening and at each meal a capsule
+       lands on the plate. Right, the eight-week panel, whose weeks fill once the day is done. Desktop pins the view
+       while it plays; phones stack it and scrub in place. -->
   <section class="h-dir" id="directions" aria-labelledby="directions-title" data-dir>
-    <div class="h-dir__scene" data-dir-scene>
-      <div class="wrap h-dir__top">
-        <h2 id="directions-title" class="h-dir__title">{directions.heading}</h2>
-        {directions.lead && <p class="h-dir__lead" data-text-lines>{directions.lead}</p>}
-      </div>
-      <div class="wrap">
+    <div class="wrap h-dir__scene" data-dir-scene data-pin-scene>
+      <div class="h-dir__main">
+        <div class="h-dir__top">
+          <h2 id="directions-title" class="h-dir__title">{directions.heading}</h2>
+          {directions.lead && <p class="h-dir__lead" data-text-lines>{directions.lead}</p>}
+        </div>
         <div class="h-dir__day" data-dir-stage>
           <svg class="h-dir__arc" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
             <path class="h-dir__arc-track" d="M20 210 C 260 -50, 740 -50, 980 210" />
@@ -254,20 +255,20 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
             ))}
           </ol>
         </div>
-        {directionsParas[0] && <p class="h-dir__food" data-reveal>{directionsParas[0]}</p>}
+        {directionsParas[0] && <p class="h-dir__food">{directionsParas[0]}</p>}
       </div>
-    </div>
-    <div class="wrap h-dir__after">
-      <span class="glass-field glass-field--cyan h-dir__field-a" aria-hidden="true"></span>
-      <span class="glass-field glass-field--royal h-dir__field-b" aria-hidden="true"></span>
-      <Glass id="glass-weeks" shape="c" tone="light" frost={false} class="h-dir__panel">
-        {directions.eyebrow && <h3 class="h-dir__panel-title" data-glass-part>{directions.eyebrow}</h3>}
-        <div class="h-weeks" aria-hidden="true" data-glass-part data-weeks>
-          <ol class="h-weeks__track" role="list">{Array.from({ length: 8 }, (_, i) => <li><span data-week></span><small>{i + 1}</small></li>)}</ol>
-        </div>
-        {directionsParas.slice(1).map((p: string) => <p class="h-dir__panel-text" data-glass-part>{p}</p>)}
-        <div class="h-dir__panel-action" data-glass-part>{directions.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}</div>
-      </Glass>
+      <div class="h-dir__side">
+        <span class="glass-field glass-field--cyan h-dir__field-a" aria-hidden="true"></span>
+        <span class="glass-field glass-field--royal h-dir__field-b" aria-hidden="true"></span>
+        <Glass id="glass-weeks" shape="c" tone="light" frost={false} class="h-dir__panel">
+          {directions.eyebrow && <h3 class="h-dir__panel-title" data-glass-part>{directions.eyebrow}</h3>}
+          <div class="h-weeks" aria-hidden="true" data-glass-part data-weeks>
+            <ol class="h-weeks__track" role="list">{Array.from({ length: 8 }, (_, i) => <li><span data-week></span><small>{i + 1}</small></li>)}</ol>
+          </div>
+          {directionsParas.slice(1).map((p: string) => <p class="h-dir__panel-text" data-glass-part>{p}</p>)}
+          <div class="h-dir__panel-action" data-glass-part>{directions.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}</div>
+        </Glass>
+      </div>
     </div>
   </section>
 
@@ -513,33 +514,34 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-evidence__facts dd { margin: 0.25rem 0 0; color: var(--on-dark-soft); font-size: 1rem; line-height: 1.45; }
   .h-evidence__source { font-size: 0.875rem; overflow-wrap: anywhere; }
 
-  /* ============ How to take it: one day (sun arc, three meals), then eight weeks on a glass panel ============ */
+  /* ============ How to take it: one view — the day (left) and the eight-week panel (right) ============ */
   .h-dir { position: relative; overflow-x: clip; padding-block: var(--section); }
-  .h-dir__scene { display: grid; align-content: center; gap: clamp(1.5rem, 3vw, 3rem); }
-  .h-dir__top { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: var(--s-3); align-items: end; }
-  .h-dir__title { grid-column: 1 / span 6; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
-  .h-dir__lead { grid-column: 8 / span 5; color: var(--ink); font: 600 clamp(1.375rem, 1.1rem + 0.9vw, 2rem)/1.3 var(--font-display); letter-spacing: -0.015em; }
-  .h-dir__day { position: relative; max-width: 72rem; margin-inline: auto; padding-block-start: clamp(5.5rem, 10vw, 10rem); }
-  .h-dir__arc { position: absolute; inset-inline: 6%; top: clamp(0.5rem, 1.5vw, 1.5rem); width: 88%; height: clamp(6rem, 12vw, 11.5rem); overflow: visible; }
+  .h-dir__scene { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .h-dir__main { grid-column: 1 / span 7; display: grid; gap: clamp(1.25rem, 2.5vw, 2.25rem); min-width: 0; }
+  .h-dir__top { display: grid; gap: var(--s-2); }
+  .h-dir__title { font-size: clamp(2.5rem, 1.25rem + 3vw, 4.25rem); line-height: 1.02; letter-spacing: -0.028em; }
+  .h-dir__lead { max-width: 26ch; color: var(--ink); font: 600 clamp(1.25rem, 1.05rem + 0.7vw, 1.75rem)/1.3 var(--font-display); letter-spacing: -0.015em; }
+  .h-dir__day { position: relative; width: 100%; padding-block-start: clamp(4.5rem, 7.5vw, 7.5rem); }
+  .h-dir__arc { position: absolute; inset-inline: 6%; top: clamp(0.25rem, 1vw, 1rem); width: 88%; height: clamp(5rem, 9vw, 8.5rem); overflow: visible; }
   .h-dir__arc path { fill: none; vector-effect: non-scaling-stroke; }
   .h-dir__arc-track { stroke: var(--line-strong); stroke-width: 1.5; stroke-dasharray: 3 7; }
   .h-dir__arc-lit { stroke: var(--royal); stroke-width: 2.5; stroke-linecap: round; }
   .h-dir__sun { position: absolute; z-index: 2; left: 0; top: 0; width: 1.75rem; aspect-ratio: 1; margin: -0.875rem 0 0 -0.875rem; border-radius: 50%; opacity: 0; pointer-events: none;
     background: radial-gradient(circle, #fff 0 28%, var(--cyan) 30% 58%, rgba(25, 211, 226, 0) 62%); box-shadow: 0 0 0 0.75rem rgba(25, 211, 226, 0.14), 0 0 2.5rem rgba(25, 211, 226, 0.55); }
-  .h-dir__meals { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 5vw, 5rem); margin: 0; padding: 0; list-style: none; }
+  .h-dir__meals { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 3vw, 3rem); margin: 0; padding: 0; list-style: none; }
   .h-plate { display: grid; justify-items: center; align-content: start; gap: var(--s-3); }
-  .h-plate__visual { position: relative; width: 100%; max-width: 15rem; }
+  .h-plate__visual { position: relative; width: 100%; max-width: 11.5rem; }
   .h-plate__dish { width: 100%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #fff 0 53%, #edf0fb 54% 62%, #fff 63%); box-shadow: 0 22px 48px -32px rgba(10, 18, 64, 0.35), inset 0 0 0 1px var(--line); display: grid; place-items: center; }
   .h-plate__dish span { width: 64%; aspect-ratio: 1; border-radius: 50%; border: 1px dashed var(--line-strong); }
   .h-plate__cap { position: absolute; width: 38%; top: 50%; left: 50%; translate: -50% -50%; rotate: -18deg; filter: drop-shadow(0 10px 10px rgba(10, 18, 64, 0.25)); }
   .h-plate__label { display: grid; justify-items: center; gap: 0.2rem; text-align: center; }
   .h-plate__label strong { font: 600 clamp(1.125rem, 1rem + 0.5vw, 1.5rem)/1.2 var(--font-display); color: var(--ink); }
   .h-plate__label span { color: var(--ink-soft); font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); }
-  .h-dir__food { max-width: 40rem; margin: var(--s-4) auto 0; text-align: center; color: var(--ink-soft); font-size: var(--fs-body); }
-  .h-dir__after { position: relative; display: grid; justify-items: center; margin-block-start: clamp(3.5rem, 7vw, 7rem); }
-  .h-dir__field-a { width: min(60vw, 34rem); aspect-ratio: 1; inset-inline-start: 18%; top: -18%; }
-  .h-dir__field-b { width: min(46vw, 26rem); aspect-ratio: 1; inset-inline-end: 16%; bottom: -22%; opacity: 0.5; }
-  .h-dir__after > :global(.h-dir__panel) { width: min(100%, 46rem); display: grid; gap: var(--s-3); justify-items: start; padding: clamp(3.25rem, 6vw, 5.75rem) clamp(2.75rem, 6.5vw, 6rem) clamp(3.75rem, 7vw, 6.5rem); }
+  .h-dir__food { max-width: 36rem; justify-self: center; text-align: center; color: var(--ink-soft); font-size: var(--fs-body); }
+  .h-dir__side { position: relative; grid-column: 8 / span 5; display: grid; justify-items: stretch; min-width: 0; }
+  .h-dir__field-a { width: min(40vw, 30rem); aspect-ratio: 1; inset-inline-start: -14%; top: -16%; }
+  .h-dir__field-b { width: min(30vw, 22rem); aspect-ratio: 1; inset-inline-end: -12%; bottom: -18%; opacity: 0.5; }
+  .h-dir__side > :global(.h-dir__panel) { display: grid; gap: var(--s-3); justify-items: start; padding: clamp(4rem, 6.5vw, 6rem) clamp(2.5rem, 4.5vw, 4.5rem) clamp(4rem, 6.5vw, 6rem) clamp(3rem, 5vw, 5rem); }
   .h-dir__panel-title { font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); line-height: 1.1; letter-spacing: -0.02em; }
   .h-dir__panel-text { max-width: 36ch; color: var(--ink-soft); font-size: var(--fs-body); }
   .h-dir__panel-text:first-of-type { color: var(--ink); }
@@ -596,12 +598,12 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-evidence__grid > :global(.h-evidence__panel) { margin-block-start: var(--s-5); padding: clamp(4.25rem, 17vw, 5.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.75rem, 14vw, 5rem) clamp(2.25rem, 10vw, 3.5rem); }
     .h-evidence__fields span:nth-child(1) { width: 90vw; inset-inline-end: -20%; top: 38%; }
     .h-evidence__fields span:nth-child(3) { width: 70vw; bottom: 2%; }
-    .h-dir__top { grid-template-columns: minmax(0, 1fr); }
-    .h-dir__title, .h-dir__lead { grid-column: 1; }
+    .h-dir__scene { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-5); }
+    .h-dir__main, .h-dir__side { grid-column: 1; }
     .h-dir__day { padding-block-start: clamp(4rem, 18vw, 6rem); }
     .h-dir__arc { height: clamp(3.5rem, 15vw, 6rem); }
     .h-plate { gap: var(--s-2); }
-    .h-dir__after > :global(.h-dir__panel) { padding: clamp(3rem, 12vw, 4.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 13vw, 5rem); }
+    .h-dir__side > :global(.h-dir__panel) { padding: clamp(3rem, 12vw, 4.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 13vw, 5rem); }
     .h-where__photo, .h-where__grid > :global(.h-where__panel) { grid-column: 1; grid-row: auto; }
     .h-where__grid > :global(.h-where__panel) { margin: -22% calc(var(--gutter) * -0.25) 0; padding: clamp(3rem, 12vw, 4.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 13vw, 5rem); --glass-a1: 0.72; --glass-a2: 0.5; }
     .h-where__field { top: 70%; inset-inline-end: -10%; width: 80vw; }

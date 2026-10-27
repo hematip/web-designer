@@ -365,6 +365,9 @@ function buildDay(pinned) {
   const caps = meals.map((m) => $('[data-dir-cap]', m));
   const plates = meals.map((m) => $('[data-dir-plate]', m));
   const labels = meals.map((m) => $('.h-plate__label', m));
+  // Pinned (desktop), the eight weeks share the view: the day plays over the first 60% of the pin, then the weeks fill.
+  const weeks = pinned ? $$('[data-week]', scene) : [];
+  const DAY_END = weeks.length ? 0.6 : 1;
   if (!sun || !svg || meals.length !== MEALS_AT.length) return;
   const rtl = getComputedStyle(stage).direction === 'rtl';
   const fall = gsap.parseEase('power2.in');
@@ -392,23 +395,32 @@ function buildDay(pinned) {
     });
   };
   lit.style.strokeDasharray = '1 1';
+  weeks.forEach((el) => el.style.setProperty('--fill', '0'));
   render();
   const st = ScrollTrigger.create({
     trigger: pinned ? scene : stage,
     // Pinned below the fixed header, so the heading stays readable while the day plays.
     start: pinned ? () => `top ${Math.round(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) * 16 || 88) + 16}px` : 'top 80%',
-    end: pinned ? '+=140%' : 'bottom 45%',
+    end: pinned ? '+=170%' : 'bottom 45%',
     pin: pinned,
     scrub: 0.8,
     refreshPriority: pinned ? 1 : 0,
     invalidateOnRefresh: true,
     onRefresh: () => { box = null; render(); },
-    onUpdate: (self) => { day.p = self.progress; render(); },
+    onUpdate: (self) => {
+      day.p = Math.min(1, self.progress / DAY_END);
+      render();
+      if (weeks.length) {
+        const w = Math.max(0, (self.progress - DAY_END) / (1 - DAY_END - 0.04));
+        weeks.forEach((el, i) => el.style.setProperty('--fill', gsap.utils.clamp(0, 1, w * weeks.length - i).toFixed(3)));
+      }
+    },
   });
   return () => {
     st.kill();
     gsap.set([sun, ...caps, ...plates, ...labels], { clearProps: 'all' });
     lit.style.strokeDasharray = ''; lit.style.strokeDashoffset = '';
+    weeks.forEach((el) => el.style.removeProperty('--fill'));
   };
 }
 // Pin only where there is room for the whole day on screen.
@@ -418,8 +430,9 @@ mm.add('(max-width: 56.24rem), (max-height: 39.99rem)', () => {
   return buildDay(false);
 });
 
-// Eight weeks: the segments fill one after another as the panel scrolls up (decorative; the sentence says it).
-mm.add(MQ.motion, () => {
+// Eight weeks where the view is not pinned (phones, short screens): the segments fill as the panel scrolls up.
+// (Pinned, buildDay fills them after the day.) Decorative; the sentence says it.
+mm.add('(max-width: 56.24rem) and (prefers-reduced-motion: no-preference), (max-height: 39.99rem) and (prefers-reduced-motion: no-preference)', () => {
   const weeks = $$('[data-week]');
   if (!weeks.length) return;
   const fill = { v: 0 };
@@ -434,7 +447,7 @@ mm.add(MQ.motion, () => {
   const bottle = $('[data-close-bottle]');
   if (!bottle) return;
   gsap.fromTo(bottle, { y: 90, opacity: 0, rotate: -4 }, {
-    y: 0, opacity: 1, rotate: 0, duration: 2, ease: 'power3.out', delay: 0.6,
-    scrollTrigger: { trigger: '[data-close]', start: 'top 72%', toggleActions: 'play none none reverse' },
+    y: 0, opacity: 1, rotate: 0, duration: 1.6, ease: 'power3.out', delay: 0.1,
+    scrollTrigger: { trigger: '[data-close]', start: 'top 90%', once: true },
   });
 });
