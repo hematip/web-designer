@@ -499,7 +499,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-evidence__lead { max-width: 30rem; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
   .h-evidence__more { display: grid; gap: var(--s-4); padding-block-start: var(--s-4); border-block-start: 1px solid rgba(255, 255, 255, 0.18); }
   .h-evidence__more p { max-width: 30rem; color: var(--on-dark-soft); font-size: var(--fs-body); }
-  .h-evidence__grid > :global(.h-evidence__panel) { grid-column: 6 / span 7; display: grid; gap: var(--s-3); min-width: 0; padding: clamp(3.25rem, 6vw, 6rem) clamp(2.75rem, 6vw, 6rem) clamp(3.75rem, 6.5vw, 6.75rem); }
+  /* The shape curves in at its top-start corner, so the top and start padding are deeper than the rest. */
+  .h-evidence__grid > :global(.h-evidence__panel) { grid-column: 6 / span 7; display: grid; gap: var(--s-3); min-width: 0; padding: clamp(5rem, 8vw, 7.5rem) clamp(3rem, 6vw, 6rem) clamp(4.5rem, 7vw, 7rem) clamp(3.75rem, 7.5vw, 7.5rem); }
   .h-evidence__kicker { font: 700 0.875rem/1.2 var(--font-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); }
   .h-evidence__figure { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.25rem 1rem; }
   .h-evidence__number { font: 600 clamp(5rem, 2.5rem + 7.5vw, 10rem)/0.86 var(--font-display); letter-spacing: -0.045em; color: #fff; font-variant-numeric: tabular-nums; }
