@@ -58,7 +58,7 @@ mm.add(MQ.motion, () => {
     if (!onLoad) cleanups.push(((t) => () => t.kill())(ScrollTrigger.create({ trigger: el, start, once: true, onEnter: run })));
     return (self) => {
       const progress = anim ? anim.progress() : 0;
-      anim?.kill();
+      anim?.revert();
       anim = build(self).pause();
       if (progress > 0) anim.progress(progress);
       if (entered) anim.play();
@@ -136,6 +136,56 @@ mm.add(MQ.motion, () => {
     });
   });
 
+  // ---- Intro blocks [data-intro]: a heading and its copy enter as one staged sequence once the block is in view
+  // (top at 75%): heading lines rise from a mask (accent strokes draw after), [data-intro-lines] paragraphs follow
+  // line by line, a [data-intro-rule] draws in, [data-intro-part] items rise. Replays after leaving the view;
+  // focus completes it. One trigger pair per block; a re-split only rebuilds the timeline (progress carried over).
+  document.querySelectorAll('[data-intro]').forEach((block) => {
+    const heading = block.querySelector('h1, h2');
+    const lineEls = [...block.querySelectorAll('[data-intro-lines]')];
+    const rule = block.querySelector('[data-intro-rule]');
+    const parts = [...block.querySelectorAll('[data-intro-part]')];
+    const accents = heading ? [...heading.querySelectorAll('.accent')] : [];
+    let headLines = heading ? [heading] : [];
+    let copyLines = lineEls;
+    let tl = null;
+    let state = 'idle'; // idle | playing | done
+    const build = () => {
+      const progress = tl ? tl.progress() : 0;
+      tl?.revert(); // restore the targets' own styles first, so a new from() never starts from a hidden state
+      tl = gsap.timeline({ paused: true });
+      if (headLines.length) tl.from(headLines, { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.1 }, 0);
+      if (accents.length) {
+        tl.fromTo(accents, { backgroundSize: '0% 0.04em, 0% 0.04em' },
+          { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.8, ease: 'power2.inOut', clearProps: 'backgroundSize' }, 0.55);
+      }
+      if (copyLines.length) tl.from(copyLines, { opacity: 0, y: 20, duration: 0.9, ease: 'power3.out', stagger: 0.08 }, 0.35);
+      if (rule) tl.from(rule, { scaleX: 0, duration: 1, ease: 'power2.inOut' }, 0.65);
+      if (parts.length) tl.from(parts, { opacity: 0, y: 26, duration: 0.9, ease: 'power3.out', stagger: 0.12 }, 0.8);
+      if (state !== 'idle') tl.progress(progress);
+      if (state === 'playing') tl.play();
+    };
+    if (heading && !interactive(heading)) {
+      splits.push(SplitText.create(heading, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: (self) => { headLines = self.lines; build(); } }));
+    }
+    lineEls.forEach((el) => {
+      if (interactive(el)) return;
+      splits.push(SplitText.create(el, { type: 'lines', aria: 'none', autoSplit: true, onSplit: (self) => {
+        copyLines = lineEls.flatMap((p) => (p === el ? self.lines : (p._introLines ?? [p])));
+        el._introLines = self.lines;
+        build();
+      } }));
+    });
+    if (!tl) build();
+    const play = () => { if (block.contains(document.activeElement)) { state = 'done'; tl.progress(1); return; } state = 'playing'; tl.restart(); };
+    const reset = () => { if (!block.contains(document.activeElement)) { state = 'idle'; tl.pause(0); } };
+    const settle = () => { state = 'done'; tl.progress(1).pause(); };
+    const t1 = ScrollTrigger.create({ trigger: block, start: 'top 75%', end: 'bottom top', onEnter: play, onEnterBack: play });
+    const t2 = ScrollTrigger.create({ trigger: block, start: 'top bottom', end: 'bottom top', onLeave: reset, onLeaveBack: reset });
+    block.addEventListener('focusin', settle);
+    cleanups.push(() => { t1.kill(); t2.kill(); tl?.kill(); block.removeEventListener('focusin', settle); });
+  });
+
   // ---- Kondor glass panels (components/Glass.astro) ----
   // Each panel opens from a small seed into its resting shape as it enters the view (blur and veil come up with it),
   // its [data-glass-part] children rise inside it, and while it scrolls through the viewport the outline drifts towards a
@@ -156,29 +206,36 @@ mm.add(MQ.motion, () => {
     const seed = rest.map((v, i) => (i % 2 ? 0.42 + (v - 0.5) * 0.22 : 0.3 + (v - 0.5) * 0.26));
     const st = { open: 0, drift: 0 };
     const render = () => shape.setAttribute('d', toPath(rest.map((r, i) => {
-      const settled = r + (drift[i] - r) * st.drift;
+      const settled = r + (drift[i] - r) * st.drift * 1.6;
       return seed[i] + (settled - seed[i]) * st.open;
     })));
     const parts = glass.querySelectorAll('[data-glass-part]');
-    // Prompt and smooth: the panel starts to open as soon as it enters the view; the outline unfolds over ~2 s with a
-    // soft ease-out while the frost (--m: blur + veil) comes up, and the text follows almost at once.
+    // The panel opens once it is properly in view (top at 80%): the outline unfolds over ~1.8 s with an even
+    // ease-out, so the growth is seen on screen rather than spent below the fold; the frost (--m: blur + veil) comes
+    // up with it and the text follows after 0.3 s.
     const entrance = gsap.timeline({ paused: true, onUpdate: render });
-    entrance.fromTo(st, { open: 0 }, { open: 1, duration: 2, ease: 'power2.out' }, 0);
-    entrance.fromTo(glass, { '--m': 0 }, { '--m': 1, duration: 1.6, ease: 'sine.out' }, 0);
-    if (parts.length) entrance.from(parts, { opacity: 0, y: 24, duration: 1, stagger: 0.1, ease: 'power2.out' }, 0.25);
+    entrance.fromTo(st, { open: 0 }, { open: 1, duration: 1.8, ease: 'power1.out' }, 0);
+    entrance.fromTo(glass, { '--m': 0 }, { '--m': 1, duration: 1.4, ease: 'sine.out' }, 0);
+    if (parts.length) entrance.from(parts, { opacity: 0, y: 24, duration: 1, stagger: 0.1, ease: 'power2.out' }, 0.3);
     entrance.pause(0);
     render();
     const settle = () => entrance.progress(1).pause();
-    const play = () => (glass.contains(document.activeElement) ? settle() : entrance.play());
-    // Opens once and stays open (no replay on re-entry). A panel inside a pinned scene ([data-pin-scene]) measures
-    // its position with that pin's spacing.
+    const play = () => (glass.contains(document.activeElement) ? settle() : entrance.restart());
+    const reset = () => { if (!glass.contains(document.activeElement)) entrance.pause(0); };
+    // A panel inside a pinned scene ([data-pin-scene]) measures with that pin's spacing and opens once (a reset
+    // there could fire while the scene is held on screen). Elsewhere it resets out of view and plays again on return.
     const pinnedContainer = glass.closest('[data-pin-scene]') || undefined;
-    const enter = ScrollTrigger.create({ trigger: glass, pinnedContainer, start: 'top 92%', once: true, onEnter: play });
+    const triggers = [ScrollTrigger.create({ trigger: glass, pinnedContainer, start: 'top 80%', end: 'bottom top', once: !!pinnedContainer, onEnter: play, onEnterBack: play })];
+    if (!pinnedContainer) triggers.push(ScrollTrigger.create({ trigger: glass, start: 'top bottom', end: 'bottom top', onLeave: reset, onLeaveBack: reset }));
+    // While it scrolls through the view the outline keeps morphing and the panel drifts a little against the page,
+    // so a settled panel is never frozen.
     const drifting = gsap.to(st, { drift: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: glass, pinnedContainer, start: 'top bottom', end: 'bottom top', scrub: 0.8 } });
+    const floating = pinnedContainer ? null : gsap.fromTo(glass, { y: 40 }, { y: -40, ease: 'none', scrollTrigger: { trigger: glass, start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
     glass.addEventListener('focusin', settle);
     cleanups.push(() => {
       glass.removeEventListener('focusin', settle);
-      enter.kill(); entrance.kill(); drifting.scrollTrigger?.kill(); drifting.kill();
+      triggers.forEach((t) => t.kill()); entrance.kill(); drifting.scrollTrigger?.kill(); drifting.kill();
+      if (floating) { floating.scrollTrigger?.kill(); floating.kill(); gsap.set(glass, { clearProps: 'transform' }); }
       glass.style.removeProperty('--m');
       gsap.set(parts, { clearProps: 'opacity,transform' });
       shape.setAttribute('d', toPath(rest));

@@ -197,12 +197,13 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
       <span class="glass-field glass-field--indigo" data-field></span>
     </div>
     <div class="wrap h-evidence__grid">
-      <div class="h-evidence__intro">
+      <div class="h-evidence__intro" data-intro data-text-motion="off">
         <h2 id="evidence-title" class="h-evidence__title" set:html={accentWord(evidence.heading, 'research')} />
-        {evidence.lead && <p class="h-evidence__lead" data-text-lines>{evidence.lead}</p>}
-        <div class="h-evidence__more" data-reveal>
-          {evidenceParas[2] && <p>{evidenceParas[2]}</p>}
-          <div class="btn-row">
+        {evidence.lead && <p class="h-evidence__lead" data-intro-lines>{evidence.lead}</p>}
+        <div class="h-evidence__more">
+          <span class="h-evidence__rule" aria-hidden="true" data-intro-rule></span>
+          {evidenceParas[2] && <p data-intro-part>{evidenceParas[2]}</p>}
+          <div class="btn-row" data-intro-part>
             {evidence.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
           </div>
         </div>
@@ -498,7 +499,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-evidence__intro { grid-column: 1 / span 5; display: grid; gap: var(--s-4); align-content: center; min-width: 0; }
   .h-evidence__title { max-width: 11ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
   .h-evidence__lead { max-width: 30rem; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
-  .h-evidence__more { display: grid; gap: var(--s-4); padding-block-start: var(--s-4); border-block-start: 1px solid rgba(255, 255, 255, 0.18); }
+  .h-evidence__more { display: grid; gap: var(--s-4); }
+  .h-evidence__rule { display: block; height: 1px; background: rgba(255, 255, 255, 0.18); transform-origin: 0 50%; }
+  :global([dir='rtl']) .h-evidence__rule { transform-origin: 100% 50%; }
   .h-evidence__more p { max-width: 30rem; color: var(--on-dark-soft); font-size: var(--fs-body); }
   /* The shape curves in at its top-start corner, so the top and start padding are deeper than the rest. */
   .h-evidence__grid > :global(.h-evidence__panel) { grid-column: 6 / span 7; display: grid; gap: var(--s-3); min-width: 0; padding: clamp(5rem, 8vw, 7.5rem) clamp(3rem, 6vw, 6rem) clamp(4.5rem, 7vw, 7rem) clamp(3.75rem, 7.5vw, 7.5rem); }
@@ -587,9 +590,10 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-close__fields span:nth-child(2) { width: min(34vw, 26rem); aspect-ratio: 1; inset-inline-start: 22%; bottom: -30%; opacity: 0.55; }
   .h-close__visual { position: relative; z-index: 2; grid-column: 1 / span 4; grid-row: 1; display: grid; justify-items: end; min-width: 0; }
   .h-close__bottle { width: min(100%, 15rem); height: auto; margin-inline-end: clamp(-3rem, -2.5vw, -1rem); filter: drop-shadow(0 30px 28px rgba(0, 0, 0, 0.45)); }
-  .h-close__stage > :global(.h-close__panel) { grid-column: 5 / span 8; grid-row: 1; display: grid; gap: var(--s-3); justify-items: start; padding: clamp(3.25rem, 6vw, 5.75rem) clamp(3rem, 6vw, 5.75rem) clamp(3.75rem, 7vw, 6.25rem) clamp(3.5rem, 6vw, 6rem); }
-  .h-close__stage :global(.h-close__panel h2) { max-width: 15ch; font-size: clamp(2rem, 1.2rem + 2.4vw, 3.5rem); line-height: 1.06; letter-spacing: -0.025em; }
-  .h-close__text { max-width: 36ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  /* Even inline padding: the start side adds the width of the bottle's overlap, so the text sits as far from the bottle as from the panel's end. */
+  .h-close__stage > :global(.h-close__panel) { --pad: clamp(3rem, 5vw, 5rem); grid-column: 5 / span 7; grid-row: 1; display: grid; gap: var(--s-3); justify-items: start; padding: clamp(3.75rem, 6vw, 5.75rem) var(--pad) clamp(4rem, 6.5vw, 6.25rem) calc(var(--pad) + clamp(1rem, 2.5vw, 3rem)); }
+  .h-close__stage :global(.h-close__panel h2) { max-width: 17ch; font-size: clamp(2rem, 1.2rem + 2.4vw, 3.5rem); line-height: 1.06; letter-spacing: -0.025em; }
+  .h-close__text { max-width: 40ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
 
   /* ============ Evidence → Closing on tablets and phones ============ */
   @media (max-width: 56.24rem) {
