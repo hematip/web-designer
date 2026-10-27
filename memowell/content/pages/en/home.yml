@@ -36,7 +36,7 @@ sections:
       alt: ""
 
   - id: formulation
-    # v6: one chapter per stage of the 3D scene, K-Vie™ → AKBA → capsule (client direction 2026-10-26).
+    # v6: one chapter per stage of the 3D scene, K-Vie™ (looking inside it at AKBA) → capsule (client direction 2026-10-26/27).
     # Chapter bodies are whole sentences of the copy deck (brief Part 4, HOME §3); labels are short fragments. Do not reword.
     heading: "Boswellic acids, in a formulation built for absorption"
     chapters:
@@ -44,8 +44,8 @@ sections:
         body: "Boswellic acids are poorly absorbed in the digestive system. Kondor Pharma developed K-Vie™, a micronized, microcrystalline form standardised to 40% boswellic acids, to address that."
       - label: "Microcrystalline"
       - label: "K-Vie™ · standardised to 40% boswellic acids"
-      - label: "AKBA · acetyl-11-keto-β-boswellic acid"
-        body: "AKBA is one of the boswellic acids."
+      - label: "Inside K-Vie™ · AKBA"
+        body: "AKBA (acetyl-11-keto-β-boswellic acid) is one of the boswellic acids."
       - label: "Vegetarian and gluten-free"
         body: "One bottle holds 90 vegetarian capsules."
     actions:

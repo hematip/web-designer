@@ -326,11 +326,11 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > Boswellic acids are poorly absorbed in the digestive system. Kondor Pharma developed K-Vie™, a micronized, microcrystalline form standardised to 40% boswellic acids, to address that.
 >
-> AKBA is one of the boswellic acids.
+> AKBA (acetyl-11-keto-β-boswellic acid) is one of the boswellic acids.
 >
 > [More about the formulation]
 
-*Note (2026-10-26, client direction):* the resin chapter is removed; the story starts at K-Vie™ and passes through AKBA (acetyl-11-keto-β-boswellic acid) to the capsule. Chapter labels: Micronized · Microcrystalline · K-Vie™ · standardised to 40% boswellic acids · AKBA · acetyl-11-keto-β-boswellic acid · Vegetarian and gluten-free.
+*Note (2026-10-26/27, client direction):* the resin chapter is removed; the story starts at K-Vie™, looks inside it at AKBA (acetyl-11-keto-β-boswellic acid), one of the boswellic acids, and ends at the capsule. AKBA is a naturally occurring boswellic acid of the resin, not a product of K-Vie™; that K-Vie™ contains it, and in what share, awaits Kondor's specification. Chapter labels: Micronized · Microcrystalline · K-Vie™ · standardised to 40% boswellic acids · Inside K-Vie™ · AKBA · Vegetarian and gluten-free.
 
 *Note:* the catalogue's "about three times similar formulations" is deliberately omitted until the scientific officer rules on that comparison.
 

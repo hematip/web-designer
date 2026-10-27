@@ -51,15 +51,15 @@ Full record: `docs/design-brief.md` → "Version 2".
 
 ### Homepage signature scenes
 
-1. **K-Vie™ → AKBA → capsule, told while you scroll** (v6 story, 2026-10-26; v5 order: hero question → "why" → this story; real-time 3D, pinned on desktop, the scene pins on phones). Placing it in the hero (v4) was reverted: the hero question followed by a transformation ending on a capsule read as problem → product → solution.
+1. **K-Vie™ (and a look inside it at AKBA) → capsule, told while you scroll** (v6 story, 2026-10-26/27; v5 order: hero question → "why" → this story; real-time 3D, pinned on desktop, the scene pins on phones). Placing it in the hero (v4) was reverted: the hero question followed by a transformation ending on a capsule read as problem → product → solution.
    - the approved §3 heading and five chapters appear one at a time, each changing together with its stage of the scene:
      1. *Micronized*: coarse golden K-Vie™ granules break up from the base and the fine dust spins into a slow vortex;
      2. *Microcrystalline*: the dust snaps into a rotating 3D crystal lattice;
      3. *K-Vie™ · standardised to 40% boswellic acids*: two in five crystals (40%) turn gold;
-     4. *AKBA · acetyl-11-keto-β-boswellic acid*: the lattice clears and the dust gathers onto the AKBA molecule, built bond by bond from its real 3D conformer (PubChem CID 11168203; `src/scripts/akba.js`);
+     4. *Inside K-Vie™ · AKBA*: the camera flies into one gold crystal while the rest of the lattice streams past, and the AKBA molecule unfolds inside it, built bond by bond from its real 3D conformer (PubChem CID 11168203; `src/scripts/akba.js`);
      5. *Vegetarian and gluten-free*: the molecule recedes, its dust condenses into the capsule, the two cream halves close and the capsule turns under a sweeping light.
    - each chapter plays its stage in the first ~70% of its scroll range and holds the resolved frame while it is read; one scrubbed value drives text and scene, so reverse scroll and skips land on the same frame;
-   - chapter texts are whole sentences of the copy deck (§3, including "AKBA is one of the boswellic acids.", and the `/memowell` sentence "One bottle holds 90 vegetarian capsules."), in order; a five-part rail shows progress;
+   - chapter texts are whole sentences of the copy deck (§3, including "AKBA (acetyl-11-keto-β-boswellic acid) is one of the boswellic acids.", and the `/memowell` sentence "One bottle holds 90 vegetarian capsules."), in order; a five-part rail shows progress;
    - keyboard: tabbing to a link in a chapter that is not on screen scrolls to that chapter;
    - phones: the scene takes the screen with the chapter text over its lower part;
    - reduced motion / no JavaScript: the five chapters listed beside the closed capsule; without WebGL the SVG capsule poster stays.
@@ -144,7 +144,7 @@ These are interface or structural words, and none of them is a claim. They are a
 | Summary card on `/memowell` (decorative, `aria-hidden`) | Title "Taking this to your doctor"; rows "What is in it", "What the research found", "How to take it", "Five questions worth asking" | Fragments of approved headings and the `/memowell` §6 sentence; also a heading in the draft PDF. The duplicate homepage card is retired |
 | Hero (v2) | The word "names" is set in the italic accent face | Typography only; no words change |
 | Retired scroll marquee (v2, decorative) | "90 vegetarian capsules", "Gluten-free", "NPN 80107357", "Memory health", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada" | Removed from the homepage at the client's request. Historical CMS values remain available but are not rendered. |
-| Formulation chapter titles (v6, visible `h3` headings) | "Micronized", "Microcrystalline", "K-Vie™ · standardised to 40% boswellic acids", "AKBA · acetyl-11-keto-β-boswellic acid", "Vegetarian and gluten-free" | Fragments of the approved §3 copy and the label ("90 vegetarian capsules … Gluten-free"). Chapter texts under them are whole approved sentences, unchanged. Editable in CMS → Pages → home → formulation → Story chapters. Chapters 2 and 4 depend on the pending K-Vie™ scientific-officer approval (item 8) |
+| Formulation chapter titles (v6, visible `h3` headings) | "Micronized", "Microcrystalline", "K-Vie™ · standardised to 40% boswellic acids", "Inside K-Vie™ · AKBA", "Vegetarian and gluten-free" | Fragments of the approved §3 copy and the label ("90 vegetarian capsules … Gluten-free"). Chapter texts under them are whole approved sentences, unchanged. Editable in CMS → Pages → home → formulation → Story chapters. Chapters 2 and 4 depend on the pending K-Vie™ scientific-officer approval (item 8) |
 | Footer (decorative) | Solid two-line "LIVE WELL, STAY WELL" beside the official Memowell logo | The catalogue slogan, unchanged and repeated from the footer line |
 | Homepage §2 and §5 | "Source: DOI …" lines | Same format as the science page; satisfies "every number keeps its source" |
 | Homepage §5 | The phrase "3.11 points higher on MMSE" is typographically highlighted inside its own sentence | No words changed; context (85 people, six months, placebo, source) remains alongside the result in the same study block |
