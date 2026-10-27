@@ -12,9 +12,9 @@ sections:
     photo:
       src: "/img/photos/hcp-evidence"
       width: 2400
-      height: 1029
+      height: 1018
       widths: [640, 1024, 1600, 2400]
-      focus: "72% 40%"
+      focus: "76% 40%"
       alt: ""
 
   - id: studies

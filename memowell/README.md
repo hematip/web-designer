@@ -159,8 +159,8 @@ These are interface or structural words, and none of them is a claim. They are a
 
 | Photo | Audience | Where |
 |---|---|---|
-| `hcp-evidence` | Doctors & specialists | `/science/professionals`, wide band — two physicians review a printed paper in a consultation room |
-| `patient-routine` | Patients `[LOCAL REGULATORY REVIEW REQUIRED]` | `/who-its-for`, page head — follow-up appointment, he explains his own planner |
+| `hcp-evidence` | Doctors & specialists | `/science/professionals`, wide band — the doctor character (element `dr`) and a younger colleague review a printed paper in a Dubai clinic office (remade 2026-10-27) |
+| `patient-routine` | Patients `[LOCAL REGULATORY REVIEW REQUIRED]` | `/who-its-for`, page head — follow-up appointment, he explains his own planner; his doctor is the doctor character (element `dr`) (remade 2026-10-27) |
 | `caregiver-walk` | Caregivers | `/memory-health`, page head — mother and daughter on a seaside promenade, the mother leads |
 | `researcher-lab` | Doctors & Specialists | Home, "why" section — the client's doctor character (Higgsfield element `dr`) talking through a hand-drawn result and a printed paper with a colleague at a daylight research bench: researchers looking at an open question (2026-10-27) |
 | `pro-reading` | Doctors & Specialists | Home, professional band — the doctor character (element `dr`) reading a printed results table in her consulting room, under the frosted panel (2026-10-27) |

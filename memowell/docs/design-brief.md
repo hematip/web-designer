@@ -439,3 +439,9 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Panel:** one flat, neutral, softly frosted, asymmetric open shape (SVG clip path in bounding-box units, `backdrop-filter` blur 22px, 40% white), no rim, outline or colour fill, over the quiet window side; lead, body and link sit fully inside it with generous padding. Copy unchanged. Phones: square photo cropped to the doctor, the panel rising over its lower edge (the desk, never the face). RTL mirrors the photograph so the panel stays on the quiet side.
 - **Motion (GSAP, existing engine):** as the band arrives the panel opens from a small seed into its shape while blur and milkiness come up, then the three lines rise inside it (~1.5 s, replays after leaving the viewport, focus completes it); while the band scrolls the outline drifts slowly between two shapes of the same family and the photograph settles from 1.08 to 1. One writer owns the clip path. Reduced motion and no-JS show the resting shape and settled text.
 - **Verification:** both builds and content checks passed; inspected entrance and settled frames at 1440×900 and 390×844, reduced motion, and Arabic preview at 1440; no horizontal overflow.
+
+## Every doctor is the doctor character (2026-10-27)
+
+- **Client instruction:** wherever the site shows a doctor, it is the client's doctor character (Higgsfield element `dr`).
+- **Remade with the same compositions and briefs:** `patient-routine` (`/who-its-for` head and the homepage audience gallery: follow-up appointment, he explains his own planner while she listens) and `hcp-evidence` (`/science/professionals` band: she and a younger colleague review a printed paper in a Dubai clinic office). Pharmacist photos (`where-pharmacy`, `partners-counter`) show pharmacists, not doctors, and are unchanged.
+- **Verification:** both builds and content checks passed; inspected both pages at 1440 and 390.
