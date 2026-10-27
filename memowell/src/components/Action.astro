@@ -40,7 +40,7 @@ const isDownload = action.kind === 'summary' || action.kind === 'catalogue';
 ---
 {finalHref ? (
   <a class={cls} href={finalHref} {...(isExternal ? { rel: 'noopener' } : {})} {...(isDownload ? { download: '' } : {})}>
-    <span>{action.label}</span>
+    {variant === 'link' ? <span>{action.label}</span> : <span class="btn__roll"><span>{action.label}</span></span>}
     {isExternal ? <Icon name="external" class="arrow" /> : variant === 'link' ? <Icon name="arrow" class="arrow" /> : null}
   </a>
 ) : (

@@ -58,7 +58,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-home">
 
   <!-- 1 · The approved question and family film; the formulation story follows "why". -->
-  <section class="h-hero is-dark" aria-labelledby="hero-title" data-hero>
+  <section class="h-hero is-dark" aria-labelledby="hero-title" data-hero data-text-motion="off">
     <div class="h-hero__film" aria-hidden="true">
       <!-- Sources are chosen in home-scenes.js (720p on phones); the 1080p pair is the no-JS fallback. -->
       <video data-hero-film data-src={film.src} muted playsinline preload="metadata" poster={film.poster} width="1920" height="1080">
@@ -104,7 +104,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
         {whyParas.map((p: string, i: number) => (
           i === 0
             ? <div class="h-why__paragraph" data-reveal set:html={whyMoments(md(p))} />
-            : <div class="h-why__note" role="note" data-reveal set:html={md(p)} />
+            : <div class="h-why__note" role="note" data-reveal data-text-emphasis set:html={md(p)} />
         ))}
       </div>
       <div class="h-why__footer" data-reveal>
@@ -143,7 +143,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           <div class="h-story">
             <h2 id="formulation-title" class="h-story__title">{formulation.heading}</h2>
             <div class="h-story__rail" data-form-rail aria-hidden="true">{chapters.map(() => <span />)}</div>
-            <ol class="h-story__chapters" role="list">
+            <ol class="h-story__chapters" role="list" data-text-motion="off">
               {chapters.map((c, i) => (
                 <li class="h-chapter" data-chapter={i + 1}>
                   <p class="h-chapter__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}<span> / {String(chapters.length).padStart(2, '0')}</span></p>
@@ -178,7 +178,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           ))}
         </div>
       </div>
-      <ol class="h-who__list" role="list">
+      <ol class="h-who__list" role="list" data-text-motion="off">
         {who.items.map((item: any, i: number) => (
           <li class="h-who__entry" id={`who-group-${i + 1}`} data-who-entry>
             <div class="h-who__detail">
@@ -232,7 +232,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   </section>
 
   <!-- 7 · Professional band: the doctor reads a results table; the invitation sits on Kondor's frosted freeform panel. -->
-  <aside class:list={['h-pro', { 'h-pro--photo': proPhoto }]} id="professionals" aria-labelledby="professionals-title" data-pro>
+  <aside class:list={['h-pro', { 'h-pro--photo': proPhoto }]} id="professionals" aria-labelledby="professionals-title" data-pro data-text-motion="off">
     <div class="wrap">
       <div class="h-pro__stage">
         {proPhoto && <div class="h-pro__photo" data-pro-photo><Photo photo={proPhoto} variant="fill" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
@@ -263,7 +263,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   </section>
 
   <!-- 9 · Closing -->
-  <section class="h-close" id="closing" aria-labelledby="closing-title">
+  <section class="h-close" id="closing" aria-labelledby="closing-title" data-text-motion="off">
     <div class="wrap">
       <div class="h-close__panel is-dark" data-close-appear>
         <div class="h-close__copy">

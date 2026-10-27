@@ -19,7 +19,7 @@ const hasMedia = Astro.slots.has('media');
       </nav>
       {note && <p class="page-head__note">{note}</p>}
       <h1 class:list={{ 'page-head__wide': wide }} data-split="load">{title}</h1>
-      {body && <div class="page-head__lead flow" data-reveal set:html={md(body)} />}
+      {body && <div class="page-head__lead flow" set:html={md(body)} />}
       <slot />
     </div>
     {hasMedia && <div class="page-head__media" data-reveal><slot name="media" /></div>}

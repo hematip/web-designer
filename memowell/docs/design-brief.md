@@ -446,3 +446,15 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Remade with the same compositions and briefs:** `patient-routine` (`/who-its-for` head and the homepage audience gallery: follow-up appointment, he explains his own planner while she listens) and `hcp-evidence` (`/science/professionals` band: she and a younger colleague review a printed paper in a Dubai clinic office). Follow-up (client): the pharmacists are the same character too — `where-pharmacy` (Home, Where to find) and `partners-counter` (`/about/partners`) remade with the same compositions; scenes generated without the bottle, the official cutout composited at about 5% of frame height on the counter (`BOTTLE=990,1505,115` and `900,1850,120` on the 1792×2400 sources).
 - **Fix:** the homepage "Who it was studied in" gallery took its third photo from the Why section, so the new research photograph appeared twice. The gallery now has its own picture again (`caregiver-planner`, "Brain fog and delirium"); no photograph repeats on the homepage.
 - **Verification:** both builds and content checks passed; inspected both pages at 1440 and 390.
+
+## Site-wide text motion (2026-10-27)
+
+- **Client direction:** text motion across the whole site.
+- **System (one place, `src/scripts/motion.js`, GSAP SplitText already in the stack):**
+  1. Every `h1`/`h2` in `main` (and anything `data-split`): masked line rise; `.accent` strokes then draw in under the key word. Page heads play on load, the rest once on entering.
+  2. `h3` titles (cards, lists): quicker word rise.
+  3. Page-head introductions (and `data-text-lines`): line-by-line fade-rise; paragraphs with links stay whole and fade.
+  4. Display statements (`data-text-emphasis`, e.g. the Why caveat; blog blockquotes): words brighten from 30% as they are read (scrubbed).
+  5. Buttons: rolling label on hover/focus; the second line is a text-shadow, so nothing is announced twice.
+- **Rules:** lines and words only, never letters (Arabic shaping and joins kept); text with links or controls is never split; headings keep their full accessible name; scenes with their own text performance opt out with `data-text-motion="off"` (hero, 3D story chapters, Who story list, professional band, closing). Headings with `data-reveal` are animated only by the split. Reduced motion and no-JS show the settled text.
+- **Verification:** both builds and content checks passed. Scrolled all ten main routes at 1440×900: no browser errors, no horizontal overflow, no text left hidden after its entrance (only the 3D story's inactive chapters, by design), heading names complete. Inspected mid and settled frames on `/science`, the Arabic home and the button hover.
