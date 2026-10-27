@@ -228,10 +228,10 @@ function buildFormulation(mobile) {
     scrollTrigger: {
       trigger: mobile ? $('[data-form-scene]', form) : $('[data-form-pin]', form),
       start: 'top top',
-      end: mobile ? '+=400%' : '+=420%',
+      end: mobile ? '+=520%' : '+=560%',
       pin: true,
       refreshPriority: 2,
-      scrub: 1.1,
+      scrub: 1.4,
       anticipatePin: 1,
       invalidateOnRefresh: true,
     },
