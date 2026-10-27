@@ -38,6 +38,10 @@ const ui = getSite(locale).data.ui;
 // Hero film (Kondor Brain, VIDEO-SCENARIO-v3 "the wall of names"): silent, plays once and holds its last frame.
 const film = { src: '/video/hero-names', poster: '/video/hero-names-poster.webp' };
 const whyPhoto = photoOf(locale, 'home', 'why');
+const proPhoto = photoOf(locale, 'home', 'professionals');
+// Kondor's frosted freeform panel (brand panel grammar): one open, asymmetric organic shape in objectBoundingBox units.
+// home-scenes.js morphs between this resting shape and a drift variant with the same command structure.
+const proShape = 'M0.05 0.22C0.07 0.07 0.25 0.03 0.45 0.04C0.62 0.05 0.7 0 0.86 0.02C0.97 0.04 1 0.16 0.98 0.32C0.96 0.46 0.92 0.56 0.95 0.7C0.98 0.86 0.9 0.98 0.72 0.97C0.54 0.96 0.4 1 0.22 0.98C0.06 0.96 0 0.86 0.02 0.7C0.03 0.54 0.03 0.38 0.05 0.22Z';
 const wherePhoto = photoOf(locale, 'home', 'availability');
 // Existing illustrative scenes: care, family, everyday planning and active mid-life.
 const whoPhotos = [
@@ -226,15 +230,21 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </section>
 
-  <!-- 7 · Professional band (homepage version) -->
-  <aside class="h-pro" id="professionals" aria-labelledby="professionals-title">
+  <!-- 7 · Professional band: the doctor reads a results table; the invitation sits on Kondor's frosted freeform panel. -->
+  <aside class:list={['h-pro', { 'h-pro--photo': proPhoto }]} id="professionals" aria-labelledby="professionals-title" data-pro>
     <div class="wrap">
-      <div class="h-pro__panel" data-reveal>
-        <h2 id="professionals-title">{pro.lead}</h2>
-        <div class="h-pro__copy">
-          <p>{pro.body}</p>
-          <div class="btn-row">{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}</div>
+      <div class="h-pro__stage">
+        {proPhoto && <div class="h-pro__photo" data-pro-photo><Photo photo={proPhoto} variant="fill" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
+        <div class="h-pro__glass" data-pro-glass>
+          <div class="h-pro__copy" data-pro-copy>
+            <h2 id="professionals-title">{pro.lead}</h2>
+            <p>{pro.body}</p>
+            <div class="btn-row">{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}</div>
+          </div>
         </div>
+        <svg class="h-pro__defs" width="0" height="0" aria-hidden="true" focusable="false">
+          <clipPath id="pro-glass-shape" clipPathUnits="objectBoundingBox"><path d={proShape} data-pro-shape /></clipPath>
+        </svg>
       </div>
     </div>
   </aside>
@@ -466,9 +476,33 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
   /* ============ Professional route ============ */
   .h-pro { padding-block: 0 calc(var(--section) * 0.35); }
-  .h-pro__panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; padding: clamp(1.5rem, 4vw, 4rem); border: 1px solid var(--line-strong); border-radius: var(--r-l); background: var(--ice-2); }
-  .h-pro__panel h2 { max-width: 20ch; font-size: clamp(1.75rem, 1.3rem + 1.1vw, 2.5rem); line-height: 1.15; letter-spacing: -0.02em; }
-  .h-pro__copy { display: grid; gap: var(--s-3); color: var(--ink-soft); font-size: var(--fs-body); }
+  .h-pro__stage { position: relative; display: grid; align-items: center; }
+  .h-pro__photo, .h-pro__glass { grid-area: 1 / 1; }
+  .h-pro__photo { position: relative; height: 100%; min-height: clamp(30rem, 52vw, 46rem); max-height: 88svh; overflow: hidden; border-radius: var(--r-xl); }
+  .h-pro__photo :global(.photo) { border-radius: inherit; }
+  .h-pro__photo :global(.photo) { transform-origin: 70% 45%; }
+  :global([dir='rtl']) .h-pro__photo :global(.photo img) { scale: -1 1; }
+  /* Flat, neutral, softly frosted: the photograph stays visible through it, with no rim, outline or fill colour. */
+  .h-pro__glass {
+    position: relative; z-index: 1; justify-self: start; width: min(48%, 40rem); margin-inline-start: 3.5%;
+    padding: clamp(3rem, 5.5vw, 5.25rem) clamp(2.75rem, 5.5vw, 5.5rem) clamp(3.25rem, 6vw, 5.75rem);
+    background: rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(22px) saturate(1.15); backdrop-filter: blur(22px) saturate(1.15);
+    -webkit-clip-path: url(#pro-glass-shape); clip-path: url(#pro-glass-shape);
+  }
+  .h-pro:not(.h-pro--photo) .h-pro__glass { width: 100%; max-width: 52rem; margin: 0; background: var(--ice-2); }
+  .h-pro__glass h2 { max-width: 18ch; font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); line-height: 1.12; letter-spacing: -0.02em; }
+  .h-pro__copy { display: grid; gap: var(--s-3); color: var(--ink); font-size: var(--fs-body); }
+  .h-pro__copy p { max-width: 34ch; }
+  .h-pro__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  /* Phones and narrow tablets: the photograph first, the panel rising over its lower edge (the desk, never the face). */
+  @media (max-width: 56.24rem) {
+    .h-pro__stage { display: block; }
+    .h-pro__photo { height: auto; min-height: 0; max-height: none; aspect-ratio: 1 / 1; border-radius: var(--r-l); }
+    .h-pro__photo :global(.photo) { height: 100%; }
+    .h-pro__photo :global(.photo img) { object-position: 100% 40%; }
+    .h-pro__glass { width: auto; margin: -22% calc(var(--gutter) * -0.25) 0; padding: clamp(3rem, 12vw, 4.5rem) clamp(2rem, 9vw, 3.5rem) clamp(3.25rem, 13vw, 4.75rem); background: rgba(255, 255, 255, 0.55); }
+  }
 
   /* ============ Availability ============ */
   .h-where { padding-block: calc(var(--section) * 0.65) var(--section); }
@@ -516,7 +550,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-dir__title, .h-dir__copy, .h-dir__stage { grid-column: 1 / -1; }
     .h-dir__title { max-width: 18ch; }
     .h-dir__copy { max-width: var(--measure); }
-    .h-pro__panel { grid-template-columns: minmax(0, 1fr); }
     .h-where__grid { grid-template-columns: 1fr; }
     .h-where__grid { max-width: calc(38rem + 2 * var(--gutter)); }
   }

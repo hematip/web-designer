@@ -89,6 +89,15 @@ sections:
     body: "The professional section has the study designs, full results tables, composition, and a form to send a scientific question to our scientific affairs team."
     actions:
       - { label: "Go to the professional section", href: "/science/professionals" }
+    # Illustrative photography (AI-generated in Higgsfield from the client's "dr" character element). Needs client approval: see README.
+    # The left of the frame is kept quiet for the frosted glass panel that carries the text.
+    photo:
+      src: "/img/photos/pro-reading"
+      width: 2400
+      height: 1340
+      widths: [640, 1024, 1600, 2400]
+      focus: "50% 45%"
+      alt: ""
 
   - id: availability
     # Illustrative photography (AI-generated, Kondor Brain + Higgsfield, official bottle cutout composited, not generated). Needs client approval: see README.

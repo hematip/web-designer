@@ -321,6 +321,68 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
   };
 });
 
+// ---------------------------------------------------------------- Professionals: Kondor's frosted panel opens over the photograph
+// The panel is the brand's flat, neutral, freeform glass. It opens from a small seed into its resting shape as the
+// band arrives (blur and milkiness come up with it), the invitation rises inside it, and while the band scrolls
+// the outline drifts slowly between two shapes of the same family. One writer owns the clip path: `open` and `drift`
+// are combined into a single shape. Without motion the markup's resting shape and settled text stand as they are.
+const PRO_DRIFT = [0.04, 0.26, 0.08, 0.08, 0.28, 0.01, 0.5, 0.03, 0.66, 0.05, 0.76, 0.03, 0.88, 0.05, 0.99, 0.08, 0.99, 0.22,
+  0.97, 0.38, 0.95, 0.52, 0.95, 0.6, 0.97, 0.74, 0.99, 0.9, 0.86, 0.99, 0.68, 0.98, 0.5, 0.97, 0.36, 0.98, 0.2, 0.97,
+  0.05, 0.95, 0.01, 0.84, 0.02, 0.66, 0.03, 0.52, 0.02, 0.4, 0.04, 0.26];
+const proPath = (n) => {
+  const f = (v) => +v.toFixed(4);
+  let d = `M${f(n[0])} ${f(n[1])}`;
+  for (let i = 2; i < n.length; i += 6) d += `C${n.slice(i, i + 6).map(f).join(' ')}`;
+  return `${d}Z`;
+};
+mm.add(MQ.motion, () => {
+  const band = $('[data-pro]');
+  const shape = $('[data-pro-shape]');
+  const glass = $('[data-pro-glass]');
+  if (!band || !shape || !glass) return;
+  const rest = shape.getAttribute('d').match(/-?\d*\.?\d+/g).map(Number);
+  if (rest.length !== PRO_DRIFT.length) return;
+  // The seed is the resting shape at about a fifth of its size, near the panel's upper start.
+  const seed = rest.map((v, i) => (i % 2 ? 0.4 + (v - 0.5) * 0.22 : 0.32 + (v - 0.5) * 0.26));
+  const st = { open: 0, drift: 0 };
+  const render = () => shape.setAttribute('d', proPath(rest.map((r, i) => {
+    const settled = r + (PRO_DRIFT[i] - r) * st.drift;
+    return seed[i] + (settled - seed[i]) * st.open;
+  })));
+  const parts = [...$('[data-pro-copy]', band).children];
+  const figure = $('[data-pro-photo] .photo', band);
+  const frost = getComputedStyle(glass).backdropFilter || getComputedStyle(glass).webkitBackdropFilter;
+  const milk = getComputedStyle(glass).backgroundColor;
+
+  const entrance = gsap.timeline({ paused: true, onUpdate: render });
+  entrance.fromTo(st, { open: 0 }, { open: 1, duration: 1.5, ease: 'expo.out' }, 0);
+  entrance.fromTo(glass, { backdropFilter: 'blur(0px) saturate(1)', webkitBackdropFilter: 'blur(0px) saturate(1)', backgroundColor: 'rgba(255, 255, 255, 0)' },
+    { backdropFilter: frost, webkitBackdropFilter: frost, backgroundColor: milk, duration: 1.2, ease: 'power2.out' }, 0);
+  entrance.from(parts, { opacity: 0, y: 36, duration: 0.95, stagger: 0.14, ease: 'power3.out' }, 0.45);
+  const settle = () => entrance.progress(1).pause();
+  const play = () => (band.contains(document.activeElement) ? settle() : entrance.restart());
+  const reset = () => { if (!band.contains(document.activeElement)) entrance.pause(0); };
+  entrance.pause(0);
+  render();
+
+  // Reset only outside the viewport, so reverse scrolling never hides a visible panel.
+  ScrollTrigger.create({ trigger: band, start: 'top bottom', end: 'bottom top', onLeave: reset, onLeaveBack: reset });
+  ScrollTrigger.create({ trigger: band, start: 'top 68%', end: 'bottom top', onEnter: play, onEnterBack: play });
+  const drift = gsap.to(st, {
+    drift: 1, ease: 'none', onUpdate: render,
+    scrollTrigger: { trigger: band, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
+  });
+  const zoom = figure && gsap.fromTo(figure, { scale: 1.08 }, {
+    scale: 1, ease: 'none', scrollTrigger: { trigger: band, start: 'top bottom', end: 'center center', scrub: true },
+  });
+  band.addEventListener('focusin', settle);
+  return () => {
+    band.removeEventListener('focusin', settle);
+    entrance.kill(); drift.scrollTrigger?.kill(); drift.kill(); zoom?.scrollTrigger?.kill(); zoom?.kill();
+    st.open = 1; st.drift = 0; render();
+  };
+});
+
 // ---------------------------------------------------------------- Closing: a visible, staged entrance into the conversation
 mm.add(MQ.motion, () => {
   const panel = $('[data-close-appear]');
