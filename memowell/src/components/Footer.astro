@@ -54,7 +54,7 @@ const isLive = (h: string) => /^(https?:|#|mailto:)/.test(h) || pathIsLive(local
   <div class="site-footer__base on-dark">
     <div class="wrap">
       <div class="site-footer__trust">
-        <a class="site-footer__maker" href={settings.kondor_url} rel="noopener"><img src="/brand/kondor-pharma-logo.png" width="420" height="185" alt="Kondor Pharma" loading="lazy" /></a>
+        <a class="site-footer__maker" href={settings.kondor_url} rel="noopener"><img src="/brand/kondor-pharma-logo-white.png" width="640" height="281" alt="Kondor Pharma" loading="lazy" /></a>
         <div class="site-footer__disclaimer" id="disclaimer" tabindex="-1">
           <p>{site.general_disclaimer}</p>
         </div>
@@ -92,7 +92,8 @@ const isLive = (h: string) => /^(https?:|#|mailto:)/.test(h) || pathIsLive(local
 
   .site-footer__base { padding-block: var(--s-5) var(--s-4); background: var(--midnight); color: var(--on-dark-soft); }
   .site-footer__trust { display: grid; grid-template-columns: minmax(10rem, 1fr) minmax(0, 3.5fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; padding-block-end: var(--s-5); }
-  .site-footer__maker { display: block; width: 10rem; border-radius: var(--r-s); background: var(--white); padding: 0.75rem 1rem; }
+  /* Reversed logo on the midnight base: white wordmark, the official green leaf and PHARMA unchanged; no frame. */
+  .site-footer__maker { display: block; width: 9rem; }
   .site-footer__maker img { width: 100%; height: auto; }
   .site-footer__disclaimer { min-width: 0; }
   .site-footer__disclaimer p { max-width: 84ch; font-size: var(--fs-small); line-height: 1.75; }
