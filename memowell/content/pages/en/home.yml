@@ -26,13 +26,13 @@ sections:
       This is an area of active research, not a settled answer.
     inline_action: { label: "Read more about memory health", href: "/memory-health" }
     sources: ["10.1186/s12974-020-01820-6"]
-    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
+    # Illustrative photography (AI-generated in Higgsfield from the client's "dr" character element). Needs client approval: see README.
     photo:
-      src: "/img/photos/caregiver-planner"
+      src: "/img/photos/researcher-lab"
       width: 1600
-      height: 2000
+      height: 1853
       widths: [640, 1024, 1600]
-      focus: "50% 48%"
+      focus: "60% 35%"
       alt: ""
 
   - id: formulation

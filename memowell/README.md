@@ -162,7 +162,8 @@ These are interface or structural words, and none of them is a claim. They are a
 | `hcp-evidence` | Doctors & specialists | `/science/professionals`, wide band — two physicians review a printed paper in a consultation room |
 | `patient-routine` | Patients `[LOCAL REGULATORY REVIEW REQUIRED]` | `/who-its-for`, page head — follow-up appointment, he explains his own planner |
 | `caregiver-walk` | Caregivers | `/memory-health`, page head — mother and daughter on a seaside promenade, the mother leads |
-| `caregiver-planner` | Caregivers | Home, "why" section — father writes on a wall calendar, his son beside him |
+| `researcher-lab` | Doctors & Specialists | Home, "why" section — the client's doctor character (Higgsfield element `dr`) talking through a hand-drawn result and a printed paper with a colleague at a daylight research bench: researchers looking at an open question (2026-10-27) |
+| `caregiver-planner` | Caregivers | Not in use since 2026-10-27 (was Home, "why") — father writes on a wall calendar, his son beside him |
 | `wellness-lunch` | Wellness | `/memowell`, "How to take it" — terrace lunch; official bottle composited at ~6% of frame height |
 | `where-pharmacy` | Wellness | Home, "Where to find Memowell" — pharmacist conversation; official bottle composited on the counter |
 | `partners-counter` | Pharmacy / distribution | `/about/partners` — two pharmacists check a delivery; official bottle composited on the counter |
