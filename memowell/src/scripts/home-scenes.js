@@ -2,6 +2,7 @@
 // resolved composition, so reduced motion, no-JS and failures show complete content.
 import { gsap, ScrollTrigger, SplitText, mm, MQ, getLenis } from './motion.js';
 import { Flip } from 'gsap/Flip';
+import { monotone } from '../lib/monotone.js';
 
 gsap.registerPlugin(Flip);
 
@@ -137,16 +138,25 @@ mm.add(MQ.motion, () => {
 // ---------------------------------------------------------------- K-Vie™ → AKBA → capsule (3D)
 // The pinned range scrubs one number. It decides which of the five chapters is read and where the 3D scene
 // stands, so text and scene always change together and reverse scroll, fast skips and anchors resolve to the
-// same frame. Each chapter plays its stage in the first part of its range and holds the resolved frame while it
-// is read. Without WebGL (or before it loads) the static SVG capsule poster stays in place; with reduced motion
+// same frame. Each chapter plays its stage, then keeps drifting slowly through the stage's quiet tail while it is
+// read; the scene never stops, so the next chapter's text arrives on a moving scene that then gathers speed into
+// its stage. Without WebGL (or before it loads) the static SVG capsule poster stays in place; with reduced motion
 // the chapters are listed beside the scene's last frame.
 const form = $('[data-form]');
-const sceneState = { p: 0 };
-// Scene range [from, to] played by each chapter: micronized (granules → dust), microcrystalline (lattice),
-// K-Vie™ · 40% (two in five crystals gold), AKBA (the molecule builds), vegetarian capsule (the halves close).
-const STAGES = [[0, 0.2], [0.2, 0.4], [0.4, 0.56], [0.56, 0.78], [0.78, 1]];
-const PLAY = 0.7; // share of a chapter's range that plays its stage; the rest holds for reading
-const ease = (x) => x * x * (3 - 2 * x);
+const sceneState = { p: 0, t: 0 }; // scene progress, scroll progress through the pin
+// Scroll progress → scene progress, as [scroll, scene] knots on a smooth monotone curve. Per chapter (a fifth of
+// the scroll each): its start, the point where its stage has resolved, its end. Stages: micronized 0–0.2 (granules
+// → dust), microcrystalline 0.2–0.4 (lattice), K-Vie™ · 40% 0.4–0.56 (two in five crystals gold), AKBA 0.56–0.78
+// (fly through the lattice, the molecule builds), vegetarian capsule 0.78–1 (the molecule turns, the halves close),
+// then the closed capsule holds for the last chapter's actions. Extra knots give the fly-through and the closing
+// more scroll.
+const sceneAt = monotone([
+  [0, 0], [0.128, 0.18], [0.2, 0.2],
+  [0.328, 0.375], [0.4, 0.4],
+  [0.528, 0.53], [0.6, 0.56],
+  [0.66, 0.625], [0.74, 0.765], [0.8, 0.78],
+  [0.85, 0.85], [0.955, 0.995], [0.975, 1], [1, 1],
+]);
 let sceneMode = null;
 let scene = null;
 let sceneLoad = null;
@@ -199,9 +209,8 @@ function buildFormulation(mobile) {
   const sync = () => {
     const t = st.t;
     const i = Math.min(n - 1, Math.floor(t * n));
-    const [a, b] = STAGES[Math.min(i, STAGES.length - 1)];
-    const local = ease(Math.min(1, Math.max(0, (t - from(i)) / ((to(i) - from(i)) * PLAY))));
-    sceneState.p = a + (b - a) * local;
+    sceneState.p = sceneAt(t);
+    sceneState.t = t;
     if (i !== active) {
       active = i;
       chapters.forEach((c, k) => { c.dataset.state = k < i ? 'past' : k === i ? 'active' : 'future'; });
@@ -222,7 +231,7 @@ function buildFormulation(mobile) {
       end: mobile ? '+=400%' : '+=420%',
       pin: true,
       refreshPriority: 2,
-      scrub: 0.9,
+      scrub: 1.1,
       anticipatePin: 1,
       invalidateOnRefresh: true,
     },

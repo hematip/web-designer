@@ -17,6 +17,7 @@ import { SimplexNoise } from 'three/addons/math/SimplexNoise.js';
 import { mergeVertices, mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { AKBA_ATOMS, AKBA_BONDS } from './akba.js';
 import { gsap } from './motion.js';
+import { monotone } from '../lib/monotone.js';
 
 // ---------------------------------------------------------------- helpers
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
@@ -497,7 +498,8 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
 
   // ---------------------------------------------------------------- camera path (keyed to story progress)
   // Stage ranges (state.p) per chapter: micronized 0–0.2, microcrystalline 0.2–0.4, K-Vie™ 40% 0.4–0.56,
-  // AKBA 0.56–0.78, capsule 0.78–1 (home-scenes.js STAGES). Each chapter holds on its stage's last frame.
+  // AKBA 0.56–0.78, capsule 0.78–1 (home-scenes.js sceneAt). Each chapter drifts slowly through its stage's quiet
+  // tail while it is read.
   const keys = [
     { p: 0.0, pos: [0.0, 0.3, 7.4], tgt: [0, 0.05, 0] },   // coarse granules
     { p: 0.1, pos: [1.5, 0.6, 5.8], tgt: [0, 0.1, 0] },
@@ -511,12 +513,8 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   ];
   const posCurve = new THREE.CatmullRomCurve3(keys.map((k) => new THREE.Vector3(...k.pos)), false, 'centripetal');
   const tgtCurve = new THREE.CatmullRomCurve3(keys.map((k) => new THREE.Vector3(...k.tgt)), false, 'centripetal');
-  const keyU = (p) => {
-    for (let i = 0; i < keys.length - 1; i++) {
-      if (p <= keys[i + 1].p) return (i + seg(p, keys[i].p, keys[i + 1].p)) / (keys.length - 1);
-    }
-    return 1;
-  };
+  // Story progress → position along the path, smooth through the keys so the camera never changes speed abruptly.
+  const keyU = monotone(keys.map((k, i) => [k.p, i / (keys.length - 1)]));
   const camPos = new THREE.Vector3(), camTgt = new THREE.Vector3();
   const pointer = { x: 0, y: 0, sx: 0, sy: 0 };
   const onPointer = (e) => {
@@ -699,10 +697,10 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   }
 
   // ---------------------------------------------------------------- loop
-  // Ambient life (swirl, drift, float) advances only while the visitor scrolls and settles ~1.5 s after,
-  // so nothing keeps moving on its own (WCAG 2.2.2). Idle frames are not redrawn.
+  // Ambient life (swirl, drift, float) advances only while the visitor scrolls through the pin and settles ~1.5 s
+  // after, so nothing keeps moving on its own (WCAG 2.2.2). Idle frames are not redrawn.
   let visible = false, ready = false, lost = false, dirty = true;
-  let lastTime = 0, sceneTime = 0, activity = 1, lastP = -1;
+  let lastTime = 0, sceneTime = 0, activity = 1, lastP = -1, lastT = -1;
   function draw(t) {
     if (lost) return;
     evaluate(mode === 'static' ? 1 : state.p, t);
@@ -716,9 +714,10 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     const dt = lastTime ? Math.min(0.1, time - lastTime) : 1 / 60;
     lastTime = time;
     if (mode === 'static' || !visible || document.hidden) return;
-    if (Math.abs(state.p - lastP) > 1e-5) {
+    if (Math.abs(state.p - lastP) > 1e-5 || Math.abs((state.t ?? 0) - lastT) > 1e-5) {
       activity = 1;
       lastP = state.p;
+      lastT = state.t ?? 0;
     } else {
       activity = Math.max(0, activity - dt / 1.5);
     }

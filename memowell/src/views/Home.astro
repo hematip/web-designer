@@ -426,12 +426,21 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     :global(.h-form.is-scrubbing) .h-form__frame { position: relative; top: auto; }
   }
 
-  /* ---- Scrubbing: one chapter at a time, set like a film title card ---- */
-  .h-chapter { transition: opacity 0.55s ease, translate 0.75s cubic-bezier(0.2, 0.75, 0.2, 1), filter 0.55s ease; }
+  /* ---- Scrubbing: one chapter at a time, set like a film title card. The outgoing card lifts away at once (up when
+     scrolling on, down when scrolling back); the incoming one follows a beat later, its number, title, text and
+     actions rising in turn, so the two cards never overlap. ---- */
   :global(.h-form.is-scrubbing) .h-story__chapters { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  :global(.h-form.is-scrubbing) .h-chapter { grid-area: 1 / 1; gap: 1rem; opacity: 0; translate: 0 1.25rem; filter: blur(6px); pointer-events: none; }
-  :global(.h-form.is-scrubbing) .h-chapter[data-state='past'] { translate: 0 -1.25rem; }
-  :global(.h-form.is-scrubbing) .h-chapter[data-state='active'] { opacity: 1; translate: 0 0; filter: none; pointer-events: auto; }
+  :global(.h-form.is-scrubbing) .h-chapter { grid-area: 1 / 1; gap: 1rem; pointer-events: none; }
+  :global(.h-form.is-scrubbing) .h-chapter > * { opacity: 0; translate: 0 1rem; transition: opacity 0.28s ease-in, translate 0.32s ease-in; }
+  :global(.h-form.is-scrubbing) .h-chapter[data-state='past'] > * { translate: 0 -0.85rem; }
+  :global(.h-form.is-scrubbing) .h-chapter[data-state='active'] { pointer-events: auto; }
+  :global(.h-form.is-scrubbing) .h-chapter[data-state='active'] > * {
+    opacity: 1; translate: 0 0;
+    transition: opacity 0.6s ease-out var(--in, 0.26s), translate 0.95s cubic-bezier(0.2, 0.75, 0.2, 1) var(--in, 0.26s);
+  }
+  .h-chapter > :nth-child(2) { --in: 0.33s; }
+  .h-chapter > :nth-child(3) { --in: 0.42s; }
+  .h-chapter > :nth-child(4) { --in: 0.5s; }
   :global(.h-form.is-scrubbing) .h-chapter__label { font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem); line-height: 1.04; max-width: 16ch; text-shadow: 0 2px 28px rgba(6, 12, 51, 0.6); }
   :global(.h-form.is-scrubbing) .h-story__title { font-size: clamp(1.5rem, 1rem + 1.4vw, 2.25rem); line-height: 1.12; max-width: 26ch; }
   :global(.h-form.is-scrubbing) .h-story__rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; width: min(100%, 22rem); }
