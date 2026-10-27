@@ -410,3 +410,9 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Copy:** label "Inside K-Vie™ · AKBA"; body "AKBA (acetyl-11-keto-β-boswellic acid) is one of the boswellic acids." Part 4 §3 updated.
 - **Open point:** the label implies that K-Vie™ contains AKBA. That, and its share, is not in the supplied product documents and no public specification was found; Kondor's specification or certificate of analysis should confirm it.
 - **Verification:** production build and content check passed; inspected the transition at 1440×900 (stops 0.5–0.9) and 390×844 (0.6–0.74) with real WebGL, no browser errors.
+
+## Chapter 4: AKBA comes out of an incoming crystal (2026-10-27)
+
+- **Client feedback (screenshot at the chapter-4 midpoint):** the molecule should come out of one of the crystals while that crystal is entering the scene from somewhere in space; before, it appeared small and late inside a crystal that had been brought to the centre.
+- **Motion:** the camera still flies through the lattice and its crystals stream past, now clearing sooner (0.58–0.64). A separate gold crystal with a warm glow travels from deep space (behind and above the lattice, right) along a curved path to the centre, turning and slowing as it arrives (0.59–0.75). From 0.64 it opens with a brief flare and shrinks away while AKBA grows out of it, riding the same path from 4% to full size and building bond by bond; the dust gathers onto it. The molecule is complete at the centre by 0.77 and holds there through the chapter.
+- **Verification:** production build passed; inspected 0.62–0.8 at 1440×900 and 0.64–0.72 at 390×844 with real WebGL, no browser errors.

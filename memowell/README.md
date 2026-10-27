@@ -56,7 +56,7 @@ Full record: `docs/design-brief.md` → "Version 2".
      1. *Micronized*: coarse golden K-Vie™ granules break up from the base and the fine dust spins into a slow vortex;
      2. *Microcrystalline*: the dust snaps into a rotating 3D crystal lattice;
      3. *K-Vie™ · standardised to 40% boswellic acids*: two in five crystals (40%) turn gold;
-     4. *Inside K-Vie™ · AKBA*: the camera flies into one gold crystal while the rest of the lattice streams past, and the AKBA molecule unfolds inside it, built bond by bond from its real 3D conformer (PubChem CID 11168203; `src/scripts/akba.js`);
+     4. *Inside K-Vie™ · AKBA*: the camera flies through the lattice while its crystals stream past; a glowing gold crystal comes in from deep space, opens on its way, and the AKBA molecule grows out of it while travelling, arriving at the centre built bond by bond from its real 3D conformer (PubChem CID 11168203; `src/scripts/akba.js`);
      5. *Vegetarian and gluten-free*: the molecule recedes, its dust condenses into the capsule, the two cream halves close and the capsule turns under a sweeping light.
    - each chapter plays its stage in the first ~70% of its scroll range and holds the resolved frame while it is read; one scrubbed value drives text and scene, so reverse scroll and skips land on the same frame;
    - chapter texts are whole sentences of the copy deck (§3, including "AKBA (acetyl-11-keto-β-boswellic acid) is one of the boswellic acids.", and the `/memowell` sentence "One bottle holds 90 vegetarian capsules."), in order; a five-part rail shows progress;

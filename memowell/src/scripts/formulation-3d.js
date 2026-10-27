@@ -3,9 +3,9 @@
 //   01 micronized: coarse golden granules break into fine dust that spins into a vortex
 //   02 microcrystalline: the dust snaps into a rotating lattice (crystals + unit-cell lines)
 //   03 K-Vie™ · 40%: 40% of the lattice's crystals light gold (standardised to 40% boswellic acids)
-//   04 inside K-Vie™: the camera flies into one gold crystal while the lattice streams past, and AKBA
-//      (acetyl-11-keto-β-boswellic acid) unfolds inside it, built bond by bond from its real 3D conformer
-//      (PubChem CID 11168203, see akba.js)
+//   04 inside K-Vie™: the camera flies through the lattice while its crystals stream past; one gold crystal
+//      comes in from deep space, opens on its way, and AKBA (acetyl-11-keto-β-boswellic acid) grows out of it,
+//      arriving at the centre built bond by bond from its real 3D conformer (PubChem CID 11168203, see akba.js)
 //   05 vegetarian capsule: the molecule recedes, its dust condenses into the capsule and the halves close
 // Procedural apart from the molecule's atom coordinates. Copy stays in HTML; this canvas is decorative.
 // One clock: frames are drawn from the GSAP ticker that already drives Lenis.
@@ -313,7 +313,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     crystalData.push({ p, q, d: p.length() / (L_SIZE * 0.87), lit: false });
   }
   // K-Vie™ is standardised to 40% boswellic acids: exactly two in five crystals light gold in chapter 3.
-  // Chapter 4 looks inside one gold crystal near the centre; it is always among the lit ones.
+  // Chapter 4 flies through the lattice towards one gold crystal near its centre (always among the lit ones).
   const inner = crystalData.reduce((best, c, i) => (c.p.length() < crystalData[best].p.length() ? i : best), 0);
   const target = crystalData[inner];
   target.lit = true;
@@ -372,6 +372,24 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
   });
   const bonds = new THREE.InstancedMesh(bondGeo, bondMat, bondData.length);
   molGroup.add(bonds);
+
+  // ---- 04 the incoming crystal that carries AKBA: travels from deep space to the centre and opens on the way
+  const seedMat = new THREE.MeshPhysicalMaterial({
+    color: 0xffc25a, roughness: 0.08, metalness: 0.1, clearcoat: 1, flatShading: true, envMapIntensity: 2.2,
+    emissive: new THREE.Color(0x7a4300), emissiveIntensity: 0.6,
+  });
+  const seed = new THREE.Mesh(crystalGeo, seedMat);
+  seed.visible = false;
+  scene.add(seed);
+  const flareMat = new THREE.SpriteMaterial({ map: glowMat.map, color: 0xffc77a, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+  const flare = new THREE.Sprite(flareMat);
+  flare.visible = false;
+  scene.add(flare);
+  const seedPath = new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(2.6, 1.5, -7.5), // far, upper right, behind the lattice
+    new THREE.Vector3(2.4, -0.4, -2.6),
+    new THREE.Vector3(0, 0, 0),
+  );
 
   // ---- 05 capsule
   const capRoot = new THREE.Group();
@@ -485,8 +503,8 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     { p: 0.2, pos: [0.5, 1.4, 8.2], tgt: [0, 0.2, 0] },    // micronized vortex
     { p: 0.34, pos: [-2.2, 4.4, 7.0], tgt: [0, 0, 0] },    // lattice from above
     { p: 0.48, pos: [-4.4, 2.0, 6.2], tgt: [0, 0, 0] },    // two in five crystals gold
-    { p: 0.62, pos: [-1.8, 1.0, 5.6], tgt: [0, 0, 0] },    // into a gold crystal
-    { p: 0.76, pos: [0.3, 0.45, 5.0], tgt: [0, 0, 0] },    // AKBA inside it
+    { p: 0.62, pos: [-1.8, 1.0, 5.6], tgt: [0, 0, 0] },    // through the lattice
+    { p: 0.76, pos: [0.3, 0.45, 5.0], tgt: [0, 0, 0] },    // AKBA has arrived
     { p: 0.88, pos: [0.9, 0.5, 6.4], tgt: [0, 0, 0] },     // capsule forming
     { p: 1.0, pos: [0.15, 0.25, 5.3], tgt: [0, 0, 0] },    // capsule
   ];
@@ -521,10 +539,12 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     const burst = inOutCubic(seg(p, 0.07, 0.19));         //    into the vortex
     const L = seg(p, 0.22, 0.36);                         // 02 lattice
     const kv = smooth(seg(p, 0.41, 0.52));                // 03 40% of crystals gold
-    const zoom = smooth(seg(p, 0.56, 0.68));              // 04 fly into one gold crystal
-    const pass = seg(p, 0.6, 0.68);                       //    the rest of the lattice passes by
-    const mol = seg(p, 0.6, 0.72);                        //    dust gathers onto AKBA inside it
-    const molIn = seg(p, 0.62, 0.76);                     //    atoms and bonds build
+    const zoom = smooth(seg(p, 0.56, 0.66));              // 04 fly through the lattice
+    const pass = seg(p, 0.58, 0.64);                      //    its crystals stream past and fade
+    const fly = 1 - (1 - seg(p, 0.59, 0.75)) ** 2;        //    a gold crystal comes in from deep space, slowing as it arrives
+    const open = smooth(seg(p, 0.64, 0.72));              //    and opens on its way
+    const mol = seg(p, 0.63, 0.76);                       //    dust gathers onto AKBA
+    const molIn = seg(p, 0.64, 0.77);                     //    which grows out of it while travelling, bond by bond
     const molOut = smooth(seg(p, 0.79, 0.87));            // 05 molecule recedes
     const C = seg(p, 0.8, 0.92);                          //    dust condenses into the capsule
     const S = outCubic(seg(p, 0.84, 0.94));               //    halves close
@@ -551,9 +571,7 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     pU.uLatMat.value.copy(lattice.matrixWorld);
     for (let i = 0; i < crystalData.length; i++) {
       const c = crystalData[i];
-      const own = c === target;
-      // the target crystal gives way to the molecule unfolding inside it; the others fade as they pass
-      const k = outCubic(clamp01(L * 1.6 - c.d * 0.6)) * (own ? 1 - smooth(seg(p, 0.62, 0.7)) : 1 - pass);
+      const k = outCubic(clamp01(L * 1.6 - c.d * 0.6)) * (1 - pass);
       s3.setScalar(Math.max(k * (c.lit ? 1 + kv * 0.35 : 1), 0.0001));
       m4.compose(c.p, c.q, s3);
       crystals.setMatrixAt(i, m4);
@@ -565,10 +583,22 @@ export function createFormulationScene({ section, canvas, frame, state, mode: in
     lineMat.opacity = 0.26 * smooth(seg(p, 0.26, 0.38)) * (1 - seg(p, 0.56, 0.62));
     lines.visible = lineMat.opacity > 0.001;
 
-    // AKBA: atoms appear along the chain and each bond grows from its first atom
+    // the incoming crystal: spins along its path, shrinks away as the molecule grows out of it
+    seedPath.getPoint(fly, v3);
+    seed.position.copy(v3);
+    seed.rotation.set(fly * 2.2 + time * 0.3, fly * 5 + time * 0.5, 0.3);
+    seed.scale.setScalar(Math.max(3.6 * smooth(seg(p, 0.59, 0.62)) * (1 - open), 0.0001));
+    seed.visible = p > 0.59 && open < 1;
+    flare.position.copy(v3);
+    flare.scale.setScalar(1.2 + 1.6 * bump(p, 0.63, 0.75));
+    flareMat.opacity = 0.45 * smooth(seg(p, 0.59, 0.63)) * (1 - open) + 0.55 * bump(p, 0.63, 0.75);
+    flare.visible = flareMat.opacity > 0.002;
+
+    // AKBA: rides with the crystal, grows out of it; atoms appear along the chain and bonds grow from their first atom
     molGroup.rotation.set(0.28, -0.75 + 1.1 * smooth(seg(p, 0.56, 0.86)) + time * 0.04, 0.1);
-    molGroup.position.y = motion ? Math.sin(time * 0.8) * 0.03 : 0;
-    molGroup.scale.setScalar(lerp(0.3, 1, smooth(molIn))); // unfolds from crystal size
+    molGroup.position.copy(v3);
+    molGroup.position.y += motion ? Math.sin(time * 0.8) * 0.03 : 0;
+    molGroup.scale.setScalar(lerp(0.04, 1, molIn));
     molGroup.updateMatrixWorld(true);
     pU.uMolMat.value.copy(molGroup.matrixWorld);
     const live = 1 - molOut;
