@@ -164,10 +164,10 @@ These are interface or structural words, and none of them is a claim. They are a
 | `caregiver-walk` | Caregivers | `/memory-health`, page head — mother and daughter on a seaside promenade, the mother leads |
 | `researcher-lab` | Doctors & Specialists | Home, "why" section — the client's doctor character (Higgsfield element `dr`) talking through a hand-drawn result and a printed paper with a colleague at a daylight research bench: researchers looking at an open question (2026-10-27) |
 | `pro-reading` | Doctors & Specialists | Home, professional band — the doctor character (element `dr`) reading a printed results table in her consulting room, under the frosted panel (2026-10-27) |
-| `caregiver-planner` | Caregivers | Not in use since 2026-10-27 (was Home, "why") — father writes on a wall calendar, his son beside him |
+| `caregiver-planner` | Caregivers | Home, "Who it was studied in" gallery ("Brain fog and delirium"); no longer the "why" photo since 2026-10-27 — father writes on a wall calendar, his son beside him |
 | `wellness-lunch` | Wellness | `/memowell`, "How to take it" — terrace lunch; official bottle composited at ~6% of frame height |
-| `where-pharmacy` | Wellness | Home, "Where to find Memowell" — pharmacist conversation; official bottle composited on the counter |
-| `partners-counter` | Pharmacy / distribution | `/about/partners` — two pharmacists check a delivery; official bottle composited on the counter |
+| `where-pharmacy` | Wellness | Home, "Where to find Memowell" — pharmacist conversation, the pharmacist is the doctor character (element `dr`); official bottle composited on the counter (remade 2026-10-27) |
+| `partners-counter` | Pharmacy / distribution | `/about/partners` — two pharmacists check a delivery, one is the doctor character (element `dr`); official bottle composited on the counter (remade 2026-10-27) |
 | `capsule-resin` | All | `/memowell`, "What is in it" — one cream capsule beside frankincense resin tears |
 
 v6 (2026-10-13): all eight regenerated through the **Kondor Brain plugin** (approval packet `docs/kondor-brain/approval-packet-v1.md`, site review findings): broader casting for the UAE/GCC market, no white trousers, fewer table scenes, restrained blue, bottle composited at ≤6% of frame height with the official `memowell-front.png` (scene generated without it). GPT Image 2.5 (high, 2k) on Higgsfield. The plugin's capsule reference photo could not be passed to the generator (upload blocked in this environment), so the capsule is matched by description only.
