@@ -337,7 +337,9 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **4. Who it's for (four cards)**
 > ## Who it's for
 >
-> Memowell was studied in people with Alzheimer's disease and people with memory problems after a brain injury. Recognising your situation here is not a diagnosis. It tells you whether that research is relevant to you. What it means for you is a conversation with your doctor.
+> Four situations come up again and again in research on memory. Find the one closest to yours and read what has been studied in it, in plain language, with sources.
+>
+> Clinical studies of Memowell: people with Alzheimer's disease · people with memory problems after a brain injury
 >
 > **Mild cognitive impairment (MCI)** — A change in memory or thinking that can progress toward Alzheimer's disease.
 >
@@ -349,7 +351,9 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > [Read about all four]
 
-*Note (2026-11-03, client direction, claim accuracy):* this section was headed "Who it was studied in" and closed with "Each of these has been studied." Memowell itself was studied in two populations (85 patients with Alzheimer's disease; 80 patients with post-TBI cognitive impairment, see Science). The four groups are where the research may be relevant, not study populations, so the heading, lead and link were rewritten; the lead now names the two study populations. The same wording was retired from the hero action, navigation, footer, the home meta description and the `/who-its-for` page title, heading, first sentence and meta description. Former wording is in git history.
+*Layout note:* the "Clinical studies of Memowell" line is set in small type beneath the link (a fact line, like the hero's NPN line).
+
+*Note (2026-11-03, client direction, claim accuracy):* this section was headed "Who it was studied in" and closed with "Each of these has been studied." Memowell itself was studied in two populations (85 patients with Alzheimer's disease; 80 patients with post-TBI cognitive impairment, see Science). The four groups are where the research may be relevant, not study populations, so the heading, lead and link were rewritten; the two study populations sit in a small fact line (Kondor copywriter pass, option 2, 2026-11-03). The same wording was retired from the hero action, navigation, footer, the home meta description and the `/who-its-for` page title, heading, first sentence and meta description. Former wording is in git history.
 
 *Note (2026-10-27, client direction):* sections 5–9 were rewritten in a senior UX-writing pass: shorter sentences, the point first, labels that name the destination. Facts, numbers, populations, sources, claim scope and the doctor/pharmacist conversation are unchanged; nothing new is claimed. Former wording is in git history.
 
