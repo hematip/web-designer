@@ -1,7 +1,7 @@
 # Home — approved English copy (brief Part 4, HOME). Edit only through the CMS with scientific-officer approval.
 status: approved
 meta_title: "Memowell® — Memory Health Supplement | Kondor Pharma"
-meta_description: "Memowell® is a dietary supplement for memory and cognitive health. See who it was studied in and what the research found, then talk it through with your doctor."
+meta_description: "Memowell® is a dietary supplement for memory and cognitive health. See who it's for and what the research found, then talk it through with your doctor."
 sections:
   - id: hero
     heading: "Reaching for names a little more often lately?"
@@ -10,7 +10,7 @@ sections:
     body: |-
       Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma.
     actions:
-      - { label: "Who it was studied in", href: "/who-its-for" }
+      - { label: "Who it's for", href: "/who-its-for" }
       - { label: "What the research found", href: "/science" }
     trust: "Licensed by Health Canada · NPN 80107357"
     # Design fields (v2). accent = word set in the italic accent face (no words change).
@@ -52,15 +52,18 @@ sections:
       - { label: "More about the formulation", href: "/memowell#composition" }
 
   - id: who
-    heading: "Who it was studied in"
+    # Client direction 2026-11-03: Memowell was studied in two populations (Alzheimer's disease; post-TBI memory
+    # problems). The four groups below are where the research may be relevant, so the section no longer says they
+    # were "studied"; the lead names the two study populations instead. Brief Part 4, HOME §4.
+    heading: "Who it's for"
     items:
       - { title: "Mild cognitive impairment (MCI)", body: "A change in memory or thinking that can progress toward Alzheimer's disease." }
       - { title: "A first-degree relative with Alzheimer's", body: "Family history roughly doubles the risk compared with people who have none." }
       - { title: "Brain fog and delirium", body: "Confusion, trouble concentrating and memory lapses, where inflammation has been studied as a factor." }
       - { title: "Approaching 65", body: "Risk rises with age, and brain atrophy can begin in mid-life." }
     body: |-
-      Each of these has been studied. None of them is a diagnosis you can make from a website.
-    inline_action: { label: "See the full picture", href: "/who-its-for" }
+      Memowell was studied in people with Alzheimer's disease and people with memory problems after a brain injury. Recognising your situation here is not a diagnosis. It tells you whether that research is relevant to you. What it means for you is a conversation with your doctor.
+    inline_action: { label: "Read about all four", href: "/who-its-for" }
 
   - id: evidence
     # Senior UX-writing pass (client direction 2026-10-27). Brief Part 4, HOME §5. The figure keeps its population,

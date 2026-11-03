@@ -216,7 +216,7 @@ The client supplied four comments. **They cannot be used as testimonials**: all 
 |---|---|
 | `/` | Home |
 | `/memowell` | What Memowell is |
-| `/who-its-for` | Who it was studied in |
+| `/who-its-for` | Who it's for |
 | `/science` | What the research found (plain language) |
 | `/science/professionals` | For healthcare professionals |
 | `/memory-health` | Blog: index plus article template |
@@ -297,7 +297,7 @@ Keep to these if anything has to be adjusted, and flag every adjustment:
 
 ### HOME `/`
 Meta title: `Memowell® — Memory Health Supplement | Kondor Pharma`
-Meta description: `Memowell® is a dietary supplement for memory and cognitive health. See who it was studied in and what the research found, then talk it through with your doctor.`
+Meta description: `Memowell® is a dietary supplement for memory and cognitive health. See who it's for and what the research found, then talk it through with your doctor.`
 
 **1. Hero**
 > # Reaching for names a little more often lately?
@@ -306,7 +306,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma.
 >
-> [Who it was studied in] [What the research found]
+> [Who it's for] [What the research found]
 >
 > Licensed by Health Canada · NPN 80107357
 
@@ -334,8 +334,10 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 
 *Note:* the catalogue's "about three times similar formulations" is deliberately omitted until the scientific officer rules on that comparison.
 
-**4. Who it was studied in (four cards)**
-> ## Who it was studied in
+**4. Who it's for (four cards)**
+> ## Who it's for
+>
+> Memowell was studied in people with Alzheimer's disease and people with memory problems after a brain injury. Recognising your situation here is not a diagnosis. It tells you whether that research is relevant to you. What it means for you is a conversation with your doctor.
 >
 > **Mild cognitive impairment (MCI)** — A change in memory or thinking that can progress toward Alzheimer's disease.
 >
@@ -345,7 +347,9 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > **Approaching 65** — Risk rises with age, and brain atrophy can begin in mid-life.
 >
-> Each of these has been studied. None of them is a diagnosis you can make from a website. [See the full picture]
+> [Read about all four]
+
+*Note (2026-11-03, client direction, claim accuracy):* this section was headed "Who it was studied in" and closed with "Each of these has been studied." Memowell itself was studied in two populations (85 patients with Alzheimer's disease; 80 patients with post-TBI cognitive impairment, see Science). The four groups are where the research may be relevant, not study populations, so the heading, lead and link were rewritten; the lead now names the two study populations. The same wording was retired from the hero action, navigation, footer, the home meta description and the `/who-its-for` page title, heading, first sentence and meta description. Former wording is in git history.
 
 *Note (2026-10-27, client direction):* sections 5–9 were rewritten in a senior UX-writing pass: shorter sentences, the point first, labels that name the destination. Facts, numbers, populations, sources, claim scope and the doctor/pharmacist conversation are unchanged; nothing new is claimed. Former wording is in git history.
 
@@ -488,13 +492,13 @@ The PDF itself has not been produced yet. See Part 9.
 ---
 
 ### WHO IT'S FOR `/who-its-for`
-Meta title: `Who Memowell® was studied in | Memowell`
-Meta description: `Memowell has been studied in people with mild cognitive impairment, family history of Alzheimer's, brain fog, and in mid-life. What the research says about each.`
+Meta title: `Who Memowell® is for | Memowell`
+Meta description: `Four situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, and approaching 65. What the research says about each.`
 
 **Introduction**
-> # Who Memowell® was studied in
+> # Who Memowell® is for
 >
-> Four groups come up repeatedly in the research behind Memowell. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
+> Four situations come up repeatedly in research on memory. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
 
 **Four sections**
 > ## Mild cognitive impairment (MCI)
@@ -825,7 +829,7 @@ Text 1 and text 2 were written by the client and are fixed. Do not change them w
 **5. Footer structure**
 | Column | Contents |
 |---|---|
-| Memowell | What it is · Who it was studied in · What the research found · How to take it |
+| Memowell | What it is · Who it's for · What the research found · How to take it |
 | Learn | Memory health · For healthcare professionals |
 | Kondor Pharma | About · Availability · Partners · kondorpharma.com · Strowell, Genuwell, Inflawell |
 | Contact | Contact us · [email] · [social links] |

@@ -10,7 +10,7 @@ author: ""
 published: ""
 last_reviewed: ""
 sources: []
-related: { label: "Who Memowell® was studied in", href: "/who-its-for#family-history" }
+related: { label: "Who Memowell® is for", href: "/who-its-for#family-history" }
 built_from: "Catalogue (p.9)"
 meta_description: ""
 ---

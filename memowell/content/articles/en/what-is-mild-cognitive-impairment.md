@@ -11,7 +11,7 @@ published: ""
 last_reviewed: ""
 sources:
   - "10.1177/15500594211042708"
-related: { label: "Who Memowell® was studied in", href: "/who-its-for#mci" }
+related: { label: "Who Memowell® is for", href: "/who-its-for#mci" }
 built_from: "DOI 10.1177/15500594211042708"
 meta_description: ""
 ---

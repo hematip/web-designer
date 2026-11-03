@@ -43,7 +43,7 @@ footer_columns:
   - title: "Memowell"
     links:
       - { label: "What it is", href: "/memowell" }
-      - { label: "Who it was studied in", href: "/who-its-for" }
+      - { label: "Who it's for", href: "/who-its-for" }
       - { label: "What the research found", href: "/science" }
       - { label: "How to take it", href: "/memowell#directions" }
   - title: "Learn"

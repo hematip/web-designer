@@ -162,7 +162,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   <section class="h-who" id="who" aria-labelledby="who-title" data-who-story>
     <div class="wrap h-who__layout">
       <div class="h-who__head">
-        <h2 id="who-title" set:html={accentWord(who.heading, 'studied')} />
+        <h2 id="who-title" set:html={accentWord(who.heading, 'for')} />
         <div class="h-who__intro" data-reveal>
           <p class="lead" set:html={mdInline(who.body)} />
           <Action action={who.inline_action} locale={locale} variant="link" />

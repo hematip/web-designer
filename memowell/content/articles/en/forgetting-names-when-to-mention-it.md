@@ -10,7 +10,7 @@ author: ""
 published: ""
 last_reviewed: ""
 sources: []
-related: { label: "Who Memowell® was studied in", href: "/who-its-for" }
+related: { label: "Who Memowell® is for", href: "/who-its-for" }
 built_from: "Catalogue, symptoms (p.4)"
 meta_description: ""
 ---

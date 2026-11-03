@@ -1,12 +1,12 @@
 # Who it's for — approved English copy (brief Part 4, WHO IT'S FOR).
 status: approved
-meta_title: "Who Memowell® was studied in | Memowell"
-meta_description: "Memowell has been studied in people with mild cognitive impairment, family history of Alzheimer's, brain fog, and in mid-life. What the research says about each."
+meta_title: "Who Memowell® is for | Memowell"
+meta_description: "Four situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, and approaching 65. What the research says about each."
 sections:
   - id: intro
-    heading: "Who Memowell® was studied in"
+    heading: "Who Memowell® is for"
     body: |-
-      Four groups come up repeatedly in the research behind Memowell. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
+      Four situations come up repeatedly in research on memory. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
     # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
     photo:
       src: "/img/photos/patient-routine"
