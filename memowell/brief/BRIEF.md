@@ -343,15 +343,17 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > **Mild cognitive impairment (MCI)** — A change in memory or thinking that can progress toward Alzheimer's disease.
 >
-> **A first-degree relative with Alzheimer's** — Family history roughly doubles the risk compared with people who have none.
+> **A first-degree relative with Alzheimer's** — Family history raises the risk. That is not a forecast, just a reason to pay attention earlier.
 >
 > **Brain fog and delirium** — Confusion, trouble concentrating and memory lapses, where inflammation has been studied as a factor.
 >
-> **Approaching 65** — Risk rises with age, and brain atrophy can begin in mid-life.
+> **Approaching 65** — Risk rises with age, and the changes behind it can begin in mid-life.
 >
 > [Read about all four]
 
 *Layout note:* the "Clinical studies of Memowell" line is set in small type beneath the link (a fact line, like the hero's NPN line).
+
+*Note (2026-11-03, Kondor copywriter pass on two cards, client direction):* "Approaching 65" no longer names brain atrophy on the home page (disease-fear vocabulary; the sourced explanation stays on `/who-its-for`). "A first-degree relative" no longer carries "roughly doubles" on the home page: that figure's only recorded source is the catalogue (p.9); it stays on `/who-its-for` pending a published source from the scientific officer. The card now reuses the approved "not a forecast… pay attention earlier" thought.
 
 *Note (2026-11-03, client direction, claim accuracy):* this section was headed "Who it was studied in" and closed with "Each of these has been studied." Memowell itself was studied in two populations (85 patients with Alzheimer's disease; 80 patients with post-TBI cognitive impairment, see Science). The four groups are where the research may be relevant, not study populations, so the heading, lead and link were rewritten; the two study populations sit in a small fact line (Kondor copywriter pass, option 2, 2026-11-03). The same wording was retired from the hero action, navigation, footer, the home meta description and the `/who-its-for` page title, heading, first sentence and meta description. Former wording is in git history.
 
