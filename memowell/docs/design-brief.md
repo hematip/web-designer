@@ -552,6 +552,11 @@ Request: the hero's blob should open with motion and become a landscape video.
 - **Adaptations:** reduced motion and no-JS — resting composition, unpinned; the ten-cubic blob is the same shape as before. Phones run the same scene with the shorter travel. The 3D section's own pin follows the hero's (refreshPriority 3 > 2).
 - **Verification:** production and preview builds and both copy checks pass. Driven by wheel in a browser at 1280×800 (EN and AR), 390×844: resting frame identical to before (film box 768×672 at rest, no class applied at progress 0), mid-frames show the blob opening while the copy fades, resolved frame 1194×672 under the header (phone: 350×197 inside the gutters), release into Why, reverse scroll restores the hero exactly; no console errors. Not measured: frame rate on real hardware; the test browser has no GPU.
 
+## Formulation stage without the stripe field (2026-11-08)
+
+- **Request:** remove the line pattern added to the motion (formulation) section in Version 3.
+- **Change:** `.h-form__pin.aurora::before { content: none }` — the stripe field is off on the 3D stage only; the gradient and the scene stay. The field remains on the other `.aurora` surfaces (article head, product summary, professionals side, science honesty panel) until asked otherwise.
+
 ## Version 3: "the label, in motion" — visual and UI redesign from the catalogue (2026-11-08)
 
 - **Client feedback:** the site's visual direction is not liked. Use only the colours and gradient of the product's visual identity, and use the blue organic shapes from the product and the catalogue creatively, including in motion. The Memowell catalogue (46 pp.) was supplied as the pattern.

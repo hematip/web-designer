@@ -436,6 +436,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
      While scrubbing, every chapter shares one cell and the scroll position decides which one is read. */
   .h-form { border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); overflow: clip; }
   .h-form__pin { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 1.5rem) 3rem; }
+  /* The formulation stage carries no stripe field: the 3D scene is the only figure on its gradient (client request). */
+  .h-form__pin.aurora::before { content: none; }
   .h-form__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
   .h-form__scene { display: contents; }
   .h-form__canvas {
