@@ -13,6 +13,8 @@ sections:
       - { label: "Who it's for", href: "/who-its-for" }
       - { label: "What the research found", href: "/science" }
     trust: "Licensed by Health Canada · NPN 80107357"
+    # Official front-view bottle cutout beside the product line (client direction 2026-11-08: show the product in the hero).
+    product_image_alt: "The Memowell bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
     # Design fields (v2). accent = word set in the italic accent face (no words change).
     # marquee = fragments of approved copy and the bottle label, decorative (aria-hidden). Flagged in README.
     accent: "names"
