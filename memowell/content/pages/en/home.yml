@@ -62,7 +62,7 @@ sections:
       - { title: "Brain fog and delirium", body: "Confusion, trouble concentrating and memory lapses, where inflammation has been studied as a factor." }
       - { title: "From mid-life onward", body: "Risk rises with age, and the changes behind it can begin in mid-life." }
     body: |-
-      Four situations come up again and again in research on memory. Find the one closest to yours and read what has been studied in it, in plain language, with sources.
+      Five situations come up again and again in research on memory. Find the one closest to yours and read what has been studied in it, in plain language, with sources.
     fact: "Clinical studies of Memowell: people with Alzheimer's disease · people with memory problems after a brain injury"
     inline_action: { label: "Read about all five", href: "/who-its-for" }
 

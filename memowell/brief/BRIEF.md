@@ -337,7 +337,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **4. Who it's for (four cards)**
 > ## Who it's for
 >
-> Four situations come up again and again in research on memory. Find the one closest to yours and read what has been studied in it, in plain language, with sources.
+> Five situations come up again and again in research on memory. Find the one closest to yours and read what has been studied in it, in plain language, with sources.
 >
 > Clinical studies of Memowell: people with Alzheimer's disease · people with memory problems after a brain injury
 >
