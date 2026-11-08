@@ -228,7 +228,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
       </div>
       <div class="h-evidence__panel blob-panel blob-panel--brand" data-blob-card style="--blob-clip: url(#ev-clip)">
         <svg class="blob-panel__defs" width="0" height="0" aria-hidden="true" focusable="false">
-          <clipPath id="ev-clip" clipPathUnits="objectBoundingBox"><path d="M0.09 0.26C0.21 0.05 0.68 -0.02 0.9 0.12C1.1 0.26 1.02 0.66 0.9 0.84C0.78 1.02 0.36 1.04 0.18 0.9C0 0.76 -0.03 0.47 0.09 0.26Z" data-blob-main data-alt="M0.11 0.22C0.26 0.02 0.72 -0.01 0.92 0.16C1.08 0.3 1 0.7 0.86 0.86C0.72 1.02 0.32 1.02 0.16 0.88C0 0.74 -0.04 0.42 0.11 0.22Z" /></clipPath>
+          <clipPath id="ev-clip" clipPathUnits="userSpaceOnUse"><path d="M0 0" data-blob-main data-blob-fit /></clipPath>
         </svg>
         <span class="blob-panel__stripes" aria-hidden="true"></span>
         <div class="h-evidence__inner blob-panel__inner">
@@ -277,7 +277,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
       <div class="h-dir__side">
         <div class="h-dir__panel blob-panel blob-panel--sky" data-blob-card style="--blob-clip: url(#wk-clip)">
           <svg class="blob-panel__defs" width="0" height="0" aria-hidden="true" focusable="false">
-            <clipPath id="wk-clip" clipPathUnits="objectBoundingBox"><path d="M0.09 0.26C0.21 0.05 0.68 -0.02 0.9 0.12C1.1 0.26 1.02 0.66 0.9 0.84C0.78 1.02 0.36 1.04 0.18 0.9C0 0.76 -0.03 0.47 0.09 0.26Z" data-blob-main data-alt="M0.11 0.22C0.26 0.02 0.72 -0.01 0.92 0.16C1.08 0.3 1 0.7 0.86 0.86C0.72 1.02 0.32 1.02 0.16 0.88C0 0.74 -0.04 0.42 0.11 0.22Z" /></clipPath>
+            <clipPath id="wk-clip" clipPathUnits="userSpaceOnUse"><path d="M0 0" data-blob-main data-blob-fit /></clipPath>
           </svg>
           <span class="blob-panel__stripes" aria-hidden="true"></span>
           <div class="h-dir__panel-inner blob-panel__inner">
@@ -348,9 +348,11 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
 <style>
   /* ============ Hero ============ */
-  /* Blob panel: the label blob as a text container. The clip-path is the panel's outline (morphed by the motion
-     layer); the stripe blob peeks over the top edge; the inner box is inset so the curves never cut the copy. RTL mirrors. */
-  .blob-panel { position: relative; isolation: isolate; -webkit-clip-path: var(--blob-clip); clip-path: var(--blob-clip); }
+  /* Blob panel: the label blob as a text container. The outline is drawn in pixels from the panel's own size and
+     padding (home-scenes.js, `fitBlobPanels`) so its curves never reach the copy, then morphed by the motion layer.
+     Until it is fitted (and without JS) an uneven border-radius stands in. The stripe blob peeks over the top edge. RTL mirrors. */
+  .blob-panel { position: relative; isolation: isolate; border-radius: 46% 54% 50% 50% / 8rem 7rem 9rem 8rem; }
+  .blob-panel.is-fit { border-radius: 0; -webkit-clip-path: var(--blob-clip); clip-path: var(--blob-clip); }
   .blob-panel--brand { background: var(--brand-gradient-diag); }
   .blob-panel--sky { background: var(--sky); }
   .blob-panel__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -358,7 +360,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     background: repeating-linear-gradient(-38deg, var(--cyan-stripe) 0 4px, transparent 4px 11px);
     -webkit-mask-image: radial-gradient(closest-side, #000 60%, transparent 100%); mask-image: radial-gradient(closest-side, #000 60%, transparent 100%); }
   .blob-panel__inner { position: relative; z-index: 1; padding: clamp(4rem, 7vw, 6.5rem) clamp(2.75rem, 5.5vw, 5.5rem) clamp(4rem, 7vw, 6.5rem) clamp(3rem, 6vw, 6rem); }
-  :global([dir='rtl']) .blob-panel { -webkit-clip-path: var(--blob-clip); clip-path: var(--blob-clip); transform: scaleX(-1); }
+  :global([dir='rtl']) .blob-panel { transform: scaleX(-1); }
   :global([dir='rtl']) .blob-panel__inner, :global([dir='rtl']) .blob-panel__stripes { transform: scaleX(-1); }
   @media (max-width: 56.24rem) { .blob-panel__inner { padding: clamp(3.5rem, 14vw, 5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 14vw, 5rem) clamp(2rem, 9vw, 3.25rem); } }
   /* 1 · Hero: the brand gradient stage; the family film lives inside the label blob on the far side. */

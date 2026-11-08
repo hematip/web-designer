@@ -435,6 +435,72 @@ mm.add(MQ.motion, () => {
   return () => { enter.kill(); reset.kill(); tl.kill(); gsap.set([mark, bottle], { clearProps: 'all' }); };
 });
 
+// ---------------------------------------------------------------- Blob panels: outlines drawn to fit their copy
+// A text panel cannot borrow the label blob by stretching a unit path over its box: on a tall panel the stretched
+// curves reach deep into the copy. So each `[data-blob-fit]` outline is drawn in pixels from the panel's own size
+// and inner padding: four unequal corners carry the organic weight, each one's vertical reach bounded so its curve
+// clears the padding box, and the long edges bow in a touch. The resting shape goes to `d`/`data-base` and a second
+// variation to `data-alt` for the morph. Runs without motion, re-fits when a panel's size changes. Without JS the
+// panel keeps its CSS border-radius.
+const fitBlobPanels = () => {
+  const f = (v) => +v.toFixed(2);
+  const toPath = (n) => { let d = `M${f(n[0])} ${f(n[1])}`; for (let i = 2; i < n.length; i += 6) d += `C${n.slice(i, i + 6).map(f).join(' ')}`; return `${d}Z`; };
+  $$('.blob-panel').forEach((panel) => {
+    const id = (getComputedStyle(panel).getPropertyValue('--blob-clip').match(/#([\w-]+)/) || [])[1];
+    const path = id && document.getElementById(id)?.querySelector('[data-blob-fit]');
+    const inner = $('.blob-panel__inner', panel);
+    if (!path || !inner) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    if (!w || !h) return;
+    const cs = getComputedStyle(inner);
+    const rtl = (panel.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
+    // the panel is mirrored in RTL and its inner mirrored back, so the inner's physical right padding sits at the outline's left
+    const pad = { t: parseFloat(cs.paddingTop), b: parseFloat(cs.paddingBottom), l: parseFloat(rtl ? cs.paddingRight : cs.paddingLeft), r: parseFloat(rtl ? cs.paddingLeft : cs.paddingRight) };
+    // a corner's horizontal reach is a share of the width; its vertical reach is capped so the quarter-curve
+    // (an ellipse at k≈0.55, fuller for larger k) passes above the padding box corner with margin
+    const corner = (fx, fy, k, padX, padY) => {
+      const cx = Math.min(fx * w, 340);
+      const u = Math.min(padX / cx, 0.9);
+      const cyMax = (0.85 * padY) / (1 - Math.sqrt(1 - (1 - u) ** 2));
+      return { cx, cy: Math.min(fy * cyMax, 0.35 * h), k: Math.max(k, 0.56) };
+    };
+    const bowMax = Math.min(0.02 * w, 14);
+    const edge = (x1, y1, x2, y2, bow0) => { // a straight run bowed inward (toward the panel centre); short runs barely bow
+      const dx = x2 - x1, dy = y2 - y1, nx = dy ? (x1 > w / 2 ? -1 : 1) : 0, ny = dx ? (y1 > h / 2 ? -1 : 1) : 0;
+      const bow = bow0 * Math.min(1, Math.hypot(dx, dy) / 400);
+      return [x1 + dx / 3 + nx * bow, y1 + dy / 3 + ny * bow, x1 + 2 * dx / 3 + nx * bow, y1 + 2 * dy / 3 + ny * bow, x2, y2];
+    };
+    const build = (v, bows) => {
+      const TL = corner(v[0], v[1], v[2], pad.l, pad.t), TR = corner(v[3], v[4], v[5], pad.r, pad.t);
+      const BR = corner(v[6], v[7], v[8], pad.r, pad.b), BL = corner(v[9], v[10], v[11], pad.l, pad.b);
+      return toPath([
+        TL.cx, 0,
+        ...edge(TL.cx, 0, w - TR.cx, 0, bows[0] * bowMax),
+        w - TR.cx + TR.k * TR.cx, 0, w, TR.cy - TR.k * TR.cy, w, TR.cy,
+        ...edge(w, TR.cy, w, h - BR.cy, bows[1] * bowMax),
+        w, h - BR.cy + BR.k * BR.cy, w - BR.cx + BR.k * BR.cx, h, w - BR.cx, h,
+        ...edge(w - BR.cx, h, BL.cx, h, bows[2] * bowMax),
+        BL.cx - BL.k * BL.cx, h, 0, h - BL.cy + BL.k * BL.cy, 0, h - BL.cy,
+        ...edge(0, h - BL.cy, 0, TL.cy, bows[3] * bowMax),
+        0, TL.cy - TL.k * TL.cy, TL.cx - TL.k * TL.cx, 0, TL.cx, 0,
+      ]);
+    };
+    const base = build([0.46, 1, 0.6, 0.34, 0.78, 0.7, 0.42, 0.95, 0.58, 0.3, 0.7, 0.66], [0.6, 1, 0.8, 0.4]);
+    const alt = build([0.36, 0.8, 0.68, 0.46, 1, 0.58, 0.32, 0.72, 0.72, 0.44, 0.95, 0.6], [1, 0.5, 0.4, 1]);
+    if (path.dataset.base !== base) { path.setAttribute('d', base); path.dataset.base = base; path.dataset.alt = alt; }
+    panel.classList.add('is-fit');
+  });
+};
+fitBlobPanels();
+if ('ResizeObserver' in window) {
+  let raf = 0;
+  const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { fitBlobPanels(); ScrollTrigger.refresh(); }); });
+  $$('.blob-panel').forEach((p) => ro.observe(p));
+} else {
+  window.addEventListener('resize', fitBlobPanels);
+}
+document.fonts?.ready.then(fitBlobPanels);
+
 // ---------------------------------------------------------------- Label blobs: the mark moves with the page
 // Every blob outline ([data-blob-main], [data-blob-stripe]) morphs between its `d` and `data-alt` as its section
 // scrolls through the viewport, and the stripe blob slides a little against the main one, so the mark is never
@@ -449,12 +515,19 @@ mm.add(MQ.motion, () => {
   };
   const tweens = [];
   $$('[data-blob-main], [data-blob-stripe]').forEach((path) => {
-    const a = nums(path.getAttribute('d'));
-    const b = nums(path.dataset.alt || '');
-    if (a.length < 8 || a.length !== b.length) return;
+    const d0 = path.getAttribute('d');
+    if (nums(d0).length < 8 || nums(d0).length !== nums(path.dataset.alt || '').length) return;
     const owner = path.closest('section, aside, header') || path.closest('svg');
     const st = { t: 0 };
-    const render = () => path.setAttribute('d', toPath(a.map((v, i) => v + (b[i] - v) * st.t)));
+    // the endpoints are re-read when a fitted panel redraws them (resize), so the morph follows the new outline
+    let cache = { base: '', alt: '', a: [], b: [] };
+    const render = () => {
+      const base = path.dataset.base || d0, alt = path.dataset.alt || '';
+      if (cache.base !== base || cache.alt !== alt) cache = { base, alt, a: nums(base), b: nums(alt) };
+      if (cache.a.length !== cache.b.length) return;
+      path.setAttribute('d', toPath(cache.a.map((v, i) => v + (cache.b[i] - v) * st.t)));
+    };
+    tweens.push({ kill() { path.setAttribute('d', path.dataset.base || d0); } });
     tweens.push(gsap.to(st, { t: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: owner, start: 'top bottom', end: 'bottom top', scrub: 1.2 } }));
     if (path.hasAttribute('data-blob-stripe')) {
       tweens.push(gsap.fromTo(path, { xPercent: 2, yPercent: -2 }, { xPercent: -2, yPercent: 3, ease: 'none', scrollTrigger: { trigger: owner, start: 'top bottom', end: 'bottom top', scrub: 1.4 } }));
