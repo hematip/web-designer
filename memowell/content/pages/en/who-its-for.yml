@@ -1,12 +1,12 @@
 # Who it's for — approved English copy (brief Part 4, WHO IT'S FOR).
 status: approved
 meta_title: "Who Memowell® is for | Memowell"
-meta_description: "Four situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, and approaching 65. What the research says about each."
+meta_description: "Five situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, approaching 65, and living with Alzheimer's disease. What the research says about each."
 sections:
   - id: intro
     heading: "Who Memowell® is for"
     body: |-
-      Four situations come up repeatedly in research on memory. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
+      Five situations come up repeatedly in research on memory. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
     # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
     photo:
       src: "/img/photos/patient-routine"
@@ -33,6 +33,8 @@ sections:
 
       Higher risk is not a forecast. It is a reason to pay attention earlier.
 
+      If you are the one caring for a relative, your own sleep, stress and general health matter too.
+
       If this is you, talk to your doctor before starting Memowell.
 
   - id: brain-fog
@@ -48,10 +50,19 @@ sections:
     body: |-
       Risk of Alzheimer's rises with age. Part of that rise has been linked to lifestyle and to increasing inflammation in the nervous system — one visible sign of which is the brain atrophy that can begin in mid-life.
 
-      For this group the catalogue recommends one capsule daily rather than the full three.
-    # Gap (brief Part 9): mid-life dose unconfirmed (catalogue 1/day vs client 3/day). Line stays attributed to the catalogue.
-    pending: "mid-life-dose"
+      From about age 50, Kondor Pharma recommends one capsule a day for this group, rather than the full three.
+    # Dose from the client's product document, November 2026.
     sources: ["10.3233/JAD-179925", "10.1007/s12035-009-8066-z"]
+
+  - id: living-with-alzheimers
+    heading: "Living with Alzheimer's disease"
+    body: |-
+      For people living with Alzheimer's disease, keeping day-to-day abilities is a central aim of care.
+
+      In a six-month study of 85 people with mild to moderate Alzheimer's, the group taking Memowell alongside their prescribed care scored higher on cognitive and clinical measures than the placebo group, and some inflammatory markers in their blood fell.
+
+      That is a basis for a conversation with the specialist about whether Memowell has a place alongside the treatment plan. It is not a replacement for it.
+    sources: ["10.1002/alz.063660", "10.3233/JAD-221026"]
 
   - id: closing
     body: |-

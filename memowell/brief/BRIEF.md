@@ -362,7 +362,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **5. Evidence**
 > ## What the research found
 >
-> Three published studies have looked at Memowell. The largest followed 85 people with Alzheimer's disease for six months.
+> Three published studies have looked at Memowell. The largest followed 85 people with mild to moderate Alzheimer's disease for six months.
 >
 > The main result
 >
@@ -428,7 +428,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 
 ### PRODUCT `/memowell`
 Meta title: `What Memowell® is, and how to take it | Memowell`
-Meta description: `Memowell is a dietary supplement containing K-Vie™ boswellic acids. Composition, directions, cautions and storage — and what to ask your doctor.`
+Meta description: `Memowell is a dietary supplement containing K-Vie™ boswellic acids, Bacopa bacosides and vitamin D3. Composition, directions, cautions and storage — and what to ask your doctor.`
 
 **1. Introduction**
 > # What Memowell® is
@@ -440,13 +440,15 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 **2. Composition**
 > ## What is in it
 >
-> The active compounds are boswellic acids, drawn from the resin of *Boswellia* trees — the tree that produces frankincense.
+> Memowell combines K-Vie™ boswellic acids with bacosides from *Bacopa* and vitamin D3.
+>
+> The boswellic acids are drawn from the resin of *Boswellia* trees — the tree that produces frankincense. Boswellic acids have been studied for their anti-inflammatory activity.
 >
 > Ordinary frankincense resin contains these compounds, but the digestive system absorbs very little of them. Kondor Pharma processes the resin into K-Vie™: standardised to 40% boswellic acids, then micronized and microcrystalline so that more of the compound reaches the bloodstream.
 >
-> The capsules are vegetarian and gluten-free.
+> The capsules are vegetarian and gluten-free. Gluten contains gliadin, a protein that can trigger an inflammatory reaction in the digestive system of some people, most clearly in coeliac disease, so Kondor Pharma uses ingredients confirmed to be gluten-free.
 
-*Note:* this section answers the client's own question about the difference from ordinary frankincense. **The exact amount of active ingredient per capsule has not been supplied.** Leave a marked placeholder for it.
+*Note:* this section answers the client's own question about the difference from ordinary frankincense. Composition (K-Vie™ + *Bacopa* bacosides + vitamin D3), the amount ("Each capsule contains 333 mg of K-Vie™.") and the gluten explanation come from the client's product document of November 2026, which the client made the source of truth. Amounts of bacosides and vitamin D3 were not given.
 
 **3. Directions**
 > ## How to take it
@@ -462,7 +464,7 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 **4. Cautions**
 > ## Before you start
 >
-> **Do not take Memowell during pregnancy or breastfeeding.**
+> **Take Memowell under a doctor's supervision, and take particular care during pregnancy or breastfeeding.**
 >
 > Talk to your doctor before starting if you have liver or kidney disease, heart or vascular disease, a blood disorder, or an autoimmune condition.
 >
@@ -499,12 +501,12 @@ The PDF itself has not been produced yet. See Part 9.
 
 ### WHO IT'S FOR `/who-its-for`
 Meta title: `Who Memowell® is for | Memowell`
-Meta description: `Four situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, and approaching 65. What the research says about each.`
+Meta description: `Five situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, approaching 65, and living with Alzheimer's disease. What the research says about each.`
 
 **Introduction**
 > # Who Memowell® is for
 >
-> Four situations come up repeatedly in research on memory. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
+> Five situations come up repeatedly in research on memory. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
 
 **Four sections**
 > ## Mild cognitive impairment (MCI)
@@ -523,6 +525,8 @@ Meta description: `Four situations where memory research may be relevant to you:
 >
 > Higher risk is not a forecast. It is a reason to pay attention earlier.
 >
+> If you are the one caring for a relative, your own sleep, stress and general health matter too.
+>
 > If this is you, talk to your doctor before starting Memowell.
 
 > ## Brain fog and delirium
@@ -537,16 +541,26 @@ Meta description: `Four situations where memory research may be relevant to you:
 >
 > Risk of Alzheimer's rises with age. Part of that rise has been linked to lifestyle and to increasing inflammation in the nervous system — one visible sign of which is the brain atrophy that can begin in mid-life.
 >
-> For this group the catalogue recommends one capsule daily rather than the full three.
+> From about age 50, Kondor Pharma recommends one capsule a day for this group, rather than the full three.
 >
 > Sources: DOI 10.3233/JAD-179925 · DOI 10.1007/s12035-009-8066-z
+
+> ## Living with Alzheimer's disease
+>
+> For people living with Alzheimer's disease, keeping day-to-day abilities is a central aim of care.
+>
+> In a six-month study of 85 people with mild to moderate Alzheimer's, the group taking Memowell alongside their prescribed care scored higher on cognitive and clinical measures than the placebo group, and some inflammatory markers in their blood fell.
+>
+> That is a basis for a conversation with the specialist about whether Memowell has a place alongside the treatment plan. It is not a replacement for it.
+>
+> Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026
 
 **Closing**
 > Not sure which of these fits? That is exactly the question to bring to a pharmacist or doctor.
 >
 > [Download a one-page summary (PDF)] · [What the research found]
 
-*Note:* the mid-life dose (one a day in the catalogue, versus the client's "3 times a day") is unconfirmed. The line is attributed to the catalogue until the client confirms.
+*Note (2026-11-08):* the client's product document of November 2026 is the source of truth. It sets the mid-life dose (one capsule a day from about age 50), adds the fifth group "Living with Alzheimer's disease" (written within the evidence: no "no side effects", no symptom list, no Parkinson's/MS) and the note for caregivers.
 
 **End of page:** product disclaimer, then the professional band.
 
@@ -562,11 +576,11 @@ Meta description: `Three published studies, in plain language: an 85-patient tri
 > Three published studies sit behind Memowell®. Here they are in plain language, each with the number of people, how long it ran, and where to read it. Nothing on this page is a promise about what will happen to you.
 
 **Study 1**
-> ## 85 people with Alzheimer's disease, six months
+> ## 85 people with mild to moderate Alzheimer's, six months
 >
 > Published in *Alzheimer's & Dementia*, 2023.
 >
-> Eighty-five people with Alzheimer's disease were divided into two groups. One group took Memowell alongside their prescribed care; the other took a placebo — a capsule with no active ingredient. Neither the participants nor the researchers knew who was in which group.
+> Eighty-five people with mild to moderate Alzheimer's disease were divided into two groups. One group took Memowell alongside their prescribed care; the other took a placebo — a capsule with no active ingredient. Neither the participants nor the researchers knew who was in which group.
 >
 > After six months, the Memowell group scored **3.11 points higher on MMSE** than the placebo group. MMSE is a standard test of memory and orientation; a higher score means better performance.
 >
@@ -640,13 +654,13 @@ DOIs link to `https://doi.org/<DOI>`. The client asks that each study also shows
 **Composition and administration**
 > ## Composition and administration
 >
-> **Active:** K-Vie™ *Boswellia* extract, standardised to 40% boswellic acids, micronized and microcrystalline.
+> **Active:** K-Vie™ *Boswellia* extract, standardised to 40% boswellic acids, micronized and microcrystalline: 333 mg per capsule. With *Bacopa* bacosides and vitamin D3.
 >
 > **Presentation:** 90 vegetarian capsules per bottle. Gluten-free.
 >
 > **Administration:** one capsule with each of the three main meals, taken with food. Effects on cognitive symptoms are generally observed after approximately eight weeks of regular use.
 >
-> **Contraindicated** in pregnancy and lactation.
+> **Use with caution** in pregnancy and lactation, under medical supervision.
 >
 > **Advise caution** in hepatic or renal disease, cardiovascular disease, haematological disorders and autoimmune conditions. Mild gastrointestinal symptoms have been reported at initiation.
 >
@@ -876,7 +890,10 @@ This governs every sentence on the site, including blog posts, alt text, caption
 | Licence | Licensed by Health Canada, NPN 80107357 | Client brief | Allowed with source |
 | Use with medication | Can be taken alongside prescribed medicine, with a doctor's advice | Catalogue | **Needs scientific-officer approval** |
 | K-Vie™ absorption | K-Vie™ formulation with 40% boswellic acids | Catalogue | **Needs scientific-officer approval** |
-| Time to effect | Effects are generally seen after eight weeks of regular use | Client ruling | **Needs scientific-officer approval** |
+| Time to effect | Effects are generally seen after eight weeks of regular use | Client ruling (kept 2026-11-08 although the November product document says two to three weeks) | **Needs scientific-officer approval** |
+| Composition | K-Vie™ boswellic acids with *Bacopa* bacosides and vitamin D3; 333 mg K-Vie™ per capsule | Client product document, November 2026 | Allowed with source |
+| Pregnancy and breastfeeding | Take under a doctor's supervision, with particular care | Client product document, November 2026 | Allowed with source |
+| Trial population | 85 people with mild to moderate Alzheimer's disease | Client product document, November 2026; DOI 10.1002/alz.063660 | Allowed with source |
 | mednet.ca | Covered in a mednet.ca report (with link) | mednet.ca | **Needs scientific-officer approval** |
 | FDA approval | — | — | **Forbidden** |
 | Prevents or halts Alzheimer's progression | — | — | **Forbidden** |
@@ -1069,8 +1086,9 @@ Requirements:
 | Scientific officer's email | Scientific-question and feedback forms | Client |
 | Who receives the general form, and the response time | General form | Client |
 | Updated logo with ® (current artwork shows ™) | Logo everywhere | Client |
-| Active ingredient amount per capsule | `/memowell` composition, PDF | Client |
-| Mid-life dose (1 a day in the catalogue vs 3 a day per the client) | `/who-its-for` "Approaching 65" | Client / scientific officer |
+| ~~Active ingredient amount per capsule~~ (resolved 2026-11-08: 333 mg K-Vie™ per capsule, client product document) | — | — |
+| Amounts of *Bacopa* bacosides and vitamin D3 per capsule | `/memowell`, `/science/professionals` composition | Client |
+| ~~Mid-life dose~~ (resolved 2026-11-08: one a day from about age 50, client product document) | — | — |
 | Approval of the four "needs approval" rows in Part 5 | Several pages | Scientific officer |
 | English text for the five case reports | `/science/professionals` | Scientific officer |
 | Registration status in the UAE, GCC, MENA and Russia | Arabic version, availability page | Client |

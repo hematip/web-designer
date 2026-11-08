@@ -1,7 +1,7 @@
 # What Memowell is — approved English copy (brief Part 4, PRODUCT).
 status: approved
 meta_title: "What Memowell® is, and how to take it | Memowell"
-meta_description: "Memowell is a dietary supplement containing K-Vie™ boswellic acids. Composition, directions, cautions and storage — and what to ask your doctor."
+meta_description: "Memowell is a dietary supplement containing K-Vie™ boswellic acids, Bacopa bacosides and vitamin D3. Composition, directions, cautions and storage — and what to ask your doctor."
 sections:
   - id: intro
     heading: "What Memowell® is"
@@ -22,13 +22,15 @@ sections:
       alt: ""
     heading: "What is in it"
     body: |-
-      The active compounds are boswellic acids, drawn from the resin of *Boswellia* trees — the tree that produces frankincense.
+      Memowell combines K-Vie™ boswellic acids with bacosides from *Bacopa* and vitamin D3.
+
+      The boswellic acids are drawn from the resin of *Boswellia* trees — the tree that produces frankincense. Boswellic acids have been studied for their anti-inflammatory activity.
 
       Ordinary frankincense resin contains these compounds, but the digestive system absorbs very little of them. Kondor Pharma processes the resin into K-Vie™: standardised to 40% boswellic acids, then micronized and microcrystalline so that more of the compound reaches the bloodstream.
 
-      The capsules are vegetarian and gluten-free.
-    # Gap (brief Part 9): exact amount of active ingredient per capsule not supplied.
-    per_capsule_amount: ""
+      The capsules are vegetarian and gluten-free. Gluten contains gliadin, a protein that can trigger an inflammatory reaction in the digestive system of some people, most clearly in coeliac disease, so Kondor Pharma uses ingredients confirmed to be gluten-free.
+    # Client product document, November 2026.
+    per_capsule_amount: "Each capsule contains 333 mg of K-Vie™."
     image_alt: "A single cream-coloured Memowell capsule held between finger and thumb."
 
   - id: directions
@@ -51,7 +53,7 @@ sections:
   - id: cautions
     heading: "Before you start"
     body: |-
-      **Do not take Memowell during pregnancy or breastfeeding.**
+      **Take Memowell under a doctor's supervision, and take particular care during pregnancy or breastfeeding.**
 
       Talk to your doctor before starting if you have liver or kidney disease, heart or vascular disease, a blood disorder, or an autoimmune condition.
 

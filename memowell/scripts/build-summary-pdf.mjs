@@ -70,7 +70,7 @@ footer p{margin:0 0 1.2mm}
 strong{font-weight:700}
 </style></head><body><div class="page">
 <div class="draft">DRAFT — NOT APPROVED</div>
-<div class="flag"><strong>DRAFT for scientific-officer approval.</strong> Assembled only from approved site copy. Open items: active ingredient per capsule (not supplied); sentence selection from the studies; the "Needs approval" claims (K-Vie™ formulation, eight weeks, use alongside medicines). Remove this box after approval.</div>
+<div class="flag"><strong>DRAFT for scientific-officer approval.</strong> Assembled only from approved site copy. Open items: sentence selection from the studies; the "Needs approval" claims (K-Vie™ formulation, eight weeks, use alongside medicines). Remove this box after approval.</div>
 <header><div><h1>${summary.heading}</h1><p class="lead">${mdi(paras(summary.body)[0])}</p></div><img src="file://${path.join(root, 'public/brand/memowell-logo-colour-transparent.png')}" alt="Memowell"></header>
 <div class="cols">
  <div>

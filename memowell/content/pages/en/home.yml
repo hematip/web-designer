@@ -70,7 +70,7 @@ sections:
     # Senior UX-writing pass (client direction 2026-10-27). Brief Part 4, HOME §5. The figure keeps its population,
     # duration, comparison and source inside the same panel.
     heading: "What the research found"
-    lead: "Three published studies have looked at Memowell. The largest followed 85 people with Alzheimer's disease for six months."
+    lead: "Three published studies have looked at Memowell. The largest followed 85 people with mild to moderate Alzheimer's disease for six months."
     eyebrow: "The main result"
     # The large figure shown in the result panel (must appear in Body).
     highlight: "3.11"
@@ -81,7 +81,7 @@ sections:
 
       Two further studies looked at blood markers, and at 80 people with cognitive difficulty after a brain injury.
     items:
-      - { title: "85 people", body: "with Alzheimer's disease" }
+      - { title: "85 people", body: "with mild to moderate Alzheimer's" }
       - { title: "6 months", body: "alongside their prescribed care" }
       - { title: "Randomised", body: "compared with a placebo group" }
       - { title: "Published", body: "in Alzheimer's & Dementia, 2023" }
