@@ -317,18 +317,26 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > In Alzheimer's disease, researchers have linked inflammation in the nervous system to a build-up of protein. That build-up disrupts how nerve cells communicate with each other. It is associated with the changes families often notice first: forgetting names, losing the thread of a conversation, repeating a question.
 >
-> This is an area of active research, not a settled answer. [Read more about memory health]
+> This is an area of active research, not a settled answer.
 
-*Note:* source DOI 10.1186/s12974-020-01820-6. The last sentence is deliberate: it neutralises any definitive reading.
+*Note:* source DOI 10.1186/s12974-020-01820-6, cited on `/memory-health` (article) and `/science/professionals`, not on the plain-language home (client direction 2026-11-08). The last sentence is deliberate: it neutralises any definitive reading.
 
 **3. What is in it**
-> ## Boswellic acids, in a formulation built for absorption
+> ## What's inside each capsule
 >
-> Boswellic acids are poorly absorbed in the digestive system. Kondor Pharma developed K-Vie™, a micronized, microcrystalline form standardised to 40% boswellic acids, to address that.
+> **Ground extremely fine** — The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that.
 >
-> AKBA (acetyl-11-keto-β-boswellic acid) is one of the boswellic acids.
+> **Formed into tiny crystals** — The fine powder is then formed into tiny, even crystals.
 >
-> [More about the formulation]
+> **40% active compounds** — K-Vie™ is made so that 40% of it is boswellic acids.
+>
+> **A closer look: AKBA** — AKBA is one of the boswellic acids. This is its shape.
+>
+> **Vegetarian and gluten-free** — Each bottle holds 90 vegetarian capsules.
+>
+> [More about what's inside]
+
+*Note (2026-11-08, client direction):* the home page is written for a general audience, not medical experts. The 3D chapters keep their scenes but use plain words; "micronized", "microcrystalline", "standardised" and the chemical name of AKBA stay on `/memowell` and `/science/professionals`.
 
 *Note (2026-10-26/27, client direction):* the resin chapter is removed; the story starts at K-Vie™, looks inside it at AKBA (acetyl-11-keto-β-boswellic acid), one of the boswellic acids, and ends at the capsule. AKBA is a naturally occurring boswellic acid of the resin, not a product of K-Vie™; that K-Vie™ contains it, and in what share, awaits Kondor's specification. Chapter labels: Micronized · Microcrystalline · K-Vie™ · standardised to 40% boswellic acids · Inside K-Vie™ · AKBA · Vegetarian and gluten-free.
 
@@ -337,9 +345,9 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **4. Who it's for (four cards)**
 > ## Who it's for
 >
-> Five situations come up again and again in research on memory. Find the one closest to yours and read what has been studied in it, in plain language, with sources.
+> Five situations come up again and again in research on memory. Find the one closest to yours and read what research says about it, in plain language.
 >
-> Clinical studies of Memowell: people with Alzheimer's disease · people with memory problems after a brain injury
+> Memowell has been studied in people with Alzheimer's disease and in people with memory problems after a brain injury.
 >
 > **Mild cognitive impairment (MCI)** — A change in memory or thinking that can progress toward Alzheimer's disease.
 >
@@ -362,27 +370,27 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **5. Evidence**
 > ## What the research found
 >
-> Three published studies have looked at Memowell. The largest followed 85 people with mild to moderate Alzheimer's disease for six months.
+> Memowell has been tested in three published studies. The largest followed 85 people with mild to moderate Alzheimer's disease for six months.
 >
 > The main result
 >
-> After six months, people who took Memowell alongside their prescribed care scored 3.11 points higher on the MMSE than people who took a placebo.
+> After six months, people who took Memowell alongside their usual treatment scored 3.11 points higher on a 30-point memory test than people who took a dummy capsule.
 >
-> The MMSE is a standard test of memory and orientation.
+> The test, called the MMSE, is one doctors use to check memory and orientation.
 >
-> **85 people** — with Alzheimer's disease
+> **85 people** — with mild to moderate Alzheimer's
 >
-> **6 months** — alongside their prescribed care
+> **6 months** — alongside their usual treatment
 >
-> **Randomised** — compared with a placebo group
+> **A fair test** — chance decided who took Memowell and who took a dummy capsule
 >
-> **Published** — in Alzheimer's & Dementia, 2023
+> **Published** — in the journal Alzheimer's & Dementia, 2023
 >
-> Two further studies looked at blood markers, and at 80 people with cognitive difficulty after a brain injury.
+> Two more studies looked at blood tests, and at 80 people with memory problems after a brain injury.
 >
-> [Read all three studies] · [For healthcare professionals]
+> [Read all three studies]
 
-*Note:* source DOI 10.1002/alz.063660. "3.11" is displayed large inside one panel that also carries the population, duration, comparison with placebo and source. "Randomised" follows the study design in the professional table; the client confirmed it for the public page on 2026-10-27.
+*Note:* source DOI 10.1002/alz.063660 (shown on `/science` and `/science/professionals`). "3.11" is displayed large inside one panel that also carries the population, duration, comparison with placebo and the source in words (journal and year). Plain-language pass 2026-11-08 (client direction: the home page is for a general audience): "placebo" → "dummy capsule", "randomised" → "a fair test: chance decided…", MMSE explained as a 30-point memory test; the "For healthcare professionals" button and the DOI line moved off the home page.
 
 **6. How to take it**
 > ## How to take it
@@ -405,10 +413,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > [Full directions, cautions and storage]
 
-**7. Professional band**
-> **Are you a doctor, pharmacist or dietitian?** Find the study designs, full results tables and composition, or send a scientific question to our scientific affairs team.
->
-> [Open the professional section]
+**7. Professional band** — *retired from the home page (2026-11-08, client direction).* Healthcare professionals reach `/science/professionals` from the Science menu and from the professional band at the end of the other content pages, which stays.
 
 **8. Where to find it**
 > ## Where to find Memowell

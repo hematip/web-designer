@@ -104,10 +104,12 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
             : <div class="h-why__note" role="note" data-reveal data-text-emphasis set:html={md(p)} />
         ))}
       </div>
-      <div class="h-why__footer" data-reveal>
-        <p><Action action={why.inline_action} locale={locale} variant="link" /></p>
-        <Sources dois={why.sources} locale={locale} />
-      </div>
+      {(why.inline_action || why.sources?.length) && (
+        <div class="h-why__footer" data-reveal>
+          {why.inline_action && <p><Action action={why.inline_action} locale={locale} variant="link" /></p>}
+          <Sources dois={why.sources} locale={locale} />
+        </div>
+      )}
     </div>
   </section>
 
@@ -214,7 +216,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
         {evidence.highlight && (
           <p class="h-evidence__figure" aria-hidden="true" data-glass-part>
             <span class="h-evidence__number" data-figure>{evidence.highlight}</span>
-            <span class="h-evidence__unit">points higher on the MMSE</span>
+            <span class="h-evidence__unit">{evidence.unit ?? 'points higher on the MMSE'}</span>
           </p>
         )}
         <p class="h-evidence__result" data-glass-part set:html={highlight(mdInline(evidenceParas[0] ?? ''), evidence.highlight)} />
@@ -224,7 +226,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
             {evidence.items.map((f: any) => <div><dt>{f.title}</dt><dd>{f.body}</dd></div>)}
           </dl>
         )}
-        <div class="h-evidence__source" data-glass-part><Sources dois={evidence.sources} locale={locale} /></div>
+        {evidence.sources?.length > 0 && <div class="h-evidence__source" data-glass-part><Sources dois={evidence.sources} locale={locale} /></div>}
       </Glass>
     </div>
   </section>
@@ -274,7 +276,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </section>
 
-  <!-- 7 · Professional band: the doctor reads a results table; the invitation sits on Kondor's frosted freeform panel. -->
+  <!-- 7 · Professional band: retired from the plain-language home (2026-11-08); renders only if the CMS section returns.
+       Professionals reach their section from the Science menu and the band at the end of the other content pages. -->
+  {pro.lead && (
   <aside class:list={['h-pro', { 'h-pro--photo': proPhoto }]} id="professionals" aria-labelledby="professionals-title" data-pro>
     <div class="wrap">
       <div class="h-pro__stage">
@@ -287,6 +291,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
       </div>
     </div>
   </aside>
+  )}
 
   <!-- 8 · Where to find it: plain copy with a staged entrance; the pharmacy photograph in an arched frame, revealed
        from the bottom like a curtain while the image settles. -->
