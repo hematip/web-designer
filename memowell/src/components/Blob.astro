@@ -1,0 +1,46 @@
+---
+// The Memowell label mark, drawn for the site (not copied artwork): one deep-blue organic blob with a cyan
+// diagonal-stripe blob tucked behind it and two small satellite drops, as on the bottle label and the catalogue's
+// divider pages. Decorative only (aria-hidden). The motion layer may morph `[data-blob-main]` / `[data-blob-stripe]`
+// between their `d` and `data-alt` outlines and drift the satellites; with reduced motion or no JS the resting
+// composition stands. `tone` picks the gradient: brand (bright blue → deep navy) or white (for dark grounds).
+interface Props { id: string; tone?: 'brand' | 'white' | 'light'; class?: string; stripes?: boolean; drops?: boolean }
+const { id, tone = 'brand', class: cls, stripes = true, drops = true } = Astro.props;
+// Blob outlines share one command structure (M + 6 C) so they can be morphed point for point.
+const MAIN = 'M152 64C210 22 318 14 372 58C426 102 412 182 372 236C332 290 258 318 184 296C110 274 60 230 54 178C48 126 94 106 152 64Z';
+const MAIN_ALT = 'M136 72C198 18 322 20 380 70C438 120 404 190 368 240C332 290 246 322 170 290C94 258 54 222 56 170C58 118 74 126 136 72Z';
+const STRIPE = 'M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z';
+const STRIPE_ALT = 'M214 48C290 18 392 70 404 136C416 202 352 276 284 292C216 308 148 272 124 216C100 160 138 78 214 48Z';
+---
+<svg class:list={['blob', `blob--${tone}`, cls]} viewBox="0 0 440 330" aria-hidden="true" focusable="false" data-blob>
+  <defs>
+    <linearGradient id={`${id}-g`} x1="0" y1="0" x2="1" y2="0.35">
+      <stop offset="0" class="blob__g-a" /><stop offset="1" class="blob__g-b" />
+    </linearGradient>
+    <pattern id={`${id}-p`} width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)">
+      <rect width="4.2" height="11" class="blob__stripe-bar" />
+    </pattern>
+  </defs>
+  {stripes && <path class="blob__stripes" fill={`url(#${id}-p)`} d={STRIPE} data-blob-stripe data-alt={STRIPE_ALT} />}
+  <path class="blob__main" fill={`url(#${id}-g)`} d={MAIN} data-blob-main data-alt={MAIN_ALT} />
+  {drops && (
+    <g class="blob__drops" data-blob-drops>
+      <path class="blob__drop" d="M52 48c14-10 34-4 36 8 2 14-18 26-32 20-14-6-14-20-4-28z" />
+      <circle class="blob__drop" cx="104" cy="88" r="5" />
+    </g>
+  )}
+</svg>
+<style>
+  .blob { display: block; width: 100%; height: auto; overflow: visible; }
+  .blob--brand .blob__g-a { stop-color: var(--blue-bright); } .blob--brand .blob__g-b { stop-color: var(--navy-deep); }
+  .blob--brand .blob__stripe-bar { fill: var(--cyan-stripe); }
+  .blob--brand .blob__drop { fill: var(--navy); }
+  /* On dark grounds the mark reverses: a white blob, pale cyan stripes, cyan drops. */
+  .blob--white .blob__g-a { stop-color: #ffffff; } .blob--white .blob__g-b { stop-color: var(--paper-2); }
+  .blob--white .blob__stripe-bar { fill: var(--cyan-stripe); }
+  .blob--white .blob__drop { fill: var(--cyan); }
+  /* A pale version for texture behind light content. */
+  .blob--light .blob__g-a { stop-color: var(--paper-2); } .blob--light .blob__g-b { stop-color: var(--sky); }
+  .blob--light .blob__stripe-bar { fill: var(--cyan-stripe); }
+  .blob--light .blob__drop { fill: var(--sky-deep); }
+</style>

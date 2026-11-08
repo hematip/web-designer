@@ -1,7 +1,8 @@
 ---
-// Inner-page opening (v2): a rounded midnight aurora stage with breadcrumb pills, oversized H1 and the
-// approved intro copy. Optional media slot on the side.
+// Inner-page opening (v3): the brand-gradient stage with the label blob on the far side (the catalogue's divider
+// pages), breadcrumb pills, oversized H1 and the approved intro copy. Optional media slot on the side.
 import { getSite, href, md } from '../lib/content.js';
+import Blob from './Blob.astro';
 
 interface Props { locale: string; title: string; body?: string; crumbs?: { label: string; href: string }[]; note?: string; wide?: boolean }
 const { locale, title, body, crumbs = [], note, wide = false } = Astro.props;
@@ -24,7 +25,7 @@ const hasMedia = Astro.slots.has('media');
     </div>
     {hasMedia && <div class="page-head__media" data-reveal><slot name="media" /></div>}
   </div>
-  <svg class="page-head__rings" viewBox="0 0 600 600" aria-hidden="true"><circle cx="300" cy="300" r="290" /><circle cx="300" cy="300" r="210" /><circle cx="300" cy="300" r="130" /></svg>
+  <div class="page-head__mark" aria-hidden="true"><Blob id="head-blob" tone="white" /></div>
 </header>
 
 <style>
@@ -42,10 +43,13 @@ const hasMedia = Astro.slots.has('media');
   .page-head__copy :global(.btn-row) { margin-block-start: var(--s-4); }
   .page-head__note {
     margin-block-end: var(--s-4); max-width: 46rem; font-style: italic; color: #fff;
-    padding: 0.85rem 1.25rem; border-radius: var(--r-m); background: rgba(25, 211, 226, 0.12); border: 1px solid rgba(25, 211, 226, 0.4);
+    padding: 0.85rem 1.25rem; border-radius: var(--r-m); background: rgba(6, 178, 200, 0.14); border: 1px solid rgba(6, 178, 200, 0.45);
   }
-  .page-head__rings { position: absolute; z-index: 0; width: 46rem; inset-inline-end: -12rem; top: 50%; translate: 0 -50%; fill: none; stroke: rgba(255, 255, 255, 0.08); pointer-events: none; }
+  /* The label mark, reversed on the gradient, floating off the far edge; the media slot takes its place when present. */
+  .page-head__mark { position: absolute; z-index: 0; width: clamp(20rem, 34vw, 32rem); inset-inline-end: -4%; top: 50%; translate: 0 -46%; opacity: 0.16; pointer-events: none; }
+  .page-head--media .page-head__mark { display: none; }
   @media (max-width: 63.99rem) {
+    .page-head__mark { width: 18rem; top: auto; bottom: -5rem; translate: 0 0; opacity: 0.12; }
     .page-head__copy, .page-head--media .page-head__copy, .page-head__media { grid-column: 1 / -1; }
     .page-head__media { margin-block-start: var(--s-5); }
   }

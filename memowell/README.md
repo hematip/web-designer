@@ -40,12 +40,12 @@ node scripts/build-summary-pdf.mjs                                  # rebuild th
   - The summary and catalogue buttons show "This file will be available soon." until a file is approved.
   - Unpublished pages are never linked.
 
-## Visual direction (v2): "clinical-cosmic product stage"
+## Visual direction (v3, 2026-11-08): "the label, in motion"
 
-- Midnight/cobalt aurora stages alternate with bright ice-white reading sections.
+- One blue family from the catalogue (navy #243677 → deep navy #282764, blue #1A428A, bright blue #124A95, cyan #06B2C8, stripe #5ECFD9) on white/paper; the brand gradient (bright blue → deep navy) is the only dark ground. Blobs, stripe fields and drops from the label are the surfaces and the motion (see `components/Blob.astro`); glass panels, aurora and warm tones are retired.
 - v4: the hero is the formulation story (resin → capsule) in real-time 3D; the official bottle appears in the closing panel.
 - Large IBM Plex Sans display type with one colour accent word.
-- Bento cards, 32–44px radii, and a floating glass pill navigation.
+- Soft rounded cards, 32–44px radii, and a floating white pill navigation.
 
 Full record: `docs/design-brief.md` → "Version 2".
 

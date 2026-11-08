@@ -29,20 +29,20 @@ const note = getSite(locale).data.summary_note;
 <style>
   .note {
     position: relative; width: 23rem; max-width: 100%; color: var(--ink);
-    background: linear-gradient(160deg, #ffffff 0%, #f1f4ff 100%);
+    background: linear-gradient(160deg, #ffffff 0%, var(--sky) 100%);
     border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 28px;
-    box-shadow: 0 50px 90px -40px rgba(6, 12, 51, 0.65), 0 0 0 8px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 50px 90px -40px rgba(20, 30, 80, 0.6), 0 0 0 8px rgba(255, 255, 255, 0.08);
     padding: 1.6rem 1.5rem 1.4rem; font-family: var(--font-body);
   }
   .note__top { display: flex; align-items: center; justify-content: space-between; }
   .note__top img { width: 7rem; height: auto; }
-  .note__pdf { font: 800 0.8125rem/1 var(--font-body); letter-spacing: 0.08em; color: #fff; background: var(--royal); padding: 0.4rem 0.6rem; border-radius: 8px; }
+  .note__pdf { font: 800 0.8125rem/1 var(--font-body); letter-spacing: 0.08em; color: #fff; background: var(--blue); padding: 0.4rem 0.6rem; border-radius: 8px; }
   .note__title { font: 700 1.5rem/1.15 var(--font-display); letter-spacing: -0.02em; margin: 1rem 0 1.1rem; }
   .note__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
   .note__row {
     display: flex; align-items: center; gap: 0.75rem; min-height: 3.2rem; padding: 0.4rem 0.8rem;
     border-radius: 14px; background: #fff; border: 1px solid var(--line);
-    font-weight: 700; font-size: 1.03rem; line-height: 1.25; color: #5a6191;
+    font-weight: 700; font-size: 1.03rem; line-height: 1.25; color: var(--ink-soft);
     transition: color 0.4s var(--ease), border-color 0.4s var(--ease);
   }
   .note__box { flex: none; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 2px solid var(--line-strong); color: #fff; transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease); }
@@ -50,6 +50,6 @@ const note = getSite(locale).data.summary_note;
   .note__tick { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.5s var(--ease) 0.1s; }
   .note__num { margin-inline-start: auto; font: 700 0.875rem/1 var(--font-body); color: var(--line-strong); }
   .note[data-state='complete'] .note__row, .note .note__row.is-ticked { color: var(--ink); }
-  .note[data-state='complete'] .note__box, .note .note__row.is-ticked .note__box { background: var(--royal); border-color: var(--royal); }
+  .note[data-state='complete'] .note__box, .note .note__row.is-ticked .note__box { background: var(--blue); border-color: var(--blue); }
   .note[data-state='complete'] .note__tick, .note .note__row.is-ticked .note__tick { stroke-dashoffset: 0; }
 </style>

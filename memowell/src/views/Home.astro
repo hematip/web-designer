@@ -2,8 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Action from '../components/Action.astro';
 import Sources from '../components/Sources.astro';
-import Glass from '../components/Glass.astro';
 import Photo from '../components/Photo.astro';
+import Blob from '../components/Blob.astro';
 import { getPage, getSite, section, md, mdInline, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
@@ -55,12 +55,27 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
   <!-- 1 · The approved question and family film; the formulation story follows "why". -->
   <section class="h-hero is-dark" aria-labelledby="hero-title" data-hero data-text-motion="off">
-    <div class="h-hero__film" aria-hidden="true">
-      <!-- Sources are chosen in home-scenes.js (720p on phones); the 1080p pair is the no-JS fallback. -->
-      <video data-hero-film data-src={film.src} muted playsinline preload="metadata" poster={film.poster} width="1920" height="1080">
-        <source src={`${film.src}-1080.webm`} type="video/webm" />
-        <source src={`${film.src}-1080.mp4`} type="video/mp4" />
-      </video>
+    <!-- The label mark at hero scale: the film sits inside the deep-blue blob, the cyan stripe blob tucks behind it
+         and two drops float beside it (the catalogue's photo-in-a-blob). The blob outlines morph slowly with scroll. -->
+    <div class="h-hero__mark" aria-hidden="true" data-hero-mark>
+      <svg class="h-hero__stripes" viewBox="0 0 440 330" preserveAspectRatio="xMidYMid meet">
+        <defs><pattern id="hero-stripes" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="4.2" height="11" fill="var(--cyan-stripe)" /></pattern></defs>
+        <path fill="url(#hero-stripes)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" data-blob-stripe data-alt="M214 48C290 18 392 70 404 136C416 202 352 276 284 292C216 308 148 272 124 216C100 160 138 78 214 48Z" />
+      </svg>
+      <div class="h-hero__film">
+        <svg class="h-hero__film-clip" width="0" height="0" aria-hidden="true" focusable="false">
+          <clipPath id="hero-blob" clipPathUnits="objectBoundingBox">
+            <path d="M0.345 0.194C0.477 0.067 0.723 0.042 0.845 0.176C0.968 0.309 0.936 0.552 0.845 0.715C0.755 0.879 0.586 0.964 0.418 0.897C0.25 0.83 0.136 0.697 0.123 0.539C0.109 0.382 0.214 0.321 0.345 0.194Z" data-blob-main data-alt="M0.309 0.218C0.45 0.055 0.732 0.061 0.864 0.212C0.995 0.364 0.918 0.576 0.836 0.727C0.755 0.879 0.559 0.976 0.386 0.879C0.214 0.782 0.123 0.673 0.127 0.515C0.132 0.358 0.168 0.382 0.309 0.218Z" />
+          </clipPath>
+        </svg>
+        <!-- Sources are chosen in home-scenes.js (720p on phones); the 1080p pair is the no-JS fallback. -->
+        <video data-hero-film data-src={film.src} muted playsinline preload="metadata" poster={film.poster} width="1920" height="1080">
+          <source src={`${film.src}-1080.webm`} type="video/webm" />
+          <source src={`${film.src}-1080.mp4`} type="video/mp4" />
+        </video>
+      </div>
+      <span class="h-hero__drop h-hero__drop--a" data-blob-drop></span>
+      <span class="h-hero__drop h-hero__drop--b" data-blob-drop></span>
     </div>
     <div class="wrap h-hero__grid">
       <div class="h-hero__intro">
@@ -128,7 +143,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
             <svg class="h-form__poster" viewBox="0 0 600 600">
               <defs>
                 <radialGradient id="halo-g" cx="50%" cy="50%" r="50%">
-                  <stop offset="0" stop-color="#ffe2bd" stop-opacity=".35" /><stop offset="1" stop-color="#4c63ff" stop-opacity="0" />
+                  <stop offset="0" stop-color="#8fe4ee" stop-opacity=".3" /><stop offset="1" stop-color="#124a95" stop-opacity="0" />
                 </radialGradient>
                 <linearGradient id="cap-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0dd" /><stop offset=".55" stop-color="#f0dcbc" /><stop offset="1" stop-color="#d9b88c" /></linearGradient>
                 <linearGradient id="cap-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e4c6" /><stop offset=".55" stop-color="#e8cba2" /><stop offset="1" stop-color="#cda679" /></linearGradient>
@@ -196,13 +211,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </section>
 
-  <!-- 5 · Evidence: the main result sits on a dark glass panel with its population, duration, comparison and source. -->
-  <section class="h-evidence is-dark" id="evidence" aria-labelledby="evidence-title">
-    <div class="h-evidence__fields" aria-hidden="true">
-      <span class="glass-field glass-field--royal" data-field></span>
-      <span class="glass-field glass-field--cyan" data-field></span>
-      <span class="glass-field glass-field--indigo" data-field></span>
-    </div>
+  <!-- 5 · Evidence: the main result sits inside the label blob (deep blue, stripe blob behind) on a pale stage, with its
+       population, duration, comparison and source in the same shape. -->
+  <section class="h-evidence" id="evidence" aria-labelledby="evidence-title">
     <div class="wrap h-evidence__grid">
       <div class="h-evidence__intro" data-intro data-text-motion="off">
         <h2 id="evidence-title" class="h-evidence__title" set:html={accentWord(evidence.heading, 'research')} />
@@ -211,11 +222,16 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           <span class="h-evidence__rule" aria-hidden="true" data-intro-rule></span>
           {evidenceParas[2] && <p data-intro-part>{evidenceParas[2]}</p>}
           <div class="btn-row" data-intro-part>
-            {evidence.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'light' : 'secondary'} />)}
+            {evidence.actions.map((a: any, i: number) => <Action action={a} locale={locale} variant={i === 0 ? 'primary' : 'secondary'} />)}
           </div>
         </div>
       </div>
-      <Glass id="glass-evidence" shape="b" tone="dark" frost={false} class="h-evidence__panel">
+      <div class="h-evidence__panel blob-panel blob-panel--brand" data-blob-card style="--blob-clip: url(#ev-clip)">
+        <svg class="blob-panel__defs" width="0" height="0" aria-hidden="true" focusable="false">
+          <clipPath id="ev-clip" clipPathUnits="objectBoundingBox"><path d="M0.09 0.26C0.21 0.05 0.68 -0.02 0.9 0.12C1.1 0.26 1.02 0.66 0.9 0.84C0.78 1.02 0.36 1.04 0.18 0.9C0 0.76 -0.03 0.47 0.09 0.26Z" data-blob-main data-alt="M0.11 0.22C0.26 0.02 0.72 -0.01 0.92 0.16C1.08 0.3 1 0.7 0.86 0.86C0.72 1.02 0.32 1.02 0.16 0.88C0 0.74 -0.04 0.42 0.11 0.22Z" /></clipPath>
+        </svg>
+        <span class="blob-panel__stripes" aria-hidden="true"></span>
+        <div class="h-evidence__inner blob-panel__inner">
         {evidence.eyebrow && <p class="h-evidence__kicker" data-glass-part>{evidence.eyebrow}</p>}
         {evidence.highlight && (
           <p class="h-evidence__figure" aria-hidden="true" data-glass-part>
@@ -231,7 +247,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           </dl>
         )}
         {evidence.sources?.length > 0 && <div class="h-evidence__source" data-glass-part><Sources dois={evidence.sources} locale={locale} /></div>}
-      </Glass>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -258,16 +275,20 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
         {directionsParas[0] && <p class="h-dir__food">{directionsParas[0]}</p>}
       </div>
       <div class="h-dir__side">
-        <span class="glass-field glass-field--cyan h-dir__field-a" aria-hidden="true"></span>
-        <span class="glass-field glass-field--royal h-dir__field-b" aria-hidden="true"></span>
-        <Glass id="glass-weeks" shape="c" tone="light" frost={false} class="h-dir__panel">
+        <div class="h-dir__panel blob-panel blob-panel--sky" data-blob-card style="--blob-clip: url(#wk-clip)">
+          <svg class="blob-panel__defs" width="0" height="0" aria-hidden="true" focusable="false">
+            <clipPath id="wk-clip" clipPathUnits="objectBoundingBox"><path d="M0.09 0.26C0.21 0.05 0.68 -0.02 0.9 0.12C1.1 0.26 1.02 0.66 0.9 0.84C0.78 1.02 0.36 1.04 0.18 0.9C0 0.76 -0.03 0.47 0.09 0.26Z" data-blob-main data-alt="M0.11 0.22C0.26 0.02 0.72 -0.01 0.92 0.16C1.08 0.3 1 0.7 0.86 0.86C0.72 1.02 0.32 1.02 0.16 0.88C0 0.74 -0.04 0.42 0.11 0.22Z" /></clipPath>
+          </svg>
+          <span class="blob-panel__stripes" aria-hidden="true"></span>
+          <div class="h-dir__panel-inner blob-panel__inner">
           {directions.eyebrow && <h3 class="h-dir__panel-title" data-glass-part>{directions.eyebrow}</h3>}
           <div class="h-weeks" aria-hidden="true" data-glass-part data-weeks>
             <ol class="h-weeks__track" role="list">{Array.from({ length: 8 }, (_, i) => <li><span data-week></span><small>{i + 1}</small></li>)}</ol>
           </div>
           {directionsParas.slice(1).map((p: string) => <p class="h-dir__panel-text" data-glass-part>{p}</p>)}
           <div class="h-dir__panel-action" data-glass-part>{directions.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}</div>
-        </Glass>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -279,11 +300,11 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     <div class="wrap">
       <div class="h-pro__stage">
         {proPhoto && <div class="h-pro__photo" data-pro-photo><Photo photo={proPhoto} variant="fill" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
-        <Glass id="glass-pro" shape="a" tone="light" class="h-pro__glass">
-          <h2 id="professionals-title" data-glass-part>{pro.lead}</h2>
-          <p data-glass-part>{pro.body}</p>
-          <div class="btn-row" data-glass-part>{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}</div>
-        </Glass>
+        <div class="h-pro__glass">
+          <h2 id="professionals-title">{pro.lead}</h2>
+          <p>{pro.body}</p>
+          <div class="btn-row">{pro.actions.map((a: any) => <Action action={a} locale={locale} variant="link" />)}</div>
+        </div>
       </div>
     </div>
   </aside>
@@ -302,7 +323,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </section>
 
-  <!-- 9 · Closing: a large typographic invitation; the bottle stands on a soft light while rings open around it. -->
+  <!-- 9 · Closing: a large typographic invitation on the brand gradient; the bottle stands in front of the label
+       mark (white blob, cyan stripes) that opens behind it. -->
   <section class="h-close" id="closing" aria-labelledby="closing-title">
     <div class="wrap">
       <div class="h-close__stage is-dark" data-close>
@@ -312,11 +334,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           <div class="btn-row" data-intro-part>{closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
         </div>
         <div class="h-close__visual" aria-hidden="true">
-          <svg class="h-close__rings" viewBox="0 0 600 600" data-close-rings>
-            <circle cx="300" cy="300" r="290" /><circle cx="300" cy="300" r="225" class="is-dashed" /><circle cx="300" cy="300" r="160" /><circle cx="300" cy="300" r="96" class="is-dashed" />
-          </svg>
-          <span class="h-close__light"></span>
-          <img class="h-close__bottle" src="/img/bottle-560.webp" width="895" height="1713" alt="" loading="lazy" data-close-bottle />
+          <div class="h-close__mark" data-close-mark><Blob id="close-blob" tone="white" /></div>
+          <img class="h-close__bottle" data-close-bottle src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 15rem, 40vw" width="895" height="1713" alt="" loading="lazy" />
         </div>
       </div>
     </div>
@@ -329,18 +348,33 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
 <style>
   /* ============ Hero ============ */
-  .h-hero { position: relative; isolation: isolate; overflow: clip; min-height: max(100svh, 44rem); display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 2.5rem) 4.5rem; border-radius: 0 0 var(--r-xl) var(--r-xl); }
-  /* Film: a daylight panel on the reading column's far side, dissolving into the midnight stage. */
-  .h-hero__film { position: absolute; inset-block: 0; inset-inline-end: 0; width: 64%; z-index: -1; overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%); mask-image: linear-gradient(90deg, transparent 0%, #000 34%); }
-  :global([dir='rtl']) .h-hero__film { -webkit-mask-image: linear-gradient(270deg, transparent 0%, #000 34%); mask-image: linear-gradient(270deg, transparent 0%, #000 34%); }
-  /* The film file is mirrored so the people stay on the far side of the reading column; RTL un-mirrors it. */
-  .h-hero__film video { width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; display: block; }
+  /* Blob panel: the label blob as a text container. The clip-path is the panel's outline (morphed by the motion
+     layer); the stripe blob peeks over the top edge; the inner box is inset so the curves never cut the copy. RTL mirrors. */
+  .blob-panel { position: relative; isolation: isolate; -webkit-clip-path: var(--blob-clip); clip-path: var(--blob-clip); }
+  .blob-panel--brand { background: var(--brand-gradient-diag); }
+  .blob-panel--sky { background: var(--sky); }
+  .blob-panel__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .blob-panel__stripes { position: absolute; z-index: 0; width: 46%; aspect-ratio: 1.3; inset-inline-end: -6%; top: -4%; pointer-events: none; opacity: 0.85;
+    background: repeating-linear-gradient(-38deg, var(--cyan-stripe) 0 4px, transparent 4px 11px);
+    -webkit-mask-image: radial-gradient(closest-side, #000 60%, transparent 100%); mask-image: radial-gradient(closest-side, #000 60%, transparent 100%); }
+  .blob-panel__inner { position: relative; z-index: 1; padding: clamp(4rem, 7vw, 6.5rem) clamp(2.75rem, 5.5vw, 5.5rem) clamp(4rem, 7vw, 6.5rem) clamp(3rem, 6vw, 6rem); }
+  :global([dir='rtl']) .blob-panel { -webkit-clip-path: var(--blob-clip); clip-path: var(--blob-clip); transform: scaleX(-1); }
+  :global([dir='rtl']) .blob-panel__inner, :global([dir='rtl']) .blob-panel__stripes { transform: scaleX(-1); }
+  @media (max-width: 56.24rem) { .blob-panel__inner { padding: clamp(3.5rem, 14vw, 5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 14vw, 5rem) clamp(2rem, 9vw, 3.25rem); } }
+  /* 1 · Hero: the brand gradient stage; the family film lives inside the label blob on the far side. */
+  .h-hero { position: relative; isolation: isolate; overflow: clip; min-height: max(100svh, 44rem); display: flex; flex-direction: column; justify-content: center; padding-block: calc(var(--header-h) + 2.5rem) 4.5rem; background: var(--brand-gradient-diag); }
+  .h-hero__mark { position: absolute; z-index: -1; inset-block: 0; inset-inline-end: 0; width: 60%; pointer-events: none; }
+  .h-hero__stripes { position: absolute; width: 78%; height: auto; inset-inline-end: -6%; top: 6%; overflow: visible; opacity: 0.9; }
+  .h-hero__film { position: absolute; inset: 8% -4% 8% 4%; -webkit-clip-path: url(#hero-blob); clip-path: url(#hero-blob); overflow: hidden; }
+  .h-hero__film-clip { position: absolute; width: 0; height: 0; }
+  .h-hero__film video { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; display: block; }
   :global([dir='rtl']) .h-hero__film video { transform: scaleX(-1); }
-  .h-hero__film::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6, 12, 51, 0.45), transparent 28%); }
+  .h-hero__drop { position: absolute; border-radius: 50%; background: var(--cyan); }
+  .h-hero__drop--a { width: 1.1rem; height: 1.1rem; inset-inline-start: 2%; top: 22%; }
+  .h-hero__drop--b { width: 0.5rem; height: 0.5rem; inset-inline-start: 7%; top: 29%; background: var(--cyan-stripe); }
   .h-hero__toggle {
     position: absolute; z-index: 3; inset-inline-end: var(--gutter); bottom: 1.5rem; display: grid; place-items: center;
-    width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(6, 12, 51, 0.55);
+    width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(36, 54, 119, 0.6);
     color: #fff; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   }
   .h-hero__toggle[hidden] { display: none; }
@@ -348,7 +382,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__toggle .i-play { display: none; }
   .h-hero__toggle[aria-pressed='true'] .i-play { display: inline; }
   .h-hero__toggle[aria-pressed='true'] .i-pause { display: none; }
-  .h-hero__toggle:hover { background: #fff; color: var(--midnight); }
+  .h-hero__toggle:hover { background: #fff; color: var(--navy); }
   .h-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; position: relative; z-index: 2; }
   .h-hero__intro { grid-column: 1 / span 7; display: grid; justify-items: start; }
   .h-hero__title { font-size: clamp(2.5rem, 1.5rem + 4vw, 6rem); line-height: 1.02; letter-spacing: -0.025em; max-width: 18ch; }
@@ -376,7 +410,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
      and the licence line (below the divider, not beside the question). Official cutout only, never redrawn. */
   .h-hero__meta.has-bottle { grid-template-columns: auto minmax(0, 1fr); column-gap: clamp(1.25rem, 2vw, 2rem); max-width: 40rem; }
   .h-hero__meta.has-bottle > :not(.h-hero__bottle) { grid-column: 2; }
-  .h-hero__bottle { grid-column: 1; grid-row: 1 / span 3; align-self: end; width: auto; height: clamp(10rem, 8rem + 6vw, 14rem); max-width: none; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.45)); }
+  .h-hero__bottle { grid-column: 1; grid-row: 1 / span 3; align-self: end; width: auto; height: clamp(10rem, 8rem + 6vw, 14rem); max-width: none; filter: drop-shadow(0 18px 24px rgba(20, 30, 80, 0.5)); }
   .h-hero__trust { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.9375rem; letter-spacing: 0.01em; color: var(--on-dark-mute); font-variant-numeric: tabular-nums; }
   .h-hero__trust::before { content: ''; width: 0.45rem; height: 0.45rem; flex: none; border-radius: 50%; background: var(--cyan); }
   /* The hero fits one screen on laptops too: type and spacing scale with the viewport height. */
@@ -411,7 +445,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-story__title { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.5rem); line-height: 1.04; letter-spacing: -0.022em; max-width: 18ch; color: #fff; text-wrap: balance; }
   .h-story__chapters { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); width: 100%; }
   .h-chapter { display: grid; gap: 0.6rem; align-content: start; justify-items: start; }
-  .h-chapter__n { font: 700 0.8125rem/1 var(--font-body); letter-spacing: 0.16em; color: var(--cyan); }
+  .h-chapter__n { font: 700 0.8125rem/1 var(--font-body); letter-spacing: 0.16em; color: var(--cyan-stripe); }
   .h-chapter__n span { color: rgba(255, 255, 255, 0.5); }
   .h-chapter__label { font: 650 clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem)/1.1 var(--font-display); letter-spacing: -0.025em; color: #fff; max-width: 20ch; text-wrap: balance; }
   .h-chapter__body { max-width: 34rem; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); line-height: 1.55; color: var(--on-dark-soft); }
@@ -449,7 +483,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-chapter > :nth-child(2) { --in: 0.44s; }
   .h-chapter > :nth-child(3) { --in: 0.56s; }
   .h-chapter > :nth-child(4) { --in: 0.68s; }
-  :global(.h-form.is-scrubbing) .h-chapter__label { font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem); line-height: 1.04; max-width: 16ch; text-shadow: 0 2px 28px rgba(6, 12, 51, 0.6); }
+  :global(.h-form.is-scrubbing) .h-chapter__label { font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem); line-height: 1.04; max-width: 16ch; text-shadow: 0 2px 28px rgba(36, 54, 119, 0.6); }
   :global(.h-form.is-scrubbing) .h-story__title { font-size: clamp(1.5rem, 1rem + 1.4vw, 2.25rem); line-height: 1.12; max-width: 26ch; }
   :global(.h-form.is-scrubbing) .h-story__rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; width: min(100%, 22rem); }
   .h-story__rail span { position: relative; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, 0.18); overflow: hidden; }
@@ -463,7 +497,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-why__heading { grid-column: 1 / -1; grid-row: 1; min-width: 0; }
   .h-why__title { max-width: 17ch; font-size: clamp(2.75rem, 1rem + 5.2vw, 6.5rem); line-height: 1; letter-spacing: -0.028em; }
   .h-why__context { display: block; margin-block-end: var(--s-3); font: 600 clamp(1.125rem, 1rem + 0.45vw, 1.4rem)/1.4 var(--font-body); letter-spacing: 0; color: var(--ink-soft); }
-  .h-why__title :global(.accent) { color: var(--cyan-deep); }
+  .h-why__title :global(.accent) { color: var(--blue-bright); }
   .h-why__photo { grid-column: 1 / span 5; grid-row: 2 / span 2; min-width: 0; margin-block-start: clamp(3rem, 6vw, 6rem); }
   .h-why__photo :global(.photo) { border-radius: var(--r-m); border-start-start-radius: clamp(3rem, 6vw, 6rem); box-shadow: none; }
   .h-why__body { grid-column: 7 / span 6; grid-row: 2; display: grid; gap: var(--s-5); max-width: 36rem; min-width: 0; margin-block-start: clamp(3rem, 6vw, 6rem); color: var(--ink-soft); font-size: var(--fs-body); line-height: var(--lh-body); }
@@ -508,21 +542,19 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   :global(.h-who__gallery.is-focused) :global(.h-who__frame.is-active) { grid-column: 1 / -1; grid-row: 1; border-radius: var(--r-m); }
 
   /* ============ Evidence: a dark ground with colour fields; the main result sits on one glass panel ============ */
-  .h-evidence { position: relative; isolation: isolate; overflow: clip; padding-block: var(--section); border-radius: var(--r-xl); margin-inline: clamp(0.5rem, 1.5vw, 1.5rem); }
-  .h-evidence__fields { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-  .h-evidence__fields span:nth-child(1) { width: min(46vw, 44rem); aspect-ratio: 1; inset-inline-end: 8%; top: 4%; opacity: 0.75; }
-  .h-evidence__fields span:nth-child(2) { width: min(26vw, 26rem); aspect-ratio: 1; inset-inline-end: 36%; top: 48%; opacity: 0.4; }
-  .h-evidence__fields span:nth-child(3) { width: min(36vw, 34rem); aspect-ratio: 1; inset-inline-end: -6%; bottom: -12%; opacity: 0.85; }
+  /* 5 · Evidence: a pale stage; the result lives inside the label blob. */
+  .h-evidence { position: relative; isolation: isolate; overflow: clip; padding-block: var(--section); background: var(--paper-2); }
   .h-evidence__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-  .h-evidence__intro { grid-column: 1 / span 5; display: grid; gap: var(--s-4); align-content: center; min-width: 0; }
+  .h-evidence__intro { grid-column: 1 / span 5; display: grid; gap: var(--s-4); align-content: center; min-width: 0; color: var(--ink); }
   .h-evidence__title { max-width: 11ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
-  .h-evidence__lead { max-width: 30rem; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  .h-evidence__lead { max-width: 30rem; color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.5; }
   .h-evidence__more { display: grid; gap: var(--s-4); }
-  .h-evidence__rule { display: block; height: 1px; background: rgba(255, 255, 255, 0.18); transform-origin: 0 50%; }
+  .h-evidence__rule { display: block; height: 1px; background: var(--line-strong); transform-origin: 0 50%; }
   :global([dir='rtl']) .h-evidence__rule { transform-origin: 100% 50%; }
-  .h-evidence__more p { max-width: 30rem; color: var(--on-dark-soft); font-size: var(--fs-body); }
+  .h-evidence__more p { max-width: 30rem; color: var(--ink-soft); font-size: var(--fs-body); }
   /* The shape curves in at its top-start corner, so the top and start padding are deeper than the rest. */
-  .h-evidence__grid > :global(.h-evidence__panel) { grid-column: 6 / span 7; display: grid; gap: var(--s-3); min-width: 0; padding: clamp(5rem, 8vw, 7.5rem) clamp(3rem, 6vw, 6rem) clamp(4.5rem, 7vw, 7rem) clamp(3.75rem, 7.5vw, 7.5rem); }
+  .h-evidence__panel { grid-column: 6 / span 7; min-width: 0; color: var(--on-dark); }
+  .h-evidence__inner { display: grid; gap: var(--s-3); }
   .h-evidence__kicker { font: 700 0.875rem/1.2 var(--font-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); }
   .h-evidence__figure { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.25rem 1rem; }
   .h-evidence__number { font: 600 clamp(5rem, 2.5rem + 7.5vw, 10rem)/0.86 var(--font-display); letter-spacing: -0.045em; color: #fff; font-variant-numeric: tabular-nums; }
@@ -545,26 +577,25 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* The day: the three times stand on one line. --cell is the time row's height; the line runs through the ticks. */
   .h-dir__day { --cell: clamp(2.25rem, 1.6rem + 2vw, 3.25rem); --tick: 0.8rem; position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 3vw, 2.5rem); margin: 0; padding: var(--s-2) 0 0; list-style: none; }
   .h-dir__line { position: absolute; z-index: 0; inset-inline: 10%; top: calc(var(--s-2) + var(--cell) + var(--s-2) + var(--tick) / 2); height: 2px; border-radius: 2px; background: var(--line-strong); overflow: hidden; }
-  .h-dir__line span { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, var(--royal), var(--cyan)); transform-origin: 0 50%; transform: scaleX(var(--draw, 1)); }
-  :global([dir='rtl']) .h-dir__line span { transform-origin: 100% 50%; background: linear-gradient(270deg, var(--royal), var(--cyan)); }
+  .h-dir__line span { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); transform-origin: 0 50%; transform: scaleX(var(--draw, 1)); }
+  :global([dir='rtl']) .h-dir__line span { transform-origin: 100% 50%; background: linear-gradient(270deg, var(--blue), var(--cyan)); }
   .h-dose { position: relative; z-index: 1; display: grid; justify-items: center; align-content: start; gap: var(--s-2); min-width: 0; }
   .h-dose__time { display: flex; align-items: end; height: var(--cell); font: 600 clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem)/1 var(--font-display); letter-spacing: -0.02em; color: var(--ink); }
-  .h-dose__tick { width: var(--tick); aspect-ratio: 1; border-radius: 50%; background: var(--royal); box-shadow: 0 0 0 5px var(--ice); }
+  .h-dose__tick { width: var(--tick); aspect-ratio: 1; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 5px var(--paper); }
   .h-dose__note { max-width: 14ch; text-align: center; color: var(--ink-soft); font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); text-wrap: balance; }
   .h-dir__food { max-width: 36rem; justify-self: center; text-align: center; color: var(--ink-soft); font-size: var(--fs-body); }
   .h-dir__side { position: relative; grid-column: 8 / span 5; display: grid; justify-items: stretch; min-width: 0; }
-  .h-dir__field-a { width: min(40vw, 30rem); aspect-ratio: 1; inset-inline-start: -14%; top: -16%; }
-  .h-dir__field-b { width: min(30vw, 22rem); aspect-ratio: 1; inset-inline-end: -12%; bottom: -18%; opacity: 0.5; }
-  .h-dir__side > :global(.h-dir__panel) { display: grid; gap: var(--s-3); justify-items: start; padding: clamp(4rem, 6.5vw, 6rem) clamp(2.5rem, 4.5vw, 4.5rem) clamp(4rem, 6.5vw, 6rem) clamp(3rem, 5vw, 5rem); }
+  .h-dir__panel { min-width: 0; }
+  .h-dir__panel-inner { display: grid; gap: var(--s-3); justify-items: start; }
   .h-dir__panel-title { font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); line-height: 1.1; letter-spacing: -0.02em; }
   .h-dir__panel-text { max-width: 36ch; color: var(--ink-soft); font-size: var(--fs-body); }
   .h-dir__panel-text:first-of-type { color: var(--ink); }
   .h-weeks { width: 100%; padding-block: var(--s-1) var(--s-2); }
   .h-weeks__track { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
   .h-weeks__track li { display: grid; gap: 0.5rem; }
-  .h-weeks__track span { position: relative; height: 0.5rem; overflow: hidden; border-radius: 999px; background: rgba(10, 18, 64, 0.1); }
-  .h-weeks__track span::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--royal), var(--cyan)); transform-origin: 0 50%; transform: scaleX(var(--fill, 1)); }
-  :global([dir='rtl']) .h-weeks__track span::after { transform-origin: 100% 50%; background: linear-gradient(270deg, var(--royal), var(--cyan)); }
+  .h-weeks__track span { position: relative; height: 0.5rem; overflow: hidden; border-radius: 999px; background: rgba(27, 42, 90, 0.1); }
+  .h-weeks__track span::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--blue), var(--cyan)); transform-origin: 0 50%; transform: scaleX(var(--fill, 1)); }
+  :global([dir='rtl']) .h-weeks__track span::after { transform-origin: 100% 50%; background: linear-gradient(270deg, var(--blue), var(--cyan)); }
   .h-weeks__track small { font: 600 0.8125rem/1 var(--font-body); color: var(--ink-soft); }
 
   /* ============ Professional route ============ */
@@ -591,25 +622,22 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-where__title { max-width: 11ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
   .h-where__text { max-width: 30rem; color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.5; }
   .h-where__photo { grid-column: 7 / span 5; min-width: 0; }
-  .h-where__photo :global(.photo) { aspect-ratio: var(--photo-ratio); border-radius: 999px 999px var(--r-l) var(--r-l); box-shadow: 0 50px 90px -60px rgba(10, 18, 64, 0.55); }
+  .h-where__photo :global(.photo) { aspect-ratio: var(--photo-ratio); border-radius: 999px 999px var(--r-l) var(--r-l); box-shadow: 0 50px 90px -60px rgba(27, 42, 90, 0.5); }
 
   /* ============ Closing: typographic invitation; the bottle on a soft light inside opening rings ============ */
   .h-close { padding-block: 0 var(--section); }
-  .h-close__stage { position: relative; isolation: isolate; overflow: clip; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; min-height: clamp(30rem, 44vw, 40rem); padding: clamp(3rem, 6vw, 6rem) clamp(1.75rem, 5vw, 5rem); border-radius: var(--r-xl);
-    background: radial-gradient(60% 80% at 78% 55%, rgba(43, 63, 217, 0.45), rgba(6, 12, 51, 0) 70%), var(--midnight); }
+  .h-close__stage { position: relative; isolation: isolate; overflow: clip; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; min-height: clamp(30rem, 44vw, 40rem); padding: clamp(3rem, 6vw, 6rem) clamp(1.75rem, 5vw, 5rem); border-radius: var(--r-xl); background: var(--brand-gradient-diag);
+    background: radial-gradient(60% 80% at 78% 55%, rgba(18, 74, 149, 0.45), rgba(36, 54, 119, 0) 70%), var(--navy); }
   .h-close__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; }
   .h-close__title { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.04; letter-spacing: -0.028em; }
   /* Kondor's two thin product-colour strokes under the key phrase (drawn in by the intro entrance). */
   /* Placed just under the baseline, inside the line box, so the line masks of the entrance never clip them. */
-  .h-close__title :global(.accent) { background: linear-gradient(var(--cyan) 0 0) 0 calc(100% - 0.13em) / 100% 0.04em no-repeat, linear-gradient(var(--cyan) 0 0) 0 calc(100% - 0.21em) / 100% 0.04em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .h-close__title :global(.accent) { background: linear-gradient(var(--cyan) 0 0) 0 calc(100% - 0.13em) / 100% 0.04em no-repeat, linear-gradient(var(--cyan-stripe) 0 0) 0 calc(100% - 0.21em) / 100% 0.04em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .h-close__text { max-width: 38ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
   .h-close__visual { position: relative; grid-column: 8 / span 5; display: grid; place-items: center; min-width: 0; aspect-ratio: 1; }
   .h-close__visual > * { grid-area: 1 / 1; }
-  .h-close__rings { width: 100%; height: 100%; overflow: visible; }
-  .h-close__rings circle { fill: none; stroke: rgba(25, 211, 226, 0.45); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
-  .h-close__rings circle.is-dashed { stroke: rgba(201, 208, 242, 0.5); stroke-width: 1.5; stroke-dasharray: 2 9; }
-  .h-close__light { width: 70%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(25, 211, 226, 0.55), rgba(43, 63, 217, 0.3) 55%, rgba(43, 63, 217, 0) 100%); }
-  .h-close__bottle { position: relative; width: min(46%, 15rem); height: auto; filter: drop-shadow(0 30px 28px rgba(0, 0, 0, 0.45)); }
+  .h-close__mark { width: 118%; opacity: 0.92; translate: 0 -2%; }
+  .h-close__bottle { position: relative; width: min(46%, 15rem); height: auto; filter: drop-shadow(0 30px 28px rgba(20, 30, 80, 0.5)); }
 
   /* ============ Evidence → Closing on tablets and phones ============ */
   @media (max-width: 56.24rem) {
@@ -620,20 +648,17 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   }
   @media (max-width: 56.24rem) {
     .h-evidence__grid, .h-where__grid { grid-template-columns: minmax(0, 1fr); }
-    .h-evidence__intro, .h-evidence__grid > :global(.h-evidence__panel) { grid-column: 1; }
-    .h-evidence__grid > :global(.h-evidence__panel) { margin-block-start: var(--s-5); padding: clamp(4.25rem, 17vw, 5.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.75rem, 14vw, 5rem) clamp(2.25rem, 10vw, 3.5rem); }
-    .h-evidence__fields span:nth-child(1) { width: 90vw; inset-inline-end: -20%; top: 38%; }
-    .h-evidence__fields span:nth-child(3) { width: 70vw; bottom: 2%; }
+    .h-evidence__intro, .h-evidence__panel { grid-column: 1; }
+    .h-evidence__panel { margin-block-start: var(--s-5); }
     .h-dir__scene { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-5); }
     .h-dir__main, .h-dir__side { grid-column: 1; }
     .h-dir__day { --cell: 2rem; }
     .h-dose__time { font-size: clamp(1.25rem, 6vw, 1.6rem); }
     .h-dose__note { font-size: 0.875rem; }
-    .h-dir__side > :global(.h-dir__panel) { padding: clamp(3rem, 12vw, 4.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 13vw, 5rem); }
     .h-where__grid { row-gap: var(--s-5); }
     .h-where__copy, .h-where__photo { grid-column: 1 / -1; }
     .h-where__photo { width: min(100%, 26rem); justify-self: center; }
-    .h-close__stage { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding: var(--s-5) var(--s-3); border-radius: var(--r-l); background: radial-gradient(90% 50% at 50% 80%, rgba(43, 63, 217, 0.45), rgba(6, 12, 51, 0) 70%), var(--midnight); }
+    .h-close__stage { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding: var(--s-5) var(--s-3); border-radius: var(--r-l); }
     .h-close__copy, .h-close__visual { grid-column: 1; }
     .h-close__visual { width: min(100%, 22rem); justify-self: center; }
   }
@@ -666,12 +691,13 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   @media (max-width: 56.24rem) {
     .h-hero__intro { grid-column: 1 / -1; }
     /* Phone: the film fills the top of the hero and fades into midnight under the text. */
-    .h-hero { justify-content: flex-end; padding-block-start: calc(var(--header-h) + 34vh); }
-    .h-hero__film { inset: 0 0 auto; width: auto; height: 66vh;
-      -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 100%); mask-image: linear-gradient(180deg, #000 50%, transparent 100%); }
-    :global([dir='rtl']) .h-hero__film { -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 100%); mask-image: linear-gradient(180deg, #000 50%, transparent 100%); }
-    .h-hero__film video { object-position: 88% 50%; }
-    .h-hero__film::after { background: linear-gradient(0deg, rgba(6, 12, 51, 0.75) 0%, rgba(6, 12, 51, 0.35) 40%, rgba(6, 12, 51, 0) 65%), linear-gradient(180deg, rgba(6, 12, 51, 0.5), transparent 25%); }
+    .h-hero { justify-content: flex-end; padding-block-start: calc(var(--header-h) + 36vh); }
+    .h-hero__mark { inset: calc(var(--header-h) - 1rem) -6% auto 10%; width: auto; height: 48vh; }
+    .h-hero__stripes { width: 62%; inset-inline-end: -10%; top: 14%; }
+    .h-hero__film { inset: 4% 0 6% 6%; }
+    .h-hero__film video { object-position: 70% 40%; }
+    .h-hero__drop--a { inset-inline-start: 0; top: 30%; }
+    .h-hero__drop--b { inset-inline-start: 6%; top: 38%; }
     .h-hero__toggle { top: calc(var(--header-h) + 0.75rem); bottom: auto; }
     /* Full-bleed here so the pinned scene has no gaps at the screen edges. */
     .h-form { margin-inline: 0; border-radius: 0; }
@@ -686,7 +712,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     :global(.h-form.is-scrubbing) .h-form__frame { position: absolute; inset: calc(var(--header-h) + 0.25rem) var(--gutter) auto; height: 50svh; }
     :global(.h-form.is-scrubbing) .h-story {
       position: absolute; inset: auto 0 0; margin: 0; padding: 4rem var(--gutter) 1.75rem; gap: 0.85rem;
-      background: linear-gradient(to top, rgba(6, 12, 51, 0.92) 55%, rgba(6, 12, 51, 0));
+      background: linear-gradient(to top, rgba(6, 12, 51, 0.92) 55%, rgba(36, 54, 119, 0));
     }
     :global(.h-form.is-scrubbing) .h-story__title { font-size: 1.0625rem; line-height: 1.25; color: var(--on-dark-soft); }
     :global(.h-form.is-scrubbing) .h-chapter { gap: 0.6rem; }

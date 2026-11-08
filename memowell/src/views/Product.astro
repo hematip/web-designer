@@ -96,23 +96,23 @@ const compositionPhoto = photoOf(locale, 'memowell', 'composition');
   .directions { padding-top: 0; }
   .steps { list-style: none; padding: 0; margin: var(--s-5) 0 var(--s-4); display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: var(--s-3); }
   .step { position: relative; overflow: hidden; isolation: isolate; background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); display: grid; gap: var(--s-3); align-content: start; min-height: 20rem; }
-  .step:first-child { background: var(--midnight); color: #fff; border-color: transparent; }
-  .step:first-child::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 70% at 90% 0%, rgba(76, 99, 255, 0.8), transparent 70%); }
+  .step:first-child { background: var(--brand-gradient-diag); color: #fff; border-color: transparent; }
+  .step:first-child::before { content: none; }
   .step:first-child p { color: var(--on-dark-soft); }
-  .step__num { font: 800 clamp(3rem, 2rem + 3vw, 4.75rem)/0.9 var(--font-display); letter-spacing: -0.03em; background: linear-gradient(120deg, var(--royal), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .step__num { font: 800 clamp(3rem, 2rem + 3vw, 4.75rem)/0.9 var(--font-display); letter-spacing: -0.03em; background: linear-gradient(120deg, var(--blue), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .step:first-child .step__num { background: linear-gradient(120deg, #fff, var(--cyan)); -webkit-background-clip: text; background-clip: text; }
-  .step__art { position: absolute; width: 9rem; inset-inline-end: 1.5rem; top: 1.75rem; rotate: -20deg; filter: drop-shadow(0 14px 14px rgba(0, 0, 0, 0.35)); }
+  .step__art { position: absolute; width: 9rem; inset-inline-end: 1.5rem; top: 1.75rem; rotate: -20deg; filter: drop-shadow(0 14px 14px rgba(20, 30, 80, 0.4)); }
   .step p { color: var(--ink-soft); }
   .step strong { display: block; color: inherit; font: 700 var(--fs-h3)/1.2 var(--font-display); letter-spacing: -0.02em; margin-block-end: 0.5rem; }
   .step:first-child strong { color: #fff; }
   .label-note { display: grid; grid-template-columns: auto 1fr; gap: var(--s-2); align-items: start; max-width: 46rem; padding: var(--s-3); border-radius: var(--r-l); background: var(--ice-2); }
-  .label-note :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--royal); margin-top: 0.2rem; }
+  .label-note :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--blue); margin-top: 0.2rem; }
 
   .cautions-wrap { padding-top: 0; }
   .cautions { grid-column: 1 / span 7; display: grid; gap: var(--s-3); padding: clamp(1.75rem, 1.2rem + 2vw, 3rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
   .cautions :global(p:first-child strong) {
     display: block; font: 700 var(--fs-h3)/1.3 var(--font-display); letter-spacing: -0.015em; color: var(--ink);
-    padding: var(--s-2) var(--s-3); border-radius: var(--r-m); background: #fff4e5; border: 1px solid #f0c98d;
+    padding: var(--s-2) var(--s-3); border-radius: var(--r-m); background: var(--cyan-soft); border: 1px solid var(--cyan-stripe);
   }
   .storage { grid-column: 9 / span 4; display: grid; gap: var(--s-2); padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem); border-radius: var(--r-xl); background: var(--ice-2); }
   .storage :global(h2) { font-size: var(--fs-h3); }

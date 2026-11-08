@@ -348,24 +348,15 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
   };
 });
 
-// ---------------------------------------------------------------- Glass sections (Evidence → Closing)
-// The glass panels themselves are opened by the shared controller in motion.js. Here: the professional photograph
-// settles behind its panel, and the soft colour fields behind the panels drift against the scroll so the frost
-// visibly changes as the page moves.
+// ---------------------------------------------------------------- Professional photograph (when the band renders)
+// The professional photograph settles behind its panel as the band scrolls in.
 mm.add(MQ.motion, () => {
   const figure = $('[data-pro-photo] .photo');
-  if (figure) {
-    gsap.fromTo(figure, { scale: 1.08 }, {
-      scale: 1, ease: 'none', scrollTrigger: { trigger: '[data-pro]', start: 'top bottom', end: 'center center', scrub: true },
-    });
-  }
-  $$('.glass-field').forEach((field, i) => {
-    const dir = i % 2 ? -1 : 1;
-    gsap.fromTo(field, { yPercent: 16 * dir, xPercent: -6 * dir }, {
-      yPercent: -16 * dir, xPercent: 6 * dir, ease: 'none',
-      scrollTrigger: { trigger: field.closest('section, aside') ?? field, start: 'top bottom', end: 'bottom top', scrub: true },
-    });
+  if (!figure) return;
+  const tween = gsap.fromTo(figure, { scale: 1.08 }, {
+    scale: 1, ease: 'none', scrollTrigger: { trigger: '[data-pro]', start: 'top bottom', end: 'center center', scrub: true },
   });
+  return () => { tween.scrollTrigger?.kill(); tween.kill(); gsap.set(figure, { clearProps: 'transform' }); };
 });
 
 // ---------------------------------------------------------------- How to take it: a day in three doses
@@ -429,21 +420,53 @@ mm.add(MQ.motion, () => {
   return () => gsap.set([frame, figure], { clearProps: 'clipPath,transform' });
 });
 
-// Closing: the rings open outward around the bottle as it rises onto its light; while the section scrolls the dashed
-// rings turn slowly in opposite directions. Replays when the section comes back into view.
+// Closing: the label mark (white blob, cyan stripes) grows from behind the bottle as the bottle rises; replays when
+// the section comes back into view.
 mm.add(MQ.motion, () => {
   const stage = $('[data-close]');
-  const bottle = $('[data-close-bottle]', stage ?? document);
-  const rings = stage ? $$('[data-close-rings] circle', stage) : [];
-  const light = stage && $('.h-close__light', stage);
-  if (!stage || !bottle) return;
-  gsap.set(rings, { svgOrigin: '300 300' }); // the rings' shared centre in the SVG's own coordinates
+  const mark = stage && $('[data-close-mark]', stage);
+  const bottle = stage && $('[data-close-bottle]', stage);
+  if (!stage || !mark || !bottle) return;
   const tl = gsap.timeline({ paused: true });
-  tl.fromTo(rings, { scale: 0.55, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6, ease: 'power3.out', stagger: { each: 0.12, from: 'end' } }, 0)
-    .fromTo(light, { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4, ease: 'power2.out' }, 0.1)
-    .fromTo(bottle, { y: 90, opacity: 0, rotate: -5 }, { y: 0, opacity: 1, rotate: 0, duration: 1.6, ease: 'power3.out' }, 0.25);
-  ScrollTrigger.create({ trigger: stage, start: 'top 78%', end: 'bottom top', onEnter: () => tl.restart(), onEnterBack: () => tl.restart() });
-  ScrollTrigger.create({ trigger: stage, start: 'top bottom', end: 'bottom top', onLeave: () => tl.pause(0), onLeaveBack: () => tl.pause(0) });
-  const dashed = rings.filter((c) => c.classList.contains('is-dashed'));
-  dashed.forEach((c, i) => gsap.fromTo(c, { rotate: 0 }, { rotate: i % 2 ? -50 : 50, ease: 'none', scrollTrigger: { trigger: stage, start: 'top bottom', end: 'bottom top', scrub: 0.8 } }));
+  tl.fromTo(mark, { scale: 0.5, opacity: 0, transformOrigin: '50% 70%' }, { scale: 1, opacity: 1, duration: 1.5, ease: 'power3.out' }, 0)
+    .fromTo(bottle, { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: 'power3.out' }, 0.15);
+  const enter = ScrollTrigger.create({ trigger: stage, start: 'top 75%', end: 'bottom top', onEnter: () => tl.restart(), onEnterBack: () => tl.restart() });
+  const reset = ScrollTrigger.create({ trigger: stage, start: 'top bottom', end: 'bottom top', onLeave: () => tl.pause(0), onLeaveBack: () => tl.pause(0) });
+  return () => { enter.kill(); reset.kill(); tl.kill(); gsap.set([mark, bottle], { clearProps: 'all' }); };
+});
+
+// ---------------------------------------------------------------- Label blobs: the mark moves with the page
+// Every blob outline ([data-blob-main], [data-blob-stripe]) morphs between its `d` and `data-alt` as its section
+// scrolls through the viewport, and the stripe blob slides a little against the main one, so the mark is never
+// frozen. Scrubbed, one writer per path. Satellite drops drift counter to the scroll. Reduced motion: resting shapes.
+mm.add(MQ.motion, () => {
+  const nums = (d) => (d.match(/-?\d*\.?\d+/g) || []).map(Number);
+  const toPath = (n) => {
+    const f = (v) => +v.toFixed(3);
+    let d = `M${f(n[0])} ${f(n[1])}`;
+    for (let i = 2; i < n.length; i += 6) d += `C${n.slice(i, i + 6).map(f).join(' ')}`;
+    return `${d}Z`;
+  };
+  const tweens = [];
+  $$('[data-blob-main], [data-blob-stripe]').forEach((path) => {
+    const a = nums(path.getAttribute('d'));
+    const b = nums(path.dataset.alt || '');
+    if (a.length < 8 || a.length !== b.length) return;
+    const owner = path.closest('section, aside, header') || path.closest('svg');
+    const st = { t: 0 };
+    const render = () => path.setAttribute('d', toPath(a.map((v, i) => v + (b[i] - v) * st.t)));
+    tweens.push(gsap.to(st, { t: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: owner, start: 'top bottom', end: 'bottom top', scrub: 1.2 } }));
+    if (path.hasAttribute('data-blob-stripe')) {
+      tweens.push(gsap.fromTo(path, { xPercent: 2, yPercent: -2 }, { xPercent: -2, yPercent: 3, ease: 'none', scrollTrigger: { trigger: owner, start: 'top bottom', end: 'bottom top', scrub: 1.4 } }));
+    }
+  });
+  $$('[data-blob-drop], [data-blob-drops]').forEach((drop, i) => {
+    const owner = drop.closest('section, aside, header') || drop;
+    tweens.push(gsap.fromTo(drop, { y: 14 * (i % 2 ? -1 : 1) }, { y: -14 * (i % 2 ? -1 : 1), ease: 'none', scrollTrigger: { trigger: owner, start: 'top bottom', end: 'bottom top', scrub: 0.8 } }));
+  });
+  return () => {
+    tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
+    $$('[data-blob-main], [data-blob-stripe]').forEach((path) => { gsap.set(path, { clearProps: 'transform' }); });
+    $$('[data-blob-drop], [data-blob-drops]').forEach((d) => gsap.set(d, { clearProps: 'transform' }));
+  };
 });

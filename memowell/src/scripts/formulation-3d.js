@@ -252,9 +252,9 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 80);
 
   // Lights: warm key, brand-blue rim, soft fill, and a glint that sweeps the closed capsule.
-  const key = new THREE.DirectionalLight(0xffe0b5, 2.2); key.position.set(3.5, 4.5, 5);
-  const rim = new THREE.DirectionalLight(0x6d82ff, 3.2); rim.position.set(-4.5, 2.5, -4);
-  const fill = new THREE.HemisphereLight(0xaab8ff, 0x140c2e, 0.35);
+  const key = new THREE.DirectionalLight(0xeef4ff, 2.2); key.position.set(3.5, 4.5, 5);
+  const rim = new THREE.DirectionalLight(0x06b2c8, 3.0); rim.position.set(-4.5, 2.5, -4);
+  const fill = new THREE.HemisphereLight(0xa8d2dd, 0x1a2a5a, 0.4);
   const glint = new THREE.DirectionalLight(0xffffff, 0); glint.position.set(-3, 2, 4);
   scene.add(key, rim, fill, glint);
 
@@ -265,11 +265,11 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   // ---- 01 coarse K-Vie™ granules (micronized in chapter 1)
   const grainGeo = granulesGeometry(noise);
   const grainMat = new THREE.MeshPhysicalMaterial({
-    color: 0xd9a85e, roughness: 0.34, metalness: 0, clearcoat: 0.7, clearcoatRoughness: 0.18, flatShading: true,
-    sheen: 0.25, sheenColor: new THREE.Color(0xffd9a0), sheenRoughness: 0.5,
-    emissive: new THREE.Color(0x4a2600), emissiveIntensity: 0.3, envMapIntensity: 1.1,
+    color: 0xcfe3f2, roughness: 0.3, metalness: 0, clearcoat: 0.8, clearcoatRoughness: 0.14, flatShading: true,
+    sheen: 0.25, sheenColor: new THREE.Color(0xc8eef3), sheenRoughness: 0.5,
+    emissive: new THREE.Color(0x0b3a6e), emissiveIntensity: 0.22, envMapIntensity: 1.2,
   });
-  const grainU = { uDissolve: { value: 0 }, uEdge: { value: new THREE.Color(0xffc56b).multiplyScalar(4) }, uGlow: { value: new THREE.Color(0xff8a1f).multiplyScalar(0.75) } };
+  const grainU = { uDissolve: { value: 0 }, uEdge: { value: new THREE.Color(0x8fe4ee).multiplyScalar(3.5) }, uGlow: { value: new THREE.Color(0x06b2c8).multiplyScalar(0.6) } };
   grainMat.onBeforeCompile = (sh) => {
     Object.assign(sh.uniforms, grainU);
     sh.vertexShader = sh.vertexShader
@@ -294,7 +294,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   scene.add(grainRoot);
 
   // Warm/cool light bloom behind the subject (cheap stand-in for a bloom pass on a transparent canvas).
-  const glowMat = new THREE.SpriteMaterial({ map: glowTexture(), color: 0xffb04a, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false });
+  const glowMat = new THREE.SpriteMaterial({ map: glowTexture(), color: 0x3a7fd6, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false });
   const glow = new THREE.Sprite(glowMat);
   glow.scale.setScalar(6);
   glow.position.set(0, 0, -1.2);
@@ -328,7 +328,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   target.lit = true;
   const order = crystalData.map((_, i) => i).filter((i) => i !== inner).sort(() => Math.random() - 0.5);
   order.slice(0, Math.round(crystalData.length * 0.4) - 1).forEach((i) => { crystalData[i].lit = true; });
-  const iceCrystal = new THREE.Color(0xdfe6ff), goldCrystal = new THREE.Color(0xffc25a), dimCrystal = new THREE.Color(0x7d89c4);
+  const iceCrystal = new THREE.Color(0xe8f1ff), goldCrystal = new THREE.Color(0x3fd6e6), dimCrystal = new THREE.Color(0x6f85b8);
   const cTmp = new THREE.Color();
   crystalData.forEach((_, i) => crystals.setColorAt(i, iceCrystal));
   lattice.add(crystals);
@@ -342,7 +342,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   }
   const lineGeo = new THREE.BufferGeometry();
   lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
-  const lineMat = new THREE.LineBasicMaterial({ color: 0x8fa2ff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x8fc9ff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
   const lines = new THREE.LineSegments(lineGeo, lineMat);
   lattice.add(lines);
 
@@ -354,18 +354,18 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   const atomGeo = new THREE.IcosahedronGeometry(1, 3);
   const atomMat = new THREE.MeshPhysicalMaterial({
     color: 0xffffff, roughness: 0.16, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08, envMapIntensity: 1.6,
-    emissive: new THREE.Color(0x1a2470), emissiveIntensity: 0.22,
+    emissive: new THREE.Color(0x12306e), emissiveIntensity: 0.22,
   });
   const atomData = AKBA_ATOMS.map(([el, x, y, z], i) => ({
     p: new THREE.Vector3(x, y, z).multiplyScalar(MOL_SCALE), r: el === 'O' ? 0.092 : 0.074, o: i / (AKBA_ATOMS.length - 1),
   }));
   const atoms = new THREE.InstancedMesh(atomGeo, atomMat, atomData.length);
-  AKBA_ATOMS.forEach(([el], i) => atoms.setColorAt(i, new THREE.Color(el === 'O' ? 0xffb347 : 0xe4eaff)));
+  AKBA_ATOMS.forEach(([el], i) => atoms.setColorAt(i, new THREE.Color(el === 'O' ? 0x06b2c8 : 0xeef3ff)));
   molGroup.add(atoms);
   const bondGeo = new THREE.CylinderGeometry(1, 1, 1, 12, 1, true);
   bondGeo.translate(0, 0.5, 0); // grows from its first atom
   const bondMat = new THREE.MeshPhysicalMaterial({
-    color: 0xc9d3ff, roughness: 0.3, metalness: 0, clearcoat: 0.6, envMapIntensity: 1.2, emissive: new THREE.Color(0x1a2470), emissiveIntensity: 0.18,
+    color: 0xd4e2f5, roughness: 0.3, metalness: 0, clearcoat: 0.6, envMapIntensity: 1.2, emissive: new THREE.Color(0x12306e), emissiveIntensity: 0.18,
   });
   const UP = new THREE.Vector3(0, 1, 0), ALT = new THREE.Vector3(1, 0, 0);
   const bondData = [];
@@ -385,13 +385,13 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
 
   // ---- 04 the incoming crystal that carries AKBA: travels from deep space to the centre and opens on the way
   const seedMat = new THREE.MeshPhysicalMaterial({
-    color: 0xffc25a, roughness: 0.08, metalness: 0.1, clearcoat: 1, flatShading: true, envMapIntensity: 2.2,
-    emissive: new THREE.Color(0x7a4300), emissiveIntensity: 0.6,
+    color: 0x3fd6e6, roughness: 0.08, metalness: 0.1, clearcoat: 1, flatShading: true, envMapIntensity: 2.2,
+    emissive: new THREE.Color(0x05606c), emissiveIntensity: 0.6,
   });
   const seed = new THREE.Mesh(crystalGeo, seedMat);
   seed.visible = false;
   scene.add(seed);
-  const flareMat = new THREE.SpriteMaterial({ map: glowMat.map, color: 0xffc77a, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+  const flareMat = new THREE.SpriteMaterial({ map: glowMat.map, color: 0x8fe4ee, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
   const flare = new THREE.Sprite(flareMat);
   flare.visible = false;
   scene.add(flare);
@@ -473,8 +473,8 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     uGrainMat: { value: new THREE.Matrix4() }, uLatMat: { value: new THREE.Matrix4() }, uMolMat: { value: new THREE.Matrix4() },
     uCapMat: { value: new THREE.Matrix4() },
     uSize: { value: small ? 0.03 : 0.024 }, uProjScale: { value: 600 }, uFocus: { value: 7 }, uAperture: { value: 0.26 },
-    uAmber: { value: new THREE.Color(0xff9d2e) }, uGold: { value: new THREE.Color(0xffd27a) },
-    uIce: { value: new THREE.Color(0xdfe8ff) }, uCream: { value: new THREE.Color(0xffe6c4) },
+    uAmber: { value: new THREE.Color(0x7fc4ff) }, uGold: { value: new THREE.Color(0x3fd6e6) },
+    uIce: { value: new THREE.Color(0xe8f1ff) }, uCream: { value: new THREE.Color(0xf4ecdc) },
   };
   const pMat = new THREE.ShaderMaterial({
     uniforms: pU, vertexShader: PARTICLE_VERT, fragmentShader: SOFT_FRAG,
@@ -498,7 +498,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   bGeo.setAttribute('aRand', new THREE.BufferAttribute(bRand, 4));
   const bU = {
     uTime: shared.uTime, uProjScale: pU.uProjScale, uOpacity: { value: 1 },
-    uA: { value: new THREE.Color(0x4c63ff) }, uB: { value: new THREE.Color(0x19d3e2) }, uC: { value: new THREE.Color(0xffc77a) },
+    uA: { value: new THREE.Color(0x3a7fd6) }, uB: { value: new THREE.Color(0x06b2c8) }, uC: { value: new THREE.Color(0xa8d2dd) },
   };
   const bokeh = new THREE.Points(bGeo, new THREE.ShaderMaterial({
     uniforms: bU, vertexShader: BOKEH_VERT, fragmentShader: SOFT_FRAG, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
@@ -537,7 +537,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
 
   // ---------------------------------------------------------------- evaluate the whole frame from (p, t)
   const m4 = new THREE.Matrix4(), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
-  const amberGlow = new THREE.Color(0xffa63c), iceGlow = new THREE.Color(0x7d8cff), creamGlow = new THREE.Color(0xffe2bd), goldGlow = new THREE.Color(0xffc25a);
+  const amberGlow = new THREE.Color(0x4a9be0), iceGlow = new THREE.Color(0x3a7fd6), creamGlow = new THREE.Color(0xa8d2dd), goldGlow = new THREE.Color(0x3fd6e6);
   const qI = new THREE.Quaternion(), qCap = new THREE.Quaternion(), v3b = new THREE.Vector3();
   let mode = initialMode;
 

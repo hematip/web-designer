@@ -71,13 +71,13 @@ const title = category ? `${catLabel(category)} — ${page.meta_title}` : pageNu
   .cats ul { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .cats a { display: inline-flex; align-items: center; min-height: 3rem; padding: 0.5rem 1.15rem; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-line); color: #fff; text-decoration: none; font-weight: 700; font-size: 1.0625rem; }
   .cats a:hover { background: rgba(255, 255, 255, 0.16); color: #fff; }
-  .cats a[aria-current='page'] { background: #fff; border-color: #fff; color: var(--midnight); }
+  .cats a[aria-current='page'] { background: #fff; border-color: #fff; color: var(--navy); }
   .articles { padding-block: var(--section); }
   .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: var(--s-3); }
   .article-card { position: relative; overflow: hidden; isolation: isolate; background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: var(--s-4) var(--s-4) var(--s-5); display: grid; gap: var(--s-2); align-content: start; min-height: 17rem; transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out); }
-  .article-card::before { content: ''; position: absolute; z-index: -1; width: 16rem; height: 16rem; inset-inline-end: -6rem; top: -7rem; border-radius: 50%; background: radial-gradient(circle, rgba(25, 211, 226, 0.25), transparent 70%); }
+  .article-card::before { content: ''; position: absolute; z-index: -1; width: 16rem; height: 16rem; inset-inline-end: -6rem; top: -7rem; border-radius: 50%; background: radial-gradient(circle, rgba(6, 178, 200, 0.22), transparent 70%); }
   .article-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-soft); }
-  .article-card__cat { justify-self: start; padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--ice-2); font: 700 0.9375rem/1.2 var(--font-body); color: var(--royal); }
+  .article-card__cat { justify-self: start; padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--sky); font: 700 0.9375rem/1.2 var(--font-body); color: var(--blue); }
   .article-card__title { font-size: clamp(1.4rem, 1.2rem + 0.6vw, 1.75rem); line-height: 1.18; }
   .article-card__title a { color: var(--ink); text-decoration: none; }
   .article-card__title a::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
