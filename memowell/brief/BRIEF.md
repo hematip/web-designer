@@ -397,23 +397,25 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **6. How to take it**
 > ## How to take it
 >
-> One capsule with each of your three main meals.
+> One capsule after each of your three main meals.
 >
-> **Breakfast** — One capsule
+> **Morning** — One capsule, after breakfast
 >
-> **Lunch** — One capsule
+> **Noon** — One capsule, after lunch
 >
-> **Dinner** — One capsule
+> **Evening** — One capsule, after dinner
 >
 > Taking it with food helps the body absorb the compounds.
 >
 > Give it eight weeks
 >
-> Use it regularly for eight weeks before you judge the effect.
+> Use it regularly for eight weeks before you judge the effect. Kondor Pharma recommends a course of at least 24 weeks.
 >
 > Take it under your doctor's supervision, especially if you also take prescribed medicines.
 >
 > [Full directions, cautions and storage]
+
+*Note (2026-11-08, client product document):* "after" each meal, the three times of day and the 24-week course come from the document's dosing and mechanism sections. The eight-week judgement period stays by the client's ruling (the document's "two to three weeks" was not adopted). "Continue to prevent progression" and "longer use is never harmful" are not published (Part 5: prevention and absolute-safety claims).
 
 **7. Professional band** — *retired from the home page (2026-11-08, client direction).* Healthcare professionals reach `/science/professionals` from the Science menu and from the professional band at the end of the other content pages, which stays.
 
@@ -460,11 +462,11 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 **3. Directions**
 > ## How to take it
 >
-> **One capsule with each of the three main meals.** Taking it with food improves absorption.
+> **One capsule after each of the three main meals.** Morning, noon and evening. Taking it with food improves absorption.
 >
 > **Allow eight weeks.** Effects on memory symptoms are generally observed after about eight weeks of regular use.
 >
-> **Keep taking it under supervision.** For memory health, the supplement is intended for long-term, regular use with your doctor's oversight — not a short course.
+> **Keep taking it under supervision.** For memory health, the supplement is intended for long-term, regular use with your doctor's oversight — not a short course. Kondor Pharma recommends a course of at least 24 weeks.
 >
 > Follow the directions on the packaging approved in the country where you bought it. Where they differ from this page, the packaging is correct.
 
@@ -665,7 +667,7 @@ DOIs link to `https://doi.org/<DOI>`. The client asks that each study also shows
 >
 > **Presentation:** 90 vegetarian capsules per bottle. Gluten-free.
 >
-> **Administration:** one capsule with each of the three main meals, taken with food. Effects on cognitive symptoms are generally observed after approximately eight weeks of regular use.
+> **Administration:** one capsule after each of the three main meals (morning, noon, evening), taken with food. Effects on cognitive symptoms are generally observed after approximately eight weeks of regular use; a course of at least 24 weeks is recommended.
 >
 > **Use with caution** in pregnancy and lactation, under medical supervision.
 >

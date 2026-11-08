@@ -368,105 +368,52 @@ mm.add(MQ.motion, () => {
   });
 });
 
-// ---------------------------------------------------------------- How to take it: one day, then eight weeks
-// One scrubbed value is the time of day. The sun walks the arc from morning to evening (right to left in RTL, where
-// breakfast is on the right) and lights the arc behind it; as it reaches each meal the capsule drops onto that plate,
-// the plate gives a small settle and the meal's label comes up. Everything is a function of that value, so reverse
-// scroll and direct anchors land on the same frame. Desktop pins the day while it plays; phones scrub it in place.
-// Reduced motion and no-JS show the resolved day: every plate with its capsule, the arc drawn, no sun.
-const MEALS_AT = [0.2, 0.5, 0.8]; // when the sun reaches breakfast, lunch and dinner
-const ARC = [[20, 210], [260, -50], [740, -50], [980, 210]]; // the SVG path in its 1000×220 viewBox
-const bezier = (t, k) => {
-  const u = 1 - t;
-  return u * u * u * ARC[0][k] + 3 * u * u * t * ARC[1][k] + 3 * u * t * t * ARC[2][k] + t * t * t * ARC[3][k];
-};
-function buildDay(pinned) {
-  const scene = $('[data-dir-scene]');
-  const stage = $('[data-dir-stage]');
-  if (!scene || !stage) return;
-  const sun = $('[data-dir-sun]', stage);
-  const lit = $('[data-dir-arc]', stage);
-  const svg = lit?.ownerSVGElement;
-  const meals = $$('[data-dir-meal]', stage);
-  const caps = meals.map((m) => $('[data-dir-cap]', m));
-  const plates = meals.map((m) => $('[data-dir-plate]', m));
-  const labels = meals.map((m) => $('.h-plate__label', m));
-  // Pinned (desktop), the eight weeks share the view: the day plays over the first 60% of the pin, then the weeks fill.
-  const weeks = pinned ? $$('[data-week]', scene) : [];
-  const DAY_END = weeks.length ? 0.6 : 1;
-  if (!sun || !svg || meals.length !== MEALS_AT.length) return;
-  const rtl = getComputedStyle(stage).direction === 'rtl';
-  const fall = gsap.parseEase('power2.in');
-  const rise = gsap.parseEase('power2.out');
-  const clamp = gsap.utils.clamp(0, 1);
-  let box = null;
-  const measure = () => {
-    const s = svg.getBoundingClientRect();
-    const d = stage.getBoundingClientRect();
-    box = { x: s.left - d.left, y: s.top - d.top, w: s.width, h: s.height };
-  };
-  const day = { p: 0 };
+// ---------------------------------------------------------------- How to take it: a day in three doses
+// One line draws across the day (right to left in RTL) and, as it reaches each dose, the capsule cell, its tick and
+// its label rise. Scrubbed in place, no pin. Decorative: the dose line and the labels say it; reduced motion and
+// no-JS show the resolved row.
+mm.add(MQ.motion, () => {
+  const day = $('[data-dir-day]');
+  if (!day) return;
+  const line = $('[data-dir-line]', day);
+  const doses = $$('[data-dir-dose]', day);
+  if (!doses.length) return;
+  const cells = doses.map((d) => $('.h-dose__cell', d));
+  const ticks = doses.map((d) => $('.h-dose__tick', d));
+  const labels = doses.map((d) => $('.h-dose__label', d));
+  const at = doses.map((_, i) => (i + 0.5) / doses.length); // where the line passes each dose
+  const ease = gsap.parseEase('power3.out');
+  const st = { p: 0 };
   const render = () => {
-    if (!box) measure();
-    const t = clamp(day.p / 0.94);
-    const along = rtl ? 1 - t : t;
-    gsap.set(sun, { x: box.x + (bezier(along, 0) / 1000) * box.w, y: box.y + (bezier(along, 1) / 220) * box.h, opacity: t > 0.001 && t < 0.999 ? 1 : t >= 0.999 ? 0.9 : 0 });
-    lit.style.strokeDashoffset = rtl ? 1 + t : 1 - t;
-    MEALS_AT.forEach((at, i) => {
-      const k = clamp((day.p - (at - 0.1)) / 0.1); // the capsule's fall, ending as the sun arrives
-      const settle = clamp((day.p - at) / 0.06);
-      gsap.set(caps[i], { y: -150 * (1 - fall(k)), opacity: clamp(k * 3), scale: 1.25 - 0.25 * fall(k) });
-      gsap.set(plates[i], { scale: 1 + 0.05 * Math.sin(Math.PI * settle) });
-      gsap.set(labels[i], { opacity: 0.32 + 0.68 * rise(clamp((day.p - at + 0.02) / 0.08)) });
+    line?.style.setProperty('--draw', st.p.toFixed(4));
+    doses.forEach((_, i) => {
+      const e = ease(gsap.utils.clamp(0, 1, (st.p - at[i] + 0.14) / 0.16));
+      gsap.set(cells[i], { y: 18 * (1 - e), opacity: 0.12 + 0.88 * e, scale: 0.94 + 0.06 * e });
+      gsap.set(ticks[i], { scale: 0.3 + 0.7 * e, opacity: e });
+      gsap.set(labels[i], { y: 8 * (1 - e), opacity: 0.25 + 0.75 * e });
     });
   };
-  lit.style.strokeDasharray = '1 1';
-  weeks.forEach((el) => el.style.setProperty('--fill', '0'));
   render();
-  const st = ScrollTrigger.create({
-    trigger: pinned ? scene : stage,
-    // Pinned below the fixed header, so the heading stays readable while the day plays.
-    start: pinned ? () => `top ${Math.round(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) * 16 || 88) + 16}px` : 'top 80%',
-    end: pinned ? '+=170%' : 'bottom 45%',
-    pin: pinned,
-    scrub: 0.8,
-    refreshPriority: pinned ? 1 : 0,
-    invalidateOnRefresh: true,
-    onRefresh: () => { box = null; render(); },
-    onUpdate: (self) => {
-      day.p = Math.min(1, self.progress / DAY_END);
-      render();
-      if (weeks.length) {
-        const w = Math.max(0, (self.progress - DAY_END) / (1 - DAY_END - 0.04));
-        weeks.forEach((el, i) => el.style.setProperty('--fill', gsap.utils.clamp(0, 1, w * weeks.length - i).toFixed(3)));
-      }
-    },
-  });
+  const tween = gsap.to(st, { p: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: day, start: 'top 85%', end: 'bottom 40%', scrub: 0.6 } });
   return () => {
-    st.kill();
-    gsap.set([sun, ...caps, ...plates, ...labels], { clearProps: 'all' });
-    lit.style.strokeDasharray = ''; lit.style.strokeDashoffset = '';
-    weeks.forEach((el) => el.style.removeProperty('--fill'));
+    tween.scrollTrigger?.kill();
+    tween.kill();
+    gsap.set([...cells, ...ticks, ...labels], { clearProps: 'all' });
+    line?.style.removeProperty('--draw');
   };
-}
-// Pin only where there is room for the whole day on screen.
-mm.add('(min-width: 56.25rem) and (min-height: 40rem) and (prefers-reduced-motion: no-preference)', () => buildDay(true));
-mm.add('(max-width: 56.24rem), (max-height: 39.99rem)', () => {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  return buildDay(false);
 });
 
-// Eight weeks where the view is not pinned (phones, short screens): the segments fill as the panel scrolls up.
-// (Pinned, buildDay fills them after the day.) Decorative; the sentence says it.
-mm.add('(max-width: 56.24rem) and (prefers-reduced-motion: no-preference), (max-height: 39.99rem) and (prefers-reduced-motion: no-preference)', () => {
+// Eight weeks: the segments fill as the panel scrolls up. Decorative; the sentence says it.
+mm.add(MQ.motion, () => {
   const weeks = $$('[data-week]');
   if (!weeks.length) return;
   const fill = { v: 0 };
   const paint = () => weeks.forEach((w, i) => w.style.setProperty('--fill', gsap.utils.clamp(0, 1, fill.v * weeks.length - i).toFixed(3)));
   paint();
-  gsap.to(fill, { v: 1, ease: 'none', onUpdate: paint, scrollTrigger: { trigger: '[data-weeks]', start: 'top 85%', end: 'top 35%', scrub: 0.6 } });
-  return () => weeks.forEach((w) => w.style.removeProperty('--fill'));
+  const tween = gsap.to(fill, { v: 1, ease: 'none', onUpdate: paint, scrollTrigger: { trigger: '[data-weeks]', start: 'top 85%', end: 'top 35%', scrub: 0.6 } });
+  return () => { tween.scrollTrigger?.kill(); tween.kill(); weeks.forEach((w) => w.style.removeProperty('--fill')); };
 });
+
 
 // Where to find it: the arched photograph is revealed from the bottom like a curtain while the image settles from a
 // slight zoom; it replays when the section comes back into view.

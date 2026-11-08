@@ -95,18 +95,20 @@ sections:
       - { label: "Read all three studies", href: "/science" }
 
   - id: directions
+    # Client product document, November 2026 ("زمان و دوره مصرف"): after meals, three times a day (morning, noon,
+    # evening); a course of at least 24 weeks. The eight-week judgement period is the client's ruling (kept 2026-11-08).
     heading: "How to take it"
-    lead: "One capsule with each of your three main meals."
+    lead: "One capsule after each of your three main meals."
     items:
-      - { title: "Breakfast", body: "One capsule" }
-      - { title: "Lunch", body: "One capsule" }
-      - { title: "Dinner", body: "One capsule" }
+      - { title: "Morning", body: "One capsule, after breakfast" }
+      - { title: "Noon", body: "One capsule, after lunch" }
+      - { title: "Evening", body: "One capsule, after dinner" }
     # Title of the eight-week panel.
     eyebrow: "Give it eight weeks"
     body: |-
       Taking it with food helps the body absorb the compounds.
 
-      Use it regularly for eight weeks before you judge the effect.
+      Use it regularly for eight weeks before you judge the effect. Kondor Pharma recommends a course of at least 24 weeks.
 
       Take it under your doctor's supervision, especially if you also take prescribed medicines.
     actions:

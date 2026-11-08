@@ -236,34 +236,26 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </section>
 
-  <!-- 6 · How to take it: one view. Left, one day: the sun crosses from morning to evening and at each meal a capsule
-       lands on the plate. Right, the eight-week panel, whose weeks fill once the day is done. Desktop pins the view
-       while it plays; phones stack it and scrub in place. -->
+  <!-- 6 · How to take it: a day in three doses. Left, the dose line, then one line across the day with a capsule
+       cell at morning, noon and evening; the line draws with scroll and each cell rises as it is reached. Right, the
+       eight-week panel, whose weeks fill as it scrolls up. No pin: everything reads in place. -->
   <section class="h-dir" id="directions" aria-labelledby="directions-title" data-dir>
-    <div class="wrap h-dir__scene" data-dir-scene data-pin-scene>
+    <div class="wrap h-dir__scene" data-dir-scene>
       <div class="h-dir__main">
         <div class="h-dir__top">
           <h2 id="directions-title" class="h-dir__title">{directions.heading}</h2>
           {directions.lead && <p class="h-dir__lead" data-text-lines>{directions.lead}</p>}
         </div>
-        <div class="h-dir__day" data-dir-stage>
-          <svg class="h-dir__arc" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
-            <path class="h-dir__arc-track" d="M20 210 C 260 -50, 740 -50, 980 210" />
-            <path class="h-dir__arc-lit" d="M20 210 C 260 -50, 740 -50, 980 210" pathLength="1" data-dir-arc />
-          </svg>
-          <span class="h-dir__sun" aria-hidden="true" data-dir-sun></span>
-          <ol class="h-dir__meals" role="list">
-            {directionsMeals.map((m: any, i: number) => (
-              <li class="h-plate" data-dir-meal>
-                <div class="h-plate__visual" aria-hidden="true">
-                  <div class="h-plate__dish" data-dir-plate><span></span></div>
-                  <div class="h-plate__cap" data-dir-cap><Capsule id={`dir-cap-${i}`} /></div>
-                </div>
-                <p class="h-plate__label"><strong>{m.title}</strong><span>{m.body}</span></p>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <ol class="h-dir__day" role="list" data-dir-day>
+          <span class="h-dir__line" aria-hidden="true"><span data-dir-line></span></span>
+          {directionsMeals.map((m: any, i: number) => (
+            <li class="h-dose" data-dir-dose>
+              <span class="h-dose__cell" aria-hidden="true"><Capsule id={`dir-cap-${i}`} /></span>
+              <span class="h-dose__tick" aria-hidden="true"></span>
+              <p class="h-dose__label"><strong>{m.title}</strong><span>{m.body}</span></p>
+            </li>
+          ))}
+        </ol>
         {directionsParas[0] && <p class="h-dir__food">{directionsParas[0]}</p>}
       </div>
       <div class="h-dir__side">
@@ -551,22 +543,18 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-dir__top { display: grid; gap: var(--s-2); }
   .h-dir__title { font-size: clamp(2.5rem, 1.25rem + 3vw, 4.25rem); line-height: 1.02; letter-spacing: -0.028em; }
   .h-dir__lead { max-width: 26ch; color: var(--ink); font: 600 clamp(1.25rem, 1.05rem + 0.7vw, 1.75rem)/1.3 var(--font-display); letter-spacing: -0.015em; }
-  .h-dir__day { position: relative; width: 100%; padding-block-start: clamp(4.5rem, 7.5vw, 7.5rem); }
-  .h-dir__arc { position: absolute; inset-inline: 6%; top: clamp(0.25rem, 1vw, 1rem); width: 88%; height: clamp(5rem, 9vw, 8.5rem); overflow: visible; }
-  .h-dir__arc path { fill: none; vector-effect: non-scaling-stroke; }
-  .h-dir__arc-track { stroke: var(--line-strong); stroke-width: 1.5; stroke-dasharray: 3 7; }
-  .h-dir__arc-lit { stroke: var(--royal); stroke-width: 2.5; stroke-linecap: round; }
-  .h-dir__sun { position: absolute; z-index: 2; left: 0; top: 0; width: 1.75rem; aspect-ratio: 1; margin: -0.875rem 0 0 -0.875rem; border-radius: 50%; opacity: 0; pointer-events: none;
-    background: radial-gradient(circle, #fff 0 28%, var(--cyan) 30% 58%, rgba(25, 211, 226, 0) 62%); box-shadow: 0 0 0 0.75rem rgba(25, 211, 226, 0.14), 0 0 2.5rem rgba(25, 211, 226, 0.55); }
-  .h-dir__meals { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 3vw, 3rem); margin: 0; padding: 0; list-style: none; }
-  .h-plate { display: grid; justify-items: center; align-content: start; gap: var(--s-3); }
-  .h-plate__visual { position: relative; width: 100%; max-width: 11.5rem; }
-  .h-plate__dish { width: 100%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #fff 0 53%, #edf0fb 54% 62%, #fff 63%); box-shadow: 0 22px 48px -32px rgba(10, 18, 64, 0.35), inset 0 0 0 1px var(--line); display: grid; place-items: center; }
-  .h-plate__dish span { width: 64%; aspect-ratio: 1; border-radius: 50%; border: 1px dashed var(--line-strong); }
-  .h-plate__cap { position: absolute; width: 38%; top: 50%; left: 50%; translate: -50% -50%; rotate: -18deg; filter: drop-shadow(0 10px 10px rgba(10, 18, 64, 0.25)); }
-  .h-plate__label { display: grid; justify-items: center; gap: 0.2rem; text-align: center; }
-  .h-plate__label strong { font: 600 clamp(1.125rem, 1rem + 0.5vw, 1.5rem)/1.2 var(--font-display); color: var(--ink); }
-  .h-plate__label span { color: var(--ink-soft); font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); }
+  /* The day: three dose cells on one line. --cell is the cell height; the line runs through the ticks under the cells. */
+  .h-dir__day { --cell: clamp(5.5rem, 4rem + 4.5vw, 7.5rem); --tick: 0.8rem; position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 3vw, 2.5rem); margin: 0; padding: var(--s-2) 0 0; list-style: none; }
+  .h-dir__line { position: absolute; z-index: 0; inset-inline: 10%; top: calc(var(--s-2) + var(--cell) + var(--s-2) + var(--tick) / 2); height: 2px; border-radius: 2px; background: var(--line-strong); overflow: hidden; }
+  .h-dir__line span { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, var(--royal), var(--cyan)); transform-origin: 0 50%; transform: scaleX(var(--draw, 1)); }
+  :global([dir='rtl']) .h-dir__line span { transform-origin: 100% 50%; background: linear-gradient(270deg, var(--royal), var(--cyan)); }
+  .h-dose { position: relative; z-index: 1; display: grid; justify-items: center; align-content: start; gap: var(--s-2); min-width: 0; }
+  .h-dose__cell { display: grid; place-items: center; width: 100%; max-width: 10rem; height: var(--cell); border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px var(--line), 0 24px 48px -34px rgba(10, 18, 64, 0.4); }
+  .h-dose__cell :global(svg), .h-dose__cell :global(img) { width: 46%; rotate: -18deg; filter: drop-shadow(0 10px 10px rgba(10, 18, 64, 0.22)); }
+  .h-dose__tick { width: var(--tick); aspect-ratio: 1; border-radius: 50%; background: var(--royal); box-shadow: 0 0 0 5px var(--ice); }
+  .h-dose__label { display: grid; justify-items: center; gap: 0.2rem; text-align: center; }
+  .h-dose__label strong { font: 600 clamp(1.125rem, 1rem + 0.5vw, 1.5rem)/1.2 var(--font-display); color: var(--ink); }
+  .h-dose__label span { color: var(--ink-soft); font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); text-wrap: balance; }
   .h-dir__food { max-width: 36rem; justify-self: center; text-align: center; color: var(--ink-soft); font-size: var(--fs-body); }
   .h-dir__side { position: relative; grid-column: 8 / span 5; display: grid; justify-items: stretch; min-width: 0; }
   .h-dir__field-a { width: min(40vw, 30rem); aspect-ratio: 1; inset-inline-start: -14%; top: -16%; }
@@ -642,9 +630,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-evidence__fields span:nth-child(3) { width: 70vw; bottom: 2%; }
     .h-dir__scene { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-5); }
     .h-dir__main, .h-dir__side { grid-column: 1; }
-    .h-dir__day { padding-block-start: clamp(4rem, 18vw, 6rem); }
-    .h-dir__arc { height: clamp(3.5rem, 15vw, 6rem); }
-    .h-plate { gap: var(--s-2); }
+    .h-dir__day { --cell: clamp(4.25rem, 16vw, 5.5rem); }
+    .h-dose__label span { font-size: 0.875rem; }
     .h-dir__side > :global(.h-dir__panel) { padding: clamp(3rem, 12vw, 4.5rem) clamp(1.75rem, 8vw, 3rem) clamp(3.5rem, 13vw, 5rem); }
     .h-where__grid { row-gap: var(--s-5); }
     .h-where__copy, .h-where__photo { grid-column: 1 / -1; }
