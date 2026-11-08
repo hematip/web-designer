@@ -480,15 +480,41 @@ mm.add(MQ.motion, () => {
   };
 });
 
-// Eight weeks: the segments fill as the panel scrolls up. Decorative; the sentence says it.
+// The course: eight weeks of days fill dose by dose as the calendar scrolls in, one week after another. One custom
+// property (--n, doses filled) paints all the pips through CSS. Decorative; the sentence beside it says it.
 mm.add(MQ.motion, () => {
-  const weeks = $$('[data-week]');
-  if (!weeks.length) return;
-  const fill = { v: 0 };
-  const paint = () => weeks.forEach((w, i) => w.style.setProperty('--fill', gsap.utils.clamp(0, 1, fill.v * weeks.length - i).toFixed(3)));
+  const course = $('[data-course]');
+  if (!course) return;
+  const total = $$('i', course).length;
+  const st = { n: 0 };
+  const paint = () => course.style.setProperty('--n', st.n.toFixed(2));
   paint();
-  const tween = gsap.to(fill, { v: 1, ease: 'none', onUpdate: paint, scrollTrigger: { trigger: '[data-weeks]', start: 'top 85%', end: 'top 35%', scrub: 0.6 } });
-  return () => { tween.scrollTrigger?.kill(); tween.kill(); weeks.forEach((w) => w.style.removeProperty('--fill')); };
+  const tween = gsap.to(st, { n: total, ease: 'none', onUpdate: paint, scrollTrigger: { trigger: course, start: 'top 85%', end: 'bottom 45%', scrub: 0.6 } });
+  return () => { tween.scrollTrigger?.kill(); tween.kill(); course.style.removeProperty('--n'); };
+});
+
+// ---------------------------------------------------------------- Evidence: the measured gap
+// As the chart scrolls in, the Memowell line rises from the dummy-capsule line to its place, the bracket grows with it
+// and the figure counts to the published difference. One value (--rise) drives the line, the bracket and the
+// figure's opacity in CSS; the count is written into the decorative figure only. Reduced motion: the resolved chart.
+mm.add(MQ.motion, () => {
+  const chart = $('[data-gap]');
+  const num = chart && $('[data-gap-number]', chart);
+  if (!chart || !num) return;
+  const text = num.textContent;
+  const target = parseFloat(text);
+  if (!Number.isFinite(target)) return;
+  const decimals = (text.split('.')[1] || '').length;
+  const ease = gsap.parseEase('power2.inOut');
+  const st = { r: 0 };
+  const paint = () => {
+    const e = ease(st.r);
+    chart.style.setProperty('--rise', e.toFixed(4));
+    num.textContent = (target * e).toFixed(decimals);
+  };
+  paint();
+  const tween = gsap.to(st, { r: 1, ease: 'none', onUpdate: paint, scrollTrigger: { trigger: chart, start: 'top 80%', end: 'center 45%', scrub: 0.7 } });
+  return () => { tween.scrollTrigger?.kill(); tween.kill(); chart.style.removeProperty('--rise'); num.textContent = text; };
 });
 
 
@@ -520,72 +546,6 @@ mm.add(MQ.motion, () => {
   const reset = ScrollTrigger.create({ trigger: stage, start: 'top bottom', end: 'bottom top', onLeave: () => tl.pause(0), onLeaveBack: () => tl.pause(0) });
   return () => { enter.kill(); reset.kill(); tl.kill(); gsap.set([mark, bottle], { clearProps: 'all' }); };
 });
-
-// ---------------------------------------------------------------- Blob panels: outlines drawn to fit their copy
-// A text panel cannot borrow the label blob by stretching a unit path over its box: on a tall panel the stretched
-// curves reach deep into the copy. So each `[data-blob-fit]` outline is drawn in pixels from the panel's own size
-// and inner padding: four unequal corners carry the organic weight, each one's vertical reach bounded so its curve
-// clears the padding box, and the long edges bow in a touch. The resting shape goes to `d`/`data-base` and a second
-// variation to `data-alt` for the morph. Runs without motion, re-fits when a panel's size changes. Without JS the
-// panel keeps its CSS border-radius.
-const fitBlobPanels = () => {
-  const f = (v) => +v.toFixed(2);
-  const toPath = (n) => { let d = `M${f(n[0])} ${f(n[1])}`; for (let i = 2; i < n.length; i += 6) d += `C${n.slice(i, i + 6).map(f).join(' ')}`; return `${d}Z`; };
-  $$('.blob-panel').forEach((panel) => {
-    const id = (getComputedStyle(panel).getPropertyValue('--blob-clip').match(/#([\w-]+)/) || [])[1];
-    const path = id && document.getElementById(id)?.querySelector('[data-blob-fit]');
-    const inner = $('.blob-panel__inner', panel);
-    if (!path || !inner) return;
-    const w = panel.offsetWidth, h = panel.offsetHeight;
-    if (!w || !h) return;
-    const cs = getComputedStyle(inner);
-    const rtl = (panel.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
-    // the panel is mirrored in RTL and its inner mirrored back, so the inner's physical right padding sits at the outline's left
-    const pad = { t: parseFloat(cs.paddingTop), b: parseFloat(cs.paddingBottom), l: parseFloat(rtl ? cs.paddingRight : cs.paddingLeft), r: parseFloat(rtl ? cs.paddingLeft : cs.paddingRight) };
-    // a corner's horizontal reach is a share of the width; its vertical reach is capped so the quarter-curve
-    // (an ellipse at k≈0.55, fuller for larger k) passes above the padding box corner with margin
-    const corner = (fx, fy, k, padX, padY) => {
-      const cx = Math.min(fx * w, 340);
-      const u = Math.min(padX / cx, 0.9);
-      const cyMax = (0.85 * padY) / (1 - Math.sqrt(1 - (1 - u) ** 2));
-      return { cx, cy: Math.min(fy * cyMax, 0.35 * h), k: Math.max(k, 0.56) };
-    };
-    const bowMax = Math.min(0.02 * w, 14);
-    const edge = (x1, y1, x2, y2, bow0) => { // a straight run bowed inward (toward the panel centre); short runs barely bow
-      const dx = x2 - x1, dy = y2 - y1, nx = dy ? (x1 > w / 2 ? -1 : 1) : 0, ny = dx ? (y1 > h / 2 ? -1 : 1) : 0;
-      const bow = bow0 * Math.min(1, Math.hypot(dx, dy) / 400);
-      return [x1 + dx / 3 + nx * bow, y1 + dy / 3 + ny * bow, x1 + 2 * dx / 3 + nx * bow, y1 + 2 * dy / 3 + ny * bow, x2, y2];
-    };
-    const build = (v, bows) => {
-      const TL = corner(v[0], v[1], v[2], pad.l, pad.t), TR = corner(v[3], v[4], v[5], pad.r, pad.t);
-      const BR = corner(v[6], v[7], v[8], pad.r, pad.b), BL = corner(v[9], v[10], v[11], pad.l, pad.b);
-      return toPath([
-        TL.cx, 0,
-        ...edge(TL.cx, 0, w - TR.cx, 0, bows[0] * bowMax),
-        w - TR.cx + TR.k * TR.cx, 0, w, TR.cy - TR.k * TR.cy, w, TR.cy,
-        ...edge(w, TR.cy, w, h - BR.cy, bows[1] * bowMax),
-        w, h - BR.cy + BR.k * BR.cy, w - BR.cx + BR.k * BR.cx, h, w - BR.cx, h,
-        ...edge(w - BR.cx, h, BL.cx, h, bows[2] * bowMax),
-        BL.cx - BL.k * BL.cx, h, 0, h - BL.cy + BL.k * BL.cy, 0, h - BL.cy,
-        ...edge(0, h - BL.cy, 0, TL.cy, bows[3] * bowMax),
-        0, TL.cy - TL.k * TL.cy, TL.cx - TL.k * TL.cx, 0, TL.cx, 0,
-      ]);
-    };
-    const base = build([0.46, 1, 0.6, 0.34, 0.78, 0.7, 0.42, 0.95, 0.58, 0.3, 0.7, 0.66], [0.6, 1, 0.8, 0.4]);
-    const alt = build([0.36, 0.8, 0.68, 0.46, 1, 0.58, 0.32, 0.72, 0.72, 0.44, 0.95, 0.6], [1, 0.5, 0.4, 1]);
-    if (path.dataset.base !== base) { path.setAttribute('d', base); path.dataset.base = base; path.dataset.alt = alt; }
-    panel.classList.add('is-fit');
-  });
-};
-fitBlobPanels();
-if ('ResizeObserver' in window) {
-  let raf = 0;
-  const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { fitBlobPanels(); ScrollTrigger.refresh(); }); });
-  $$('.blob-panel').forEach((p) => ro.observe(p));
-} else {
-  window.addEventListener('resize', fitBlobPanels);
-}
-document.fonts?.ready.then(fitBlobPanels);
 
 // ---------------------------------------------------------------- Label blobs: the mark moves with the page
 // Every blob outline ([data-blob-main], [data-blob-stripe]) morphs between its `d` and `data-alt` as its section
