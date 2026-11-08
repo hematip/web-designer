@@ -1,7 +1,7 @@
 # Who it's for — approved English copy (brief Part 4, WHO IT'S FOR).
 status: approved
 meta_title: "Who Memowell® is for | Memowell"
-meta_description: "Five situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, approaching 65, and living with Alzheimer's disease. What the research says about each."
+meta_description: "Five situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, mid-life onward, and living with Alzheimer's disease. What the research says about each."
 sections:
   - id: intro
     heading: "Who Memowell® is for"
@@ -46,7 +46,7 @@ sections:
     sources: ["10.1038/s41572-020-00236-z", "10.3928/02793695-20211013-01"]
 
   - id: approaching-65
-    heading: "Approaching 65"
+    heading: "From mid-life onward"
     body: |-
       Risk of Alzheimer's rises with age. Part of that rise has been linked to lifestyle and to increasing inflammation in the nervous system — one visible sign of which is the brain atrophy that can begin in mid-life.
 

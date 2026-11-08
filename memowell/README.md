@@ -107,7 +107,7 @@ Every item below is built around and never invented. Preview pages keep local pe
 | 4 | Partnership form recipient | `/about/partners`, `/contact` | Same | Client |
 | 5 | Updated logo with ® | Every page (header, note, footer) | Supplied ™ artwork used as is (not edited); product name in text uses ® | Client |
 | 6 | Active ingredient amount per capsule | `/memowell` "What is in it", summary PDF | Field `per_capsule_amount` empty; marked placeholder in preview | Client |
-| 7 | Mid-life dose (catalogue: 1 a day vs client: 3 a day) | `/who-its-for` "Approaching 65" | Approved line kept, attributed to the catalogue; flagged in preview | Client / scientific officer |
+| 7 | Mid-life dose (catalogue: 1 a day vs client: 3 a day) | `/who-its-for` "From mid-life onward" | Resolved 2026-11-08: one a day from about age 50 (client product document) | Client / scientific officer |
 | 8 | Approval of the four "needs approval" claims: use with medication, K-Vie™ formulation, eight weeks, mednet.ca | Home §3 and §6, `/memowell`, `/science/professionals`, summary PDF | Copy deck wording used; **mednet.ca not shown anywhere**. The site must not go live before sign-off | Scientific officer |
 | 9 | English text of the five case reports | `/science/professionals/case-reports` | Button plus empty target marked "Awaiting approved English text from the scientific officer". In production the button shows "Coming soon" and the page is not generated | Scientific officer |
 | 10 | Registration status in the UAE, GCC, MENA and Russia | `/about/availability`, Arabic version | Only the Canada block is written; the page is ready for per-country blocks | Client |

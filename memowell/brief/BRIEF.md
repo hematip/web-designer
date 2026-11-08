@@ -347,7 +347,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > **Brain fog and delirium** — Confusion, trouble concentrating and memory lapses, where inflammation has been studied as a factor.
 >
-> **Approaching 65** — Risk rises with age, and the changes behind it can begin in mid-life.
+> **From mid-life onward** — Risk rises with age, and the changes behind it can begin in mid-life.
 >
 > [Read about all four]
 
@@ -501,7 +501,7 @@ The PDF itself has not been produced yet. See Part 9.
 
 ### WHO IT'S FOR `/who-its-for`
 Meta title: `Who Memowell® is for | Memowell`
-Meta description: `Five situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, approaching 65, and living with Alzheimer's disease. What the research says about each.`
+Meta description: `Five situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, mid-life onward, and living with Alzheimer's disease. What the research says about each.`
 
 **Introduction**
 > # Who Memowell® is for
@@ -537,7 +537,7 @@ Meta description: `Five situations where memory research may be relevant to you:
 >
 > Sources: DOI 10.1038/s41572-020-00236-z · DOI 10.3928/02793695-20211013-01
 
-> ## Approaching 65
+> ## From mid-life onward
 >
 > Risk of Alzheimer's rises with age. Part of that rise has been linked to lifestyle and to increasing inflammation in the nervous system — one visible sign of which is the brain atrophy that can begin in mid-life.
 >
@@ -560,7 +560,7 @@ Meta description: `Five situations where memory research may be relevant to you:
 >
 > [Download a one-page summary (PDF)] · [What the research found]
 
-*Note (2026-11-08):* the client's product document of November 2026 is the source of truth. It sets the mid-life dose (one capsule a day from about age 50), adds the fifth group "Living with Alzheimer's disease" (written within the evidence: no "no side effects", no symptom list, no Parkinson's/MS) and the note for caregivers.
+*Note (2026-11-08):* the client's product document of November 2026 is the source of truth. The fourth group is retitled "From mid-life onward" (was "Approaching 65"), matching the document's mid-life group and its start at about age 50; the page anchor stays `#approaching-65`. It sets the mid-life dose (one capsule a day from about age 50), adds the fifth group "Living with Alzheimer's disease" (written within the evidence: no "no side effects", no symptom list, no Parkinson's/MS) and the note for caregivers.
 
 **End of page:** product disclaimer, then the professional band.
 
