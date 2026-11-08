@@ -369,8 +369,8 @@ mm.add(MQ.motion, () => {
 });
 
 // ---------------------------------------------------------------- How to take it: a day in three doses
-// One line draws across the day (right to left in RTL) and, as it reaches each dose, the capsule cell, its tick and
-// its label rise. Scrubbed in place, no pin. Decorative: the dose line and the labels say it; reduced motion and
+// One line draws across the day (right to left in RTL) and, as it reaches each dose, its time of day, tick and
+// note rise. Typographic only: no capsule or plate imagery (client direction). Scrubbed in place, no pin. Decorative: the dose line and the labels say it; reduced motion and
 // no-JS show the resolved row.
 mm.add(MQ.motion, () => {
   const day = $('[data-dir-day]');
@@ -378,9 +378,9 @@ mm.add(MQ.motion, () => {
   const line = $('[data-dir-line]', day);
   const doses = $$('[data-dir-dose]', day);
   if (!doses.length) return;
-  const cells = doses.map((d) => $('.h-dose__cell', d));
+  const cells = doses.map((d) => $('.h-dose__time', d));
   const ticks = doses.map((d) => $('.h-dose__tick', d));
-  const labels = doses.map((d) => $('.h-dose__label', d));
+  const labels = doses.map((d) => $('.h-dose__note', d));
   const at = doses.map((_, i) => (i + 0.5) / doses.length); // where the line passes each dose
   const ease = gsap.parseEase('power3.out');
   const st = { p: 0 };
