@@ -349,7 +349,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > Memowell has been studied in people with Alzheimer's disease and in people with memory problems after a brain injury.
 >
-> **Mild cognitive impairment (MCI)** — A change in memory or thinking that can progress toward Alzheimer's disease.
+> **Small changes in memory or thinking** — Doctors call this mild cognitive impairment. It can progress toward Alzheimer's disease.
 >
 > **A first-degree relative with Alzheimer's** — Family history raises the risk. That is not a forecast, just a reason to pay attention earlier.
 >
@@ -358,6 +358,8 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 > **From mid-life onward** — Risk rises with age, and the changes behind it can begin in mid-life.
 >
 > [Read about all five]
+
+*Note (2026-11-08, client direction, plain language):* the first card is titled "Small changes in memory or thinking" on the home page; its body gives the medical name. The `/who-its-for` section keeps the heading "Mild cognitive impairment (MCI)".
 
 *Layout note:* the "Clinical studies of Memowell" line is set in small type beneath the link (a fact line, like the hero's NPN line).
 
