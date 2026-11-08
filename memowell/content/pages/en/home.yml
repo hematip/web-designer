@@ -64,7 +64,7 @@ sections:
     body: |-
       Four situations come up again and again in research on memory. Find the one closest to yours and read what has been studied in it, in plain language, with sources.
     fact: "Clinical studies of Memowell: people with Alzheimer's disease · people with memory problems after a brain injury"
-    inline_action: { label: "Read about all four", href: "/who-its-for" }
+    inline_action: { label: "Read about all five", href: "/who-its-for" }
 
   - id: evidence
     # Senior UX-writing pass (client direction 2026-10-27). Brief Part 4, HOME §5. The figure keeps its population,

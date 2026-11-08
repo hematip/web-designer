@@ -349,7 +349,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > **From mid-life onward** — Risk rises with age, and the changes behind it can begin in mid-life.
 >
-> [Read about all four]
+> [Read about all five]
 
 *Layout note:* the "Clinical studies of Memowell" line is set in small type beneath the link (a fact line, like the hero's NPN line).
 
