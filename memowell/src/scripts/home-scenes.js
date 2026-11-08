@@ -518,18 +518,79 @@ mm.add(MQ.motion, () => {
 });
 
 
-// Where to find it: the arched photograph is revealed from the bottom like a curtain while the image settles from a
-// slight zoom; it replays when the section comes back into view.
+// Where to find it: the label opens onto the pharmacy. Scrubbed with scroll: the blob starts as a small shape round the
+// Memowell bottle on the counter and opens outward until the whole pharmacy is shown, while the photograph settles
+// from a closer view, the cyan outline draws round the shape and the stripe blob and drops slide in at its seam. The
+// opening point is the bottle's place in the photograph, mapped through object-fit: cover and the photo's focus, so
+// it follows the crop at every width (and mirrors in RTL). Reduced motion and no-JS: the open composition.
 mm.add(MQ.motion, () => {
-  const frame = $('[data-where-photo]');
-  const figure = frame && $('.photo', frame);
-  if (!figure) return;
-  const tl = gsap.timeline({ paused: true });
-  tl.fromTo(frame, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'power3.inOut' }, 0)
-    .fromTo(figure, { scale: 1.18 }, { scale: 1, duration: 2, ease: 'power3.out' }, 0.1);
-  ScrollTrigger.create({ trigger: frame, start: 'top 82%', end: 'bottom top', onEnter: () => tl.restart(), onEnterBack: () => tl.restart() });
-  ScrollTrigger.create({ trigger: frame, start: 'top bottom', end: 'bottom top', onLeave: () => tl.pause(0), onLeaveBack: () => tl.pause(0) });
-  return () => gsap.set([frame, figure], { clearProps: 'clipPath,transform' });
+  const visual = $('[data-where]');
+  const mask = visual && $('[data-where-mask]', visual);
+  const img = visual && $('[data-where-photo] img', visual);
+  if (!visual || !mask || !img) return;
+  const outline = $('[data-where-outline]', visual);
+  const stripes = $('[data-where-stripes]', visual);
+  const drops = $$('[data-where-drop]', visual);
+  const BOTTLE = [0.55, 0.607]; // the bottle on the counter, as a share of the photograph
+  const phone = window.matchMedia('(max-width: 56.24rem)').matches;
+  const rtl = (visual.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
+  const unitOutline = outline?.getAttribute('d');
+  let origin = [0.55, 0.62]; // in the mask's (mirrored in RTL) space
+  let photoOrigin = [0.55, 0.62]; // in the photograph's own space
+  const measure = () => {
+    const bw = visual.offsetWidth, bh = visual.offsetHeight;
+    const iw = img.naturalWidth || 1600, ih = img.naturalHeight || 2143;
+    const scale = Math.max(bw / iw, bh / ih), dw = iw * scale, dh = ih * scale;
+    const [fx, fy] = (getComputedStyle(img).objectPosition || '50% 40%').split(' ').map((v) => parseFloat(v) / 100);
+    const x = ((bw - dw) * (Number.isFinite(fx) ? fx : 0.5) + BOTTLE[0] * dw) / bw;
+    const y = ((bh - dh) * (Number.isFinite(fy) ? fy : 0.4) + BOTTLE[1] * dh) / bh;
+    origin = [rtl ? 1 - x : x, y];
+    photoOrigin = [x, y];
+    // The outline in pixels: a dash in a stretched 0–1 viewBox would be measured in screen space (dotted line).
+    if (outline && unitOutline) {
+      const svg = outline.ownerSVGElement;
+      svg.setAttribute('viewBox', `0 0 ${bw} ${bh}`);
+      let i = 0;
+      outline.setAttribute('d', unitOutline.replace(/-?\d*\.?\d+/g, (v) => (+v * (i++ % 2 ? bh : bw)).toFixed(1)));
+      outline.removeAttribute('vector-effect');
+      svg.classList.add('is-drawn');
+    }
+  };
+  const out = gsap.parseEase('power2.out');
+  const inOut = gsap.parseEase('power2.inOut');
+  const band = (p, a, b) => gsap.utils.clamp(0, 1, (p - a) / (b - a));
+  const st = { p: 0 };
+  const render = () => {
+    const p = st.p;
+    const k = 0.05 + 0.95 * out(band(p, 0, 0.8));
+    const [cx, cy] = origin;
+    mask.setAttribute('transform', `matrix(${k} 0 0 ${k} ${cx - k * cx} ${cy - k * cy})`);
+    gsap.set(img, { scale: 1.32 - 0.32 * inOut(band(p, 0, 0.9)), transformOrigin: `${(photoOrigin[0] * 100).toFixed(1)}% ${(photoOrigin[1] * 100).toFixed(1)}%` });
+    outline?.style.setProperty('--draw', (1 - inOut(band(p, 0.45, 1))).toFixed(4));
+    if (stripes) gsap.set(stripes, { xPercent: (rtl ? 1 : -1) * 28 * (1 - out(band(p, 0.25, 0.85))), opacity: band(p, 0.2, 0.6) });
+    drops.forEach((d, i) => gsap.set(d, { y: (i ? 40 : 70) * (1 - out(band(p, 0.35 + i * 0.1, 0.95))), opacity: band(p, 0.35, 0.65) }));
+  };
+  measure();
+  if (!img.complete) img.addEventListener('load', () => { measure(); render(); }, { once: true });
+  render();
+  const tween = gsap.to(st, {
+    p: 1, ease: 'none', onUpdate: render,
+    // Starts once the bottle is on screen (it sits low in the photograph), so the opening is seen from its first drop.
+    scrollTrigger: { trigger: visual, start: phone ? 'top 66%' : 'top 50%', end: phone ? 'top 12%' : 'top 6%', scrub: 0.8, invalidateOnRefresh: true, onRefresh: () => { measure(); render(); } },
+  });
+  return () => {
+    tween.scrollTrigger?.kill();
+    tween.kill();
+    mask.removeAttribute('transform');
+    outline?.style.removeProperty('--draw');
+    if (outline && unitOutline) {
+      outline.setAttribute('d', unitOutline);
+      outline.setAttribute('vector-effect', 'non-scaling-stroke');
+      outline.ownerSVGElement.setAttribute('viewBox', '0 0 1 1');
+      outline.ownerSVGElement.classList.remove('is-drawn');
+    }
+    gsap.set([img, stripes, ...drops].filter(Boolean), { clearProps: 'all' });
+  };
 });
 
 // Closing: the label mark (white blob, cyan stripes) grows from behind the bottle as the bottle rises; replays when

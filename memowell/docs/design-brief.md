@@ -552,6 +552,16 @@ Request: the hero's blob should open with motion and become a landscape video.
 - **Adaptations:** reduced motion and no-JS — resting composition, unpinned; the ten-cubic blob is the same shape as before. Phones run the same scene with the shorter travel. The 3D section's own pin follows the hero's (refreshPriority 3 > 2).
 - **Verification:** production and preview builds and both copy checks pass. Driven by wheel in a browser at 1280×800 (EN and AR), 390×844: resting frame identical to before (film box 768×672 at rest, no class applied at progress 0), mid-frames show the blob opening while the copy fades, resolved frame 1194×672 under the header (phone: 350×197 inside the gutters), release into Why, reverse scroll restores the hero exactly; no console errors. Not measured: frame rate on real hardware; the test browser has no GPU.
 
+## Where to find it: the label opens onto the pharmacy (2026-11-08)
+
+Request: redesign "Where to find Memowell" with the brand's shapes and pattern instead of the arched (dome) frame, with scroll-triggered motion.
+
+- **Composition:** copy on the start side as before. The pharmacy photograph now sits inside the label's blob on the end side and bleeds off the page edge (the catalogue's person pages: a photograph cut by one large organic edge). At the seam: the cyan diagonal-stripe blob (the label's pattern) tucked behind the top of the shape, a navy drop and a cyan drop below, and a thin cyan outline running round the shape just outside it (the catalogue's line art; it never crosses the photograph). The arch is retired. Phones: the visual follows the copy, from the gutter to the end edge.
+- **Motion (scrubbed, GSAP, scroll-triggered):** the blob starts as a small shape round the Memowell bottle on the counter and opens outward until the whole pharmacy shows; the photograph settles from a closer view (1.32 → 1); the outline draws round the shape; the stripe blob slides in and the drops rise into place. The opening point is the bottle's place in the photograph mapped through object-fit and the photo's focus, so it holds at every width; RTL mirrors the composition and keeps the photograph unflipped. Reverse scroll closes it again. It starts once the bottle is on screen (desktop: the visual's top at 50% of the view, ending at 6%; phones 66% → 12%) so the opening is seen from its first drop. The outline is redrawn in pixels by the script (a dash on a stretched 0–1 viewBox is measured in screen space and rendered dotted); without JS it is a plain solid line. Reduced motion and no-JS: the open composition.
+- **Verification:** both builds and both copy checks pass; scrolled by wheel in a browser at 1280, 1440, 390 and 320 and in Arabic, with frames before, during and after the opening and on reverse; reduced motion shows the open composition; no horizontal overflow; no console errors.
+- **Meaning:** "where to find it" starts from the product and opens to the place you find it — a pharmacy conversation.
+- **Note:** the photograph remains illustrative and still needs client approval (README).
+
 ## Evidence and How to take it, each with its own idea (2026-11-08)
 
 Request: the two sections had been built from the same template (a coloured blob panel with a stripe field in its top corner) and read as copies of each other; make each one its own, more creative design.

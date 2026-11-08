@@ -323,8 +323,10 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   </aside>
   )}
 
-  <!-- 8 · Where to find it: plain copy with a staged entrance; the pharmacy photograph in an arched frame, revealed
-       from the bottom like a curtain while the image settles. -->
+  <!-- 8 · Where to find it: the pharmacy photograph inside the label's blob, bleeding off the page edge, with the
+       cyan stripe blob and two drops at its seam and a thin cyan outline around it (the catalogue's line art). On
+       scroll the blob opens outward from the Memowell bottle on the counter until the whole pharmacy is shown, the
+       outline draws round it and the stripe blob slides in. Reduced motion and no-JS: the open composition. -->
   <section class="h-where" id="where" aria-labelledby="where-title">
     <div class="wrap h-where__grid">
       <div class="h-where__copy" data-intro data-text-motion="off">
@@ -332,8 +334,20 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
         {availability.body && <p class="h-where__text" data-intro-lines>{availability.body}</p>}
         <div class="btn-row" data-intro-part>{availability.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
       </div>
-      {wherePhoto && <div class="h-where__photo" style={`--photo-ratio: ${wherePhoto.width} / ${wherePhoto.height}`} data-where-photo><Photo photo={wherePhoto} variant="portrait" sizes="(min-width: 64rem) 40vw, 92vw" /></div>}
     </div>
+    {wherePhoto && (
+      <div class="h-where__visual" aria-hidden="true" data-where>
+        <svg class="h-where__defs" width="0" height="0" focusable="false">
+          <clipPath id="where-clip" clipPathUnits="objectBoundingBox"><path d="M0.3 0.03C0.52 -0.01 0.8 0.04 1.1 0.02C1.1 0.3 1.1 0.7 1.1 1C0.86 1 0.5 1.01 0.32 0.97C0.12 0.93 0.02 0.8 0.03 0.6C0.04 0.42 0 0.3 0.08 0.17C0.13 0.08 0.2 0.05 0.3 0.03Z" data-where-mask /></clipPath>
+          <pattern id="where-stripes" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="4.2" height="11" fill="var(--cyan-stripe)" /></pattern>
+        </svg>
+        <svg class="h-where__stripes" viewBox="0 0 440 330" focusable="false" data-where-stripes><path fill="url(#where-stripes)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg>
+        <div class="h-where__photo" data-where-photo><Photo photo={wherePhoto} variant="fill" sizes="(min-width: 56.25rem) 56vw, 100vw" /></div>
+        <svg class="h-where__outline" viewBox="0 0 1 1" preserveAspectRatio="none" focusable="false"><path d="M1.12 -0.02C0.8 0.01 0.52 -0.05 0.28 -0.01C0.16 0.01 0.07 0.06 0.02 0.16C-0.06 0.3 -0.01 0.42 -0.02 0.6C-0.03 0.82 0.09 0.96 0.31 1.01C0.5 1.05 0.86 1.04 1.12 1.04" pathLength="1" vector-effect="non-scaling-stroke" data-where-outline /></svg>
+        <span class="h-where__drop h-where__drop--a" data-where-drop></span>
+        <span class="h-where__drop h-where__drop--b" data-where-drop></span>
+      </div>
+    )}
   </section>
 
   <!-- 9 · Closing: a large typographic invitation on the brand gradient; the bottle stands in front of the label
@@ -633,13 +647,28 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* ============ Where to find it: copy beside an arched photograph ============ */
   /* overflow-x: the photo's entrance starts at scale 1.18 inside its clip-path frame; clip-path hides it but does not
      stop it widening the page, which made 320px screens scroll sideways. */
-  .h-where { position: relative; padding-block: var(--section); overflow-x: clip; }
-  .h-where__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-  .h-where__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; }
+  .h-where { position: relative; isolation: isolate; display: flex; align-items: center; min-height: clamp(42rem, 56vw, 56rem); padding-block: var(--section); overflow-x: clip; }
+  .h-where__grid { width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .h-where__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; position: relative; z-index: 2; }
   .h-where__title { max-width: 11ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
   .h-where__text { max-width: 30rem; color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.5; }
-  .h-where__photo { grid-column: 7 / span 5; min-width: 0; }
-  .h-where__photo :global(.photo) { aspect-ratio: var(--photo-ratio); border-radius: 999px 999px var(--r-l) var(--r-l); box-shadow: 0 50px 90px -60px rgba(27, 42, 90, 0.5); }
+  /* The visual bleeds off the end edge of the page; the clip outline runs past the box there, so the photo meets the edge. */
+  .h-where__visual { position: absolute; z-index: 1; inset-block: clamp(2.5rem, 5vw, 4.5rem); inset-inline-end: 0; width: 54%; }
+  .h-where__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .h-where__photo { position: absolute; inset: 0; -webkit-clip-path: url(#where-clip); clip-path: url(#where-clip); overflow: hidden; background: var(--sky); }
+  .h-where__photo :global(.photo) { width: 100%; height: 100%; border-radius: 0; box-shadow: none; }
+  .h-where__photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: var(--focus, 50% 40%); }
+  .h-where__stripes { position: absolute; z-index: -1; width: 38%; height: auto; inset-inline-start: -9%; top: -7%; overflow: visible; }
+  .h-where__outline { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .h-where__outline path { fill: none; stroke: var(--cyan); stroke-width: 1.5; stroke-linecap: round; }
+  /* With motion the outline is redrawn in pixels (home-scenes.js) so it can be drawn on as one line. */
+  .h-where__outline.is-drawn path { stroke-dasharray: 1; stroke-dashoffset: var(--draw, 0); }
+  .h-where__drop { position: absolute; border-radius: 50%; background: var(--navy); }
+  .h-where__drop--a { width: 1.15rem; height: 1.15rem; inset-inline-start: -3.5%; top: 72%; }
+  .h-where__drop--b { width: 0.55rem; height: 0.55rem; inset-inline-start: 1%; top: 80%; background: var(--cyan); }
+  /* RTL: the composition mirrors (the photo stays as photographed). */
+  :global([dir='rtl']) .h-where__photo, :global([dir='rtl']) .h-where__outline { transform: scaleX(-1); }
+  :global([dir='rtl']) .h-where__photo :global(.photo) { transform: scaleX(-1); }
 
   /* ============ Closing: typographic invitation; the bottle on a soft light inside opening rings ============ */
   .h-close { padding-block: 0 var(--section); }
@@ -665,6 +694,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   }
   @media (max-width: 56.24rem) {
     .h-evidence__grid, .h-where__grid { grid-template-columns: minmax(0, 1fr); }
+    .h-where { display: block; min-height: 0; }
     .h-evidence__grid { row-gap: var(--s-5); }
     .h-evidence__intro, .h-evidence__main { grid-column: 1; }
     .h-evidence__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -682,9 +712,10 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-dir__day { --cell: 2rem; }
     .h-dose__time { font-size: clamp(1.25rem, 6vw, 1.6rem); }
     .h-dose__note { font-size: 0.875rem; }
-    .h-where__grid { row-gap: var(--s-5); }
-    .h-where__copy, .h-where__photo { grid-column: 1 / -1; }
-    .h-where__photo { width: min(100%, 26rem); justify-self: center; }
+    .h-where__copy { grid-column: 1 / -1; }
+    /* Phones: the visual follows the copy, full width from the gutter to the end edge. */
+    .h-where__visual { position: relative; inset: auto; width: auto; aspect-ratio: 4 / 4.6; margin-block-start: var(--s-5); margin-inline-start: calc(var(--gutter) + 0.5rem); }
+    .h-where__stripes { width: 46%; inset-inline-start: -14%; top: -9%; }
     .h-close__stage { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding: var(--s-5) var(--s-3); border-radius: var(--r-l); }
     .h-close__copy, .h-close__visual { grid-column: 1; }
     .h-close__visual { width: min(100%, 22rem); justify-self: center; }
