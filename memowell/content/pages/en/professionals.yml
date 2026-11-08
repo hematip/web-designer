@@ -74,6 +74,17 @@ sections:
     body: |-
       The published work used MMSE at six-month intervals, and tracked the neutrophil-to-lymphocyte ratio on CBC differential as a marker of inflammatory activity. Whether either is appropriate for a given patient is a clinical judgement.
 
+  - id: mechanism
+    # Client product document, November 2026 (mechanism section), written to the evidence ceiling.
+    heading: "Proposed mechanism"
+    body: |-
+      Boswellic acids have been investigated as inhibitors of 5-lipoxygenase and, to a lesser extent, of cyclooxygenase pathways.
+
+      Neuroinflammatory signalling has been linked in the literature to the enzymes that drive amyloid-β and tau aggregation, among them β-secretase and several kinases.
+
+      Whether these mechanisms account for the clinical findings above has not been established.
+    sources: ["10.1016/j.biopha.2021.112250", "10.1186/s12974-020-01820-6"]
+
   - id: case-reports
     heading: "Case reports"
     body: |-

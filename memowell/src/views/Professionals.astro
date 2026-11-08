@@ -11,7 +11,7 @@ import { getPage, getSite, section, md, mdInline, doiUrl, photoOf } from '../lib
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'professionals');
 const s = (id: string) => section(page, id);
-const entrance = s('entrance'), studies = s('studies'), composition = s('composition'), monitoring = s('monitoring'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
+const entrance = s('entrance'), studies = s('studies'), composition = s('composition'), monitoring = s('monitoring'), mechanism = s('mechanism'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
 const nav = getSite(locale).data.nav;
 const crumbs = [{ label: nav.find((n: any) => n.href === '/science')?.label ?? 'Science', href: '/science' }];
 const keys = ['study', 'population', 'design', 'findings'];
@@ -67,6 +67,16 @@ const photo = photoOf(locale, 'professionals', 'entrance');
       </div>
     </div>
   </section>
+
+  {mechanism && (
+    <section class="section pro-cases" id="mechanism" aria-labelledby="mech-title">
+      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+        <h2 id="mech-title">{mechanism.heading}</h2>
+        <div class="prose" set:html={md(mechanism.body)} />
+        <Sources dois={mechanism.sources} locale={locale} />
+      </div></div>
+    </section>
+  )}
 
   <section class="section pro-cases" id="case-reports" aria-labelledby="cases-title">
     <div class="wrap"><div class="pro-cases__inner" data-reveal>
