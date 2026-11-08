@@ -539,6 +539,19 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Verification:** production and preview builds and both copy checks pass (276 sentences). Inspected 1440×900 mid-scroll and settled, reduced motion (complete row), 390px (three times across, notes on two lines, panel below) and the Arabic preview for line direction; no overflow at 320/390/1280 and no console errors. The former `data-pin-scene` hook is removed with the pin; the glass controller falls back to its unpinned behaviour.
 
 
+## Hero: the film gathers into the label (2026-11-08, replaces "The label opens into the film")
+
+Request: before any scroll the film should fill the screen as in the earlier version; once it has played and the visitor scrolls, it should turn into the new label form.
+
+- **Before (arrival):** the film fills the whole hero behind the copy; a navy shade from the copy's side (from below on phones) keeps the question, answer, bottle, actions and licence line readable over it. The text performance plays over the film as before. Nothing is hidden: the actions and product are reachable at once.
+- **Transformation (scrubbed, hero pinned for ~0.95 screen, 0.8 on phones):** the film's box shrinks from the whole hero to the blob's box on the far side while its outline turns from the full rectangle into the label blob (the same ten cubics, segment for segment); the shade lifts with it; the stripe blob and the two drops arrive (scale 0.6 → 1, slight overshoot) in the second half; the scroll cue leaves. A beat of the settled label, then the pin releases into Why.
+- **Resolved:** the v3 composition — the film inside the deep-blue blob, stripe blob behind, drops beside, copy on the gradient.
+- **The film's end:** it plays once and holds its last frame; when it ends the scroll cue starts running (a cyan bar travelling down the cue), pointing to the next step. Scroll is never locked: scrolling during the film simply gathers it while it keeps playing in the blob.
+- **Continuity:** reverse scroll opens the film back to full screen; direct entry below the hero lands past the pin with the label settled. Resize and font load re-measure both boxes.
+- **Reduced motion and no-JS:** the label composition, unpinned (the film does not start under reduced motion; its poster is the last frame).
+- The previous scene (the blob opening into a centred landscape frame while the copy left) is retired.
+- **Verification:** both builds and both copy checks pass. Driven by wheel in a browser at 1280×800 (EN, AR) and 390×844: arrival frame full screen (1280×800; phone the whole hero) with the copy readable on the shade; the cue runs once the film ends; mid frames show the frame gathering with the shade still under the copy (shade lifts as the cube of progress); settled label 768×672; reverse scroll returns to full screen; reduced motion shows the label directly; no horizontal overflow; no console errors.
+
 ## The label opens into the film (2026-11-08)
 
 Request: the hero's blob should open with motion and become a landscape video.

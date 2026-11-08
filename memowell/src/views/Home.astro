@@ -60,8 +60,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   <!-- 1 · The approved question and family film; the formulation story follows "why". -->
   <section class="h-hero is-dark" aria-labelledby="hero-title" data-hero data-text-motion="off">
     <!-- The label mark at hero scale: the film sits inside the deep-blue blob, the cyan stripe blob tucks behind it
-         and two drops float beside it (the catalogue's photo-in-a-blob). On scroll the hero pins and the blob opens into
-         a landscape frame of the film while the copy and the mark's satellites step back (home-scenes.js). -->
+         and two drops float beside it (the catalogue's photo-in-a-blob). With motion the film first fills the whole hero
+         behind the copy; scrolling (once it has played) gathers it into the blob and the stripe blob and drops arrive
+         (home-scenes.js). Reduced motion and no-JS show the blob composition. -->
     <div class="h-hero__mark" aria-hidden="true" data-hero-mark>
       <svg class="h-hero__stripes" viewBox="0 0 440 330" preserveAspectRatio="xMidYMid meet">
         <defs><pattern id="hero-stripes" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="4.2" height="11" fill="var(--cyan-stripe)" /></pattern></defs>
@@ -387,8 +388,15 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__mark { position: absolute; z-index: -1; inset-block: 0; inset-inline-end: 0; width: 60%; pointer-events: none; }
   .h-hero__stripes { position: absolute; width: 78%; height: auto; inset-inline-end: -6%; top: 6%; overflow: visible; opacity: 0.9; }
   .h-hero__film { position: absolute; inset: 8% -4% 8% 4%; -webkit-clip-path: url(#hero-blob); clip-path: url(#hero-blob); overflow: hidden; background: var(--navy-deep); }
-  /* While the blob opens, the film passes in front of the fading copy; the toggle (z 3) stays above both. */
-  .h-hero.is-opening .h-hero__mark { z-index: 1; }
+  /* The film's shade: while the film fills the hero (before the scroll scene), a navy shade from the copy's side keeps
+     the copy readable over it; --scrim (0…1) is written by the scene and is 0 at rest. */
+  .h-hero__film::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: var(--scrim, 0);
+    background: linear-gradient(90deg, rgba(36, 54, 119, 0.92) 0%, rgba(36, 54, 119, 0.72) 36%, rgba(36, 54, 119, 0) 66%), linear-gradient(0deg, rgba(36, 54, 119, 0.55), rgba(36, 54, 119, 0) 32%); }
+  :global([dir='rtl']) .h-hero__film::after { background: linear-gradient(270deg, rgba(36, 54, 119, 0.92) 0%, rgba(36, 54, 119, 0.72) 36%, rgba(36, 54, 119, 0) 66%), linear-gradient(0deg, rgba(36, 54, 119, 0.55), rgba(36, 54, 119, 0) 32%); }
+  /* When the film has played through, the scroll cue runs: the next step is the scroll. */
+  .h-hero.is-film-ended .h-cue span { animation: h-cue-run 1.8s var(--ease-out, ease-out) infinite; }
+  @keyframes h-cue-run { 0% { transform: translateY(-100%); } 70%, 100% { transform: translateY(260%); } }
+  @media (prefers-reduced-motion: reduce) { .h-hero.is-film-ended .h-cue span { animation: none; } }
   .h-hero__film-clip { position: absolute; width: 0; height: 0; }
   .h-hero__film video { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; display: block; }
   :global([dir='rtl']) .h-hero__film video { transform: scaleX(-1); }
@@ -762,6 +770,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-hero__drop--a { inset-inline-start: 0; top: 30%; }
     .h-hero__drop--b { inset-inline-start: 6%; top: 38%; }
     .h-hero__toggle { top: calc(var(--header-h) + 0.75rem); bottom: auto; }
+    .h-hero__film::after, :global([dir='rtl']) .h-hero__film::after { background: linear-gradient(0deg, rgba(36, 54, 119, 0.94) 0%, rgba(36, 54, 119, 0.8) 42%, rgba(36, 54, 119, 0) 70%); }
     /* Full-bleed here so the pinned scene has no gaps at the screen edges. */
     .h-form { margin-inline: 0; border-radius: 0; }
     .h-form__pin { display: block; min-height: 0; padding-block: var(--section) 0; }

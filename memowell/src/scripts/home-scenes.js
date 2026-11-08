@@ -97,88 +97,83 @@ mm.add(MQ.motion, () => {
   };
 });
 
-// ---------------------------------------------------------------- Hero: the label opens into the film
-// The signature scene. The hero pins for about one screen of scroll and the deep-blue blob that holds the family
-// film opens into a landscape frame of the whole film, centred under the header; the question, answer and product
-// block step back and out, the stripe blob and drops fade. Scrubbed, so reverse scroll closes the label again.
-// The frame's box (left/top/width/height) and the clip outline (blob → rounded rectangle, in the clip's unit space
-// with pixel-true radii) are written together from one progress value. Reduced motion and no-JS: the resting
-// composition, unpinned.
+// ---------------------------------------------------------------- Hero: the film gathers into the label
+// The signature scene. On arrival the family film fills the whole hero behind the copy, with a navy shade from the
+// copy's side so the question reads over it (the earlier full-screen hero). Scrolling pins the hero for most of a
+// screen and gathers the film into the deep-blue label blob on the far side: the frame's box shrinks from the hero
+// to the blob's box while its outline turns from the full rectangle into the blob, the shade lifts, and the stripe
+// blob and drops arrive. Scrubbed, so reverse scroll opens it back to full screen. The copy stays in place and
+// readable throughout. Box and outline are written together from one progress value. Reduced motion and no-JS: the
+// blob composition, unpinned.
 mm.add(MQ.motion, () => {
   const hero = $('[data-hero]');
   const mark = hero && $('[data-hero-mark]', hero);
   const film = hero && $('.h-hero__film', hero);
   const clip = $('[data-hero-clip]');
-  const grid = hero && $('.h-hero__grid', hero);
-  if (!hero || !mark || !film || !clip || !grid) return;
+  if (!hero || !mark || !film || !clip) return;
   const nums = (d) => (d.match(/-?\d*\.?\d+/g) || []).map(Number);
   const toPath = (n) => { const f = (v) => +v.toFixed(4); let d = `M${f(n[0])} ${f(n[1])}`; for (let i = 2; i < n.length; i += 6) d += `C${n.slice(i, i + 6).map(f).join(' ')}`; return `${d}Z`; };
   const blob = nums(clip.getAttribute('d'));
   if (blob.length !== 62) return;
   const phone = window.matchMedia('(max-width: 56.24rem)').matches;
-  const satellites = [$('.h-hero__stripes', hero), ...$$('.h-hero__drop', hero), $('.h-cue', hero)].filter(Boolean);
-  const K = 0.5523; // circle-arc handle
-  // A rounded rectangle over the unit box with radii rx, ry: edge, corner, edge, corner … clockwise from the top
-  // edge (the top and bottom edges in two runs), 10 cubics — the same count and direction as the blob, so the two interpolate segment for segment.
-  const rect = (rx, ry) => {
-    const line = (x1, y1, x2, y2) => [x1 + (x2 - x1) / 3, y1 + (y2 - y1) / 3, x1 + 2 * (x2 - x1) / 3, y1 + 2 * (y2 - y1) / 3, x2, y2];
-    return [
-      rx, 0,
-      ...line(rx, 0, 0.5, 0), ...line(0.5, 0, 1 - rx, 0), 1 - rx + K * rx, 0, 1, ry - K * ry, 1, ry,
-      ...line(1, ry, 1, 1 - ry), 1, 1 - ry + K * ry, 1 - rx + K * rx, 1, 1 - rx, 1,
-      ...line(1 - rx, 1, 0.5, 1), ...line(0.5, 1, rx, 1), rx - K * rx, 1, 0, 1 - ry + K * ry, 0, 1 - ry,
-      ...line(0, 1 - ry, 0, ry), 0, ry - K * ry, rx - K * rx, 0, rx, 0,
-    ];
-  };
-  const radius = phone ? 14 : 22;
-  let from = null, to = null;
+  const arrivals = [$('.h-hero__stripes', hero), ...$$('.h-hero__drop', hero)].filter(Boolean);
+  const cue = $('.h-cue', hero);
+  // The full frame: the unit box as a rectangle drawn with the blob's 10 cubics in the same order and direction
+  // (clockwise from the top edge, like the blob), so the two interpolate
+  // segment for segment.
+  const line = (x1, y1, x2, y2) => [x1 + (x2 - x1) / 3, y1 + (y2 - y1) / 3, x1 + 2 * (x2 - x1) / 3, y1 + 2 * (y2 - y1) / 3, x2, y2];
+  // Each rectangle point sits at about the same place round the outline as the blob point it becomes.
+  const full = [
+    0.3, 0,
+    ...line(0.3, 0, 0.62, 0), ...line(0.62, 0, 1, 0), ...line(1, 0, 1, 0.43), ...line(1, 0.43, 1, 1),
+    ...line(1, 1, 0.66, 1), ...line(0.66, 1, 0.4, 1), ...line(0.4, 1, 0, 1), ...line(0, 1, 0, 0.54),
+    ...line(0, 0.54, 0, 0), ...line(0, 0, 0.3, 0),
+  ];
+  let rest = null, wide = null;
   const st = { t: 0 };
   const measure = () => {
-    // Resting geometry first (the CSS box), then the landscape target: as wide as the content column, 16:9,
-    // centred in the part of the screen under the header.
     gsap.set(film, { clearProps: 'left,top,right,bottom,width,height' });
-    from = { x: film.offsetLeft, y: film.offsetTop, w: film.offsetWidth, h: film.offsetHeight };
+    rest = { x: film.offsetLeft, y: film.offsetTop, w: film.offsetWidth, h: film.offsetHeight };
     const H = hero.getBoundingClientRect(), M = mark.getBoundingClientRect();
-    const wrap = ($('.wrap', hero) || hero).getBoundingClientRect();
-    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-    const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) * rem || 88;
-    const top = headerH + (phone ? 0.75 : 1) * rem;
-    const stageH = Math.min(H.height, window.innerHeight);
-    const availH = Math.max(stageH - top - 1.5 * rem, 160);
-    // Desktop: the frame spans the content column as the nav bar does; phones keep the page gutter on both sides.
-    const gutter = phone ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gutter')) * rem || 20 : 0;
-    const w = Math.min(wrap.width - 2 * gutter, availH * 16 / 9);
-    const h = w * 9 / 16;
-    to = { x: H.left + (H.width - w) / 2 - M.left, y: H.top + top + (availH - h) / 2 - M.top, w, h };
+    wide = { x: H.left - M.left, y: H.top - M.top, w: H.width, h: H.height };
     render();
   };
   const render = () => {
-    if (!from || !to) return;
+    if (!rest || !wide) return;
     const e = gsap.parseEase('power2.inOut')(st.t);
-    const w = from.w + (to.w - from.w) * e, h = from.h + (to.h - from.h) * e;
-    gsap.set(film, { left: from.x + (to.x - from.x) * e, top: from.y + (to.y - from.y) * e, width: w, height: h, right: 'auto', bottom: 'auto' });
-    const target = rect(Math.min(radius / w, 0.5), Math.min(radius / h, 0.5));
-    clip.setAttribute('d', toPath(blob.map((v, i) => v + (target[i] - v) * e)));
+    gsap.set(film, {
+      left: wide.x + (rest.x - wide.x) * e, top: wide.y + (rest.y - wide.y) * e,
+      width: wide.w + (rest.w - wide.w) * e, height: wide.h + (rest.h - wide.h) * e, right: 'auto', bottom: 'auto',
+    });
+    clip.setAttribute('d', toPath(full.map((v, i) => v + (blob[i] - v) * e)));
+    // The shade lifts later than the frame moves, so the copy never sits on bright film while the frame passes under it.
+    film.style.setProperty('--scrim', (1 - e * e * e).toFixed(3));
   };
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: hero, start: 'top top', end: () => `+=${phone ? 90 : 110}%`, pin: true, scrub: 0.8, anticipatePin: 1,
+      trigger: hero, start: 'top top', end: () => `+=${phone ? 80 : 95}%`, pin: true, scrub: 0.8, anticipatePin: 1,
       refreshPriority: 3, invalidateOnRefresh: true, onRefreshInit: measure,
-      onUpdate: (self) => hero.classList.toggle('is-opening', self.progress > 0.01),
-      onLeaveBack: () => hero.classList.remove('is-opening'),
     },
   });
-  // autoAlpha: the copy and its links leave the page (visibility hidden) once faded, so nothing invisible is focusable.
-  tl.to(grid, { autoAlpha: 0, y: -40, duration: 0.42, ease: 'power2.in' }, 0)
-    .to(satellites, { autoAlpha: 0, duration: 0.3, ease: 'power1.in' }, 0)
-    .to(st, { t: 1, duration: 0.86, ease: 'none', onUpdate: render }, 0.06)
-    .to({}, { duration: 0.08 }); // a beat of the open frame before the pin releases
+  tl.to(st, { t: 1, duration: 0.88, ease: 'none', onUpdate: render }, 0)
+    .fromTo(arrivals, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.6)', stagger: 0.06, immediateRender: true }, 0.5);
+  if (cue) tl.to(cue, { autoAlpha: 0, duration: 0.2 }, 0);
+  tl.to({}, { duration: 0.12 }); // a beat of the settled label before the pin releases
   measure();
+  // The film plays once and holds its last frame; when it has, the scroll cue runs.
+  const video = $('[data-hero-film]', hero);
+  const ended = () => hero.classList.add('is-film-ended');
+  const restart = () => hero.classList.remove('is-film-ended');
+  video?.addEventListener('ended', ended);
+  video?.addEventListener('play', restart);
   return () => {
     tl.scrollTrigger?.kill();
     tl.kill();
-    hero.classList.remove('is-opening');
-    gsap.set([grid, ...satellites, film], { clearProps: 'all' });
+    video?.removeEventListener('ended', ended);
+    video?.removeEventListener('play', restart);
+    hero.classList.remove('is-film-ended');
+    gsap.set([...arrivals, film, cue].filter(Boolean), { clearProps: 'all' });
+    film.style.removeProperty('--scrim');
     clip.setAttribute('d', toPath(blob));
   };
 });
