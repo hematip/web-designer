@@ -518,80 +518,112 @@ mm.add(MQ.motion, () => {
 });
 
 
-// Where to find it: the label opens onto the pharmacy. Scrubbed with scroll: the blob starts as a small shape round the
-// Memowell bottle on the counter and opens outward until the whole pharmacy is shown, while the photograph settles
-// from a closer view, the cyan outline draws round the shape and the stripe blob and drops slide in at its seam. The
-// opening point is the bottle's place in the photograph, mapped through object-fit: cover and the photo's focus, so
-// it follows the crop at every width (and mirrors in RTL). Reduced motion and no-JS: the open composition.
-mm.add(MQ.motion, () => {
-  const visual = $('[data-where]');
-  const mask = visual && $('[data-where-mask]', visual);
-  const img = visual && $('[data-where-photo] img', visual);
-  if (!visual || !mask || !img) return;
-  const outline = $('[data-where-outline]', visual);
-  const stripes = $('[data-where-stripes]', visual);
-  const drops = $$('[data-where-drop]', visual);
-  const BOTTLE = [0.55, 0.607]; // the bottle on the counter, as a share of the photograph
-  const phone = window.matchMedia('(max-width: 56.24rem)').matches;
-  const rtl = (visual.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
-  const unitOutline = outline?.getAttribute('d');
-  let origin = [0.55, 0.62]; // in the mask's (mirrored in RTL) space
-  let photoOrigin = [0.55, 0.62]; // in the photograph's own space
-  const measure = () => {
-    const bw = visual.offsetWidth, bh = visual.offsetHeight;
-    const iw = img.naturalWidth || 1600, ih = img.naturalHeight || 2143;
-    const scale = Math.max(bw / iw, bh / ih), dw = iw * scale, dh = ih * scale;
-    const [fx, fy] = (getComputedStyle(img).objectPosition || '50% 40%').split(' ').map((v) => parseFloat(v) / 100);
-    const x = ((bw - dw) * (Number.isFinite(fx) ? fx : 0.5) + BOTTLE[0] * dw) / bw;
-    const y = ((bh - dh) * (Number.isFinite(fy) ? fy : 0.4) + BOTTLE[1] * dh) / bh;
-    origin = [rtl ? 1 - x : x, y];
-    photoOrigin = [x, y];
-    // The outline in pixels: a dash in a stretched 0–1 viewBox would be measured in screen space (dotted line).
-    if (outline && unitOutline) {
-      const svg = outline.ownerSVGElement;
-      svg.setAttribute('viewBox', `0 0 ${bw} ${bh}`);
-      let i = 0;
-      outline.setAttribute('d', unitOutline.replace(/-?\d*\.?\d+/g, (v) => (+v * (i++ % 2 ? bh : bw)).toFixed(1)));
-      outline.removeAttribute('vector-effect');
-      svg.classList.add('is-drawn');
-    }
-  };
-  const out = gsap.parseEase('power2.out');
-  const inOut = gsap.parseEase('power2.inOut');
-  const band = (p, a, b) => gsap.utils.clamp(0, 1, (p - a) / (b - a));
-  const st = { p: 0 };
-  const render = () => {
-    const p = st.p;
-    const k = 0.05 + 0.95 * out(band(p, 0, 0.8));
-    const [cx, cy] = origin;
-    mask.setAttribute('transform', `matrix(${k} 0 0 ${k} ${cx - k * cx} ${cy - k * cy})`);
-    gsap.set(img, { scale: 1.32 - 0.32 * inOut(band(p, 0, 0.9)), transformOrigin: `${(photoOrigin[0] * 100).toFixed(1)}% ${(photoOrigin[1] * 100).toFixed(1)}%` });
-    outline?.style.setProperty('--draw', (1 - inOut(band(p, 0.45, 1))).toFixed(4));
-    if (stripes) gsap.set(stripes, { xPercent: (rtl ? 1 : -1) * 28 * (1 - out(band(p, 0.25, 0.85))), opacity: band(p, 0.2, 0.6) });
-    drops.forEach((d, i) => gsap.set(d, { y: (i ? 40 : 70) * (1 - out(band(p, 0.35 + i * 0.1, 0.95))), opacity: band(p, 0.35, 0.65) }));
-  };
-  measure();
-  if (!img.complete) img.addEventListener('load', () => { measure(); render(); }, { once: true });
-  render();
-  const tween = gsap.to(st, {
-    p: 1, ease: 'none', onUpdate: render,
-    // Starts once the bottle is on screen (it sits low in the photograph), so the opening is seen from its first drop.
-    scrollTrigger: { trigger: visual, start: phone ? 'top 66%' : 'top 50%', end: phone ? 'top 12%' : 'top 6%', scrub: 0.8, invalidateOnRefresh: true, onRefresh: () => { measure(); render(); } },
-  });
-  return () => {
-    tween.scrollTrigger?.kill();
-    tween.kill();
-    mask.removeAttribute('transform');
-    outline?.style.removeProperty('--draw');
-    if (outline && unitOutline) {
-      outline.setAttribute('d', unitOutline);
-      outline.setAttribute('vector-effect', 'non-scaling-stroke');
-      outline.ownerSVGElement.setAttribute('viewBox', '0 0 1 1');
-      outline.ownerSVGElement.classList.remove('is-drawn');
-    }
-    gsap.set([img, stripes, ...drops].filter(Boolean), { clearProps: 'all' });
-  };
-});
+// Where to find it: the label's wave. One progress value p (0…1) draws the whole shape layer in pixels:
+//  · flood (p 0 → 0.5): the blue wave, its cyan rim a beat ahead, rises from below the section over the end of
+//    "How to take it" until its crest stands above the section top; the crest swells as it rises;
+//  · part (p 0.42 → 1, wide screens): its far edge draws back from beyond the page to a curved boundary, uncovering
+//    the photograph; the rim follows a beat later as a cyan band along the edge; the stripe blob rides the corner
+//    where the crest meets the edge, tucked behind the blue.
+// Phones have no part beat: the wave floods the section and the photograph below the copy rises into place.
+// Scrubbed with scroll (reverse undoes it). Without motion, and before any scroll, the shape is drawn at its resting
+// state (p = 1). Mirrored for RTL by drawing x from the other edge.
+{
+  const section = $('[data-where]');
+  const shape = section && $('[data-where-shape]', section);
+  const navy = shape && $('[data-where-navy]', shape);
+  const rim = shape && $('[data-where-rim]', shape);
+  if (section && navy && rim) {
+    const stripes = $('[data-where-stripes]', section);
+    const photo = $('[data-where-photo]', section);
+    const photoImg = photo && $('img', photo);
+    const rtl = (section.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
+    const phoneMQ = window.matchMedia('(max-width: 56.24rem)');
+    const ease = gsap.parseEase('power2.inOut');
+    const out = gsap.parseEase('power3.out');
+    const band = (p, a, b) => gsap.utils.clamp(0, 1, (p - a) / (b - a));
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const f1 = (v) => v.toFixed(1);
+    let W = 0, Hs = 0, R = 0, phone = false;
+    const measure = () => {
+      W = shape.clientWidth; Hs = shape.clientHeight;
+      R = parseFloat(getComputedStyle(shape).top) * -1 || 0;
+      phone = phoneMQ.matches;
+      shape.setAttribute('viewBox', `0 0 ${W} ${Hs}`);
+      shape.setAttribute('preserveAspectRatio', 'none');
+    };
+    // One wave outline. f: flood 0…1, q: part 0…1, grow: crest offset (rim stands higher), wide: boundary offset.
+    const wave = (f, q, grow, wide) => {
+      const H = Hs - R;
+      const drop = (1 - f) * Hs * 1.08;
+      const X = (x) => f1(rtl ? W - x : x);
+      const Y = (y) => f1(y + drop);
+      const far = W * 1.12;
+      // the crest: low at the start edge, swelling to its peak about a third across, easing down to the corner
+      const yL = R * (phone ? 0.75 : 0.62) - grow, yT = R * 0.72 - grow;
+      const c1y = lerp(R * 0.7, R * 0.02, f) - grow, c2y = lerp(R * 0.75, R * -0.1, f) - grow;
+      if (phone) {
+        return `M${X(0)} ${Y(yL)}C${X(W * 0.22)} ${Y(c1y)} ${X(W * 0.62)} ${Y(c2y)} ${X(W)} ${Y(yT)}L${X(W)} ${Y(Hs)}L${X(0)} ${Y(Hs)}Z`;
+      }
+      const xT = lerp(far, W * 0.53, q) + wide, xB = lerp(far, W * 0.4, q) + wide;
+      const b1 = lerp(far, W * 0.63, q) + wide, b2 = lerp(far, W * 0.27, q) + wide;
+      const cx1 = Math.min(W * 0.14, xT * 0.3), cx2 = Math.min(W * 0.36, xT * 0.68);
+      return `M${X(0)} ${Y(yL)}C${X(cx1)} ${Y(c1y)} ${X(cx2)} ${Y(c2y)} ${X(xT)} ${Y(yT)}`
+        + `C${X(b1)} ${Y(R + H * 0.3)} ${X(b2)} ${Y(R + H * 0.78)} ${X(xB)} ${Y(Hs)}L${X(0)} ${Y(Hs)}Z`;
+    };
+    const draw = (p) => {
+      if (!W) return;
+      const fN = out(band(p, 0, 0.5)), fR = out(band(p, 0, 0.42));
+      const qN = phone ? 0 : ease(band(p, 0.42, 1)), qR = phone ? 0 : ease(band(p, 0.36, 0.94));
+      navy.setAttribute('d', wave(fN, qN, 0, 0));
+      rim.setAttribute('d', wave(fR, qR, R * 0.16 + 6, W * 0.045 * qR));
+      if (stripes) {
+        const sw = stripes.clientWidth, sh = sw * 0.75;
+        let x, y;
+        if (phone) { x = W - sw * 0.85; y = (photo ? photo.offsetTop : Hs - R) - sh * 0.55 + (1 - out(band(p, 0.25, 1))) * 60; }
+        else {
+          const xT = lerp(W * 1.12, W * 0.53, qN);
+          x = Math.min(xT - sw * 0.55, W - sw * 0.7);
+          y = R * 0.72 + (1 - fN) * Hs * 1.08 - R - sh * 0.7;
+        }
+        if (rtl) x = W - x - sw;
+        stripes.style.setProperty('--sx', `${f1(x)}px`);
+        stripes.style.setProperty('--sy', `${f1(y)}px`);
+        stripes.style.opacity = phone ? String(band(p, 0.3, 0.7)) : String(fN);
+      }
+      // On wide screens the photograph waits under the wave until the wave covers the section, so it is never seen
+      // before the edge uncovers it.
+      if (photo && !phone) photo.style.opacity = p < 0.4 ? '0' : '1';
+      if (photoImg) {
+        const k = phone ? out(band(p, 0.25, 1)) : ease(band(p, 0.4, 1));
+        photoImg.style.transform = `scale(${(1.18 - 0.18 * k).toFixed(4)})`;
+        if (phone) photo.style.transform = `translateY(${f1((1 - k) * 60)}px)`;
+      }
+    };
+    const st = { p: 1 };
+    const rest = () => { measure(); draw(st.p); };
+    rest();
+    let tween = null;
+    const motion = window.matchMedia(MQ.motion);
+    const setup = () => {
+      tween?.scrollTrigger?.kill(); tween?.kill(); tween = null;
+      if (!motion.matches) { st.p = 1; if (photo) { photo.style.transform = ''; photo.style.opacity = ''; } rest(); return; }
+      st.p = 0; rest();
+      tween = gsap.to(st, {
+        p: 1, ease: 'none', onUpdate: () => draw(st.p),
+        scrollTrigger: {
+          trigger: section,
+          start: phoneMQ.matches ? 'top 92%' : 'top 100%',
+          end: phoneMQ.matches ? 'top 20%' : 'top 8%',
+          scrub: 0.8, invalidateOnRefresh: true, onRefresh: () => { measure(); draw(st.p); },
+        },
+      });
+    };
+    setup();
+    motion.addEventListener('change', setup);
+    phoneMQ.addEventListener('change', setup);
+    if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); draw(st.p); }).observe(section);
+  }
+}
 
 // Closing: the label mark (white blob, cyan stripes) grows from behind the bottle as the bottle rises; replays when
 // the section comes back into view.

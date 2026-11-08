@@ -323,29 +323,36 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   </aside>
   )}
 
-  <!-- 8 · Where to find it: the pharmacy photograph inside the label's blob, bleeding off the page edge, with the
-       cyan stripe blob and two drops at its seam and a thin cyan outline around it (the catalogue's line art). On
-       scroll the blob opens outward from the Memowell bottle on the counter until the whole pharmacy is shown, the
-       outline draws round it and the stripe blob slides in. Reduced motion and no-JS: the open composition. -->
-  <section class="h-where" id="where" aria-labelledby="where-title">
+  <!-- 8 · Where to find it: the label's wave. Scrolling down from "How to take it", a large wave in the label's blue
+       (with a cyan rim) rises over the end of the section above and floods the screen: the boundary between the two
+       sections is a moving shape. The wave then draws back toward the copy, and its curved edge, carrying the cyan
+       stripe blob, uncovers the pharmacy photograph behind it (the catalogue's person pages: photograph and navy blob
+       sharing one organic edge). The copy reads white on the blue. Phones: the wave floods the section and the
+       photograph rises under a curved edge below the copy. Reduced motion and no-JS: the resting composition. -->
+  <section class="h-where" id="where" aria-labelledby="where-title" data-where>
+    <svg class="h-where__stripes" viewBox="0 0 440 330" aria-hidden="true" focusable="false" data-where-stripes>
+      <defs><pattern id="where-stripes" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="4.2" height="11" fill="var(--cyan-stripe)" /></pattern></defs>
+      <path fill="url(#where-stripes)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" />
+    </svg>
+    <svg class="h-where__shape" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false" data-where-shape>
+      <defs>
+        <linearGradient id="where-navy" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0" stop-color="var(--blue-bright)" /><stop offset="0.6" stop-color="var(--navy)" /><stop offset="1" stop-color="var(--navy-deep)" /></linearGradient>
+        <linearGradient id="where-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--cyan)" /><stop offset="1" stop-color="var(--cyan-stripe)" /></linearGradient>
+      </defs>
+      <path class="h-where__rim" fill="url(#where-rim)" d="M0 110C140 0 350 -20 575 135C665 360 315 700 445 1000L0 1000Z" data-where-rim />
+      <path class="h-where__navy" fill="url(#where-navy)" d="M0 130C140 20 340 0 530 150C620 360 270 700 400 1000L0 1000Z" data-where-navy />
+    </svg>
     <div class="wrap h-where__grid">
       <div class="h-where__copy" data-intro data-text-motion="off">
         <h2 id="where-title" class="h-where__title">{availability.heading}</h2>
         {availability.body && <p class="h-where__text" data-intro-lines>{availability.body}</p>}
-        <div class="btn-row" data-intro-part>{availability.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
+        <div class="btn-row" data-intro-part>{availability.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
       </div>
     </div>
     {wherePhoto && (
-      <div class="h-where__visual" aria-hidden="true" data-where>
-        <svg class="h-where__defs" width="0" height="0" focusable="false">
-          <clipPath id="where-clip" clipPathUnits="objectBoundingBox"><path d="M0.3 0.03C0.52 -0.01 0.8 0.04 1.1 0.02C1.1 0.3 1.1 0.7 1.1 1C0.86 1 0.5 1.01 0.32 0.97C0.12 0.93 0.02 0.8 0.03 0.6C0.04 0.42 0 0.3 0.08 0.17C0.13 0.08 0.2 0.05 0.3 0.03Z" data-where-mask /></clipPath>
-          <pattern id="where-stripes" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="4.2" height="11" fill="var(--cyan-stripe)" /></pattern>
-        </svg>
-        <svg class="h-where__stripes" viewBox="0 0 440 330" focusable="false" data-where-stripes><path fill="url(#where-stripes)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg>
-        <div class="h-where__photo" data-where-photo><Photo photo={wherePhoto} variant="fill" sizes="(min-width: 56.25rem) 56vw, 100vw" /></div>
-        <svg class="h-where__outline" viewBox="0 0 1 1" preserveAspectRatio="none" focusable="false"><path d="M1.12 -0.02C0.8 0.01 0.52 -0.05 0.28 -0.01C0.16 0.01 0.07 0.06 0.02 0.16C-0.06 0.3 -0.01 0.42 -0.02 0.6C-0.03 0.82 0.09 0.96 0.31 1.01C0.5 1.05 0.86 1.04 1.12 1.04" pathLength="1" vector-effect="non-scaling-stroke" data-where-outline /></svg>
-        <span class="h-where__drop h-where__drop--a" data-where-drop></span>
-        <span class="h-where__drop h-where__drop--b" data-where-drop></span>
+      <div class="h-where__photo" aria-hidden="true" data-where-photo>
+        <svg width="0" height="0" focusable="false" style="position:absolute"><clipPath id="where-photo-edge" clipPathUnits="objectBoundingBox"><path d="M0 0.16C0.18 0.02 0.42 -0.01 0.62 0.07C0.78 0.13 0.9 0.1 1 0.03L1 1L0 1Z" data-where-edge /></clipPath></svg>
+        <Photo photo={wherePhoto} variant="fill" sizes="(min-width: 56.25rem) 66vw, 100vw" />
       </div>
     )}
   </section>
@@ -647,31 +654,28 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* ============ Where to find it: copy beside an arched photograph ============ */
   /* overflow-x: the photo's entrance starts at scale 1.18 inside its clip-path frame; clip-path hides it but does not
      stop it widening the page, which made 320px screens scroll sideways. */
-  .h-where { position: relative; isolation: isolate; display: flex; align-items: center; min-height: clamp(42rem, 56vw, 56rem); padding-block: var(--section); overflow-x: clip; }
-  .h-where__grid { width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-  .h-where__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; position: relative; z-index: 2; }
-  .h-where__title { max-width: 11ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
-  .h-where__text { max-width: 30rem; color: var(--ink-soft); font-size: var(--fs-lead); line-height: 1.5; }
-  /* The visual bleeds off the end edge of the page; the clip outline runs past the box there, so the photo meets the edge. */
-  .h-where__visual { position: absolute; z-index: 1; inset-block: clamp(2.5rem, 5vw, 4.5rem); inset-inline-end: 0; width: 54%; }
-  .h-where__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-  .h-where__photo { position: absolute; inset: 0; -webkit-clip-path: url(#where-clip); clip-path: url(#where-clip); overflow: hidden; background: var(--sky); }
-  .h-where__photo :global(.photo) { width: 100%; height: 100%; border-radius: 0; box-shadow: none; }
-  .h-where__photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: var(--focus, 50% 40%); }
-  .h-where__stripes { position: absolute; z-index: -1; width: 38%; height: auto; inset-inline-start: -9%; top: -7%; overflow: visible; }
-  .h-where__outline { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-  .h-where__outline path { fill: none; stroke: var(--cyan); stroke-width: 1.5; stroke-linecap: round; }
-  /* With motion the outline is redrawn in pixels (home-scenes.js) so it can be drawn on as one line. */
-  .h-where__outline.is-drawn path { stroke-dasharray: 1; stroke-dashoffset: var(--draw, 0); }
-  .h-where__drop { position: absolute; border-radius: 50%; background: var(--navy); }
-  .h-where__drop--a { width: 1.15rem; height: 1.15rem; inset-inline-start: -3.5%; top: 72%; }
-  .h-where__drop--b { width: 0.55rem; height: 0.55rem; inset-inline-start: 1%; top: 80%; background: var(--cyan); }
-  /* RTL: the composition mirrors (the photo stays as photographed). */
-  :global([dir='rtl']) .h-where__photo, :global([dir='rtl']) .h-where__outline { transform: scaleX(-1); }
-  :global([dir='rtl']) .h-where__photo :global(.photo) { transform: scaleX(-1); }
+  /* Where: the photograph (end side) under the wave; the wave layer reaches --reach above the section, over the end of
+     "How to take it". Layers: photograph, stripe blob, wave (rim + blue), copy. */
+  .h-where { --reach: clamp(9rem, 24vh, 15rem); position: relative; z-index: 1; display: flex; align-items: center; min-height: clamp(40rem, 100svh, 58rem); padding-block: var(--section); overflow-x: clip; color: #fff; }
+  /* The photograph keeps both people clear of the wave's edge: it sits against the outer edge (80% of the layer) and
+     fades into the pharmacy's own light toward the wave; the top is a soft wave, not a straight cut. */
+  .h-where__photo { position: absolute; z-index: 0; inset-block: 0; inset-inline: 30% 0; overflow: hidden; background: #e8eef3;
+    -webkit-clip-path: url(#where-photo-edge); clip-path: url(#where-photo-edge); }
+  .h-where__photo :global(.photo) { position: absolute; inset-block: 0; inset-inline-end: 0; width: 80%; height: 100%; border-radius: 0; box-shadow: none;
+    -webkit-mask-image: linear-gradient(to left, #000 86%, transparent); mask-image: linear-gradient(to left, #000 86%, transparent); }
+  :global([dir='rtl']) .h-where__photo :global(.photo) { -webkit-mask-image: linear-gradient(to right, #000 86%, transparent); mask-image: linear-gradient(to right, #000 86%, transparent); }
+  .h-where__photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .h-where__stripes { position: absolute; z-index: 1; top: 0; left: 0; width: clamp(12rem, 22vw, 20rem); height: auto; pointer-events: none; transform: translate(var(--sx, 52vw), var(--sy, -2rem)); }
+  .h-where__shape { position: absolute; z-index: 1; left: 0; top: calc(var(--reach) * -1); width: 100%; height: calc(100% + var(--reach)); pointer-events: none; overflow: hidden; }
+  .h-where__grid { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .h-where__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; max-width: 27rem; }
+  .h-where__title { max-width: 11ch; color: #fff; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
+  .h-where__text { color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  .h-where :focus-visible { outline-color: var(--focus-on-dark); }
+  /* RTL: the wave is drawn mirrored by the script; the photograph moves to the other side unflipped. */
 
   /* ============ Closing: typographic invitation; the bottle on a soft light inside opening rings ============ */
-  .h-close { padding-block: 0 var(--section); }
+  .h-close { padding-block: clamp(3rem, 6vw, 5rem) var(--section); }
   .h-close__stage { position: relative; isolation: isolate; overflow: clip; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; min-height: clamp(30rem, 44vw, 40rem); padding: clamp(3rem, 6vw, 6rem) clamp(1.75rem, 5vw, 5rem); border-radius: var(--r-xl); background: var(--brand-gradient-diag);
     background: radial-gradient(60% 80% at 78% 55%, rgba(18, 74, 149, 0.45), rgba(36, 54, 119, 0) 70%), var(--navy); }
   .h-close__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; }
@@ -694,7 +698,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   }
   @media (max-width: 56.24rem) {
     .h-evidence__grid, .h-where__grid { grid-template-columns: minmax(0, 1fr); }
-    .h-where { display: block; min-height: 0; }
+    .h-where { display: block; min-height: 0; padding-block-end: 0; }
     .h-evidence__grid { row-gap: var(--s-5); }
     .h-evidence__intro, .h-evidence__main { grid-column: 1; }
     .h-evidence__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -713,9 +717,10 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-dose__time { font-size: clamp(1.25rem, 6vw, 1.6rem); }
     .h-dose__note { font-size: 0.875rem; }
     .h-where__copy { grid-column: 1 / -1; }
-    /* Phones: the visual follows the copy, full width from the gutter to the end edge. */
-    .h-where__visual { position: relative; inset: auto; width: auto; aspect-ratio: 4 / 4.6; margin-block-start: var(--s-5); margin-inline-start: calc(var(--gutter) + 0.5rem); }
-    .h-where__stripes { width: 46%; inset-inline-start: -14%; top: -9%; }
+    /* Phones: the wave floods the whole section; the photograph follows the copy under a curved top edge. */
+    .h-where__photo { position: relative; inset: auto; z-index: 2; display: block; aspect-ratio: 4 / 4.4; margin-block-start: var(--s-5); }
+    .h-where__photo :global(.photo) { position: static; width: 100%; -webkit-mask-image: none; mask-image: none; }
+    .h-where__stripes { z-index: 3; width: 44%; }
     .h-close__stage { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding: var(--s-5) var(--s-3); border-radius: var(--r-l); }
     .h-close__copy, .h-close__visual { grid-column: 1; }
     .h-close__visual { width: min(100%, 22rem); justify-self: center; }
