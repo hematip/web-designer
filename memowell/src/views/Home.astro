@@ -599,7 +599,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-pro__stage :global(.h-pro__glass p) { max-width: 34ch; }
 
   /* ============ Where to find it: copy beside an arched photograph ============ */
-  .h-where { position: relative; padding-block: var(--section); }
+  /* overflow-x: the photo's entrance starts at scale 1.18 inside its clip-path frame; clip-path hides it but does not
+     stop it widening the page, which made 320px screens scroll sideways. */
+  .h-where { position: relative; padding-block: var(--section); overflow-x: clip; }
   .h-where__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
   .h-where__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; }
   .h-where__title { max-width: 11ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
