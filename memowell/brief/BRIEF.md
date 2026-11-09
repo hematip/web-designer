@@ -447,7 +447,7 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 > It is a supplement, not a medicine, and it is not a substitute for anything your doctor has prescribed.
 
 **2. Composition**
-> ## What is in it
+> ## What's inside Memowell
 >
 > Memowell combines K-Vie™ boswellic acids with bacosides from *Bacopa* and vitamin D3.
 >
@@ -458,6 +458,8 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 > The capsules are vegetarian and gluten-free. Gluten contains gliadin, a protein that can trigger an inflammatory reaction in the digestive system of some people, most clearly in coeliac disease, so Kondor Pharma uses ingredients confirmed to be gluten-free.
 
 *Note:* this section answers the client's own question about the difference from ordinary frankincense. Composition (K-Vie™ + *Bacopa* bacosides + vitamin D3), the amount ("Each capsule contains 333 mg of K-Vie™.") and the gluten explanation come from the client's product document of November 2026, which the client made the source of truth. Amounts of bacosides and vitamin D3 were not given.
+
+*Note (2026-11-09, client direction):* heading changed from "What is in it" to "What's inside Memowell" to match the home section; the summary card's first row follows it.
 
 **3. Directions**
 > ## How to take it

@@ -76,7 +76,7 @@ footer_last_line: "Memowell® · Kondor Pharma, Canada · NPN 80107357 · LIVE W
 summary_note:
   title: "Taking this to your doctor"
   rows:
-    - { section: "formulation", label: "What is in it" }
+    - { section: "formulation", label: "What's inside Memowell" }
     - { section: "evidence", label: "What the research found" }
     - { section: "directions", label: "How to take it" }
     - { section: "closing", label: "Five questions worth asking" }
