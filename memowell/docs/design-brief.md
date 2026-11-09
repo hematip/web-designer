@@ -539,6 +539,15 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Verification:** production and preview builds and both copy checks pass (276 sentences). Inspected 1440×900 mid-scroll and settled, reduced motion (complete row), 390px (three times across, notes on two lines, panel below) and the Arabic preview for line direction; no overflow at 320/390/1280 and no console errors. The former `data-pin-scene` hook is removed with the pin; the glass controller falls back to its unpinned behaviour.
 
 
+## How to take it: the bottle at the moment of use (2026-11-09)
+
+Request: the product appeared only at the start and end of the page; show it in a middle section. Chosen with the user (option 1 of 2): How to take it.
+
+- **Strategy:** the product where it has its real role — the thing taken three times a day — not next to the research result (a bottle beside the Alzheimer's figure would read as "this product produces this result", the same concern kept in the hero). Rhythm: hero (bottle), the moment of use (bottle), closing (bottle on the label mark).
+- **UI:** the official front-view cutout (unaltered, `bottle-360.webp`) stands at the start of the day row; the day's line now starts behind it and runs out to Morning · Noon · Evening, as if the three doses come from it. A soft cyan halo sits behind it; the line crosses the bottle at its label. The bottle is decorative here (`alt=""`); the hero carries its description. No new copy, no capsule or plate imagery.
+- **Motion (scrubbed with the existing day scene):** in the first fifth of the scroll the bottle rises and stands upright (36 px, −6° → 0, faint → full); then the line draws out of it and each time of day rises as the line reaches it (positions now measured, RTL from the right). Reduced motion and no-JS: the bottle in place with the drawn line.
+- **Phones:** the three doses keep the full width (a bottle in the row squeezed the notes to four lines at 320 px); the bottle (2.9–3.6 rem wide) stands beside the heading's lead at the end side, with the same rise. Desktop bottle up to 6.5 rem.
+
 ## Evidence: the brand pattern in the result (2026-11-09)
 
 Request: use the brand pattern creatively in this section's UI.

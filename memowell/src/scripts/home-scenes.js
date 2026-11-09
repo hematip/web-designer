@@ -452,24 +452,38 @@ mm.add(MQ.motion, () => {
   const cells = doses.map((d) => $('.h-dose__time', d));
   const ticks = doses.map((d) => $('.h-dose__tick', d));
   const labels = doses.map((d) => $('.h-dose__note', d));
-  const at = doses.map((_, i) => (i + 0.5) / doses.length); // where the line passes each dose
+  // The line now starts behind the bottle, so where it passes each dose is measured (RTL: from the right).
+  const bottle = $('[data-dir-bottle]');
+  let at = doses.map((_, i) => (i + 0.5) / doses.length);
+  const rtl = (day.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
+  const measure = () => {
+    const L = line?.parentElement?.getBoundingClientRect();
+    if (!L || !L.width) return;
+    at = ticks.map((t) => { const r = t.getBoundingClientRect(); const c = r.left + r.width / 2; return gsap.utils.clamp(0, 1, (rtl ? L.right - c : c - L.left) / L.width); });
+  };
+  measure();
   const ease = gsap.parseEase('power3.out');
   const st = { p: 0 };
+  // The bottle rises and settles first (the first fifth of the scroll), then the line draws out of it.
+  const B = 0.18;
   const render = () => {
-    line?.style.setProperty('--draw', st.p.toFixed(4));
+    const b = ease(gsap.utils.clamp(0, 1, st.p / B));
+    if (bottle) gsap.set(bottle, { y: 36 * (1 - b), rotate: (rtl ? 6 : -6) * (1 - b), opacity: 0.2 + 0.8 * b, transformOrigin: '50% 100%' });
+    const q = gsap.utils.clamp(0, 1, (st.p - B * 0.6) / (1 - B * 0.6));
+    line?.style.setProperty('--draw', q.toFixed(4));
     doses.forEach((_, i) => {
-      const e = ease(gsap.utils.clamp(0, 1, (st.p - at[i] + 0.14) / 0.16));
+      const e = ease(gsap.utils.clamp(0, 1, (q - at[i] + 0.14) / 0.16));
       gsap.set(cells[i], { y: 18 * (1 - e), opacity: 0.12 + 0.88 * e, scale: 0.94 + 0.06 * e });
       gsap.set(ticks[i], { scale: 0.3 + 0.7 * e, opacity: e });
       gsap.set(labels[i], { y: 8 * (1 - e), opacity: 0.25 + 0.75 * e });
     });
   };
   render();
-  const tween = gsap.to(st, { p: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: day, start: 'top 85%', end: 'bottom 40%', scrub: 0.6 } });
+  const tween = gsap.to(st, { p: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: day, start: 'top 85%', end: 'bottom 40%', scrub: 0.6, onRefresh: () => { measure(); render(); } } });
   return () => {
     tween.scrollTrigger?.kill();
     tween.kill();
-    gsap.set([...cells, ...ticks, ...labels], { clearProps: 'all' });
+    gsap.set([...cells, ...ticks, ...labels, bottle].filter(Boolean), { clearProps: 'all' });
     line?.style.removeProperty('--draw');
   };
 });
