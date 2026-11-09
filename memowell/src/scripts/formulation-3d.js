@@ -714,11 +714,14 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   }
 
   // ---------------------------------------------------------------- loop
-  // Ambient life (the dust's turn, drift, float) runs continuously while the scene is on screen (client direction,
-  // 2026-11-09); the scroll drives the story on top of it. There is no pause control (client decision, 2026-11-09).
-  // Reduced motion: the static mode, no ambient motion at all. Off screen or in a hidden tab nothing is drawn.
+  // Ambient life (the dust's turn, drift, float) runs while the visitor scrolls and for 5 seconds after: it holds full
+  // speed for 4 s after the last scroll (or after the scene comes into view), then eases to rest over the fifth
+  // second, so nothing moves on its own for more than five seconds (WCAG 2.2.2) and no pause control is needed
+  // (client decisions, 2026-11-09). Scrolling again starts it again. Idle frames are not redrawn. Reduced motion:
+  // the static mode, no ambient motion at all. Off screen or in a hidden tab nothing is drawn.
+  const AMBIENT_HOLD = 4, AMBIENT_EASE = 1; // seconds: full speed, then ease to rest (total 5 s)
   let visible = false, ready = false, lost = false, dirty = true, compiled = false;
-  let lastTime = 0, sceneTime = 0, activity = 1, lastP = -1, lastT = -1;
+  let lastTime = 0, sceneTime = 0, activity = 1, quiet = 0, lastP = -1, lastT = -1;
   function draw(t) {
     if (lost || !compiled) return; // a draw before the shaders are ready would compile them on the main thread
     evaluate(mode === 'static' ? 1 : state.p, t);
@@ -733,12 +736,14 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     lastTime = time;
     if (mode === 'static' || !visible || document.hidden) return;
     if (Math.abs(state.p - lastP) > 1e-5 || Math.abs((state.t ?? 0) - lastT) > 1e-5) {
-      activity = 1;
+      quiet = 0;
       lastP = state.p;
       lastT = state.t ?? 0;
     } else {
-      activity = Math.min(1, activity + dt / 0.8);
+      quiet += dt;
     }
+    const k = Math.min(1, Math.max(0, (quiet - AMBIENT_HOLD) / AMBIENT_EASE));
+    activity = 1 - k * k * (3 - 2 * k); // full, then a smooth ease to rest
     const pointerMoving = mode === 'desktop' && Math.abs(pointer.x - pointer.sx) + Math.abs(pointer.y - pointer.sy) > 0.002;
     if (activity <= 0 && !pointerMoving && !dirty) return;
     sceneTime += dt * activity;
@@ -748,6 +753,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   gsap.ticker.add(onTick);
 
   const io = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !visible) quiet = 0; // coming into view starts a new five-second window
     visible = e.isIntersecting;
     dirty = true;
   }, { rootMargin: '10% 0px' });
