@@ -554,7 +554,7 @@ Request: give the footer's text motion. On every page, once the footer scrolls i
 ## Closing full screen, larger bottle; cyan shape lower (2026-11-09)
 
 - **Closing:** at least one full screen tall (min-height 100svh), so nothing of the section above shows once the visitor is on it; the dome fills whatever the bottle leaves and centres the invitation. The bottle is larger: up to 20rem wide (was 14), capped at 27% of the screen height so the invitation still fits. The arch on Where's foot follows the taller dome automatically (measured).
-- **How to take it:** the cyan shape sits lower behind the bottle (its offset from −36% to −20%).
+- **How to take it:** the cyan shape sits lower behind the bottle: offset −30% (was −36%, where its edge ran along the navy shape's edge; −20% was tried and stood out below the bottle). At −30% it ends above the bottle's base and keeps clear of the navy edge (checked at 2000, 1280, 390).
 
 ## Where: taller, and its foot follows the closing arch (2026-11-09)
 
