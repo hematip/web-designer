@@ -643,8 +643,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* Two of the label's shapes, overlapping in the brand's two blues: the large navy one behind, the cyan one over it,
      smaller, turned and set toward the bottle's base (the catalogue's product pages). */
   .h-dir__mark { position: absolute; width: min(118%, 46rem); left: 50%; top: 50%; translate: -50% -48%; }
-  .h-dir__mark--cyan { width: min(98%, 38rem); translate: -50% -36%; rotate: -24deg; }
-  :global([dir='rtl']) .h-dir__mark--cyan { translate: -50% -36%; rotate: 24deg; }
+  .h-dir__mark--cyan { width: min(98%, 38rem); translate: -50% -20%; rotate: -24deg; }
+  :global([dir='rtl']) .h-dir__mark--cyan { translate: -50% -20%; rotate: 24deg; }
   .h-dir__bottle { position: relative; z-index: 1; width: min(46%, 18rem); height: auto; max-width: none; translate: 0 4%;
     filter: drop-shadow(0 34px 30px rgba(20, 30, 80, 0.38)); }
   .h-dir__top { grid-column: 7 / span 6; grid-row: 1; align-self: end; }
@@ -724,11 +724,14 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* ============ Closing: typographic invitation; the bottle on a soft light inside opening rings ============ */
   /* The bottle stands on the dome's crown: --bw its width, --bh its height; its lower --sink sits behind the dome. The
      dome is an ellipse whose crown is the section's top centre; its sides fall away toward the edges. */
-  .h-close { --bw: clamp(8.5rem, 5rem + 7vw, 14rem); --bh: calc(var(--bw) * 1.914); --sink: 0.2; position: relative; isolation: isolate; overflow: clip;
-    padding-block-start: calc(var(--bh) * (1 - var(--sink)) + clamp(2rem, 4vw, 3.5rem)); }
-  .h-close__bottle { position: absolute; z-index: 0; left: 50%; top: clamp(2rem, 4vw, 3.5rem); width: var(--bw); height: auto; max-width: none; translate: -50% 0;
+  /* Full screen: once the visitor is on the closing, nothing of the section above shows; the dome fills whatever the
+     bottle leaves. The bottle is large (up to 20rem wide), capped by the screen height so the invitation still fits. */
+  .h-close { --bw: min(clamp(10rem, 5rem + 10vw, 20rem), 27svh); --bh: calc(var(--bw) * 1.914); --sink: 0.2; position: relative; isolation: isolate; overflow: clip;
+    display: flex; flex-direction: column; min-height: 100svh;
+    padding-block-start: calc(var(--bh) * (1 - var(--sink)) + var(--header-h) + 1rem); }
+  .h-close__bottle { position: absolute; z-index: 0; left: 50%; top: calc(var(--header-h) + 1rem); width: var(--bw); height: auto; max-width: none; translate: -50% 0;
     filter: drop-shadow(0 26px 26px rgba(20, 30, 80, 0.32)); }
-  .h-close__dome { position: relative; z-index: 1; padding-block: clamp(6rem, 10vw, 9rem) var(--section); background: var(--brand-gradient-diag);
+  .h-close__dome { position: relative; z-index: 1; flex: 1 0 auto; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(6rem, 10vw, 9rem) var(--section); background: var(--brand-gradient-diag);
     -webkit-clip-path: ellipse(92% 100% at 50% 100%); clip-path: ellipse(92% 100% at 50% 100%); }
   /* the label's stripe field, faint, along the crown under the bottle */
   .h-close__dome::before { content: ''; position: absolute; inset: 0 22% auto; height: clamp(9rem, 18vw, 15rem); pointer-events: none; opacity: 0.35;

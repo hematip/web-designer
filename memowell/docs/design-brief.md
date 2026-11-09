@@ -551,6 +551,11 @@ Feedback: the copy under the photo's side left a large empty space (a tall portr
 
 Request: give the footer's text motion. On every page, once the footer scrolls in: the slogan's two lines rise word by word from a mask (LIVE WELL, then STAY WELL a beat later); the Memowell logo slides in; each column's label, links and product line step up in turn, column after column; in the base, the Kondor logo rises, the disclaimer arrives line by line and the last line follows. Words and lines only (never letters); links move whole and only fade, so they stay focusable. It is one quick sequence (about 1.2 s) that starts as soon as the footer’s top is in view (88%) and resets when the footer is left upward, so it plays again next time. (Two earlier versions: played once at the footer’s edge, so a fast scroll showed it settled; then waited for the scroll to rest, which with smooth scrolling left the footer empty for too long — both client reports.); reduced motion and no-JS show the footer as is. Implemented in `motion.js` (site-wide).
 
+## Closing full screen, larger bottle; cyan shape lower (2026-11-09)
+
+- **Closing:** at least one full screen tall (min-height 100svh), so nothing of the section above shows once the visitor is on it; the dome fills whatever the bottle leaves and centres the invitation. The bottle is larger: up to 20rem wide (was 14), capped at 27% of the screen height so the invitation still fits. The arch on Where's foot follows the taller dome automatically (measured).
+- **How to take it:** the cyan shape sits lower behind the bottle (its offset from −36% to −20%).
+
 ## Where: taller, and its foot follows the closing arch (2026-11-09)
 
 - **Height:** min-height clamp(44rem, max(100svh, 50vw), 70rem) — on wide screens the section grows with the width, so the photograph and the wave have room (it read short at 2000 px).
