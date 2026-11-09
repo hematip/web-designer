@@ -452,8 +452,7 @@ mm.add(MQ.motion, () => {
   const cells = doses.map((d) => $('.h-dose__time', d));
   const ticks = doses.map((d) => $('.h-dose__tick', d));
   const labels = doses.map((d) => $('.h-dose__note', d));
-  // The line now starts behind the bottle, so where it passes each dose is measured (RTL: from the right).
-  const bottle = $('[data-dir-bottle]');
+  // Where the line passes each dose is measured (RTL: from the right).
   let at = doses.map((_, i) => (i + 0.5) / doses.length);
   const rtl = (day.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
   const measure = () => {
@@ -464,12 +463,8 @@ mm.add(MQ.motion, () => {
   measure();
   const ease = gsap.parseEase('power3.out');
   const st = { p: 0 };
-  // The bottle rises and settles first (the first fifth of the scroll), then the line draws out of it.
-  const B = 0.18;
   const render = () => {
-    const b = ease(gsap.utils.clamp(0, 1, st.p / B));
-    if (bottle) gsap.set(bottle, { y: 36 * (1 - b), rotate: (rtl ? 6 : -6) * (1 - b), opacity: 0.2 + 0.8 * b, transformOrigin: '50% 100%' });
-    const q = gsap.utils.clamp(0, 1, (st.p - B * 0.6) / (1 - B * 0.6));
+    const q = st.p;
     line?.style.setProperty('--draw', q.toFixed(4));
     doses.forEach((_, i) => {
       const e = ease(gsap.utils.clamp(0, 1, (q - at[i] + 0.14) / 0.16));
@@ -479,13 +474,28 @@ mm.add(MQ.motion, () => {
     });
   };
   render();
-  const tween = gsap.to(st, { p: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: day, start: 'top 85%', end: 'bottom 40%', scrub: 0.6, onRefresh: () => { measure(); render(); } } });
+  const tween = gsap.to(st, { p: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: day, start: 'top 88%', end: 'bottom 62%', scrub: 0.6, onRefresh: () => { measure(); render(); } } });
   return () => {
     tween.scrollTrigger?.kill();
     tween.kill();
-    gsap.set([...cells, ...ticks, ...labels, bottle].filter(Boolean), { clearProps: 'all' });
+    gsap.set([...cells, ...ticks, ...labels], { clearProps: 'all' });
     line?.style.removeProperty('--draw');
   };
+});
+
+// How to take it: the product appears. As the stage scrolls in, the label's blue blob grows from behind (and turns a
+// little), then the bottle rises onto it from below, straightening as it lands; it settles before the stage is
+// centred. Scrubbed, so reverse scroll takes it back down. Reduced motion and no-JS: the resolved composition.
+mm.add(MQ.motion, () => {
+  const stage = $('[data-dir-stage]');
+  const mark = stage && $('[data-dir-mark]', stage);
+  const bottle = stage && $('[data-dir-bottle]', stage);
+  if (!stage || !mark || !bottle) return;
+  const rtl = (stage.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
+  const tl = gsap.timeline({ scrollTrigger: { trigger: stage, start: 'top 88%', end: 'center 58%', scrub: 0.8 } });
+  tl.fromTo(mark, { scale: 0.45, rotate: rtl ? 14 : -14, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.7, ease: 'power3.out' }, 0)
+    .fromTo(bottle, { yPercent: 38, scale: 0.82, rotate: rtl ? 9 : -9, autoAlpha: 0 }, { yPercent: 0, scale: 1, rotate: 0, autoAlpha: 1, duration: 0.75, ease: 'back.out(1.4)', transformOrigin: '50% 100%' }, 0.25);
+  return () => { tl.scrollTrigger?.kill(); tl.kill(); gsap.set([mark, bottle], { clearProps: 'all' }); };
 });
 
 // The course: eight weeks of days fill dose by dose as the calendar scrolls in, one week after another. One custom

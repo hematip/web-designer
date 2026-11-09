@@ -271,10 +271,15 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
         <h2 id="directions-title" class="h-dir__title">{directions.heading}</h2>
         {directions.lead && <p class="h-dir__lead" data-text-lines>{directions.lead}</p>}
       </div>
+      <!-- The product at the moment of use, given half the section: the official bottle (unaltered cutout) stands in front
+           of the label's blue blob. As the section comes in, the blob grows from behind and the bottle rises onto it.
+           Decorative (the hero carries the bottle's description). -->
+      <div class="h-dir__stage" aria-hidden="true" data-dir-stage>
+        <div class="h-dir__mark" data-dir-mark><Blob id="dir-blob" tone="brand" /></div>
+        <img class="h-dir__bottle" src="/img/bottle-560.webp" srcset="/img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
+          sizes="(min-width: 56.25rem) 18rem, 46vw" width="895" height="1713" alt="" loading="lazy" decoding="async" data-dir-bottle />
+      </div>
       <div class="h-dir__daybox">
-        <!-- The product at the moment of use: the official bottle (unaltered cutout) stands at the start of the day and
-             the day's line runs out of it to the three doses. Decorative (the hero carries the bottle's description). -->
-        <img class="h-dir__bottle" src="/img/bottle-360.webp" width="360" height="689" alt="" aria-hidden="true" loading="lazy" decoding="async" data-dir-bottle />
         <ol class="h-dir__day" role="list" data-dir-day>
           <span class="h-dir__line" aria-hidden="true"><span data-dir-line></span></span>
           {directionsMeals.map((m: any) => (
@@ -627,26 +632,22 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
   /* ============ How to take it: the day, then the course ============ */
   .h-dir { position: relative; overflow-x: clip; padding-block: var(--section); }
-  .h-dir__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: clamp(3.5rem, 7vw, 6rem); align-items: center; }
-  .h-dir__top { grid-column: 1 / span 5; display: grid; gap: var(--s-2); align-self: start; }
+  .h-dir__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: clamp(2rem, 4vw, 3.5rem); align-items: center; }
+  .h-dir__top { display: grid; gap: var(--s-2); }
   .h-dir__title { font-size: clamp(2.5rem, 1.25rem + 3vw, 4.25rem); line-height: 1.02; letter-spacing: -0.028em; }
   .h-dir__lead { max-width: 22ch; color: var(--ink); font: 600 clamp(1.25rem, 1.05rem + 0.7vw, 1.75rem)/1.3 var(--font-display); letter-spacing: -0.015em; }
-  /* The day box: the bottle, then the day row; the food sentence below spans both. --cell / --tick size the time row
-     and the ticks; --line-y is where the day's line runs (through the ticks), and the bottle is set so that line
-     crosses it at its label. */
-  .h-dir__daybox { --cell: clamp(2.25rem, 1.6rem + 2vw, 3.25rem); --tick: 0.8rem; --bw: clamp(3.75rem, 2.4rem + 3.4vw, 6.5rem); --bgap: clamp(0.75rem, 2vw, 1.75rem);
-    --line-y: calc(var(--s-2) + var(--cell) + var(--s-2) + var(--tick) / 2);
-    grid-column: 6 / span 7; display: grid; grid-template-columns: var(--bw) minmax(0, 1fr); column-gap: var(--bgap); row-gap: clamp(1.25rem, 2.5vw, 2.25rem); align-items: start; min-width: 0; }
-  .h-dir__bottle { position: relative; z-index: 2; grid-column: 1; grid-row: 1; width: var(--bw); height: auto; max-width: none;
-    margin-block-start: calc(var(--line-y) - var(--bw) * 1.914 * 0.6); filter: drop-shadow(0 16px 18px rgba(20, 30, 80, 0.28)); }
-  .h-dir__daybox::before { content: ''; grid-column: 1; grid-row: 1; align-self: start; justify-self: center; width: calc(var(--bw) * 2.2); aspect-ratio: 1;
-    margin-block-start: calc(var(--line-y) - var(--bw) * 1.1); border-radius: 50%; pointer-events: none;
-    background: radial-gradient(closest-side, rgba(94, 207, 217, 0.32), rgba(18, 74, 149, 0.08) 60%, transparent); }
-  .h-dir__day { grid-column: 2; grid-row: 1; }
-  .h-dir__food { grid-column: 1 / -1; }
-  /* The day: the three times stand on one line. --cell is the time row's height; the line runs through the ticks. */
+  /* Desktop: the product stage takes the start half of the section, across the heading and the day; the heading and
+     the day row stand in the end half. --cell / --tick size the time row and the ticks. */
+  .h-dir__stage { grid-column: 1 / span 6; grid-row: 1 / span 2; position: relative; display: grid; place-items: center; align-self: stretch;
+    min-height: clamp(30rem, 70svh, 44rem); }
+  .h-dir__mark { position: absolute; width: min(118%, 46rem); left: 50%; top: 50%; translate: -50% -48%; }
+  .h-dir__bottle { position: relative; z-index: 1; width: min(46%, 18rem); height: auto; max-width: none; translate: 0 4%;
+    filter: drop-shadow(0 34px 30px rgba(20, 30, 80, 0.38)); }
+  .h-dir__top { grid-column: 7 / span 6; grid-row: 1; align-self: end; }
+  .h-dir__daybox { --cell: clamp(2.25rem, 1.6rem + 2vw, 3.25rem); --tick: 0.8rem; grid-column: 7 / span 6; grid-row: 2; align-self: start;
+    display: grid; gap: clamp(1.25rem, 2.5vw, 2.25rem); min-width: 0; }
   .h-dir__day { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 3vw, 2.5rem); margin: 0; padding: var(--s-2) 0 0; list-style: none; }
-  .h-dir__line { position: absolute; z-index: 0; inset-inline: calc(-1 * (var(--bgap) + var(--bw) / 2)) 10%; top: calc(var(--s-2) + var(--cell) + var(--s-2) + var(--tick) / 2); height: 2px; border-radius: 2px; background: var(--line-strong); overflow: hidden; }
+  .h-dir__line { position: absolute; z-index: 0; inset-inline: 10%; top: calc(var(--s-2) + var(--cell) + var(--s-2) + var(--tick) / 2); height: 2px; border-radius: 2px; background: var(--line-strong); overflow: hidden; }
   .h-dir__line span { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); transform-origin: 0 50%; transform: scaleX(var(--draw, 1)); }
   :global([dir='rtl']) .h-dir__line span { transform-origin: 100% 50%; background: linear-gradient(270deg, var(--blue), var(--cyan)); }
   .h-dose { position: relative; z-index: 1; display: grid; justify-items: center; align-content: start; gap: var(--s-2); min-width: 0; }
@@ -654,13 +655,13 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-dose__tick { width: var(--tick); aspect-ratio: 1; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 5px var(--paper); }
   .h-dose__note { max-width: 14ch; text-align: center; color: var(--ink-soft); font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); text-wrap: balance; }
   .h-dir__food { max-width: 36rem; justify-self: center; text-align: center; color: var(--ink-soft); font-size: var(--fs-body); }
-  .h-course__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-3); justify-items: start; min-width: 0; }
+  .h-course__copy { margin-block-start: clamp(2rem, 4vw, 3.5rem); grid-column: 1 / span 5; display: grid; gap: var(--s-3); justify-items: start; min-width: 0; }
   .h-course__title { font-size: clamp(2rem, 1.2rem + 2.2vw, 3.25rem); line-height: 1.05; letter-spacing: -0.025em; }
   .h-course__text { max-width: 36ch; color: var(--ink-soft); font-size: var(--fs-body); }
   .h-course__text:first-of-type { color: var(--ink); font-size: var(--fs-lead); line-height: 1.5; }
   /* The course: 8 weeks × 7 days, each day a row of the day's doses. --n (motion) is how many doses are filled; each
      pip's --i is its place in the course, so one property paints the whole calendar. Without motion it is full. */
-  .h-course { --pip: clamp(0.4rem, 0.2rem + 0.75vw, 0.8rem); grid-column: 6 / span 7; min-width: 0; }
+  .h-course { margin-block-start: clamp(2rem, 4vw, 3.5rem); --pip: clamp(0.4rem, 0.2rem + 0.75vw, 0.8rem); grid-column: 6 / span 7; min-width: 0; }
   .h-course__weeks { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0 clamp(0.25rem, 1vw, 0.75rem); margin: 0; padding: 0; list-style: none; }
   .h-course__week { display: grid; justify-items: center; gap: var(--s-2); }
   .h-course__days { display: grid; gap: calc(var(--pip) * 1.15); }
@@ -738,7 +739,13 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-evidence__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .h-gap { --lw: 38%; --u: clamp(2.4rem, 1.6rem + 3vw, 3rem); }
     .h-dir__grid { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-5); }
-    .h-dir__top, .h-dir__daybox, .h-course { grid-column: 1; }
+    .h-dir__top, .h-dir__daybox, .h-course, .h-dir__stage { grid-column: 1; grid-row: auto; }
+    /* Phones: heading, then the product stage (about half a screen), then the day. */
+    .h-dir__stage { min-height: 0; height: clamp(20rem, 112vw, 30rem); margin-block: calc(var(--s-3) * -1) 0; }
+    .h-dir__mark { width: 112%; }
+    .h-dir__bottle { width: min(44%, 11rem); }
+    .h-dir__daybox { --cell: 2rem; }
+    .h-course__copy, .h-course { margin-block-start: 0; }
     /* Phones read: heading, the calendar it names, then the sentences and the link. */
     .h-course__copy { display: contents; }
     .h-course__copy > * { grid-column: 1; justify-self: start; }
@@ -748,12 +755,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-course__action { order: 6; }
     .h-gap__number { font-size: clamp(3rem, 15vw, 4.25rem); }
     /* Phones: the three doses keep the full width; the bottle stands beside the heading's lead, at the end side. */
-    .h-dir__daybox { --cell: 2rem; --bw: clamp(2.9rem, 13vw, 3.6rem); position: relative; grid-template-columns: minmax(0, 1fr); }
-    .h-dir__day { grid-column: 1; }
-    .h-dir__line { inset-inline: 10%; }
-    .h-dir__lead { padding-inline-end: clamp(3.6rem, 16vw, 4.6rem); } /* room for the bottle beside it */
-    .h-dir__bottle { position: absolute; inset-inline-end: 0.25rem; bottom: calc(100% + 0.75rem); margin: 0; }
-    .h-dir__daybox::before { position: absolute; inset-inline-end: calc(var(--bw) * -0.35); bottom: calc(100% - var(--bw) * 0.35); margin: 0; }
     .h-dose__time { font-size: clamp(1.25rem, 6vw, 1.6rem); }
     .h-dose__note { font-size: 0.875rem; }
     .h-where__copy { grid-column: 1 / -1; }
