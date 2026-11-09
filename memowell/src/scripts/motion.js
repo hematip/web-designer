@@ -136,12 +136,11 @@ mm.add(MQ.motion, () => {
     });
   });
 
-  // 5. Footer (every page): one entrance, played when the footer is in view AND the scroll has come to rest — a fast
-  //    scroll to the end glides on for a second, and an entrance started on the way would be over before the page
-  //    settles (client report). The slogan's two lines rise word by word from a mask (STAY WELL a beat after LIVE
-  //    WELL,), the logo slides in, the columns' labels and links step up in turn, then the base: Kondor logo, the
-  //    disclaimer line by line, the last line. Leaving the footer upward resets it, so it plays again next time.
-  //    Links move whole and only fade, so they stay focusable.
+  // 5. Footer (every page): one quick entrance (about 1.2 s) that starts as soon as the footer's top is in view — no
+  //    waiting for the scroll to rest, which with smooth scrolling left the footer empty for too long (client report).
+  //    The slogan's two lines rise word by word from a mask, the logo slides in, the columns' labels and links step up
+  //    in a tight cascade, then the base: Kondor logo, the disclaimer line by line, the last line. Leaving the footer
+  //    upward resets it, so it plays again next time. Links move whole and only fade, so they stay focusable.
   const footer = document.querySelector('.site-footer');
   if (footer && !off(footer)) {
     const rtl = document.documentElement.dir === 'rtl';
@@ -154,22 +153,22 @@ mm.add(MQ.motion, () => {
       const progress = master ? master.progress() : 0;
       master?.revert();
       const tl = gsap.timeline({ paused: true });
-      units.slogan.forEach((words, i) => { if (words.length) tl.fromTo(words, { yPercent: 115 }, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, immediateRender: true }, i * 0.25); });
+      units.slogan.forEach((words, i) => { if (words.length) tl.fromTo(words, { yPercent: 115 }, { yPercent: 0, duration: 0.8, ease: 'expo.out', stagger: 0.06, immediateRender: true }, i * 0.12); });
       const home = footer.querySelector('.site-footer__home');
       if (home) tl.from(home, { opacity: 0, x: rtl ? 32 : -32, duration: 1, ease: 'power3.out', immediateRender: true }, 0.1);
       footer.querySelectorAll('.site-footer__column').forEach((col, c) => {
         const items = [col.querySelector('h2'), ...col.querySelectorAll('li'), col.querySelector('.site-footer__products')].filter(Boolean);
-        tl.from(items, { opacity: 0, y: 18, duration: 0.7, ease: 'power3.out', stagger: 0.06, immediateRender: true }, 0.35 + c * 0.12);
+        tl.from(items, { opacity: 0, y: 18, duration: 0.7, ease: 'power3.out', stagger: 0.04, immediateRender: true }, 0.15 + c * 0.06);
       });
       const maker = footer.querySelector('.site-footer__maker');
-      if (maker) tl.from(maker, { opacity: 0, y: 16, duration: 0.8, ease: 'power3.out', immediateRender: true }, 0.8);
-      if (units.disc.length) tl.from(units.disc, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out', stagger: 0.1, immediateRender: true }, 0.9);
+      if (maker) tl.from(maker, { opacity: 0, y: 16, duration: 0.6, ease: 'power3.out', immediateRender: true }, 0.35);
+      if (units.disc.length) tl.from(units.disc, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out', stagger: 0.06, immediateRender: true }, 0.4);
       const last = footer.querySelector('.site-footer__last');
-      if (last) tl.from(last, { opacity: 0, y: 12, duration: 0.8, ease: 'power3.out', immediateRender: true }, 1.25);
+      if (last) tl.from(last, { opacity: 0, y: 12, duration: 0.6, ease: 'power3.out', immediateRender: true }, 0.6);
       master = tl;
       if (played) tl.progress(progress || 1);
     };
-    const play = () => { if (!inView || played || ScrollTrigger.isScrolling()) return; played = true; master?.restart(); };
+    const play = () => { if (!inView || played) return; played = true; master?.restart(); };
     sloganLines.forEach((line, i) => {
       line.style.overflow = 'clip';
       line.style.paddingBlockEnd = '0.06em';
@@ -178,13 +177,11 @@ mm.add(MQ.motion, () => {
     if (disc && !interactive(disc)) splits.push(SplitText.create(disc, { type: 'lines', aria: 'none', autoSplit: true, onSplit: (self) => { units.disc = self.lines; build(); } }));
     build();
     const st = ScrollTrigger.create({
-      trigger: footer, start: 'top 70%',
+      trigger: footer, start: 'top 88%',
       onEnter: () => { inView = true; play(); },
       onLeaveBack: () => { inView = false; played = false; master?.pause(0); },
     });
-    const onEnd = () => play();
-    ScrollTrigger.addEventListener('scrollEnd', onEnd);
-    cleanups.push(() => { st.kill(); ScrollTrigger.removeEventListener('scrollEnd', onEnd); master?.revert(); });
+    cleanups.push(() => { st.kill(); master?.revert(); });
   }
 
   // ---- Intro blocks [data-intro]: a heading and its copy enter as one staged sequence once the block is in view
