@@ -248,21 +248,7 @@ let sceneLoad = null;
 function setSceneMode(mode) {
   sceneMode = mode;
   scene?.setMode(mode);
-  syncToggle(); // eslint-disable-line no-use-before-define -- declared below, runs later
 }
-// The scene's pause / play control: shown only while the 3D scene runs with motion (not in the static, reduced-motion
-// mode, not on the poster). Its state is kept across layout changes.
-let scenePaused = false;
-const formToggle = form && $('[data-form-toggle]', form);
-function syncToggle() {
-  if (!formToggle) return;
-  const label = $('[data-label]', formToggle);
-  formToggle.hidden = !scene || !form.classList.contains('is-3d') || !sceneMode || sceneMode === 'static';
-  formToggle.setAttribute('aria-pressed', String(scenePaused));
-  label.textContent = scenePaused ? formToggle.dataset.labelPlay : formToggle.dataset.labelPause;
-  scene?.setPaused?.(scenePaused);
-}
-formToggle?.addEventListener('click', () => { scenePaused = !scenePaused; syncToggle(); });
 function loadScene() {
   if (!form || sceneLoad) return;
   sceneLoad = import('./formulation-3d.js')
@@ -273,11 +259,10 @@ function loadScene() {
         frame: $('[data-form-frame]', form),
         state: sceneState,
         mode: sceneMode ?? 'static',
-        onReady: () => { form.classList.add('is-3d'); syncToggle(); },
+        onReady: () => form.classList.add('is-3d'),
         onFail: () => form.classList.remove('is-3d'),
       });
       if (sceneMode) scene?.setMode(sceneMode); // the layout may have changed while it was being built
-      syncToggle();
       ScrollTrigger.addEventListener('refresh', () => scene?.resize());
     })
     .catch(() => form.classList.remove('is-3d'));

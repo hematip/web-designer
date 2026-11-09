@@ -574,6 +574,8 @@ Question (client): when we stop scrolling the particles stand still — shouldn'
 - **Verification:** both builds and copy checks pass. In a browser (software WebGL), with no scrolling, two frames 4 s apart: 52,762 pixels changed on desktop (the dust turns on its own); after Pause, 28 of 256,000 (noise); label and aria-pressed switch Pause animation ↔ Play animation; phone the same; reduced motion: still frame and no control; no console errors.
 - **New interface strings** (not in the copy deck; for agency approval and translation, also editable in the CMS under interface text): "Pause animation", "Play animation".
 
+- **Pause control removed (client decision, 2026-11-09):** the client does not want the button; it is removed with its two interface strings. The dust keeps turning continuously while the scene is on screen. Known consequence, recorded for the handoff: without a pause mechanism, this continuous motion (longer than five seconds, beside the reading text) does not meet WCAG 2.2.2 Pause, Stop, Hide. Mitigations kept: visitors with reduced motion set in their system get the still frame; nothing is drawn off screen or in a hidden tab.
+
 ## Formulation: open on the turning dust (2026-11-09)
 
 Request (client): remove the coarse granules at the start of the formulation scene and start from the particles that turn.

@@ -715,11 +715,9 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
 
   // ---------------------------------------------------------------- loop
   // Ambient life (the dust's turn, drift, float) runs continuously while the scene is on screen (client direction,
-  // 2026-11-09); the scroll drives the story on top of it. The visitor can pause it with the scene's own control
-  // (WCAG 2.2.2): paused, the ambient motion settles over ~1.5 s and idle frames are no longer redrawn, while the
-  // scroll still moves the story. Reduced motion: the static mode, no ambient motion at all. Off screen or in a
-  // hidden tab nothing is drawn.
-  let visible = false, ready = false, lost = false, dirty = true, compiled = false, paused = false;
+  // 2026-11-09); the scroll drives the story on top of it. There is no pause control (client decision, 2026-11-09).
+  // Reduced motion: the static mode, no ambient motion at all. Off screen or in a hidden tab nothing is drawn.
+  let visible = false, ready = false, lost = false, dirty = true, compiled = false;
   let lastTime = 0, sceneTime = 0, activity = 1, lastP = -1, lastT = -1;
   function draw(t) {
     if (lost || !compiled) return; // a draw before the shaders are ready would compile them on the main thread
@@ -739,7 +737,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
       lastP = state.p;
       lastT = state.t ?? 0;
     } else {
-      activity = paused ? Math.max(0, activity - dt / 1.5) : Math.min(1, activity + dt / 0.8);
+      activity = Math.min(1, activity + dt / 0.8);
     }
     const pointerMoving = mode === 'desktop' && Math.abs(pointer.x - pointer.sx) + Math.abs(pointer.y - pointer.sy) > 0.002;
     if (activity <= 0 && !pointerMoving && !dirty) return;
@@ -767,10 +765,6 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   draw(0);
 
   return {
-    setPaused(next) {
-      paused = !!next;
-      dirty = true;
-    },
     setMode(next) {
       mode = next;
       resize();
