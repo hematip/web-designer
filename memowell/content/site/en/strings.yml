@@ -88,6 +88,8 @@ ui:
   close: "Close"
   pause_video: "Pause video"
   play_video: "Play video"
+  pause_animation: "Pause animation"
+  play_animation: "Play animation"
   main_nav: "Main"
   language: "Language"
   on_this_page: "On this page"

@@ -565,6 +565,15 @@ Request: the hero's blob should open with motion and become a landscape video.
 - **Adaptations:** reduced motion and no-JS — resting composition, unpinned; the ten-cubic blob is the same shape as before. Phones run the same scene with the shorter travel. The 3D section's own pin follows the hero's (refreshPriority 3 > 2).
 - **Verification:** production and preview builds and both copy checks pass. Driven by wheel in a browser at 1280×800 (EN and AR), 390×844: resting frame identical to before (film box 768×672 at rest, no class applied at progress 0), mid-frames show the blob opening while the copy fades, resolved frame 1194×672 under the header (phone: 350×197 inside the gutters), release into Why, reverse scroll restores the hero exactly; no console errors. Not measured: frame rate on real hardware; the test browser has no GPU.
 
+## Formulation: the dust keeps turning (2026-11-09)
+
+Question (client): when we stop scrolling the particles stand still — shouldn't they keep turning?
+
+- **Before:** ambient life advanced only while the visitor scrolled and settled ~1.5 s after, a deliberate choice for WCAG 2.2.2 (content that moves on its own for more than five seconds needs a way to pause it).
+- **Now:** the ambient motion (the dust's turn, drift, float) runs continuously while the scene is on screen; the scroll still drives the story on top of it. To keep 2.2.2, the scene has its own pause / play control (same look as the hero film's, bottom-end corner on desktop, top-end under the header on phones), shown only while the 3D scene runs with motion. Paused, the ambient motion settles and idle frames stop being redrawn; the scroll still moves the story. Off screen or in a hidden tab nothing is drawn. Reduced motion: unchanged (static frame, no control).
+- **Verification:** both builds and copy checks pass. In a browser (software WebGL), with no scrolling, two frames 4 s apart: 52,762 pixels changed on desktop (the dust turns on its own); after Pause, 28 of 256,000 (noise); label and aria-pressed switch Pause animation ↔ Play animation; phone the same; reduced motion: still frame and no control; no console errors.
+- **New interface strings** (not in the copy deck; for agency approval and translation, also editable in the CMS under interface text): "Pause animation", "Play animation".
+
 ## Formulation: open on the turning dust (2026-11-09)
 
 Request (client): remove the coarse granules at the start of the formulation scene and start from the particles that turn.
