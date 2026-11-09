@@ -322,7 +322,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 *Note:* source DOI 10.1186/s12974-020-01820-6, cited on `/memory-health` (article) and `/science/professionals`, not on the plain-language home (client direction 2026-11-08). The last sentence is deliberate: it neutralises any definitive reading.
 
 **3. What is in it**
-> ## What's inside each capsule
+> ## What's inside Memowell
 >
 > **Ground extremely fine** — The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that.
 >
@@ -334,7 +334,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > [More about what's inside]
 
-*Note (2026-11-09, client direction):* the capsule is removed from the home formulation story: the 3D capsule and the fifth chapter ("Vegetarian and gluten-free — Each bottle holds 90 vegetarian capsules.") are gone, and the story ends on AKBA. The vegetarian / gluten-free facts stay on `/memowell` and `/science/professionals`.
+*Note (2026-11-09, client direction):* the section heading is now "What's inside Memowell" (was "What's inside each capsule"). The capsule is removed from the home formulation story: the 3D capsule and the fifth chapter ("Vegetarian and gluten-free — Each bottle holds 90 vegetarian capsules.") are gone, and the story ends on AKBA. The vegetarian / gluten-free facts stay on `/memowell` and `/science/professionals`.
 
 *Note (2026-11-08, client direction):* the home page is written for a general audience, not medical experts. The 3D chapters keep their scenes but use plain words; "micronized", "microcrystalline", "standardised" and the chemical name of AKBA stay on `/memowell` and `/science/professionals`.
 

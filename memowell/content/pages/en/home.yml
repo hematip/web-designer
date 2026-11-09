@@ -40,7 +40,7 @@ sections:
   - id: formulation
     # v7 3D story (K-Vie™ → a look inside at AKBA; the capsule chapter is removed, client direction 2026-11-09). Plain-language labels and bodies for a general
     # audience (client direction 2026-11-08); the technical terms stay on /memowell and /science/professionals.
-    heading: "What's inside each capsule"
+    heading: "What's inside Memowell"
     chapters:
       - label: "Ground extremely fine"
         body: "The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that."
