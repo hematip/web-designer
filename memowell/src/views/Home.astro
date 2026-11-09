@@ -222,6 +222,12 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
        drawn (no axis values, no baseline scores), so nothing beyond the published sentence is implied; the chart is
        decorative and the sentence carries the result for screen readers. No panel, no frame. -->
   <section class="h-evidence is-dark" id="evidence" aria-labelledby="evidence-title">
+    <!-- The label's stripe blob, large and faint behind the chart, bleeding off the end edge (the catalogue's results
+         page sets its chart beside the same stripe field); it drifts a little with the scroll. -->
+    <svg class="h-evidence__stripes" viewBox="0 0 440 330" aria-hidden="true" focusable="false" data-evidence-stripes>
+      <defs><pattern id="ev-stripes" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="4.2" height="11" fill="var(--cyan-stripe)" /></pattern></defs>
+      <path fill="url(#ev-stripes)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" />
+    </svg>
     <div class="wrap h-evidence__grid">
       <div class="h-evidence__intro" data-intro data-text-motion="off">
         <h2 id="evidence-title" class="h-evidence__title" set:html={accentWord(evidence.heading, 'research')} />
@@ -239,6 +245,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
         {evidence.highlight && (
           <div class="h-gap" aria-hidden="true" data-gap style={`--gap: ${parseFloat(evidence.highlight) || 3}`}>
             <span class="h-gap__axis"></span>
+            <span class="h-gap__fill"></span>
             <span class="h-gap__line h-gap__line--control"><span class="h-gap__label">Dummy capsule</span></span>
             <span class="h-gap__line h-gap__line--product"><span class="h-gap__label">Memowell</span></span>
             <span class="h-gap__bracket"></span>
@@ -577,7 +584,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
   /* ============ Evidence: the measured gap, on the catalogue's navy ground ============ */
   .h-evidence { position: relative; isolation: isolate; overflow: clip; padding-block: var(--section); }
-  .h-evidence__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: clamp(3rem, 6vw, 5rem); align-items: center; }
+  .h-evidence__stripes { position: absolute; z-index: 0; width: clamp(20rem, 40vw, 38rem); height: auto; inset-inline-end: -10%; top: 2%; opacity: 0.2; pointer-events: none; }
+  .h-evidence__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: clamp(3rem, 6vw, 5rem); align-items: center; }
   .h-evidence__intro { grid-column: 1 / span 5; display: grid; gap: var(--s-4); align-content: center; min-width: 0; }
   .h-evidence__title { max-width: 11ch; color: #fff; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
   .h-evidence__title :global(.accent) { color: var(--cyan); }
@@ -601,11 +609,21 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-gap { --u: clamp(2.6rem, 1.6rem + 2.6vw, 3.75rem); --base: 1.1; --lw: 50%; position: relative; height: calc(var(--u) * 6.2); margin-block: var(--s-1) var(--s-2); }
   .h-gap__axis { position: absolute; inset-block: 0; inset-inline-start: 0; width: 0.6rem; border-inline-start: 1px solid rgba(255, 255, 255, 0.28);
     background: repeating-linear-gradient(to top, rgba(255, 255, 255, 0.28) 0 1px, transparent 1px var(--u)); background-position: 0 calc(var(--u) * -0.1); }
+  /* The result drawn in the label's pattern: the gap between the two groups' lines is filled with the brand stripes,
+     fading in from the axis; it grows with the Memowell line (--rise). */
+  .h-gap__fill { position: absolute; inset-inline-start: 1.5rem; width: calc(var(--lw) + 0.75rem); bottom: calc(var(--u) * var(--base)); height: calc(var(--u) * var(--gap) * var(--rise, 1));
+    background: repeating-linear-gradient(-38deg, rgba(94, 207, 217, 0.85) 0 4px, transparent 4px 11px);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 45%); mask-image: linear-gradient(90deg, transparent 0%, #000 45%); }
+  :global([dir='rtl']) .h-gap__fill { background: repeating-linear-gradient(38deg, rgba(94, 207, 217, 0.85) 0 4px, transparent 4px 11px);
+    -webkit-mask-image: linear-gradient(270deg, transparent 0%, #000 45%); mask-image: linear-gradient(270deg, transparent 0%, #000 45%); }
+  :global([dir='rtl']) .h-evidence__stripes { transform: scaleX(-1); }
   .h-gap__line { position: absolute; inset-inline-start: 1.5rem; width: var(--lw); height: 3px; border-radius: 3px; }
   .h-gap__line--control { bottom: calc(var(--u) * var(--base)); background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0 10px, transparent 10px 17px); }
   .h-gap__line--product { bottom: calc(var(--u) * (var(--base) + var(--gap) * var(--rise, 1))); height: 4px; background: #fff; box-shadow: 0 0 22px rgba(94, 207, 217, 0.55); }
   .h-gap__label { position: absolute; inset-inline-start: 0; bottom: 0.8rem; white-space: nowrap; font: 700 0.8125rem/1.2 var(--font-body); letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-dark-mute); }
   .h-gap__line--product .h-gap__label { color: #fff; }
+  /* The dummy-capsule label sits inside the striped gap: a navy chip keeps it readable over the stripes. */
+  .h-gap__line--control .h-gap__label { z-index: 1; padding: 0.3rem 0.55rem; margin-inline-start: -0.55rem; border-radius: 6px; background: var(--navy); color: var(--on-dark-soft); }
   .h-gap__bracket { position: absolute; inset-inline-start: calc(1.5rem + var(--lw) + 0.75rem); bottom: calc(var(--u) * var(--base)); width: 0.85rem; height: calc(var(--u) * var(--gap));
     border: 2px solid var(--cyan); border-inline-start: 0; border-start-end-radius: 6px; border-end-end-radius: 6px; transform-origin: 50% 100%; transform: scaleY(var(--rise, 1)); }
   .h-gap__figure { position: absolute; inset-inline: calc(1.5rem + var(--lw) + 2.5rem) 0; bottom: calc(var(--u) * var(--base)); height: calc(var(--u) * var(--gap)); display: flex; flex-direction: column; justify-content: center; gap: 0.5rem; opacity: calc(0.2 + 0.8 * var(--rise, 1)); }
@@ -709,6 +727,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-evidence__grid, .h-where__grid { grid-template-columns: minmax(0, 1fr); }
     .h-where { display: block; min-height: 0; padding-block-end: 0; }
     .h-evidence__grid { row-gap: var(--s-5); }
+    .h-evidence__stripes { width: 85vw; inset-inline-end: -30%; top: 34%; opacity: 0.16; }
     .h-evidence__intro, .h-evidence__main { grid-column: 1; }
     .h-evidence__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .h-gap { --lw: 38%; --u: clamp(2.4rem, 1.6rem + 3vw, 3rem); }

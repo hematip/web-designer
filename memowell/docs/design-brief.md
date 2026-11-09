@@ -539,6 +539,14 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Verification:** production and preview builds and both copy checks pass (276 sentences). Inspected 1440×900 mid-scroll and settled, reduced motion (complete row), 390px (three times across, notes on two lines, panel below) and the Arabic preview for line direction; no overflow at 320/390/1280 and no console errors. The former `data-pin-scene` hook is removed with the pin; the glass controller falls back to its unpinned behaviour.
 
 
+## Evidence: the brand pattern in the result (2026-11-09)
+
+Request: use the brand pattern creatively in this section's UI.
+
+- **The result in the label's pattern:** the gap between the Memowell line and the dummy-capsule line — the 3.11-point difference itself — is filled with the label's diagonal cyan stripes (-38°, 4 px bars on 11 px), fading in from the axis. It grows with the Memowell line as the chart scrolls in (the same `--rise` value), so the difference is literally drawn in Memowell's pattern. RTL mirrors the stripe angle and the fade. The dummy-capsule label, which sits inside the striped gap, gets a navy chip so it stays readable.
+- **The label's stripe blob:** large and faint (20% on desktop, 16% on phones) behind the chart, bleeding off the section's end edge, as on the catalogue's results page; it drifts a little with the scroll (scrubbed, so it only moves while the visitor scrolls).
+- Copy, chart geometry and claims unchanged.
+
 ## Hero: the film gathers into the label (2026-11-08, replaces "The label opens into the film")
 
 Request: before any scroll the film should fill the screen as in the earlier version; once it has played and the visitor scrolls, it should turn into the new label form.
