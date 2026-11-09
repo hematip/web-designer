@@ -154,8 +154,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
                 </radialGradient>
               </defs>
               <circle cx="300" cy="300" r="260" fill="url(#halo-g)" />
-              <!-- A sketch of AKBA's five fused rings (the scene's last frame is the molecule), not the 3D conformer. -->
-              <g transform="translate(8.8 -10.0) rotate(-14 300 300)">
+              <!-- A sketch of AKBA's five fused rings, the fallback only: shown without JS or when the 3D scene cannot be
+                   built. While the scene loads, only the halo shows, so no image flashes before the dust appears. -->
+              <g class="h-form__poster-art" transform="translate(8.8 -10.0) rotate(-14 300 300)">
                 <g fill="none" stroke="#eef4ff" stroke-width="5" stroke-linejoin="round" opacity=".85"><path d="M170.0 380.0 L135.4 360.0 L135.4 320.0 L170.0 300.0 L204.6 320.0 L204.6 360.0Z" /><path d="M239.3 380.0 L204.6 360.0 L204.6 320.0 L239.3 300.0 L273.9 320.0 L273.9 360.0Z" /><path d="M273.9 320.0 L239.3 300.0 L239.3 260.0 L273.9 240.0 L308.6 260.0 L308.6 300.0Z" /><path d="M343.2 320.0 L308.6 300.0 L308.6 260.0 L343.2 240.0 L377.8 260.0 L377.8 300.0Z" /><path d="M412.5 320.0 L377.8 300.0 L377.8 260.0 L412.5 240.0 L447.1 260.0 L447.1 300.0Z" /></g>
                 <circle cx="135.4" cy="360.0" r="6" fill="#eef4ff" /><circle cx="239.3" cy="300.0" r="6" fill="#eef4ff" /><circle cx="308.6" cy="260.0" r="6" fill="#eef4ff" /><circle cx="308.6" cy="260.0" r="6" fill="#eef4ff" /><circle cx="447.1" cy="300.0" r="6" fill="#eef4ff" /><circle cx="135.4" cy="320.0" r="8" fill="#06b2c8" /><circle cx="273.9" cy="240.0" r="8" fill="#06b2c8" /><circle cx="412.5" cy="320.0" r="8" fill="#06b2c8" />
               </g>
@@ -470,6 +471,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-form__frame { grid-column: 7 / -1; grid-row: 1; position: relative; align-self: stretch; min-height: min(72svh, 44rem); }
   .h-form__poster { position: absolute; inset: 0; margin: auto; width: min(100%, 32rem); height: auto; max-height: 86%; transition: opacity 0.6s ease; }
   .h-form.is-3d .h-form__poster { opacity: 0; }
+  /* With JS the ring sketch waits: it appears only if the 3D scene fails (.no-3d); the halo alone holds the place. */
+  .h-form__poster-art { transition: opacity 0.6s ease; }
+  :global(html.js) .h-form:not(.no-3d) .h-form__poster-art { opacity: 0; }
 
   .h-story { grid-column: 1 / span 6; grid-row: 1; position: relative; z-index: 2; display: grid; gap: var(--s-4); justify-items: start; }
   .h-story__title { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.5rem); line-height: 1.04; letter-spacing: -0.022em; max-width: 18ch; color: #fff; text-wrap: balance; }

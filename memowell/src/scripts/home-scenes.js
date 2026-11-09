@@ -259,12 +259,12 @@ function loadScene() {
         state: sceneState,
         mode: sceneMode ?? 'static',
         onReady: () => form.classList.add('is-3d'),
-        onFail: () => form.classList.remove('is-3d'),
+        onFail: () => { form.classList.remove('is-3d'); form.classList.add('no-3d'); },
       });
       if (sceneMode) scene?.setMode(sceneMode); // the layout may have changed while it was being built
       ScrollTrigger.addEventListener('refresh', () => scene?.resize());
     })
-    .catch(() => form.classList.remove('is-3d'));
+    .catch(() => { form.classList.remove('is-3d'); form.classList.add('no-3d'); });
 }
 if (form) {
   // Build the renderer ahead of the section, but in a quiet moment: once the hero entrance has settled and the
