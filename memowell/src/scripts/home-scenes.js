@@ -609,7 +609,13 @@ mm.add(MQ.motion, () => {
     const band = (p, a, b) => gsap.utils.clamp(0, 1, (p - a) / (b - a));
     const lerp = (a, b, t) => a + (b - a) * t;
     const f1 = (v) => v.toFixed(1);
-    let W = 0, Hs = 0, R = 0, phone = false, shift = 0;
+    let W = 0, Hs = 0, R = 0, phone = false, shift = 0, amp = 1;
+    // The resolved edge (wide screens): top point, two controls, bottom point, along the start→far axis. Its bow toward
+    // the photograph is scaled down on wide screens (amp), so keeping the copy clear does not push it over the people.
+    const edge = () => {
+      const xB = W * 0.4 + shift;
+      return { xT: xB + W * 0.13 * amp, b1: xB + W * 0.23 * amp, b2: xB - W * 0.13 * amp, xB };
+    };
     const copy = $('.h-where__copy', section);
     const cubicX = (a, b, c, d, t) => { const u = 1 - t; return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c + t * t * t * d; };
     const measure = () => {
@@ -622,21 +628,21 @@ mm.add(MQ.motion, () => {
       // the centred content column, so on wide screens it would run under the edge. Sample the resolved edge across the
       // copy's height and push the whole edge toward the far side until it clears the copy by --clear.
       shift = 0;
-      if (phone || !copy) return;
+      amp = phone ? 1 : gsap.utils.clamp(0.4, 1, 1000 / W);
+      if (phone || !copy) { section.style.removeProperty('--photo-start'); return; }
       const S = shape.getBoundingClientRect(), C = copy.getBoundingClientRect();
       const copyEnd = rtl ? S.right - C.left : C.right - S.left;
       const top = C.top - S.top - 24, bottom = C.bottom - S.top + 24;
       const clear = Math.max(48, W * 0.035);
       const H = Hs - R, yT = R * 0.72;
-      const xT = W * 0.53, b1 = W * 0.63, b2 = W * 0.27, xB = W * 0.4;
-      let minX = Infinity;
-      for (let i = 0; i <= 64; i++) {
-        const t = i / 64;
-        const y = cubicX(yT, R + H * 0.3, R + H * 0.78, Hs, t);
-        if (y < top || y > bottom) continue;
-        minX = Math.min(minX, cubicX(xT, b1, b2, xB, t));
-      }
-      if (minX < Infinity) shift = Math.max(0, copyEnd + clear - minX);
+      const at = (fn) => { let best = null; for (let i = 0; i <= 96; i++) { const t = i / 96; const e = edge(); const y = cubicX(yT, R + H * 0.3, R + H * 0.78, Hs, t); best = fn(best, y, cubicX(e.xT, e.b1, e.b2, e.xB, t)); } return best; };
+      const minX = at((m, y, x) => (y < top || y > bottom ? m : Math.min(m ?? Infinity, x)));
+      if (minX != null && minX < Infinity) shift = Math.max(0, copyEnd + clear - minX);
+      // The photograph's box starts where the edge stands at people's head height (about 40% down the section), so
+      // the whole picture — client and pharmacist — sits beside the wave rather than under it; it fades in from there.
+      const headY = R + H * 0.4;
+      const headX = at((b, y, x) => (b == null || Math.abs(y - headY) < Math.abs(b.y - headY) ? { y, x } : b)).x;
+      section.style.setProperty('--photo-start', `${Math.max(0, headX - W * 0.045).toFixed(1)}px`);
     };
     // One wave outline. f: flood 0…1, q: part 0…1, grow: crest offset (rim stands higher), wide: boundary offset.
     const wave = (f, q, grow, wide) => {
@@ -651,8 +657,9 @@ mm.add(MQ.motion, () => {
       if (phone) {
         return `M${X(0)} ${Y(yL)}C${X(W * 0.22)} ${Y(c1y)} ${X(W * 0.62)} ${Y(c2y)} ${X(W)} ${Y(yT)}L${X(W)} ${Y(Hs)}L${X(0)} ${Y(Hs)}Z`;
       }
-      const xT = lerp(far, W * 0.53 + shift, q) + wide, xB = lerp(far, W * 0.4 + shift, q) + wide;
-      const b1 = lerp(far, W * 0.63 + shift, q) + wide, b2 = lerp(far, W * 0.27 + shift, q) + wide;
+      const E = edge();
+      const xT = lerp(far, E.xT, q) + wide, xB = lerp(far, E.xB, q) + wide;
+      const b1 = lerp(far, E.b1, q) + wide, b2 = lerp(far, E.b2, q) + wide;
       const cx1 = Math.min(W * 0.14, xT * 0.3), cx2 = Math.min(W * 0.36, xT * 0.68);
       return `M${X(0)} ${Y(yL)}C${X(cx1)} ${Y(c1y)} ${X(cx2)} ${Y(c2y)} ${X(xT)} ${Y(yT)}`
         + `C${X(b1)} ${Y(R + H * 0.3)} ${X(b2)} ${Y(R + H * 0.78)} ${X(xB)} ${Y(Hs)}L${X(0)} ${Y(Hs)}Z`;
@@ -668,7 +675,7 @@ mm.add(MQ.motion, () => {
         let x, y;
         if (phone) { x = W - sw * 0.85; y = (photo ? photo.offsetTop : Hs - R) - sh * 0.55 + (1 - out(band(p, 0.25, 1))) * 60; }
         else {
-          const xT = lerp(W * 1.12, W * 0.53 + shift, qN);
+          const xT = lerp(W * 1.12, edge().xT, qN);
           x = Math.min(xT - sw * 0.55, W - sw * 0.7);
           y = R * 0.72 + (1 - fN) * Hs * 1.08 - R - sh * 0.7;
         }
