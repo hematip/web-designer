@@ -223,7 +223,21 @@ mm.add(MQ.motion, () => {
 mm.add(MQ.motion, () => {
   const photo = $('[data-why-photo]');
   const img = photo && $('img', photo);
-  const moments = $$('[data-why-moments] .h-why__moment');
+  const para = $('[data-why-moments]');
+  // Text motion: the paragraph arrives line by line from a mask each time it comes into view (the heading's lines and
+  // the closing sentence's word-by-word brightening come from motion.js). Lines only, so shaping is kept; the moment
+  // spans are re-read after every split.
+  const paraText = para && $('p', para);
+  let paraSplit = null;
+  if (paraText) {
+    paraSplit = SplitText.create(paraText, {
+      type: 'lines', mask: 'lines', aria: 'none', autoSplit: true,
+      onSplit: (self) => gsap.from(self.lines, { yPercent: 105, opacity: 0, duration: 0.95, ease: 'expo.out', stagger: 0.09,
+        scrollTrigger: { trigger: paraText, start: 'top 84%', toggleActions: 'restart none none reset' } }),
+    });
+  }
+  const momentsNow = () => (para ? $$('.h-why__moment', para) : []);
+  const moments = momentsNow();
   const rtl = document.documentElement.dir === 'rtl';
   const tweens = [];
   if (photo) {
@@ -235,7 +249,7 @@ mm.add(MQ.motion, () => {
   }
   if (moments.length) {
     const st = { p: 0 };
-    const paint = () => moments.forEach((m, i) => m.style.setProperty('--hl', gsap.utils.clamp(0, 1, st.p * moments.length - i).toFixed(3)));
+    const paint = () => { const n = moments.length; momentsNow().forEach((m, i) => m.style.setProperty('--hl', gsap.utils.clamp(0, 1, st.p * n - Math.min(i, n - 1)).toFixed(3))); };
     paint();
     tweens.push(gsap.to(st, { p: 1, ease: 'none', onUpdate: paint, scrollTrigger: { trigger: moments[0].closest('[data-why-moments]'), start: 'top 75%', end: 'bottom 50%', scrub: 0.6 } }));
   }
@@ -243,7 +257,8 @@ mm.add(MQ.motion, () => {
     tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
     if (photo) gsap.set(photo, { clearProps: 'clipPath' });
     if (img) gsap.set(img, { clearProps: 'transform' });
-    moments.forEach((m) => m.style.removeProperty('--hl'));
+    momentsNow().forEach((m) => m.style.removeProperty('--hl'));
+    paraSplit?.revert();
   };
 });
 

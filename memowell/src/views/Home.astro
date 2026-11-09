@@ -124,7 +124,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
       <div class="h-why__body">
         {whyParas.map((p: string, i: number) => (
           i === 0
-            ? <div class="h-why__paragraph" data-reveal data-why-moments set:html={whyMoments(md(p))} />
+            ? <div class="h-why__paragraph" data-why-moments set:html={whyMoments(md(p))} />
             : <div class="h-why__note" role="note" data-reveal data-text-emphasis set:html={md(p)} />
         ))}
       </div>

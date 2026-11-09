@@ -136,54 +136,55 @@ mm.add(MQ.motion, () => {
     });
   });
 
-  // 5. Footer (every page): the slogan's two lines rise word by word from a mask, "STAY WELL" a beat after "LIVE
-  //    WELL,"; each column's label and links then step up in turn; in the base, the disclaimer arrives line by line and
-  //    the last line follows. Links are moved whole (never split) and only fade from 0 opacity, so they stay focusable.
+  // 5. Footer (every page): one entrance, played when the footer is in view AND the scroll has come to rest — a fast
+  //    scroll to the end glides on for a second, and an entrance started on the way would be over before the page
+  //    settles (client report). The slogan's two lines rise word by word from a mask (STAY WELL a beat after LIVE
+  //    WELL,), the logo slides in, the columns' labels and links step up in turn, then the base: Kondor logo, the
+  //    disclaimer line by line, the last line. Leaving the footer upward resets it, so it plays again next time.
+  //    Links move whole and only fade, so they stay focusable.
   const footer = document.querySelector('.site-footer');
   if (footer && !off(footer)) {
+    const rtl = document.documentElement.dir === 'rtl';
     const slogan = footer.querySelector('.site-footer__slogan');
-    if (slogan) {
-      const lines = [...slogan.querySelectorAll(':scope > span')];
-      lines.forEach((line) => { line.style.overflow = 'clip'; line.style.paddingBlockEnd = '0.06em'; });
-      lines.forEach((line, i) => {
-        splits.push(SplitText.create(line, {
-          type: 'words',
-          aria: 'none',
-          autoSplit: true,
-          onSplit: staged(slogan, {
-            start: 'top 92%',
-            build: (self) => gsap.fromTo(self.words, { yPercent: 115 }, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, delay: i * 0.22 }),
-          }),
-        }));
-      });
-    }
-    const home = footer.querySelector('.site-footer__home');
-    if (home) staged(home, { start: 'top 94%', build: () => gsap.from(home, { opacity: 0, x: document.documentElement.dir === 'rtl' ? 24 : -24, duration: 1, ease: 'power3.out' }) })();
-    const cols = footer.querySelector('.site-footer__cols');
-    if (cols) {
-      staged(cols, {
-        start: 'top 92%',
-        build: () => {
-          const tl = gsap.timeline();
-          footer.querySelectorAll('.site-footer__column').forEach((col, c) => {
-            const items = [col.querySelector('h2'), ...col.querySelectorAll('li'), col.querySelector('.site-footer__products')].filter(Boolean);
-            tl.from(items, { opacity: 0, y: 16, duration: 0.7, ease: 'power3.out', stagger: 0.06 }, c * 0.1);
-          });
-          return tl;
-        },
-      })();
-    }
+    const sloganLines = slogan ? [...slogan.querySelectorAll(':scope > span')] : [];
     const disc = footer.querySelector('.site-footer__disclaimer p');
-    if (disc && !interactive(disc)) {
-      splits.push(SplitText.create(disc, {
-        type: 'lines',
-        aria: 'none',
-        autoSplit: true,
-        onSplit: staged(disc, { start: 'top 96%', build: (self) => gsap.from(self.lines, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out', stagger: 0.09 }) }),
-      }));
-    }
-    const base = [footer.querySelector('.site-footer__maker'), footer.querySelector('.site-footer__last')].filter(Boolean);
-    base.forEach((el, i) => staged(el, { start: 'top 98%', build: () => gsap.from(el, { opacity: 0, y: 12, duration: 0.8, ease: 'power3.out', delay: i ? 0.35 : 0 }) })());
+    const units = { slogan: sloganLines.map(() => []), disc: [] };
+    let master = null, inView = false, played = false;
+    const build = () => {
+      const progress = master ? master.progress() : 0;
+      master?.revert();
+      const tl = gsap.timeline({ paused: true });
+      units.slogan.forEach((words, i) => { if (words.length) tl.fromTo(words, { yPercent: 115 }, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, immediateRender: true }, i * 0.25); });
+      const home = footer.querySelector('.site-footer__home');
+      if (home) tl.from(home, { opacity: 0, x: rtl ? 32 : -32, duration: 1, ease: 'power3.out', immediateRender: true }, 0.1);
+      footer.querySelectorAll('.site-footer__column').forEach((col, c) => {
+        const items = [col.querySelector('h2'), ...col.querySelectorAll('li'), col.querySelector('.site-footer__products')].filter(Boolean);
+        tl.from(items, { opacity: 0, y: 18, duration: 0.7, ease: 'power3.out', stagger: 0.06, immediateRender: true }, 0.35 + c * 0.12);
+      });
+      const maker = footer.querySelector('.site-footer__maker');
+      if (maker) tl.from(maker, { opacity: 0, y: 16, duration: 0.8, ease: 'power3.out', immediateRender: true }, 0.8);
+      if (units.disc.length) tl.from(units.disc, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out', stagger: 0.1, immediateRender: true }, 0.9);
+      const last = footer.querySelector('.site-footer__last');
+      if (last) tl.from(last, { opacity: 0, y: 12, duration: 0.8, ease: 'power3.out', immediateRender: true }, 1.25);
+      master = tl;
+      if (played) tl.progress(progress || 1);
+    };
+    const play = () => { if (!inView || played || ScrollTrigger.isScrolling()) return; played = true; master?.restart(); };
+    sloganLines.forEach((line, i) => {
+      line.style.overflow = 'clip';
+      line.style.paddingBlockEnd = '0.06em';
+      splits.push(SplitText.create(line, { type: 'words', aria: 'none', autoSplit: true, onSplit: (self) => { units.slogan[i] = self.words; build(); } }));
+    });
+    if (disc && !interactive(disc)) splits.push(SplitText.create(disc, { type: 'lines', aria: 'none', autoSplit: true, onSplit: (self) => { units.disc = self.lines; build(); } }));
+    build();
+    const st = ScrollTrigger.create({
+      trigger: footer, start: 'top 70%',
+      onEnter: () => { inView = true; play(); },
+      onLeaveBack: () => { inView = false; played = false; master?.pause(0); },
+    });
+    const onEnd = () => play();
+    ScrollTrigger.addEventListener('scrollEnd', onEnd);
+    cleanups.push(() => { st.kill(); ScrollTrigger.removeEventListener('scrollEnd', onEnd); master?.revert(); });
   }
 
   // ---- Intro blocks [data-intro]: a heading and its copy enter as one staged sequence once the block is in view
