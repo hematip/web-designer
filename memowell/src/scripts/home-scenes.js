@@ -216,6 +216,37 @@ mm.add(MQ.motion, () => {
   }
 }
 
+// ---------------------------------------------------------------- Why memory changes
+// The photograph opens like a curtain from the copy's side while it settles from a closer view; the three moments
+// families notice first are highlighted one after another as the paragraph is read. Scrubbed. Reduced motion and
+// no-JS: the open photograph and full highlights.
+mm.add(MQ.motion, () => {
+  const photo = $('[data-why-photo]');
+  const img = photo && $('img', photo);
+  const moments = $$('[data-why-moments] .h-why__moment');
+  const rtl = document.documentElement.dir === 'rtl';
+  const tweens = [];
+  if (photo) {
+    tweens.push(gsap.fromTo(photo, { clipPath: rtl ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)' }, {
+      clipPath: 'inset(0% 0% 0% 0%)', ease: 'power2.inOut', scrollTrigger: { trigger: photo, start: 'top 90%', end: 'top 40%', scrub: 0.8 },
+    }));
+    // (the Photo wrapper flips the curtain's origin: it opens from the copy's side, toward the far edge)
+    if (img) tweens.push(gsap.fromTo(img, { scale: 1.15 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: photo, start: 'top bottom', end: 'bottom 40%', scrub: true } }));
+  }
+  if (moments.length) {
+    const st = { p: 0 };
+    const paint = () => moments.forEach((m, i) => m.style.setProperty('--hl', gsap.utils.clamp(0, 1, st.p * moments.length - i).toFixed(3)));
+    paint();
+    tweens.push(gsap.to(st, { p: 1, ease: 'none', onUpdate: paint, scrollTrigger: { trigger: moments[0].closest('[data-why-moments]'), start: 'top 75%', end: 'bottom 50%', scrub: 0.6 } }));
+  }
+  return () => {
+    tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
+    if (photo) gsap.set(photo, { clearProps: 'clipPath' });
+    if (img) gsap.set(img, { clearProps: 'transform' });
+    moments.forEach((m) => m.style.removeProperty('--hl'));
+  };
+});
+
 // ---------------------------------------------------------------- K-Vie™ → AKBA → capsule (3D)
 // The pinned range scrubs one number. It decides which of the five chapters is read and where the 3D scene
 // stands, so text and scene always change together and reverse scroll, fast skips and anchors resolve to the
