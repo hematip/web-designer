@@ -544,7 +544,7 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 Request: use the brand pattern creatively in this section's UI.
 
 - **The result in the label's pattern:** the gap between the Memowell line and the dummy-capsule line — the 3.11-point difference itself — is filled with the label's diagonal cyan stripes (-38°, 4 px bars on 11 px), fading in from the axis. It grows with the Memowell line as the chart scrolls in (the same `--rise` value), so the difference is literally drawn in Memowell's pattern. RTL mirrors the stripe angle and the fade. The dummy-capsule label, which sits inside the striped gap, gets a navy chip so it stays readable.
-- **The label's stripe blob:** large and faint (20% on desktop, 16% on phones) behind the chart, bleeding off the section's end edge, as on the catalogue's results page; it drifts a little with the scroll (scrubbed, so it only moves while the visitor scrolls).
+- **Stripe blob removed (client, same day):** the large stripe blob behind the chart did not work and is gone; the pattern now lives only in the result's gap.
 - Copy, chart geometry and claims unchanged.
 
 ## Hero: the film gathers into the label (2026-11-08, replaces "The label opens into the film")

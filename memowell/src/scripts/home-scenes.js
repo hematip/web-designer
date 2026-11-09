@@ -487,14 +487,6 @@ mm.add(MQ.motion, () => {
   return () => { tween.scrollTrigger?.kill(); tween.kill(); course.style.removeProperty('--n'); };
 });
 
-// Evidence: the label's stripe blob drifts a little against the section as it scrolls past (scrubbed, user-driven).
-mm.add(MQ.motion, () => {
-  const stripes = $('[data-evidence-stripes]');
-  if (!stripes) return;
-  const tween = gsap.fromTo(stripes, { yPercent: 12, rotate: -4 }, { yPercent: -10, rotate: 3, ease: 'none', scrollTrigger: { trigger: '#evidence', start: 'top bottom', end: 'bottom top', scrub: 1 } });
-  return () => { tween.scrollTrigger?.kill(); tween.kill(); gsap.set(stripes, { clearProps: 'transform' }); };
-});
-
 // ---------------------------------------------------------------- Evidence: the measured gap
 // As the chart scrolls in, the Memowell line rises from the dummy-capsule line to its place, the bracket grows with it
 // and the figure counts to the published difference. One value (--rise) drives the line, the bracket and the

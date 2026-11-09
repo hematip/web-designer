@@ -222,12 +222,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
        drawn (no axis values, no baseline scores), so nothing beyond the published sentence is implied; the chart is
        decorative and the sentence carries the result for screen readers. No panel, no frame. -->
   <section class="h-evidence is-dark" id="evidence" aria-labelledby="evidence-title">
-    <!-- The label's stripe blob, large and faint behind the chart, bleeding off the end edge (the catalogue's results
-         page sets its chart beside the same stripe field); it drifts a little with the scroll. -->
-    <svg class="h-evidence__stripes" viewBox="0 0 440 330" aria-hidden="true" focusable="false" data-evidence-stripes>
-      <defs><pattern id="ev-stripes" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="4.2" height="11" fill="var(--cyan-stripe)" /></pattern></defs>
-      <path fill="url(#ev-stripes)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" />
-    </svg>
     <div class="wrap h-evidence__grid">
       <div class="h-evidence__intro" data-intro data-text-motion="off">
         <h2 id="evidence-title" class="h-evidence__title" set:html={accentWord(evidence.heading, 'research')} />
@@ -584,7 +578,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
   /* ============ Evidence: the measured gap, on the catalogue's navy ground ============ */
   .h-evidence { position: relative; isolation: isolate; overflow: clip; padding-block: var(--section); }
-  .h-evidence__stripes { position: absolute; z-index: 0; width: clamp(20rem, 40vw, 38rem); height: auto; inset-inline-end: -10%; top: 2%; opacity: 0.2; pointer-events: none; }
   .h-evidence__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); row-gap: clamp(3rem, 6vw, 5rem); align-items: center; }
   .h-evidence__intro { grid-column: 1 / span 5; display: grid; gap: var(--s-4); align-content: center; min-width: 0; }
   .h-evidence__title { max-width: 11ch; color: #fff; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.028em; }
@@ -616,7 +609,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 45%); mask-image: linear-gradient(90deg, transparent 0%, #000 45%); }
   :global([dir='rtl']) .h-gap__fill { background: repeating-linear-gradient(38deg, rgba(94, 207, 217, 0.85) 0 4px, transparent 4px 11px);
     -webkit-mask-image: linear-gradient(270deg, transparent 0%, #000 45%); mask-image: linear-gradient(270deg, transparent 0%, #000 45%); }
-  :global([dir='rtl']) .h-evidence__stripes { transform: scaleX(-1); }
   .h-gap__line { position: absolute; inset-inline-start: 1.5rem; width: var(--lw); height: 3px; border-radius: 3px; }
   .h-gap__line--control { bottom: calc(var(--u) * var(--base)); background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0 10px, transparent 10px 17px); }
   .h-gap__line--product { bottom: calc(var(--u) * (var(--base) + var(--gap) * var(--rise, 1))); height: 4px; background: #fff; box-shadow: 0 0 22px rgba(94, 207, 217, 0.55); }
@@ -727,7 +719,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-evidence__grid, .h-where__grid { grid-template-columns: minmax(0, 1fr); }
     .h-where { display: block; min-height: 0; padding-block-end: 0; }
     .h-evidence__grid { row-gap: var(--s-5); }
-    .h-evidence__stripes { width: 85vw; inset-inline-end: -30%; top: 34%; opacity: 0.16; }
     .h-evidence__intro, .h-evidence__main { grid-column: 1; }
     .h-evidence__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .h-gap { --lw: 38%; --u: clamp(2.4rem, 1.6rem + 3vw, 3rem); }
