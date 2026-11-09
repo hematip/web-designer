@@ -116,7 +116,7 @@ mm.add(MQ.motion, () => {
   const blob = nums(clip.getAttribute('d'));
   if (blob.length !== 62) return;
   const phone = window.matchMedia('(max-width: 56.24rem)').matches;
-  const arrivals = [$('.h-hero__stripes', hero), ...$$('.h-hero__drop', hero)].filter(Boolean);
+  const arrivals = [$('.h-hero__stripes', hero)].filter(Boolean);
   const cue = $('.h-cue', hero);
   // The full frame: the unit box as a rectangle drawn with the blob's 10 cubics in the same order and direction
   // (clockwise from the top edge, like the blob), so the two interpolate
@@ -483,19 +483,21 @@ mm.add(MQ.motion, () => {
   };
 });
 
-// How to take it: the product appears. As the stage scrolls in, the label's blue blob grows from behind (and turns a
-// little), then the bottle rises onto it from below, straightening as it lands; it settles before the stage is
+// How to take it: the product appears. As the stage scrolls in, the label's navy shape grows from behind (and turns a
+// little), the cyan shape swings in over it, then the bottle rises onto them from below, straightening as it lands; it settles before the stage is
 // centred. Scrubbed, so reverse scroll takes it back down. Reduced motion and no-JS: the resolved composition.
 mm.add(MQ.motion, () => {
   const stage = $('[data-dir-stage]');
   const mark = stage && $('[data-dir-mark]', stage);
   const bottle = stage && $('[data-dir-bottle]', stage);
+  const cyan = stage && $('[data-dir-mark-cyan]', stage);
   if (!stage || !mark || !bottle) return;
   const rtl = (stage.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
   const tl = gsap.timeline({ scrollTrigger: { trigger: stage, start: 'top 88%', end: 'center 58%', scrub: 0.8 } });
   tl.fromTo(mark, { scale: 0.45, rotate: rtl ? 14 : -14, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.7, ease: 'power3.out' }, 0)
+    .fromTo(cyan, { scale: 0.3, rotate: rtl ? -40 : 40, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.7, ease: 'power3.out' }, 0.12)
     .fromTo(bottle, { yPercent: 38, scale: 0.82, rotate: rtl ? 9 : -9, autoAlpha: 0 }, { yPercent: 0, scale: 1, rotate: 0, autoAlpha: 1, duration: 0.75, ease: 'back.out(1.4)', transformOrigin: '50% 100%' }, 0.25);
-  return () => { tl.scrollTrigger?.kill(); tl.kill(); gsap.set([mark, bottle], { clearProps: 'all' }); };
+  return () => { tl.scrollTrigger?.kill(); tl.kill(); gsap.set([mark, cyan, bottle].filter(Boolean), { clearProps: 'all' }); };
 });
 
 // The course: eight weeks of days fill dose by dose as the calendar scrolls in, one week after another. One custom

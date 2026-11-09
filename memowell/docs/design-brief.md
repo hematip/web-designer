@@ -539,6 +539,13 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Verification:** production and preview builds and both copy checks pass (276 sentences). Inspected 1440×900 mid-scroll and settled, reduced motion (complete row), 390px (three times across, notes on two lines, panel below) and the Arabic preview for line direction; no overflow at 320/390/1280 and no console errors. The former `data-pin-scene` hook is removed with the pin; the glass controller falls back to its unpinned behaviour.
 
 
+## Two overlapping blues; no small drops (2026-11-09)
+
+Client: there are no small bubbles in the visual identity; use two of the label's shapes in the brand's light and dark blue, overlapping (catalogue product pages: the bottle in front of a cyan shape laid over the navy one).
+
+- **How to take it stage:** the large navy shape (brand gradient, no stripes) behind; a cyan shape (new `cyan` tone of `Blob.astro`: #5ECFD9 → #06B2C8), about 83% of its size, turned −24° and set a little low behind the bottle so it shows on both sides of it; the bottle in front. Motion: the navy shape grows from behind, the cyan one swings in over it (0.3 → 1, 40° → 0), then the bottle rises onto them.
+- **Drops removed site-wide:** `Blob.astro` no longer draws the satellite drops by default (page heads, closing, stage), and the hero's two drops are removed with their CSS. The stripe blob stays where it was (hero), since the stripes are the label's pattern.
+
 ## How to take it: the bottle at the moment of use (2026-11-09)
 
 Request: the product appeared only at the start and end of the home page; show it in a middle section. Chosen with the user (option 1 of 2): How to take it. Second pass the same day: the product should draw more attention, take about half the section and appear with motion.

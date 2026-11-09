@@ -81,8 +81,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           <source src={`${film.src}-1080.mp4`} type="video/mp4" />
         </video>
       </div>
-      <span class="h-hero__drop h-hero__drop--a" data-blob-drop></span>
-      <span class="h-hero__drop h-hero__drop--b" data-blob-drop></span>
     </div>
     <div class="wrap h-hero__grid">
       <div class="h-hero__intro">
@@ -275,7 +273,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
            of the label's blue blob. As the section comes in, the blob grows from behind and the bottle rises onto it.
            Decorative (the hero carries the bottle's description). -->
       <div class="h-dir__stage" aria-hidden="true" data-dir-stage>
-        <div class="h-dir__mark" data-dir-mark><Blob id="dir-blob" tone="brand" /></div>
+        <div class="h-dir__mark" data-dir-mark><Blob id="dir-blob" tone="brand" stripes={false} /></div>
+        <div class="h-dir__mark h-dir__mark--cyan" data-dir-mark-cyan><Blob id="dir-blob-cyan" tone="cyan" stripes={false} /></div>
         <img class="h-dir__bottle" src="/img/bottle-560.webp" srcset="/img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
           sizes="(min-width: 56.25rem) 18rem, 46vw" width="895" height="1713" alt="" loading="lazy" decoding="async" data-dir-bottle />
       </div>
@@ -407,9 +406,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-hero__film-clip { position: absolute; width: 0; height: 0; }
   .h-hero__film video { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; display: block; }
   :global([dir='rtl']) .h-hero__film video { transform: scaleX(-1); }
-  .h-hero__drop { position: absolute; border-radius: 50%; background: var(--cyan); }
-  .h-hero__drop--a { width: 1.1rem; height: 1.1rem; inset-inline-start: 2%; top: 22%; }
-  .h-hero__drop--b { width: 0.5rem; height: 0.5rem; inset-inline-start: 7%; top: 29%; background: var(--cyan-stripe); }
   .h-hero__toggle {
     position: absolute; z-index: 3; inset-inline-end: var(--gutter); bottom: 1.5rem; display: grid; place-items: center;
     width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(36, 54, 119, 0.6);
@@ -640,7 +636,11 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
      the day row stand in the end half. --cell / --tick size the time row and the ticks. */
   .h-dir__stage { grid-column: 1 / span 6; grid-row: 1 / span 2; position: relative; display: grid; place-items: center; align-self: stretch;
     min-height: clamp(30rem, 70svh, 44rem); }
+  /* Two of the label's shapes, overlapping in the brand's two blues: the large navy one behind, the cyan one over it,
+     smaller, turned and set toward the bottle's base (the catalogue's product pages). */
   .h-dir__mark { position: absolute; width: min(118%, 46rem); left: 50%; top: 50%; translate: -50% -48%; }
+  .h-dir__mark--cyan { width: min(98%, 38rem); translate: -50% -36%; rotate: -24deg; }
+  :global([dir='rtl']) .h-dir__mark--cyan { translate: -50% -36%; rotate: 24deg; }
   .h-dir__bottle { position: relative; z-index: 1; width: min(46%, 18rem); height: auto; max-width: none; translate: 0 4%;
     filter: drop-shadow(0 34px 30px rgba(20, 30, 80, 0.38)); }
   .h-dir__top { grid-column: 7 / span 6; grid-row: 1; align-self: end; }
@@ -743,6 +743,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     /* Phones: heading, then the product stage (about half a screen), then the day. */
     .h-dir__stage { min-height: 0; height: clamp(20rem, 112vw, 30rem); margin-block: calc(var(--s-3) * -1) 0; }
     .h-dir__mark { width: 112%; }
+    .h-dir__mark--cyan { width: 94%; }
     .h-dir__bottle { width: min(44%, 11rem); }
     .h-dir__daybox { --cell: 2rem; }
     .h-course__copy, .h-course { margin-block-start: 0; }
@@ -800,8 +801,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-hero__stripes { width: 62%; inset-inline-end: -10%; top: 14%; }
     .h-hero__film { inset: 4% 0 6% 6%; }
     .h-hero__film video { object-position: 70% 40%; }
-    .h-hero__drop--a { inset-inline-start: 0; top: 30%; }
-    .h-hero__drop--b { inset-inline-start: 6%; top: 38%; }
     .h-hero__toggle { top: calc(var(--header-h) + 0.75rem); bottom: auto; }
     .h-hero__film::after, :global([dir='rtl']) .h-hero__film::after { background: linear-gradient(0deg, rgba(36, 54, 119, 0.94) 0%, rgba(36, 54, 119, 0.8) 42%, rgba(36, 54, 119, 0) 70%); }
     /* Full-bleed here so the pinned scene has no gaps at the screen edges. */

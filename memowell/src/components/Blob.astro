@@ -4,8 +4,9 @@
 // divider pages. Decorative only (aria-hidden). The motion layer may morph `[data-blob-main]` / `[data-blob-stripe]`
 // between their `d` and `data-alt` outlines and drift the satellites; with reduced motion or no JS the resting
 // composition stands. `tone` picks the gradient: brand (bright blue → deep navy) or white (for dark grounds).
-interface Props { id: string; tone?: 'brand' | 'white' | 'light'; class?: string; stripes?: boolean; drops?: boolean }
-const { id, tone = 'brand', class: cls, stripes = true, drops = true } = Astro.props;
+// The small satellite drops are off by default: the client confirmed they are not part of the identity (2026-11-09).
+interface Props { id: string; tone?: 'brand' | 'white' | 'light' | 'cyan'; class?: string; stripes?: boolean; drops?: boolean }
+const { id, tone = 'brand', class: cls, stripes = true, drops = false } = Astro.props;
 // Blob outlines share one command structure (M + 6 C) so they can be morphed point for point.
 const MAIN = 'M152 64C210 22 318 14 372 58C426 102 412 182 372 236C332 290 258 318 184 296C110 274 60 230 54 178C48 126 94 106 152 64Z';
 const MAIN_ALT = 'M136 72C198 18 322 20 380 70C438 120 404 190 368 240C332 290 246 322 170 290C94 258 54 222 56 170C58 118 74 126 136 72Z';
@@ -39,6 +40,8 @@ const STRIPE_ALT = 'M214 48C290 18 392 70 404 136C416 202 352 276 284 292C216 30
   .blob--white .blob__g-a { stop-color: #ffffff; } .blob--white .blob__g-b { stop-color: var(--paper-2); }
   .blob--white .blob__stripe-bar { fill: var(--cyan-stripe); }
   .blob--white .blob__drop { fill: var(--cyan); }
+  /* The label's light blue: the second, overlapping shape (catalogue product pages: a cyan shape over the navy one). */
+  .blob--cyan .blob__g-a { stop-color: var(--cyan-stripe); } .blob--cyan .blob__g-b { stop-color: var(--cyan); }
   /* A pale version for texture behind light content. */
   .blob--light .blob__g-a { stop-color: var(--paper-2); } .blob--light .blob__g-b { stop-color: var(--sky); }
   .blob--light .blob__stripe-bar { fill: var(--cyan-stripe); }
