@@ -364,20 +364,17 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     )}
   </section>
 
-  <!-- 9 · Closing: a large typographic invitation on the brand gradient; the bottle stands in front of the label
-       mark (white blob, cyan stripes) that opens behind it. -->
-  <section class="h-close" id="closing" aria-labelledby="closing-title">
-    <div class="wrap">
-      <div class="h-close__stage is-dark" data-close>
-        <div class="h-close__copy" data-intro data-text-motion="off">
-          <h2 id="closing-title" class="h-close__title" set:html={accentWord(closing.heading, closing.accent ?? 'conversation')} />
-          <p class="h-close__text" data-intro-lines>{closing.body}</p>
-          <div class="btn-row" data-intro-part>{closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
-        </div>
-        <div class="h-close__visual" aria-hidden="true">
-          <div class="h-close__mark" data-close-mark><Blob id="close-blob" tone="white" /></div>
-          <img class="h-close__bottle" data-close-bottle src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 15rem, 40vw" width="895" height="1713" alt="" loading="lazy" />
-        </div>
+  <!-- 9 · Closing: the label rises. The section is a wide dome in the brand gradient coming up from the foot of the page;
+       the bottle rises from behind its edge like a sunrise and stands half on the white, half on the blue, with the
+       invitation centred beneath it. -->
+  <section class="h-close" id="closing" aria-labelledby="closing-title" data-close>
+    <img class="h-close__bottle" data-close-bottle src="/img/bottle-560.webp" srcset="/img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
+      sizes="(min-width: 56.25rem) 14rem, 9rem" width="895" height="1713" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+    <div class="h-close__dome is-dark" data-close-dome>
+      <div class="wrap h-close__copy" data-intro data-text-motion="off">
+        <h2 id="closing-title" class="h-close__title" set:html={accentWord(closing.heading, closing.accent ?? 'conversation')} />
+        <p class="h-close__text" data-intro-lines>{closing.body}</p>
+        <div class="btn-row" data-intro-part>{closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
       </div>
     </div>
   </section>
@@ -710,19 +707,25 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* RTL: the wave is drawn mirrored by the script; the photograph moves to the other side unflipped. */
 
   /* ============ Closing: typographic invitation; the bottle on a soft light inside opening rings ============ */
-  .h-close { padding-block: clamp(3rem, 6vw, 5rem) var(--section); }
-  .h-close__stage { position: relative; isolation: isolate; overflow: clip; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; min-height: clamp(30rem, 44vw, 40rem); padding: clamp(3rem, 6vw, 6rem) clamp(1.75rem, 5vw, 5rem); border-radius: var(--r-xl); background: var(--brand-gradient-diag);
-    background: radial-gradient(60% 80% at 78% 55%, rgba(18, 74, 149, 0.45), rgba(36, 54, 119, 0) 70%), var(--navy); }
-  .h-close__copy { grid-column: 1 / span 7; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; }
-  .h-close__title { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.04; letter-spacing: -0.028em; }
+  /* The bottle stands on the dome's crown: --bw its width, --bh its height; its lower --sink sits behind the dome. The
+     dome is an ellipse whose crown is the section's top centre; its sides fall away toward the edges. */
+  .h-close { --bw: clamp(8.5rem, 5rem + 7vw, 14rem); --bh: calc(var(--bw) * 1.914); --sink: 0.2; position: relative; isolation: isolate; overflow: clip;
+    padding-block-start: calc(var(--bh) * (1 - var(--sink)) + clamp(2rem, 4vw, 3.5rem)); }
+  .h-close__bottle { position: absolute; z-index: 0; left: 50%; top: clamp(2rem, 4vw, 3.5rem); width: var(--bw); height: auto; max-width: none; translate: -50% 0;
+    filter: drop-shadow(0 26px 26px rgba(20, 30, 80, 0.32)); }
+  .h-close__dome { position: relative; z-index: 1; padding-block: clamp(6rem, 10vw, 9rem) var(--section); background: var(--brand-gradient-diag);
+    -webkit-clip-path: ellipse(92% 100% at 50% 100%); clip-path: ellipse(92% 100% at 50% 100%); }
+  /* the label's stripe field, faint, along the crown under the bottle */
+  .h-close__dome::before { content: ''; position: absolute; inset: 0 22% auto; height: clamp(9rem, 18vw, 15rem); pointer-events: none; opacity: 0.35;
+    background: repeating-linear-gradient(-38deg, var(--cyan-stripe) 0 4px, transparent 4px 12px);
+    -webkit-mask-image: radial-gradient(50% 100% at 50% 0%, #000 30%, transparent 100%); mask-image: radial-gradient(50% 100% at 50% 0%, #000 30%, transparent 100%); }
+  .h-close__copy { position: relative; display: grid; gap: var(--s-4); justify-items: center; text-align: center; }
+  .h-close__title { max-width: 18ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; }
   /* Kondor's two thin product-colour strokes under the key phrase (drawn in by the intro entrance). */
   /* Placed just under the baseline, inside the line box, so the line masks of the entrance never clip them. */
   .h-close__title :global(.accent) { background: linear-gradient(var(--cyan) 0 0) 0 calc(100% - 0.13em) / 100% 0.04em no-repeat, linear-gradient(var(--cyan-stripe) 0 0) 0 calc(100% - 0.21em) / 100% 0.04em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
-  .h-close__text { max-width: 38ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
-  .h-close__visual { position: relative; grid-column: 8 / span 5; display: grid; place-items: center; min-width: 0; aspect-ratio: 1; }
-  .h-close__visual > * { grid-area: 1 / 1; }
-  .h-close__mark { width: 118%; opacity: 0.92; translate: 0 -2%; }
-  .h-close__bottle { position: relative; width: min(46%, 15rem); height: auto; filter: drop-shadow(0 30px 28px rgba(20, 30, 80, 0.5)); }
+  .h-close__text { max-width: 44ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  .h-close .btn-row { justify-content: center; }
 
   /* ============ Evidence → Closing on tablets and phones ============ */
   @media (max-width: 56.24rem) {
@@ -763,9 +766,8 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-where__photo { position: relative; inset: auto; z-index: 2; display: block; aspect-ratio: 4 / 4.4; margin-block-start: var(--s-5); }
     .h-where__photo :global(.photo) { position: static; width: 100%; -webkit-mask-image: none; mask-image: none; }
     .h-where__stripes { z-index: 3; width: 44%; }
-    .h-close__stage { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding: var(--s-5) var(--s-3); border-radius: var(--r-l); }
-    .h-close__copy, .h-close__visual { grid-column: 1; }
-    .h-close__visual { width: min(100%, 22rem); justify-self: center; }
+    .h-close__dome { -webkit-clip-path: ellipse(150% 100% at 50% 100%); clip-path: ellipse(150% 100% at 50% 100%); padding-block-start: clamp(4.5rem, 16vw, 6rem); }
+    .h-close__dome::before { inset-inline: 6%; }
   }
   @media (max-width: 56.24rem) {
     .h-pro__stage { display: block; }

@@ -645,19 +645,27 @@ mm.add(MQ.motion, () => {
   }
 }
 
-// Closing: the label mark (white blob, cyan stripes) grows from behind the bottle as the bottle rises; replays when
-// the section comes back into view.
+// Closing: the label rises. Scrubbed with scroll: the dome comes up from below (its crown rising and widening), and the
+// bottle rises from behind its edge like a sunrise, straightening as it stands. Reverse scroll sets it again.
+// Reduced motion and no-JS: the resolved composition.
 mm.add(MQ.motion, () => {
-  const stage = $('[data-close]');
-  const mark = stage && $('[data-close-mark]', stage);
-  const bottle = stage && $('[data-close-bottle]', stage);
-  if (!stage || !mark || !bottle) return;
-  const tl = gsap.timeline({ paused: true });
-  tl.fromTo(mark, { scale: 0.5, opacity: 0, transformOrigin: '50% 70%' }, { scale: 1, opacity: 1, duration: 1.5, ease: 'power3.out' }, 0)
-    .fromTo(bottle, { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: 'power3.out' }, 0.15);
-  const enter = ScrollTrigger.create({ trigger: stage, start: 'top 75%', end: 'bottom top', onEnter: () => tl.restart(), onEnterBack: () => tl.restart() });
-  const reset = ScrollTrigger.create({ trigger: stage, start: 'top bottom', end: 'bottom top', onLeave: () => tl.pause(0), onLeaveBack: () => tl.pause(0) });
-  return () => { enter.kill(); reset.kill(); tl.kill(); gsap.set([mark, bottle], { clearProps: 'all' }); };
+  const section = $('[data-close]');
+  const dome = section && $('[data-close-dome]', section);
+  const bottle = section && $('[data-close-bottle]', section);
+  if (!section || !dome || !bottle) return;
+  const phone = window.matchMedia('(max-width: 56.24rem)').matches;
+  const rx = phone ? 150 : 92;
+  const st = { d: 0 };
+  const paint = () => {
+    const e = gsap.parseEase('power2.out')(st.d);
+    const c = `ellipse(${(rx * (0.55 + 0.45 * e)).toFixed(2)}% ${(100 * (0.7 + 0.3 * e)).toFixed(2)}% at 50% 100%)`;
+    dome.style.clipPath = c; dome.style.webkitClipPath = c;
+  };
+  const tl = gsap.timeline({ scrollTrigger: { trigger: section, start: 'top 90%', end: 'top 20%', scrub: 0.8 } });
+  tl.to(st, { d: 1, duration: 0.6, ease: 'none', onUpdate: paint }, 0)
+    .fromTo(bottle, { yPercent: 70, rotate: -6, scale: 0.9 }, { yPercent: 0, rotate: 0, scale: 1, duration: 0.7, ease: 'power3.out', transformOrigin: '50% 100%' }, 0.2);
+  paint();
+  return () => { tl.scrollTrigger?.kill(); tl.kill(); gsap.set(bottle, { clearProps: 'transform' }); dome.style.clipPath = ''; dome.style.webkitClipPath = ''; };
 });
 
 // ---------------------------------------------------------------- Label blobs: the mark moves with the page

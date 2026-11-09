@@ -539,6 +539,15 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Verification:** production and preview builds and both copy checks pass (276 sentences). Inspected 1440×900 mid-scroll and settled, reduced motion (complete row), 390px (three times across, notes on two lines, panel below) and the Arabic preview for line direction; no overflow at 320/390/1280 and no console errors. The former `data-pin-scene` hook is removed with the pin; the glass controller falls back to its unpinned behaviour.
 
 
+## Closing: the label rises (2026-11-09)
+
+Request: change the closing composition (it repeated the How to take it stage: bottle in front of a blob, side by side with the copy). Also: the Kondor Pharma logo in the footer must not be green.
+
+- **Composition:** no card and no blob. The closing is a wide dome in the brand gradient rising from the foot of the page (full width; an ellipse whose crown is the section's top centre). The bottle stands on the crown, centred: its lower fifth sits behind the dome, so it stands half on the white and half on the blue. The invitation (heading, text, Contact us) is centred beneath it on the blue; a faint stripe field of the label's pattern sits along the crown under the bottle.
+- **Motion (scrubbed):** the dome comes up from below — its crown rises and widens (ellipse 55% → 100% wide, 70% → 100% tall) — and the bottle rises from behind its edge like a sunrise (70% → 0, −6° → 0), straightening as it stands; reverse scroll sets it again. The copy keeps its intro entrance. Reduced motion and no-JS: the resolved composition.
+- **Phones:** a flatter dome (ellipse 150%) so the heading clears the curve; the bottle 8.5 rem wide.
+- **Footer logo:** the Kondor Pharma logo in the footer is now one-colour white (`kondor-pharma-logo-mono-white.png`, the same artwork with its green leaf and "PHARMA" set to white); the full-colour files are untouched.
+
 ## Two overlapping blues; no small drops (2026-11-09)
 
 Client: there are no small bubbles in the visual identity; use two of the label's shapes in the brand's light and dark blue, overlapping (catalogue product pages: the bottle in front of a cyan shape laid over the navy one).
