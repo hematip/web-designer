@@ -666,6 +666,29 @@ mm.add(MQ.motion, () => {
   }
 }
 
+// The foot of Where to find it follows the closing dome's arch: same ellipse (the dome's width share and its height),
+// so the white band between them has two parallel curves. sag = how far the arch rises at the page edges' midpoint,
+// ry · (1 − √(1 − (0.5 / k)²)) for an ellipse k widths wide. Not motion: runs everywhere, re-measured on resize.
+{
+  const where = $('#where');
+  const dome = $('[data-close-dome]');
+  if (where && dome) {
+    const phoneMQ = window.matchMedia('(max-width: 56.24rem)');
+    const fit = () => {
+      const ry = dome.offsetHeight;
+      if (!ry) return;
+      const k = phoneMQ.matches ? 1.5 : 0.92;
+      const sag = ry * (1 - Math.sqrt(1 - (0.5 / k) ** 2));
+      where.style.setProperty('--arch-rx', `${k * 100}%`);
+      where.style.setProperty('--arch-ry', `${ry.toFixed(1)}px`);
+      where.style.setProperty('--arch-sag', `${sag.toFixed(1)}px`);
+    };
+    fit();
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(dome);
+    else window.addEventListener('resize', fit);
+  }
+}
+
 // Closing: the label rises. Scrubbed with scroll: the dome comes up from below (its crown rising and widening), and the
 // bottle rises from behind its edge like a sunrise, straightening as it stands. Reverse scroll sets it again.
 // Reduced motion and no-JS: the resolved composition.

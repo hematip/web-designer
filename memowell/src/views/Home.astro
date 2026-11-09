@@ -688,7 +688,14 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
      stop it widening the page, which made 320px screens scroll sideways. */
   /* Where: the photograph (end side) under the wave; the wave layer reaches --reach above the section, over the end of
      "How to take it". Layers: photograph, stripe blob, wave (rim + blue), copy. */
-  .h-where { --reach: clamp(9rem, 24vh, 15rem); position: relative; z-index: 1; display: flex; align-items: center; min-height: clamp(40rem, 100svh, 58rem); padding-block: var(--section); overflow-x: clip; color: #fff; }
+  /* Taller on wide screens (the height follows the width up to 70rem), and its foot is cut by the same arch as the
+     closing dome below (--arch-rx / --arch-ry: the dome's ellipse; --arch-sag: how far the arch rises at the centre;
+     set from the dome by home-scenes.js, with these fallbacks), so the white band with the bottle runs between two
+     parallel curves. */
+  .h-where { --reach: clamp(9rem, 24vh, 15rem); --arch-rx: 92%; --arch-ry: 44rem; --arch-sag: 7rem; position: relative; z-index: 1; display: flex; align-items: center;
+    min-height: clamp(44rem, max(100svh, 50vw), 70rem); padding-block: var(--section) calc(var(--section) + var(--arch-sag)); overflow-x: clip; color: #fff; }
+  .h-where::after { content: ''; position: absolute; z-index: 3; left: 0; right: 0; bottom: -1px; height: calc(var(--arch-sag) + 1px); pointer-events: none;
+    background: radial-gradient(var(--arch-rx) var(--arch-ry) at 50% var(--arch-ry), var(--paper) calc(100% - 1.5px), transparent 100%); }
   /* The photograph keeps both people clear of the wave's edge: it sits against the outer edge (80% of the layer) and
      fades into the pharmacy's own light toward the wave; the top is a soft wave, not a straight cut. */
   .h-where__photo { position: absolute; z-index: 0; inset-block: 0; inset-inline: 30% 0; overflow: hidden; background: #e8eef3;
@@ -736,7 +743,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   }
   @media (max-width: 56.24rem) {
     .h-evidence__grid, .h-where__grid { grid-template-columns: minmax(0, 1fr); }
-    .h-where { display: block; min-height: 0; padding-block-end: 0; }
+    .h-where { --arch-rx: 150%; --arch-ry: 36rem; --arch-sag: 2rem; display: block; min-height: 0; padding-block-end: 0; }
     .h-evidence__grid { row-gap: var(--s-5); }
     .h-evidence__intro, .h-evidence__main { grid-column: 1; }
     .h-evidence__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -539,6 +539,11 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Verification:** production and preview builds and both copy checks pass (276 sentences). Inspected 1440×900 mid-scroll and settled, reduced motion (complete row), 390px (three times across, notes on two lines, panel below) and the Arabic preview for line direction; no overflow at 320/390/1280 and no console errors. The former `data-pin-scene` hook is removed with the pin; the glass controller falls back to its unpinned behaviour.
 
 
+## Where: taller, and its foot follows the closing arch (2026-11-09)
+
+- **Height:** min-height clamp(44rem, max(100svh, 50vw), 70rem) — on wide screens the section grows with the width, so the photograph and the wave have room (it read short at 2000 px).
+- **Parallel curves:** the white band holding the closing bottle had a curved foot (the dome) and a straight top. The foot of Where is now cut by the same ellipse as the dome (its width share 92% / 150% on phones and its height, measured by the script), so the band runs between two parallel arches, rising at the centre where the bottle stands; the opposite (mirrored) arch was rejected because it would pinch the band exactly at the bottle. The cut is a paper-coloured cap over the section's foot; the section's bottom padding grows by the arch's rise so the copy and button keep their room.
+
 ## Closing: the label rises (2026-11-09)
 
 Request: change the closing composition (it repeated the How to take it stage: bottle in front of a blob, side by side with the copy). Also: the Kondor Pharma logo in the footer must not be green.
