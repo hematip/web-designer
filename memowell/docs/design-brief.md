@@ -565,6 +565,14 @@ Request: the hero's blob should open with motion and become a landscape video.
 - **Adaptations:** reduced motion and no-JS — resting composition, unpinned; the ten-cubic blob is the same shape as before. Phones run the same scene with the shorter travel. The 3D section's own pin follows the hero's (refreshPriority 3 > 2).
 - **Verification:** production and preview builds and both copy checks pass. Driven by wheel in a browser at 1280×800 (EN and AR), 390×844: resting frame identical to before (film box 768×672 at rest, no class applied at progress 0), mid-frames show the blob opening while the copy fades, resolved frame 1194×672 under the header (phone: 350×197 inside the gutters), release into Why, reverse scroll restores the hero exactly; no console errors. Not measured: frame rate on real hardware; the test browser has no GPU.
 
+## Formulation: open on the turning dust (2026-11-09)
+
+Request (client): remove the coarse granules at the start of the formulation scene and start from the particles that turn.
+
+- **Change:** chapter 1 ("Ground extremely fine") now opens on the fine dust already turning in its slow vortex; the low-poly granules and their break-up are gone. The dust is born from the first frame, keeps turning with time, and its turn builds with the scroll through chapters 1–2 as it settles into the lattice. The camera's first two keys now frame the whole vortex a little from above (pulled back from 7.4 to 10.2 units) instead of moving in on the granules, so the disc sits inside the frame and its turn reads.
+- **Verification:** both builds and copy checks pass; rendered in a browser (software WebGL) at 1280×800 and 390×844: the chapter opens on the turning dust, no granules; chapters 2–3 (lattice, 40%) unchanged; no console errors. Chapters 2–5 and all copy are unchanged.
+- **Reduced motion / no WebGL:** unchanged behaviour (static frame / SVG poster).
+
 ## Where to find it: the label's wave (2026-11-08, second pass)
 
 Feedback on the first pass (photo in a blob opening from the bottle, thin outline, small drops): the thin line and the little circles have no tie to the Memowell identity; use the shapes more creatively, for example a shape-driven transition from the section above into this one.

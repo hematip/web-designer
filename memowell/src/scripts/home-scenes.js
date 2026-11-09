@@ -230,7 +230,7 @@ const sceneState = { p: 0, t: 0 }; // scene progress, scroll progress through th
 // around it.
 const CHAPTER_SCROLL = { desktop: [112, 84, 84, 112, 172], mobile: [104, 80, 80, 104, 160] };
 // Scroll → scene progress, as [chapter + share of that chapter's scroll, scene] knots on a smooth monotone curve.
-// Per chapter: its start, the point where its stage has resolved, its end. Stages: micronized 0–0.2 (granules →
+// Per chapter: its start, the point where its stage has resolved, its end. Stages: micronized 0–0.2 (the dust vortex →
 // dust), microcrystalline 0.2–0.4 (lattice), K-Vie™ · 40% 0.4–0.56 (two in five crystals gold), AKBA 0.56–0.78 (fly
 // through the lattice, the molecule builds), vegetarian capsule 0.78–1 (the molecule turns by 0.86, the halves
 // close by 0.99), then the closed capsule holds for the last chapter's actions.

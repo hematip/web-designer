@@ -1,6 +1,7 @@
 // Formulation signature scene (v6: K-Vie™ → AKBA → capsule), real-time 3D in the homepage formulation section.
 // Story, scrubbed by the pinned scroll range (state.p 0 → 1), one stage per chapter:
-//   01 micronized: coarse golden granules break into fine dust that spins into a vortex
+//   01 micronized: the scene opens on the fine dust already turning in a slow vortex (the coarse granules that
+//      used to break up first are removed at the client's request, 2026-11-09)
 //   02 microcrystalline: the dust snaps into a rotating lattice (crystals + unit-cell lines)
 //   03 K-Vie™ · 40%: 40% of the lattice's crystals light gold (standardised to 40% boswellic acids)
 //   04 inside K-Vie™: the camera flies through the lattice while its crystals stream past; one gold crystal
@@ -513,8 +514,8 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   // AKBA 0.56–0.78, capsule 0.78–1 (home-scenes.js sceneAt). Each chapter drifts slowly through its stage's quiet
   // tail while it is read.
   const keys = [
-    { p: 0.0, pos: [0.0, 0.3, 7.4], tgt: [0, 0.05, 0] },   // coarse granules
-    { p: 0.1, pos: [1.5, 0.6, 5.8], tgt: [0, 0.1, 0] },
+    { p: 0.0, pos: [-0.3, 3.4, 10.2], tgt: [0, 0, 0] },    // the dust vortex, whole and seen a little from above
+    { p: 0.1, pos: [0.2, 2.6, 9.4], tgt: [0, 0.1, 0] },
     { p: 0.2, pos: [0.5, 1.4, 8.2], tgt: [0, 0.2, 0] },    // micronized vortex
     { p: 0.34, pos: [-2.2, 4.4, 7.0], tgt: [0, 0, 0] },    // lattice from above
     { p: 0.48, pos: [-4.4, 2.0, 6.2], tgt: [0, 0, 0] },    // two in five crystals gold
@@ -546,9 +547,11 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     const time = motion ? t : 0;
     shared.uTime.value = time;
 
-    const d = seg(p, 0.02, 0.16);                        // 01 granules break up
-    const burst = inOutCubic(seg(p, 0.07, 0.19));         //    into the vortex
-    const swirl = 2.6 * smooth(seg(p, 0.15, 0.34));        // 02 the dust vortex turns on as it settles
+    // 01 the dust is there from the first frame, already in its vortex (no granules); the vortex turns with time
+    //    and, through chapters 1–2, with the scroll as it settles into the lattice
+    const d = 1;
+    const burst = 1;
+    const swirl = 2.6 * smooth(seg(p, 0, 0.34));
     const L = seg(p, 0.22, 0.36);                         //    into the lattice
     const kv = smooth(seg(p, 0.41, 0.52));                // 03 40% of crystals gold
     const zoom = smooth(seg(p, 0.56, 0.66));              // 04 fly through the lattice
@@ -570,7 +573,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
 
     // granules
     grainU.uDissolve.value = d;
-    grains.visible = d < 1;
+    grains.visible = false;
     grains.rotation.set(0.12, time * 0.15 + p * 1.6, -0.08);
     grainRoot.position.y = Math.sin(time * 0.8) * 0.04;
     grainRoot.updateMatrixWorld(true);
@@ -661,7 +664,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     pU.uMol.value = mol;
     pU.uCapsule.value = C;
     pU.uFade.value = fade;
-    particles.visible = d > 0 && fade < 1;
+    particles.visible = fade < 1;
 
     // light: rim pulse when the halves close, glint sweeping the finished capsule
     rim.intensity = 3.2 + flash * 7;
@@ -669,7 +672,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     glint.position.set(lerp(-5, 5, H), 2.5, 4);
     key.intensity = 2.2 + H * 0.4;
 
-    // glow behind the subject: amber granules → ice lattice → gold 40% → ice molecule → cream capsule
+    // glow behind the subject: blue dust → ice lattice → gold 40% → ice molecule → cream capsule
     const gc = glowMat.color;
     if (p < 0.4) gc.copy(amberGlow).lerp(iceGlow, seg(p, 0.12, 0.24));
     else if (p < 0.78) gc.copy(iceGlow).lerp(goldGlow, kv * 0.55);
