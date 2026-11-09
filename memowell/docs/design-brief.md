@@ -539,6 +539,10 @@ The v1 "facts in hand" travelling note is retired. The summary returns as a glas
 - **Verification:** production and preview builds and both copy checks pass (276 sentences). Inspected 1440×900 mid-scroll and settled, reduced motion (complete row), 390px (three times across, notes on two lines, panel below) and the Arabic preview for line direction; no overflow at 320/390/1280 and no console errors. The former `data-pin-scene` hook is removed with the pin; the glass controller falls back to its unpinned behaviour.
 
 
+## Footer: text motion (2026-11-09)
+
+Request: give the footer's text motion. On every page, once the footer scrolls in: the slogan's two lines rise word by word from a mask (LIVE WELL, then STAY WELL a beat later); the Memowell logo slides in; each column's label, links and product line step up in turn, column after column; in the base, the Kondor logo rises, the disclaimer arrives line by line and the last line follows. Words and lines only (never letters); links move whole and only fade, so they stay focusable. Plays once; reduced motion and no-JS show the footer as is. Implemented in `motion.js` (site-wide).
+
 ## Where: taller, and its foot follows the closing arch (2026-11-09)
 
 - **Height:** min-height clamp(44rem, max(100svh, 50vw), 70rem) — on wide screens the section grows with the width, so the photograph and the wave have room (it read short at 2000 px).

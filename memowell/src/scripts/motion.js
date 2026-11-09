@@ -136,6 +136,56 @@ mm.add(MQ.motion, () => {
     });
   });
 
+  // 5. Footer (every page): the slogan's two lines rise word by word from a mask, "STAY WELL" a beat after "LIVE
+  //    WELL,"; each column's label and links then step up in turn; in the base, the disclaimer arrives line by line and
+  //    the last line follows. Links are moved whole (never split) and only fade from 0 opacity, so they stay focusable.
+  const footer = document.querySelector('.site-footer');
+  if (footer && !off(footer)) {
+    const slogan = footer.querySelector('.site-footer__slogan');
+    if (slogan) {
+      const lines = [...slogan.querySelectorAll(':scope > span')];
+      lines.forEach((line) => { line.style.overflow = 'clip'; line.style.paddingBlockEnd = '0.06em'; });
+      lines.forEach((line, i) => {
+        splits.push(SplitText.create(line, {
+          type: 'words',
+          aria: 'none',
+          autoSplit: true,
+          onSplit: staged(slogan, {
+            start: 'top 92%',
+            build: (self) => gsap.fromTo(self.words, { yPercent: 115 }, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, delay: i * 0.22 }),
+          }),
+        }));
+      });
+    }
+    const home = footer.querySelector('.site-footer__home');
+    if (home) staged(home, { start: 'top 94%', build: () => gsap.from(home, { opacity: 0, x: document.documentElement.dir === 'rtl' ? 24 : -24, duration: 1, ease: 'power3.out' }) })();
+    const cols = footer.querySelector('.site-footer__cols');
+    if (cols) {
+      staged(cols, {
+        start: 'top 92%',
+        build: () => {
+          const tl = gsap.timeline();
+          footer.querySelectorAll('.site-footer__column').forEach((col, c) => {
+            const items = [col.querySelector('h2'), ...col.querySelectorAll('li'), col.querySelector('.site-footer__products')].filter(Boolean);
+            tl.from(items, { opacity: 0, y: 16, duration: 0.7, ease: 'power3.out', stagger: 0.06 }, c * 0.1);
+          });
+          return tl;
+        },
+      })();
+    }
+    const disc = footer.querySelector('.site-footer__disclaimer p');
+    if (disc && !interactive(disc)) {
+      splits.push(SplitText.create(disc, {
+        type: 'lines',
+        aria: 'none',
+        autoSplit: true,
+        onSplit: staged(disc, { start: 'top 96%', build: (self) => gsap.from(self.lines, { opacity: 0, y: 14, duration: 0.8, ease: 'power3.out', stagger: 0.09 }) }),
+      }));
+    }
+    const base = [footer.querySelector('.site-footer__maker'), footer.querySelector('.site-footer__last')].filter(Boolean);
+    base.forEach((el, i) => staged(el, { start: 'top 98%', build: () => gsap.from(el, { opacity: 0, y: 12, duration: 0.8, ease: 'power3.out', delay: i ? 0.35 : 0 }) })());
+  }
+
   // ---- Intro blocks [data-intro]: a heading and its copy enter as one staged sequence once the block is in view
   // (top at 75%): heading lines rise from a mask (accent strokes draw after), [data-intro-lines] paragraphs follow
   // line by line, a [data-intro-rule] draws in, [data-intro-part] items rise. Replays after leaving the view;
