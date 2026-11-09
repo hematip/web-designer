@@ -565,6 +565,16 @@ Request: the hero's blob should open with motion and become a landscape video.
 - **Adaptations:** reduced motion and no-JS — resting composition, unpinned; the ten-cubic blob is the same shape as before. Phones run the same scene with the shorter travel. The 3D section's own pin follows the hero's (refreshPriority 3 > 2).
 - **Verification:** production and preview builds and both copy checks pass. Driven by wheel in a browser at 1280×800 (EN and AR), 390×844: resting frame identical to before (film box 768×672 at rest, no class applied at progress 0), mid-frames show the blob opening while the copy fades, resolved frame 1194×672 under the header (phone: 350×197 inside the gutters), release into Why, reverse scroll restores the hero exactly; no console errors. Not measured: frame rate on real hardware; the test browser has no GPU.
 
+## Formulation: no capsule, the story ends on AKBA (2026-11-09)
+
+Request (client): remove the capsule. Chosen with the user: the fifth chapter goes too.
+
+- **Story:** four chapters — Ground extremely fine · Formed into tiny crystals · 40% active compounds · A closer look: AKBA. The scene ends on AKBA: the molecule builds out of the incoming crystal, then makes one full turn with the scroll and holds while the last chapter (with "More about what's inside") is read; the pin then releases. The 3D capsule, the dust condensing into it, the halves' telescoping close, the rim flash and the glint are gone; the glow stays blue.
+- **Mechanics:** the scene's progress stops at `SCENE_END` (0.84): AKBA built by 0.78, one full turn by 0.84. The chapter scroll is [112, 84, 84, 160] % of the view on desktop and [104, 80, 80, 148] on phones (the AKBA chapter has the room the capsule chapter had). The static / reduced-motion frame is the turned molecule. The capsule builders stay in `formulation-3d.js`, unused.
+- **Poster / no-WebGL fallback:** the closed-capsule SVG is replaced by a sketch of AKBA's five fused rings (white bonds, cyan oxygens) on the same halo.
+- **Copy:** chapter 5 ("Vegetarian and gluten-free — Each bottle holds 90 vegetarian capsules.") is removed from the home page and from Part 4 of the copy deck; the facts stay on `/memowell` and `/science/professionals`. The section heading "What's inside each capsule" is unchanged.
+- **Verification:** both builds and both copy checks pass. Walked through the pin by wheel at 1280×800 and 390×844 (software WebGL): chapters advance 01 → 04 and the pin ends on the turned AKBA with the action; no capsule appears; reduced motion shows the four chapters beside the turned molecule; with WebGL disabled the ring sketch shows; no console errors.
+
 ## Formulation: the dust keeps turning (2026-11-09)
 
 Question (client): when we stop scrolling the particles stand still — shouldn't they keep turning?

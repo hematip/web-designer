@@ -139,28 +139,25 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     </div>
   </section>
 
-  <!-- 3 · K-Vie™ → AKBA → capsule (real-time 3D), text in step with the scene -->
+  <!-- 3 · K-Vie™ → AKBA (real-time 3D), text in step with the scene; the capsule chapter is removed (2026-11-09) -->
   <section class="h-form is-dark" id="formulation" aria-labelledby="formulation-title" data-form>
     <div class="h-form__pin aurora" data-pointer data-form-pin>
       <div class="wrap h-form__grid">
         <div class="h-form__scene" data-form-scene>
           <canvas class="h-form__canvas" data-form-canvas aria-hidden="true"></canvas>
           <div class="h-form__frame" data-form-frame aria-hidden="true">
-            <!-- Poster / fallback: the resolved frame of the scene (closed capsule), shown until WebGL is ready. -->
+            <!-- Poster / fallback: the scene's last subject (AKBA, as a ring sketch), shown until WebGL is ready. -->
             <svg class="h-form__poster" viewBox="0 0 600 600">
               <defs>
                 <radialGradient id="halo-g" cx="50%" cy="50%" r="50%">
                   <stop offset="0" stop-color="#8fe4ee" stop-opacity=".3" /><stop offset="1" stop-color="#124a95" stop-opacity="0" />
                 </radialGradient>
-                <linearGradient id="cap-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0dd" /><stop offset=".55" stop-color="#f0dcbc" /><stop offset="1" stop-color="#d9b88c" /></linearGradient>
-                <linearGradient id="cap-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e4c6" /><stop offset=".55" stop-color="#e8cba2" /><stop offset="1" stop-color="#cda679" /></linearGradient>
               </defs>
               <circle cx="300" cy="300" r="260" fill="url(#halo-g)" />
-              <g transform="rotate(-22 300 300)">
-                <path d="M195 225h105v150H195a75 75 0 0 1 0-150z" fill="url(#cap-l)" />
-                <path d="M300 225h105a75 75 0 0 1 0 150H300z" fill="url(#cap-r)" />
-                <path d="M300 225v150" stroke="#c49a69" stroke-width="3" opacity=".6" />
-                <path d="M170 262c26-22 90-26 160-22" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".5" fill="none" />
+              <!-- A sketch of AKBA's five fused rings (the scene's last frame is the molecule), not the 3D conformer. -->
+              <g transform="translate(8.8 -10.0) rotate(-14 300 300)">
+                <g fill="none" stroke="#eef4ff" stroke-width="5" stroke-linejoin="round" opacity=".85"><path d="M170.0 380.0 L135.4 360.0 L135.4 320.0 L170.0 300.0 L204.6 320.0 L204.6 360.0Z" /><path d="M239.3 380.0 L204.6 360.0 L204.6 320.0 L239.3 300.0 L273.9 320.0 L273.9 360.0Z" /><path d="M273.9 320.0 L239.3 300.0 L239.3 260.0 L273.9 240.0 L308.6 260.0 L308.6 300.0Z" /><path d="M343.2 320.0 L308.6 300.0 L308.6 260.0 L343.2 240.0 L377.8 260.0 L377.8 300.0Z" /><path d="M412.5 320.0 L377.8 300.0 L377.8 260.0 L412.5 240.0 L447.1 260.0 L447.1 300.0Z" /></g>
+                <circle cx="135.4" cy="360.0" r="6" fill="#eef4ff" /><circle cx="239.3" cy="300.0" r="6" fill="#eef4ff" /><circle cx="308.6" cy="260.0" r="6" fill="#eef4ff" /><circle cx="308.6" cy="260.0" r="6" fill="#eef4ff" /><circle cx="447.1" cy="300.0" r="6" fill="#eef4ff" /><circle cx="135.4" cy="320.0" r="8" fill="#06b2c8" /><circle cx="273.9" cy="240.0" r="8" fill="#06b2c8" /><circle cx="412.5" cy="320.0" r="8" fill="#06b2c8" />
               </g>
             </svg>
           </div>

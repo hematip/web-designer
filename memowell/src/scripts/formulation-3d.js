@@ -1,4 +1,4 @@
-// Formulation signature scene (v6: K-Vie™ → AKBA → capsule), real-time 3D in the homepage formulation section.
+// Formulation signature scene (v7: K-Vie™ → AKBA), real-time 3D in the homepage formulation section.
 // Story, scrubbed by the pinned scroll range (state.p 0 → 1), one stage per chapter:
 //   01 micronized: the scene opens on the fine dust already turning in a slow vortex (the coarse granules that
 //      used to break up first are removed at the client's request, 2026-11-09)
@@ -7,8 +7,9 @@
 //   04 inside K-Vie™: the camera flies through the lattice while its crystals stream past; one gold crystal
 //      comes in from deep space, opens on its way, and AKBA (acetyl-11-keto-β-boswellic acid) grows out of it,
 //      arriving at the centre built bond by bond from its real 3D conformer (PubChem CID 11168203, see akba.js)
-//   05 vegetarian capsule: AKBA turns to the capsule's axis and shrinks to fit; the body half slides over it
-//      from one side, the cap slides in from the other and telescopes over the body's open end, closing it in
+//      and, at the end, makes one full turn with the scroll and holds: the story ends on AKBA.
+// The capsule chapter (the halves closing round the molecule) is removed (client direction, 2026-11-09): the scene
+// stops at SCENE_END and the capsule meshes are never shown. Their builders stay below, unused by the story.
 // Procedural apart from the molecule's atom coordinates. Copy stays in HTML; this canvas is decorative.
 // One clock: frames are drawn from the GSAP ticker that already drives Lenis.
 import * as THREE from 'three';
@@ -132,6 +133,9 @@ function glowTexture() {
   t.colorSpace = THREE.SRGBColorSpace;
   return t;
 }
+
+// The scene's last state: AKBA built and turned once (see the story above).
+const SCENE_END = 0.84;
 
 // ---------------------------------------------------------------- particle shaders
 const PARTICLE_VERT = /* glsl */ `
@@ -521,8 +525,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     { p: 0.48, pos: [-4.4, 2.0, 6.2], tgt: [0, 0, 0] },    // two in five crystals gold
     { p: 0.62, pos: [-1.8, 1.0, 5.6], tgt: [0, 0, 0] },    // through the lattice
     { p: 0.76, pos: [0.3, 0.45, 5.0], tgt: [0, 0, 0] },    // AKBA has arrived
-    { p: 0.88, pos: [0.9, 0.5, 6.4], tgt: [0, 0, 0] },     // capsule forming
-    { p: 1.0, pos: [0.15, 0.25, 5.3], tgt: [0, 0, 0] },    // capsule
+    { p: SCENE_END, pos: [0.1, 0.35, 5.2], tgt: [0, 0, 0] }, // AKBA turns once and holds
   ];
   const posCurve = new THREE.CatmullRomCurve3(keys.map((k) => new THREE.Vector3(...k.pos)), false, 'centripetal');
   const tgtCurve = new THREE.CatmullRomCurve3(keys.map((k) => new THREE.Vector3(...k.tgt)), false, 'centripetal');
@@ -542,7 +545,8 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   const qI = new THREE.Quaternion(), qCap = new THREE.Quaternion(), v3b = new THREE.Vector3();
   let mode = initialMode;
 
-  function evaluate(p, t) {
+  function evaluate(pIn, t) {
+    const p = Math.min(pIn, SCENE_END);
     const motion = mode !== 'static';
     const time = motion ? t : 0;
     shared.uTime.value = time;
@@ -561,8 +565,8 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     const mol = seg(p, 0.63, 0.76);                       //    dust gathers onto AKBA
     const molIn = seg(p, 0.64, 0.77);                     //    which grows out of it while travelling, bond by bond
     const turn = smooth(seg(p, 0.62, 0.78));              // 04 AKBA eases round as it builds, broadside for reading
-    const spin = smooth(seg(p, 0.78, 0.86));              // 05 the finished molecule makes one full turn with the scroll
-    const align = smooth(seg(p, 0.84, 0.9));              //    then lines up with the capsule axis and shrinks to fit
+    const spin = smooth(seg(p, 0.78, SCENE_END));         //    the finished molecule makes one full turn with the scroll
+    const align = 0;                                      //    (no capsule: it no longer lines up or shrinks)
     const SB = smooth(seg(p, 0.86, 0.95));                //    the body half glides over it along that axis
     const SC = smooth(seg(p, 0.9, 0.98));                 //    the cap glides in and telescopes over the body
     const C = smooth(seg(p, 0.86, 0.95));                 //    the dust goes in with it
@@ -622,8 +626,8 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     cap.position.set(lerp(3.6, 0, SC), 0, 0);
     body.rotation.set(0, 0, 0);
     cap.rotation.set(0, 0, 0);
-    body.visible = p > 0.86;
-    cap.visible = p > 0.9;
+    body.visible = false; // the capsule is not part of the story any more
+    cap.visible = false;
     capRoot.updateMatrixWorld(true);
     pU.uCapMat.value.copy(capIdle.matrixWorld);
 
@@ -676,7 +680,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
     const gc = glowMat.color;
     if (p < 0.4) gc.copy(amberGlow).lerp(iceGlow, seg(p, 0.12, 0.24));
     else if (p < 0.78) gc.copy(iceGlow).lerp(goldGlow, kv * 0.55);
-    else gc.copy(iceGlow).lerp(creamGlow, seg(p, 0.8, 0.9));
+    else gc.copy(iceGlow);
     glowMat.opacity = (0.5 - 0.15 * seg(p, 0.12, 0.24) + 0.1 * kv + 0.12 * seg(p, 0.9, 0.96)) + flash * 0.5;
 
     // camera
@@ -724,7 +728,7 @@ export async function createFormulationScene({ section, canvas, frame, state, mo
   let lastTime = 0, sceneTime = 0, activity = 1, quiet = 0, lastP = -1, lastT = -1;
   function draw(t) {
     if (lost || !compiled) return; // a draw before the shaders are ready would compile them on the main thread
-    evaluate(mode === 'static' ? 1 : state.p, t);
+    evaluate(mode === 'static' ? SCENE_END : state.p, t);
     renderer.render(scene, camera);
     if (!ready) {
       ready = true;

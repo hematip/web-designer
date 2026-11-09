@@ -332,9 +332,9 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > **A closer look: AKBA** — AKBA is one of the boswellic acids. This is its shape.
 >
-> **Vegetarian and gluten-free** — Each bottle holds 90 vegetarian capsules.
->
 > [More about what's inside]
+
+*Note (2026-11-09, client direction):* the capsule is removed from the home formulation story: the 3D capsule and the fifth chapter ("Vegetarian and gluten-free — Each bottle holds 90 vegetarian capsules.") are gone, and the story ends on AKBA. The vegetarian / gluten-free facts stay on `/memowell` and `/science/professionals`.
 
 *Note (2026-11-08, client direction):* the home page is written for a general audience, not medical experts. The 3D chapters keep their scenes but use plain words; "micronized", "microcrystalline", "standardised" and the chemical name of AKBA stay on `/memowell` and `/science/professionals`.
 

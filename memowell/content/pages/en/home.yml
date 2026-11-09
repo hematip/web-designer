@@ -38,7 +38,7 @@ sections:
       alt: ""
 
   - id: formulation
-    # v6 3D story (K-Vie™ → a look inside at AKBA → capsule). Plain-language labels and bodies for a general
+    # v7 3D story (K-Vie™ → a look inside at AKBA; the capsule chapter is removed, client direction 2026-11-09). Plain-language labels and bodies for a general
     # audience (client direction 2026-11-08); the technical terms stay on /memowell and /science/professionals.
     heading: "What's inside each capsule"
     chapters:
@@ -50,8 +50,6 @@ sections:
         body: "K-Vie™ is made so that 40% of it is boswellic acids."
       - label: "A closer look: AKBA"
         body: "AKBA is one of the boswellic acids. This is its shape."
-      - label: "Vegetarian and gluten-free"
-        body: "Each bottle holds 90 vegetarian capsules."
     actions:
       - { label: "More about what's inside", href: "/memowell#composition" }
 

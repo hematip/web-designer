@@ -226,20 +226,19 @@ mm.add(MQ.motion, () => {
 const form = $('[data-form]');
 const sceneState = { p: 0, t: 0 }; // scene progress, scroll progress through the pin
 // Scroll each chapter gets, in % of the view height (desktop, phones). The two lattice chapters carry the least
-// change, so they are shorter; the capsule chapter has more room: the molecule turns, then the two halves close
-// around it.
-const CHAPTER_SCROLL = { desktop: [112, 84, 84, 112, 172], mobile: [104, 80, 80, 104, 160] };
+// change, so they are shorter; the AKBA chapter, now the last, has the most room: the molecule builds, then makes
+// one full turn before the pin releases. (The capsule chapter was removed, client direction 2026-11-09.)
+const CHAPTER_SCROLL = { desktop: [112, 84, 84, 160], mobile: [104, 80, 80, 148] };
 // Scroll → scene progress, as [chapter + share of that chapter's scroll, scene] knots on a smooth monotone curve.
 // Per chapter: its start, the point where its stage has resolved, its end. Stages: micronized 0–0.2 (the dust vortex →
-// dust), microcrystalline 0.2–0.4 (lattice), K-Vie™ · 40% 0.4–0.56 (two in five crystals gold), AKBA 0.56–0.78 (fly
-// through the lattice, the molecule builds), vegetarian capsule 0.78–1 (the molecule turns by 0.86, the halves
-// close by 0.99), then the closed capsule holds for the last chapter's actions.
+// dust), microcrystalline 0.2–0.4 (lattice), K-Vie™ · 40% 0.4–0.56 (two in five crystals gold), AKBA 0.56–0.84 (fly
+// through the lattice, the molecule builds by 0.78, then makes one full turn by 0.84 and holds for the last
+// chapter's actions). 0.84 is the scene's end (formulation-3d.js, SCENE_END).
 const SCENE_KNOTS = [
   [0, 0], [0.64, 0.18], [1, 0.2],
   [1.64, 0.375], [2, 0.4],
   [2.64, 0.53], [3, 0.56],
-  [3.3, 0.625], [3.7, 0.765], [4, 0.78],
-  [4.28, 0.86], [4.82, 0.99], [4.92, 1], [5, 1],
+  [3.22, 0.625], [3.5, 0.765], [3.6, 0.78], [3.9, 0.84], [4, 0.84],
 ];
 let sceneMode = null;
 let scene = null;
