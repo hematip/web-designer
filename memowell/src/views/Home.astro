@@ -375,11 +375,11 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     <div class="wrap h-close__inner">
       <div class="h-close__product" aria-hidden="true" data-close-product>
         <div class="h-close__mark" data-close-mark>
-          <!-- The label's layering, rebuilt behind the bottle (back to front): a cyan stripe blob peeking out above the
-               white shape, as the stripe blob peeks out behind the blue one on the label; the white shape; a navy stripe
-               blob laid over the white and slipping out under the cyan; the cyan shape; then the bottle. -->
-          <div class="h-close__blob h-close__blob--stripes-back" data-close-stripes-back><svg viewBox="0 0 440 330" aria-hidden="true" focusable="false"><defs><pattern id="close-stripes-back" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="3" height="8" fill="var(--cyan-stripe)" /></pattern></defs><path fill="url(#close-stripes-back)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
+          <!-- The label's layering, rebuilt behind the bottle (back to front): the white shape; a cyan stripe blob laid
+               over its upper far side, so the white bottle stands against stripes rather than white on white; a navy
+               stripe blob over its lower near side, slipping out under the cyan; the cyan shape; then the bottle. -->
           <div class="h-close__blob h-close__blob--white" data-close-blob-white><Blob id="close-blob" tone="white" stripes={false} /></div>
+          <div class="h-close__blob h-close__blob--stripes-back" data-close-stripes-back><svg viewBox="0 0 440 330" aria-hidden="true" focusable="false"><defs><pattern id="close-stripes-back" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="3" height="8" fill="var(--cyan)" /></pattern></defs><path fill="url(#close-stripes-back)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
           <div class="h-close__blob h-close__blob--stripes-mid" data-close-stripes-mid><svg viewBox="0 0 440 330" aria-hidden="true" focusable="false"><defs><pattern id="close-stripes-mid" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="2.4" height="7" fill="var(--blue)" /></pattern></defs><path fill="url(#close-stripes-mid)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
           <div class="h-close__blob h-close__blob--cyan" data-close-blob-cyan><Blob id="close-blob-cyan" tone="cyan" stripes={false} /></div>
         </div>
@@ -757,16 +757,16 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-close__glow { position: absolute; z-index: 0; left: 50%; bottom: -16%; width: 190%; aspect-ratio: 2.2; translate: -50% 0; border-radius: 50%; pointer-events: none;
     background: radial-gradient(closest-side, rgba(94, 207, 217, 0.42), rgba(94, 207, 217, 0) 100%); }
   .h-close__mark { position: absolute; z-index: -1; left: 50%; top: 52%; width: 215%; translate: -50% -50%; pointer-events: none; }
-  .h-close__blob { width: 100%; }
+  .h-close__blob { position: relative; width: 100%; }
   .h-close__blob--cyan { position: absolute; left: 50%; top: 50%; width: 84%; translate: -50% -30%; rotate: -24deg; }
   :global([dir='rtl']) .h-close__blob--cyan { rotate: 24deg; }
-  /* The pattern as part of the layering: the cyan stripe blob behind everything, shifted up and toward the far side so
-     it rises out above the white shape; the navy stripe blob between white and cyan, low on the near side, so its
-     stripes print on the white and slip out from under the cyan. */
-  .h-close__blob--stripes-back { position: absolute; left: 50%; top: 50%; width: 76%; translate: -44% -86%; rotate: 12deg; opacity: 0.9; }
+  /* The pattern as part of the layering, in front of the white shape (the bottle is white too, so white on white had
+     no contrast — client report): the cyan stripe blob over the white's upper far side and rising out above it; the
+     navy stripe blob over its lower near side, slipping out from under the cyan. */
+  .h-close__blob--stripes-back { position: absolute; left: 50%; top: 50%; width: 78%; translate: -30% -66%; rotate: 12deg; opacity: 0.85; }
   .h-close__blob--stripes-mid { position: absolute; left: 50%; top: 50%; width: 64%; translate: -94% -6%; rotate: -10deg; opacity: 0.4; }
   .h-close__blob--stripes-back svg, .h-close__blob--stripes-mid svg { display: block; width: 100%; height: auto; overflow: visible; }
-  :global([dir='rtl']) .h-close__blob--stripes-back { translate: -56% -86%; rotate: -12deg; }
+  :global([dir='rtl']) .h-close__blob--stripes-back { translate: -70% -66%; rotate: -12deg; }
   :global([dir='rtl']) .h-close__blob--stripes-mid { translate: -6% -6%; rotate: 10deg; }
   .h-close__copy { grid-column: 7 / span 6; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; color: #fff; }
   .h-close__title { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; }
