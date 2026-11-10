@@ -378,17 +378,14 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
           <!-- The label's layering, rebuilt behind the bottle (back to front): the white shape (frosted glass); a cyan stripe blob laid
                over its upper far side, so the white bottle stands against stripes rather than white on white; a navy
                stripe blob over its lower near side, slipping out under the cyan; the cyan shape; then the bottle. -->
-          <!-- The white shape as frosted glass: a pane clipped to the label blob that blurs and brightens the blue behind
-               it, a soft highlight from the top-start, and a thin light edge that catches the light along the rim. -->
+          <!-- The white shape as glass (recipe: Bextudio Figma card 22877:10373): a pane clipped to the label blob with a
+               backdrop blur and a fading white wash, and a white hairline rim blended with overlay. -->
           <div class="h-close__blob h-close__glass" data-close-blob-white>
             <svg class="h-close__glass-defs" width="0" height="0" aria-hidden="true" focusable="false">
               <clipPath id="close-glass-clip" clipPathUnits="objectBoundingBox"><path d="M0.3455 0.1939C0.4773 0.0667 0.7227 0.0424 0.8455 0.1758C0.9682 0.3091 0.9364 0.5515 0.8455 0.7152C0.7545 0.8788 0.5864 0.9636 0.4182 0.897C0.25 0.8303 0.1364 0.697 0.1227 0.5394C0.1091 0.3818 0.2136 0.3212 0.3455 0.1939Z" /></clipPath>
-              <linearGradient id="close-glass-edge" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#fff" stop-opacity="0.9" /><stop offset="0.45" stop-color="#fff" stop-opacity="0.12" /><stop offset="1" stop-color="#fff" stop-opacity="0.55" />
-              </linearGradient>
             </svg>
             <span class="h-close__glass-pane"></span>
-            <svg class="h-close__glass-edge" viewBox="0 0 440 330" aria-hidden="true" focusable="false"><path d="M152 64C210 22 318 14 372 58C426 102 412 182 372 236C332 290 258 318 184 296C110 274 60 230 54 178C48 126 94 106 152 64Z" fill="none" stroke="url(#close-glass-edge)" stroke-width="1.6" vector-effect="non-scaling-stroke" /></svg>
+            <svg class="h-close__glass-edge" viewBox="0 0 440 330" aria-hidden="true" focusable="false"><path d="M152 64C210 22 318 14 372 58C426 102 412 182 372 236C332 290 258 318 184 296C110 274 60 230 54 178C48 126 94 106 152 64Z" fill="none" stroke="#fff" stroke-width="1.2" vector-effect="non-scaling-stroke" /></svg>
           </div>
           <div class="h-close__blob h-close__blob--stripes-back" data-close-stripes-back><svg viewBox="0 0 440 330" aria-hidden="true" focusable="false"><defs><pattern id="close-stripes-back" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="3" height="8" fill="var(--cyan)" /></pattern></defs><path fill="url(#close-stripes-back)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
           <div class="h-close__blob h-close__blob--stripes-mid" data-close-stripes-mid><svg viewBox="0 0 440 330" aria-hidden="true" focusable="false"><defs><pattern id="close-stripes-mid" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="2.4" height="7" fill="var(--blue)" /></pattern></defs><path fill="url(#close-stripes-mid)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
@@ -772,11 +769,12 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* Frosted glass: same box as the label blob's viewBox (440 × 330), so the shapes around it keep their places. */
   .h-close__glass { aspect-ratio: 440 / 330; }
   .h-close__glass-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  /* The glass recipe from the Bextudio Figma card (node 22877:10373): backdrop blur 9.879px; a white wash at 122.79°
+     from 40% (at 8.95%) to 1% (at 114%); a solid white hairline border blended with overlay. */
   .h-close__glass-pane { position: absolute; inset: 0; -webkit-clip-path: url(#close-glass-clip); clip-path: url(#close-glass-clip);
-    -webkit-backdrop-filter: blur(18px) saturate(1.5) brightness(1.08); backdrop-filter: blur(18px) saturate(1.5) brightness(1.08);
-    background: radial-gradient(55% 45% at 30% 22%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 70%),
-      linear-gradient(140deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.14) 48%, rgba(200, 238, 243, 0.08) 100%); }
-  .h-close__glass-edge { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+    -webkit-backdrop-filter: blur(9.879px); backdrop-filter: blur(9.879px);
+    background: linear-gradient(122.79deg, rgba(255, 255, 255, 0.4) 8.95%, rgba(255, 255, 255, 0.01) 114%); }
+  .h-close__glass-edge { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: overlay; }
   .h-close__blob--cyan { position: absolute; left: 50%; top: 50%; width: 84%; translate: -50% -30%; rotate: -24deg; }
   :global([dir='rtl']) .h-close__blob--cyan { rotate: 24deg; }
   /* The pattern as part of the layering, in front of the white shape (the bottle is white too, so white on white had
