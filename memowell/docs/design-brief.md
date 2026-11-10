@@ -675,6 +675,8 @@ Feedback on the first pass (photo in a blob opening from the bottle, thin outlin
 - **Verification:** both builds and both copy checks pass. Scrolled by wheel at 1280, 1440, 390 and 320 and in Arabic: frames before the wave, rim leading, blue flooding over the previous section, edge drawing back, resolved; reverse scroll returns the wave below; reduced motion shows the resting state; no horizontal overflow; no console errors.
 - **Note:** the photograph remains illustrative and still needs client approval (README).
 
+- **Stripe blob removed (2026-11-10, client):** the cyan stripe blob that rode the corner where the wave's crest meets its edge is gone; the wave keeps its cyan rim.
+
 ## Evidence and How to take it, each with its own idea (2026-11-08)
 
 Request: the two sections had been built from the same template (a coloured blob panel with a stripe field in its top corner) and read as copies of each other; make each one its own, more creative design.

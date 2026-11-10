@@ -599,7 +599,6 @@ mm.add(MQ.motion, () => {
   const navy = shape && $('[data-where-navy]', shape);
   const rim = shape && $('[data-where-rim]', shape);
   if (section && navy && rim) {
-    const stripes = $('[data-where-stripes]', section);
     const photo = $('[data-where-photo]', section);
     const photoImg = photo && $('img', photo);
     const rtl = (section.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
@@ -670,20 +669,6 @@ mm.add(MQ.motion, () => {
       const qN = phone ? 0 : ease(band(p, 0.42, 1)), qR = phone ? 0 : ease(band(p, 0.36, 0.94));
       navy.setAttribute('d', wave(fN, qN, 0, 0));
       rim.setAttribute('d', wave(fR, qR, R * 0.16 + 6, W * 0.045 * qR));
-      if (stripes) {
-        const sw = stripes.clientWidth, sh = sw * 0.75;
-        let x, y;
-        if (phone) { x = W - sw * 0.85; y = (photo ? photo.offsetTop : Hs - R) - sh * 0.55 + (1 - out(band(p, 0.25, 1))) * 60; }
-        else {
-          const xT = lerp(W * 1.12, edge().xT, qN);
-          x = Math.min(xT - sw * 0.55, W - sw * 0.7);
-          y = R * 0.72 + (1 - fN) * Hs * 1.08 - R - sh * 0.7;
-        }
-        if (rtl) x = W - x - sw;
-        stripes.style.setProperty('--sx', `${f1(x)}px`);
-        stripes.style.setProperty('--sy', `${f1(y)}px`);
-        stripes.style.opacity = phone ? String(band(p, 0.3, 0.7)) : String(fN);
-      }
       // On wide screens the photograph waits under the wave until the wave covers the section, so it is never seen
       // before the edge uncovers it.
       if (photo && !phone) photo.style.opacity = p < 0.4 ? '0' : '1';

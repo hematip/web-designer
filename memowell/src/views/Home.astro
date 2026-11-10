@@ -332,15 +332,11 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
 
   <!-- 8 · Where to find it: the label's wave. Scrolling down from "How to take it", a large wave in the label's blue
        (with a cyan rim) rises over the end of the section above and floods the screen: the boundary between the two
-       sections is a moving shape. The wave then draws back toward the copy, and its curved edge, carrying the cyan
-       stripe blob, uncovers the pharmacy photograph behind it (the catalogue's person pages: photograph and navy blob
-       sharing one organic edge). The copy reads white on the blue. Phones: the wave floods the section and the
-       photograph rises under a curved edge below the copy. Reduced motion and no-JS: the resting composition. -->
+       sections is a moving shape. The wave then draws back toward the copy, and its curved edge uncovers the pharmacy
+       photograph behind it (the catalogue's person pages: photograph and navy blob sharing one organic edge). The copy
+       reads white on the blue. Phones: the wave floods the section and the photograph rises under a curved edge below
+       the copy. Reduced motion and no-JS: the resting composition. -->
   <section class="h-where" id="where" aria-labelledby="where-title" data-where>
-    <svg class="h-where__stripes" viewBox="0 0 440 330" aria-hidden="true" focusable="false" data-where-stripes>
-      <defs><pattern id="where-stripes" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="4.2" height="11" fill="var(--cyan-stripe)" /></pattern></defs>
-      <path fill="url(#where-stripes)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" />
-    </svg>
     <svg class="h-where__shape" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false" data-where-shape>
       <defs>
         <linearGradient id="where-navy" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0" stop-color="var(--blue-bright)" /><stop offset="0.6" stop-color="var(--navy)" /><stop offset="1" stop-color="var(--navy-deep)" /></linearGradient>
@@ -737,7 +733,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     -webkit-mask-image: linear-gradient(to left, #000 97%, transparent); mask-image: linear-gradient(to left, #000 97%, transparent); }
   :global([dir='rtl']) .h-where__photo :global(.photo) { -webkit-mask-image: linear-gradient(to right, #000 97%, transparent); mask-image: linear-gradient(to right, #000 97%, transparent); }
   .h-where__photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
-  .h-where__stripes { position: absolute; z-index: 1; top: 0; left: 0; width: clamp(12rem, 22vw, 20rem); height: auto; pointer-events: none; transform: translate(var(--sx, 52vw), var(--sy, -2rem)); }
   .h-where__shape { position: absolute; z-index: 1; left: 0; top: calc(var(--reach) * -1); width: 100%; height: calc(100% + var(--reach)); pointer-events: none; overflow: hidden; }
   .h-where__grid { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
   .h-where__copy { grid-column: 1 / span 5; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; max-width: 27rem; }
@@ -834,7 +829,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     /* Phones: the wave floods the whole section; the photograph follows the copy under a curved top edge. */
     .h-where__photo { position: relative; inset: auto; z-index: 2; display: block; aspect-ratio: 4 / 4.4; margin-block-start: var(--s-5); }
     .h-where__photo :global(.photo) { position: static; width: 100%; -webkit-mask-image: none; mask-image: none; }
-    .h-where__stripes { z-index: 3; width: 44%; }
     /* Phones: the bottle above, the invitation centred beneath it. */
     .h-close__inner { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding-block-start: calc(var(--header-h) + 1rem); }
     .h-close__product, .h-close__copy { grid-column: 1; }
