@@ -742,17 +742,16 @@ mm.add(MQ.motion, () => {
   }
 }
 
-// ---------------------------------------------------------------- Closing: the label rises (pinned finale)
-// One progress value p (0…1) over ~1.8 screens of scroll, scrubbed:
-//  · sunrise (0 → 0.34): on the white stage the label's blue rises from the foot as a wide dome, and the bottle climbs
-//    out from behind its crest — clipped at the crest until it stands whole on the white, straightening as it rises;
-//  · a beat (0.34 → 0.40): the bottle stands on the crest;
-//  · flood (0.40 → 0.70): the dome swells until the blue fills the screen; the bottle glides to its place and grows;
-//    the white shape blooms behind it, the cyan shape swings in over that, the stripe field sweeps in, its reflection
-//    and a cyan light appear on the blue;
-//  · the invitation (0.64 → 0.96): the heading's lines rise from a mask, the strokes draw under "Talk it through",
-//    the text arrives line by line, the button follows; a short hold, then the pin releases into the footer.
-// Reverse scroll undoes it. Reduced motion and no-JS: the resolved frame (the CSS).
+// ---------------------------------------------------------------- Closing: the label rises (finale)
+// Two scrubbed drivers. The approach (section entering from below, no pin) drives `pre` 0…1: the label's blue stands
+// as a wide dome in the lower part of the stage and, as the dome comes on screen, the bottle climbs out from behind
+// its crest — clipped at the crest — until it stands whole on the white as the section fills the screen. (Earlier the
+// sunrise lived inside the pin and the approach was a screen of white — client report.) The pin (≈1.4 screens, 1.2 on
+// phones) drives `p` 0…1: a beat; flood — the dome swells until the blue fills the screen while the bottle glides to
+// its place and grows; the white shape blooms behind it, the cyan shape swings over that, the stripe field sweeps in,
+// a cyan light and the bottle's reflection appear on the blue; then the invitation — heading lines from a mask, the
+// strokes under "Talk it through", text line by line, the button; a short hold, then the pin releases into the
+// footer. Reverse scroll undoes both. Reduced motion and no-JS: the resolved frame (the CSS).
 mm.add(MQ.motion, () => {
   const section = $('[data-close]');
   const stage = section && $('[data-close-stage]', section);
@@ -776,7 +775,7 @@ mm.add(MQ.motion, () => {
   const lerp = (a, b, t) => a + (b - a) * t;
   const f1 = (v) => v.toFixed(1);
 
-  let W = 0, H = 0, rest = null, crestA = 0, sA = 0.72, phone = false;
+  let W = 0, H = 0, rest = null, crestA = 0, sA = 0.66, phone = false;
   const measure = () => {
     gsap.set(product, { clearProps: 'transform' });
     const S = section.getBoundingClientRect(), B = bottle.getBoundingClientRect();
@@ -785,57 +784,57 @@ mm.add(MQ.motion, () => {
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
     const header = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 5.5) * rem;
     phone = phoneMQ.matches;
-    sA = phone ? 0.9 : 0.72;
-    // where the crest stops for the beat: the whole bottle (at its sunrise size) stands above it, clear of the header
-    crestA = gsap.utils.clamp(0.5 * H, 0.74 * H, header + 1.5 * rem + rest.bh * sA);
+    sA = phone ? 0.85 : 0.66;
+    // where the crest stands: the whole bottle (at its sunrise size) fits above it, clear of the header
+    crestA = gsap.utils.clamp(0.5 * H, 0.72 * H, header + 1.5 * rem + rest.bh * sA);
   };
 
-  const st = { p: 0 };
+  const st = { pre: 0, p: 0 };
   const render = () => {
     if (!rest) return;
-    const p = st.p;
-    const rise = out2(band(p, 0, 0.34));
-    const flood = inOut2(band(p, 0.40, 0.70));
-    const emerge = out3(band(p, 0.04, 0.34));
-    const glide = inOut2(band(p, 0.40, 0.70));
-    // the dome: an ellipse whose crest rises with the sunrise, then swells until it covers the stage
-    const crestRise = lerp(0.82 * H, crestA, rise);
+    const { pre, p } = st;
+    const rise = out2(pre);                       // the dome lifts a little as the section comes in
+    const emerge = out3(band(pre, 0.42, 1));      // the bottle climbs out once the crest is on screen
+    const flood = inOut2(band(p, 0.06, 0.40));
+    const glide = flood;
+    const crestRise = lerp(crestA + 0.08 * H, crestA, rise);
     const rx = lerp(phone ? 1.5 * W : 0.92 * W, 1.5 * W, flood);
     const ry = lerp(0.7 * H, 1.6 * H, flood);
     const cy = lerp(crestRise + 0.7 * H, H, flood);
     const crest = cy - ry;
     const clip = `ellipse(${f1(rx)}px ${f1(ry)}px at 50% ${f1(cy)}px)`;
     stage.style.clipPath = clip; stage.style.webkitClipPath = clip;
-    // the bottle: hidden behind the crest, climbing out onto it, then gliding to its place as it grows
     const s = lerp(sA, 1, glide);
     const bottomA = crestRise + rest.bh * sA * (1 - emerge);
     const ty = lerp(bottomA - rest.bottom, 0, glide);
     const tx = lerp(W / 2 - rest.cx, 0, glide);
     const rot = lerp((rtl ? 7 : -7) * (1 - emerge), 0, glide);
     gsap.set(product, { x: tx, y: ty, scale: s, rotate: rot, transformOrigin: '50% 100%' });
-    // the clip at the crest belongs to the sunrise only: by its end the bottle stands wholly above the crest
-    const below = p < 0.40 ? Math.max(0, (rest.bottom + ty - crest) / s) : 0;
+    // the clip at the crest belongs to the climb only: by its end the bottle stands wholly above the crest
+    const below = emerge < 0.999 ? Math.max(0, (rest.bottom + ty - crest) / s) : 0;
     const bc = below > 0.5 ? `inset(0 0 ${f1(below)}px 0)` : '';
     bottle.style.clipPath = bc; bottle.style.webkitClipPath = bc;
+    // the shadow: light and close while the bottle is on the white (a heavy one reads as a grey box there — client
+    // report), deepening as the blue floods in under it
+    bottle.style.filter = `drop-shadow(0 ${f1(lerp(10, 30, flood))}px ${f1(lerp(14, 32, flood))}px rgba(10, 18, 60, ${lerp(0.14, 0.45, flood).toFixed(3)}))`;
   };
 
-  // One pinned timeline; the text tweens are swapped in whenever the copy re-splits (fonts, width) and the timeline
-  // is re-synced to the scroll position, so a rebuild never leaves the copy at its start state.
   measure();
+  const approach = gsap.to(st, { pre: 1, ease: 'none', onUpdate: render, scrollTrigger: { trigger: section, start: 'top bottom', end: 'top top', scrub: 0.8, invalidateOnRefresh: true } });
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: section, start: 'top top', end: () => `+=${phone ? 160 : 180}%`, pin: true, scrub: 0.8, anticipatePin: 1,
+      trigger: section, start: 'top top', end: () => `+=${phone ? 120 : 140}%`, pin: true, scrub: 0.8, anticipatePin: 1,
       invalidateOnRefresh: true, onRefreshInit: () => { measure(); render(); },
     },
   });
   tl.to(st, { p: 1, duration: 1, ease: 'none', onUpdate: render }, 0);
-  if (stripes) tl.fromTo(stripes, { xPercent: rtl ? -40 : 40, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.34, ease: 'power2.out' }, 0.44);
-  if (blobWhite) tl.fromTo(blobWhite, { scale: 0.3, rotate: rtl ? 18 : -18, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.46);
-  if (blobCyan) tl.fromTo(blobCyan, { scale: 0.3, rotate: rtl ? -40 : 40, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.52);
-  if (glow) tl.fromTo(glow, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'power2.out' }, 0.5);
-  if (reflection) tl.fromTo(reflection, { opacity: 0 }, { opacity: 0.22, duration: 0.2 }, 0.58);
-  if (accents.length) tl.fromTo(accents, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }, 0.78);
-  if (actions) tl.from(actions, { opacity: 0, y: 16, duration: 0.12, ease: 'power3.out' }, 0.86);
+  if (stripes) tl.fromTo(stripes, { xPercent: rtl ? -40 : 40, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.34, ease: 'power2.out' }, 0.12);
+  if (blobWhite) tl.fromTo(blobWhite, { scale: 0.3, rotate: rtl ? 18 : -18, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.14);
+  if (blobCyan) tl.fromTo(blobCyan, { scale: 0.3, rotate: rtl ? -40 : 40, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.2);
+  if (glow) tl.fromTo(glow, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'power2.out' }, 0.18);
+  if (reflection) tl.fromTo(reflection, { opacity: 0 }, { opacity: 0.22, duration: 0.2 }, 0.28);
+  if (accents.length) tl.fromTo(accents, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }, 0.56);
+  if (actions) tl.from(actions, { opacity: 0, y: 16, duration: 0.12, ease: 'power3.out' }, 0.66);
   tl.to({}, { duration: 0.02 }, 0.98);
   const textTweens = { title: null, text: null };
   const sync = () => { tl.progress(tl.scrollTrigger?.progress ?? 0); render(); };
@@ -847,17 +846,18 @@ mm.add(MQ.motion, () => {
   };
   // Text in lines only (shaping kept).
   const titleSplit = title ? SplitText.create(title, { type: 'lines', mask: 'lines', autoSplit: true,
-    onSplit: (self) => setLines('title', self.lines, { yPercent: 110, duration: 0.22, ease: 'expo.out', stagger: 0.05 }, 0.64) }) : null;
+    onSplit: (self) => setLines('title', self.lines, { yPercent: 110, duration: 0.22, ease: 'expo.out', stagger: 0.05 }, 0.42) }) : null;
   const textSplit = text ? SplitText.create(text, { type: 'lines', aria: 'none', autoSplit: true,
-    onSplit: (self) => setLines('text', self.lines, { opacity: 0, y: 18, duration: 0.2, ease: 'power3.out', stagger: 0.035 }, 0.74) }) : null;
+    onSplit: (self) => setLines('text', self.lines, { opacity: 0, y: 18, duration: 0.2, ease: 'power3.out', stagger: 0.035 }, 0.52) }) : null;
   render();
   return () => {
+    approach.scrollTrigger?.kill(); approach.kill();
     tl.scrollTrigger?.kill();
     tl.kill();
     titleSplit?.revert();
     textSplit?.revert();
     stage.style.clipPath = ''; stage.style.webkitClipPath = '';
-    bottle.style.clipPath = ''; bottle.style.webkitClipPath = '';
+    bottle.style.clipPath = ''; bottle.style.webkitClipPath = ''; bottle.style.filter = '';
     gsap.set([product, stripes, blobWhite, blobCyan, glow, reflection, actions, ...accents].filter(Boolean), { clearProps: 'all' });
   };
 });
