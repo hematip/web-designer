@@ -749,7 +749,7 @@ mm.add(MQ.motion, () => {
 // sunrise lived inside the pin and the approach was a screen of white — client report.) The pin (≈1.4 screens, 1.2 on
 // phones) drives `p` 0…1: a beat; flood — the dome swells until the blue fills the screen while the bottle glides to
 // its place and grows; the white shape blooms behind it, the cyan shape swings over that, the stripe field sweeps in,
-// a cyan light and the bottle's reflection appear on the blue; then the invitation — heading lines from a mask, the
+// a soft cyan light appears under it; then the invitation — heading lines from a mask, the
 // strokes under "Talk it through", text line by line, the button; a short hold, then the pin releases into the
 // footer. Reverse scroll undoes both. Reduced motion and no-JS: the resolved frame (the CSS).
 mm.add(MQ.motion, () => {
@@ -760,7 +760,6 @@ mm.add(MQ.motion, () => {
   if (!section || !stage || !product || !bottle) return;
   const stripes = $('[data-close-stripes]', section);
   const glow = $('[data-close-glow]', section);
-  const reflection = $('[data-close-reflection]', section);
   const blobWhite = $('[data-close-blob-white]', section);
   const blobCyan = $('[data-close-blob-cyan]', section);
   const copy = $('[data-close-copy]', section);
@@ -836,7 +835,6 @@ mm.add(MQ.motion, () => {
   if (blobWhite) tl.fromTo(blobWhite, { scale: 0.3, rotate: rtl ? 18 : -18, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.14);
   if (blobCyan) tl.fromTo(blobCyan, { scale: 0.3, rotate: rtl ? -40 : 40, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.2);
   if (glow) tl.fromTo(glow, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'power2.out' }, 0.18);
-  if (reflection) tl.fromTo(reflection, { opacity: 0 }, { opacity: 0.22, duration: 0.2 }, 0.28);
   if (accents.length) tl.fromTo(accents, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }, 0.56);
   if (actions) tl.from(actions, { opacity: 0, y: 16, duration: 0.12, ease: 'power3.out' }, 0.66);
   tl.to({}, { duration: 0.02 }, 0.98);
@@ -862,7 +860,7 @@ mm.add(MQ.motion, () => {
     textSplit?.revert();
     stage.style.clipPath = ''; stage.style.webkitClipPath = '';
     bottle.style.clipPath = ''; bottle.style.webkitClipPath = ''; bottle.style.filter = '';
-    gsap.set([product, stripes, blobWhite, blobCyan, glow, reflection, actions, ...accents].filter(Boolean), { clearProps: 'all' });
+    gsap.set([product, stripes, blobWhite, blobCyan, glow, actions, ...accents].filter(Boolean), { clearProps: 'all' });
   };
 });
 

@@ -367,7 +367,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   <!-- 9 · Closing: the label rises — the home page's finale, pinned for about 1.8 screens. A white stage; the label's
        blue rises from the foot like a sunrise and the bottle climbs out from behind its crest until it stands whole on
        the white; then the blue floods the screen, the bottle glides to its place over the label's two shapes (white and
-       cyan, with its reflection on the blue), and the invitation writes itself in beside it. The HTML is the resolved
+       cyan, with a soft cyan light under it), and the invitation writes itself in beside it. The HTML is the resolved
        frame: reduced motion and no-JS show it as is. Copy unchanged. -->
   <section class="h-close" id="closing" aria-labelledby="closing-title" data-close data-text-motion="off">
     <div class="h-close__stage" aria-hidden="true" data-close-stage>
@@ -382,7 +382,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
         <span class="h-close__glow" data-close-glow></span>
         <img class="h-close__bottle" data-close-bottle src="/img/bottle-560.webp" srcset="/img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
           sizes="(min-width: 56.25rem) 19rem, 11rem" width="895" height="1713" alt="" loading="lazy" decoding="async" />
-        <img class="h-close__reflection" data-close-reflection src="/img/bottle-560.webp" width="895" height="1713" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="h-close__copy" data-close-copy>
         <h2 id="closing-title" class="h-close__title" set:html={accentWord(closing.heading, closing.accent ?? 'conversation')} />
@@ -744,11 +743,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     -webkit-mask-image: radial-gradient(closest-side, #000 50%, transparent 100%); mask-image: radial-gradient(closest-side, #000 50%, transparent 100%); }
   .h-close__inner { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center;
     padding-block: calc(var(--header-h) + 1.5rem) clamp(2.5rem, 5vw, 4rem); }
-  /* The product: the bottle over the label's two shapes (white, then cyan over it), a soft cyan light and its reflection. */
+  /* The product: the bottle over the label's two shapes (white, then cyan over it) and a soft cyan light under it. No reflection: its tail showed at the section's foot. */
   .h-close__product { grid-column: 1 / span 6; position: relative; isolation: isolate; justify-self: center; width: min(30vw, 19rem, 30svh); }
   .h-close__bottle { position: relative; z-index: 1; display: block; width: 100%; height: auto; max-width: none; filter: drop-shadow(0 30px 32px rgba(10, 18, 60, 0.45)); }
-  .h-close__reflection { position: absolute; z-index: 1; top: 100%; left: 0; width: 100%; height: auto; max-width: none; opacity: 0.22; pointer-events: none; transform: scaleY(-1) translateY(2px);
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 55%); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 55%); }
   .h-close__glow { position: absolute; z-index: 0; left: 50%; bottom: -16%; width: 190%; aspect-ratio: 2.2; translate: -50% 0; border-radius: 50%; pointer-events: none;
     background: radial-gradient(closest-side, rgba(94, 207, 217, 0.42), rgba(94, 207, 217, 0) 100%); }
   .h-close__mark { position: absolute; z-index: -1; left: 50%; top: 52%; width: 215%; translate: -50% -50%; pointer-events: none; }
@@ -809,7 +806,6 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-close__inner { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding-block-start: calc(var(--header-h) + 1rem); }
     .h-close__product, .h-close__copy { grid-column: 1; }
     .h-close__product { width: min(42vw, 11rem, 16svh); }
-    .h-close__reflection { -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 36%); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 36%); }
     .h-close__inner { row-gap: var(--s-3); }
     .h-close__copy { justify-items: center; text-align: center; }
     .h-close__title { max-width: 16ch; }
