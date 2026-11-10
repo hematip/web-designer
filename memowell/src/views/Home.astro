@@ -364,17 +364,30 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     )}
   </section>
 
-  <!-- 9 · Closing: the label rises. The section is a wide dome in the brand gradient coming up from the foot of the page;
-       the bottle rises from behind its edge like a sunrise and stands half on the white, half on the blue, with the
-       invitation centred beneath it. -->
-  <section class="h-close" id="closing" aria-labelledby="closing-title" data-close>
-    <img class="h-close__bottle" data-close-bottle src="/img/bottle-560.webp" srcset="/img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
-      sizes="(min-width: 56.25rem) 14rem, 9rem" width="895" height="1713" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-    <div class="h-close__dome is-dark" data-close-dome>
-      <div class="wrap h-close__copy" data-intro data-text-motion="off">
+  <!-- 9 · Closing: the label rises — the home page's finale, pinned for about 1.8 screens. A white stage; the label's
+       blue rises from the foot like a sunrise and the bottle climbs out from behind its crest until it stands whole on
+       the white; then the blue floods the screen, the bottle glides to its place over the label's two shapes (white and
+       cyan, with its reflection on the blue), and the invitation writes itself in beside it. The HTML is the resolved
+       frame: reduced motion and no-JS show it as is. Copy unchanged. -->
+  <section class="h-close" id="closing" aria-labelledby="closing-title" data-close data-text-motion="off">
+    <div class="h-close__stage" aria-hidden="true" data-close-stage>
+      <span class="h-close__stripes" data-close-stripes></span>
+    </div>
+    <div class="wrap h-close__inner">
+      <div class="h-close__product" aria-hidden="true" data-close-product>
+        <div class="h-close__mark" data-close-mark>
+          <div class="h-close__blob h-close__blob--white" data-close-blob-white><Blob id="close-blob" tone="white" stripes={false} /></div>
+          <div class="h-close__blob h-close__blob--cyan" data-close-blob-cyan><Blob id="close-blob-cyan" tone="cyan" stripes={false} /></div>
+        </div>
+        <span class="h-close__glow" data-close-glow></span>
+        <img class="h-close__bottle" data-close-bottle src="/img/bottle-560.webp" srcset="/img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
+          sizes="(min-width: 56.25rem) 19rem, 11rem" width="895" height="1713" alt="" loading="lazy" decoding="async" />
+        <img class="h-close__reflection" data-close-reflection src="/img/bottle-560.webp" width="895" height="1713" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="h-close__copy" data-close-copy>
         <h2 id="closing-title" class="h-close__title" set:html={accentWord(closing.heading, closing.accent ?? 'conversation')} />
-        <p class="h-close__text" data-intro-lines>{closing.body}</p>
-        <div class="btn-row" data-intro-part>{closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
+        <p class="h-close__text">{closing.body}</p>
+        <div class="btn-row">{closing.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
       </div>
     </div>
   </section>
@@ -722,28 +735,36 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   /* RTL: the wave is drawn mirrored by the script; the photograph moves to the other side unflipped. */
 
   /* ============ Closing: typographic invitation; the bottle on a soft light inside opening rings ============ */
-  /* The bottle stands on the dome's crown: --bw its width, --bh its height; its lower --sink sits behind the dome. The
-     dome is an ellipse whose crown is the section's top centre; its sides fall away toward the edges. */
-  /* Full screen: once the visitor is on the closing, nothing of the section above shows; the dome fills whatever the
-     bottle leaves. The bottle is large (up to 20rem wide), capped by the screen height so the invitation still fits. */
-  .h-close { --bw: min(clamp(10rem, 5rem + 10vw, 20rem), 27svh); --bh: calc(var(--bw) * 1.914); --sink: 0.2; position: relative; isolation: isolate; overflow: clip;
-    display: flex; flex-direction: column; min-height: 100svh;
-    padding-block-start: calc(var(--bh) * (1 - var(--sink)) + var(--header-h) + 1rem); }
-  .h-close__bottle { position: absolute; z-index: 0; left: 50%; top: calc(var(--header-h) + 1rem); width: var(--bw); height: auto; max-width: none; translate: -50% 0;
-    filter: drop-shadow(0 26px 26px rgba(20, 30, 80, 0.32)); }
-  .h-close__dome { position: relative; z-index: 1; flex: 1 0 auto; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(6rem, 10vw, 9rem) var(--section); background: var(--brand-gradient-diag);
-    -webkit-clip-path: ellipse(92% 100% at 50% 100%); clip-path: ellipse(92% 100% at 50% 100%); }
-  /* the label's stripe field, faint, along the crown under the bottle */
-  .h-close__dome::before { content: ''; position: absolute; inset: 0 22% auto; height: clamp(9rem, 18vw, 15rem); pointer-events: none; opacity: 0.35;
+  /* ============ Closing: the label rises (pinned finale; this CSS is the resolved frame) ============ */
+  .h-close { position: relative; isolation: isolate; overflow: clip; min-height: 100svh; display: grid; align-items: center; background: var(--paper); }
+  /* The blue: the whole stage at rest; the scene clips it to the rising dome, then floods it (home-scenes.js). */
+  .h-close__stage { position: absolute; inset: 0; z-index: 0; background: var(--brand-gradient-diag); }
+  .h-close__stripes { position: absolute; z-index: 0; top: -6%; inset-inline-end: -8%; width: 46%; aspect-ratio: 1.3; opacity: 0.3; pointer-events: none;
     background: repeating-linear-gradient(-38deg, var(--cyan-stripe) 0 4px, transparent 4px 12px);
-    -webkit-mask-image: radial-gradient(50% 100% at 50% 0%, #000 30%, transparent 100%); mask-image: radial-gradient(50% 100% at 50% 0%, #000 30%, transparent 100%); }
-  .h-close__copy { position: relative; display: grid; gap: var(--s-4); justify-items: center; text-align: center; }
-  .h-close__title { max-width: 18ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; }
-  /* Kondor's two thin product-colour strokes under the key phrase (drawn in by the intro entrance). */
-  /* Placed just under the baseline, inside the line box, so the line masks of the entrance never clip them. */
+    -webkit-mask-image: radial-gradient(closest-side, #000 50%, transparent 100%); mask-image: radial-gradient(closest-side, #000 50%, transparent 100%); }
+  .h-close__inner { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center;
+    padding-block: calc(var(--header-h) + 1.5rem) clamp(2.5rem, 5vw, 4rem); }
+  /* The product: the bottle over the label's two shapes (white, then cyan over it), a soft cyan light and its reflection. */
+  .h-close__product { grid-column: 1 / span 6; position: relative; isolation: isolate; justify-self: center; width: min(30vw, 19rem, 30svh); }
+  .h-close__bottle { position: relative; z-index: 1; display: block; width: 100%; height: auto; max-width: none; filter: drop-shadow(0 30px 32px rgba(10, 18, 60, 0.45)); }
+  .h-close__reflection { position: absolute; z-index: 1; top: 100%; left: 0; width: 100%; height: auto; max-width: none; opacity: 0.22; pointer-events: none; transform: scaleY(-1) translateY(2px);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 55%); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 55%); }
+  .h-close__glow { position: absolute; z-index: 0; left: 50%; bottom: -16%; width: 190%; aspect-ratio: 2.2; translate: -50% 0; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(94, 207, 217, 0.42), rgba(94, 207, 217, 0) 100%); }
+  .h-close__mark { position: absolute; z-index: -1; left: 50%; top: 52%; width: 215%; translate: -50% -50%; pointer-events: none; }
+  .h-close__blob { width: 100%; }
+  .h-close__blob--cyan { position: absolute; left: 50%; top: 50%; width: 84%; translate: -50% -30%; rotate: -24deg; }
+  :global([dir='rtl']) .h-close__blob--cyan { rotate: 24deg; }
+  .h-close__copy { grid-column: 7 / span 6; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; color: #fff; }
+  .h-close__title { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; }
+  /* Kondor's two thin product-colour strokes under the key phrase (drawn in by the scene). */
   .h-close__title :global(.accent) { background: linear-gradient(var(--cyan) 0 0) 0 calc(100% - 0.13em) / 100% 0.04em no-repeat, linear-gradient(var(--cyan-stripe) 0 0) 0 calc(100% - 0.21em) / 100% 0.04em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
-  .h-close__text { max-width: 44ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
-  .h-close .btn-row { justify-content: center; }
+  .h-close__text { max-width: 38ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
+  .h-close :focus-visible { outline-color: var(--focus-on-dark); }
+  /* Without the scene (reduced motion, no JS) the closing is the full blue stage, so the arch on Where's foot goes. */
+  @media (prefers-reduced-motion: reduce) { .h-where { --arch-sag: 0rem; } .h-where::after { display: none; } }
+  :global(html.no-js) .h-where { --arch-sag: 0rem; }
+  :global(html.no-js) .h-where::after { display: none; }
 
   /* ============ Evidence → Closing on tablets and phones ============ */
   @media (max-width: 56.24rem) {
@@ -784,8 +805,16 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-where__photo { position: relative; inset: auto; z-index: 2; display: block; aspect-ratio: 4 / 4.4; margin-block-start: var(--s-5); }
     .h-where__photo :global(.photo) { position: static; width: 100%; -webkit-mask-image: none; mask-image: none; }
     .h-where__stripes { z-index: 3; width: 44%; }
-    .h-close__dome { -webkit-clip-path: ellipse(150% 100% at 50% 100%); clip-path: ellipse(150% 100% at 50% 100%); padding-block-start: clamp(4.5rem, 16vw, 6rem); }
-    .h-close__dome::before { inset-inline: 6%; }
+    /* Phones: the bottle above, the invitation centred beneath it. */
+    .h-close__inner { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding-block-start: calc(var(--header-h) + 1rem); }
+    .h-close__product, .h-close__copy { grid-column: 1; }
+    .h-close__product { width: min(42vw, 11rem, 16svh); }
+    .h-close__reflection { -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 36%); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 36%); }
+    .h-close__inner { row-gap: var(--s-3); }
+    .h-close__copy { justify-items: center; text-align: center; }
+    .h-close__title { max-width: 16ch; }
+    .h-close .btn-row { justify-content: center; }
+    .h-close__stripes { width: 80%; top: -4%; }
   }
   @media (max-width: 56.24rem) {
     .h-pro__stage { display: block; }

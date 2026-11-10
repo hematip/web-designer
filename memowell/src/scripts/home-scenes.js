@@ -719,16 +719,17 @@ mm.add(MQ.motion, () => {
   }
 }
 
-// The foot of Where to find it follows the closing dome's arch: same ellipse (the dome's width share and its height),
-// so the white band between them has two parallel curves. sag = how far the arch rises at the page edges' midpoint,
-// ry · (1 − √(1 − (0.5 / k)²)) for an ellipse k widths wide. Not motion: runs everywhere, re-measured on resize.
+// The foot of Where to find it follows the closing's rising dome: the same ellipse (92% of the width, 70% of the
+// closing's height, 150% wide on phones), so the white band between them has two parallel curves while the dome is
+// low. sag = how far the arch rises at the centre, ry · (1 − √(1 − (0.5 / k)²)). Only with motion: without the scene
+// the closing is the full blue stage and the arch is off (CSS).
 {
   const where = $('#where');
-  const dome = $('[data-close-dome]');
-  if (where && dome) {
+  const closing = $('[data-close]');
+  if (where && closing && window.matchMedia(MQ.motion).matches) {
     const phoneMQ = window.matchMedia('(max-width: 56.24rem)');
     const fit = () => {
-      const ry = dome.offsetHeight;
+      const ry = closing.clientHeight * 0.7;
       if (!ry) return;
       const k = phoneMQ.matches ? 1.5 : 0.92;
       const sag = ry * (1 - Math.sqrt(1 - (0.5 / k) ** 2));
@@ -737,32 +738,128 @@ mm.add(MQ.motion, () => {
       where.style.setProperty('--arch-sag', `${sag.toFixed(1)}px`);
     };
     fit();
-    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(dome);
-    else window.addEventListener('resize', fit);
+    window.addEventListener('resize', fit);
   }
 }
 
-// Closing: the label rises. Scrubbed with scroll: the dome comes up from below (its crown rising and widening), and the
-// bottle rises from behind its edge like a sunrise, straightening as it stands. Reverse scroll sets it again.
-// Reduced motion and no-JS: the resolved composition.
+// ---------------------------------------------------------------- Closing: the label rises (pinned finale)
+// One progress value p (0…1) over ~1.8 screens of scroll, scrubbed:
+//  · sunrise (0 → 0.34): on the white stage the label's blue rises from the foot as a wide dome, and the bottle climbs
+//    out from behind its crest — clipped at the crest until it stands whole on the white, straightening as it rises;
+//  · a beat (0.34 → 0.40): the bottle stands on the crest;
+//  · flood (0.40 → 0.70): the dome swells until the blue fills the screen; the bottle glides to its place and grows;
+//    the white shape blooms behind it, the cyan shape swings in over that, the stripe field sweeps in, its reflection
+//    and a cyan light appear on the blue;
+//  · the invitation (0.64 → 0.96): the heading's lines rise from a mask, the strokes draw under "Talk it through",
+//    the text arrives line by line, the button follows; a short hold, then the pin releases into the footer.
+// Reverse scroll undoes it. Reduced motion and no-JS: the resolved frame (the CSS).
 mm.add(MQ.motion, () => {
   const section = $('[data-close]');
-  const dome = section && $('[data-close-dome]', section);
+  const stage = section && $('[data-close-stage]', section);
+  const product = section && $('[data-close-product]', section);
   const bottle = section && $('[data-close-bottle]', section);
-  if (!section || !dome || !bottle) return;
-  const phone = window.matchMedia('(max-width: 56.24rem)').matches;
-  const rx = phone ? 150 : 92;
-  const st = { d: 0 };
-  const paint = () => {
-    const e = gsap.parseEase('power2.out')(st.d);
-    const c = `ellipse(${(rx * (0.55 + 0.45 * e)).toFixed(2)}% ${(100 * (0.7 + 0.3 * e)).toFixed(2)}% at 50% 100%)`;
-    dome.style.clipPath = c; dome.style.webkitClipPath = c;
+  if (!section || !stage || !product || !bottle) return;
+  const stripes = $('[data-close-stripes]', section);
+  const glow = $('[data-close-glow]', section);
+  const reflection = $('[data-close-reflection]', section);
+  const blobWhite = $('[data-close-blob-white]', section);
+  const blobCyan = $('[data-close-blob-cyan]', section);
+  const copy = $('[data-close-copy]', section);
+  const title = copy && $('.h-close__title', copy);
+  const text = copy && $('.h-close__text', copy);
+  const actions = copy && $('.btn-row', copy);
+  const accents = title ? [...title.querySelectorAll('.accent')] : [];
+  const rtl = (section.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
+  const phoneMQ = window.matchMedia('(max-width: 56.24rem)');
+  const out2 = gsap.parseEase('power2.out'), out3 = gsap.parseEase('power3.out'), inOut2 = gsap.parseEase('power2.inOut');
+  const band = (p, a, b) => gsap.utils.clamp(0, 1, (p - a) / (b - a));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const f1 = (v) => v.toFixed(1);
+
+  let W = 0, H = 0, rest = null, crestA = 0, sA = 0.72, phone = false;
+  const measure = () => {
+    gsap.set(product, { clearProps: 'transform' });
+    const S = section.getBoundingClientRect(), B = bottle.getBoundingClientRect();
+    W = section.clientWidth; H = section.clientHeight;
+    rest = { bottom: B.bottom - S.top, cx: (B.left + B.right) / 2 - S.left, bh: B.height };
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const header = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 5.5) * rem;
+    phone = phoneMQ.matches;
+    sA = phone ? 0.9 : 0.72;
+    // where the crest stops for the beat: the whole bottle (at its sunrise size) stands above it, clear of the header
+    crestA = gsap.utils.clamp(0.5 * H, 0.74 * H, header + 1.5 * rem + rest.bh * sA);
   };
-  const tl = gsap.timeline({ scrollTrigger: { trigger: section, start: 'top 90%', end: 'top 20%', scrub: 0.8 } });
-  tl.to(st, { d: 1, duration: 0.6, ease: 'none', onUpdate: paint }, 0)
-    .fromTo(bottle, { yPercent: 70, rotate: -6, scale: 0.9 }, { yPercent: 0, rotate: 0, scale: 1, duration: 0.7, ease: 'power3.out', transformOrigin: '50% 100%' }, 0.2);
-  paint();
-  return () => { tl.scrollTrigger?.kill(); tl.kill(); gsap.set(bottle, { clearProps: 'transform' }); dome.style.clipPath = ''; dome.style.webkitClipPath = ''; };
+
+  const st = { p: 0 };
+  const render = () => {
+    if (!rest) return;
+    const p = st.p;
+    const rise = out2(band(p, 0, 0.34));
+    const flood = inOut2(band(p, 0.40, 0.70));
+    const emerge = out3(band(p, 0.04, 0.34));
+    const glide = inOut2(band(p, 0.40, 0.70));
+    // the dome: an ellipse whose crest rises with the sunrise, then swells until it covers the stage
+    const crestRise = lerp(0.82 * H, crestA, rise);
+    const rx = lerp(phone ? 1.5 * W : 0.92 * W, 1.5 * W, flood);
+    const ry = lerp(0.7 * H, 1.6 * H, flood);
+    const cy = lerp(crestRise + 0.7 * H, H, flood);
+    const crest = cy - ry;
+    const clip = `ellipse(${f1(rx)}px ${f1(ry)}px at 50% ${f1(cy)}px)`;
+    stage.style.clipPath = clip; stage.style.webkitClipPath = clip;
+    // the bottle: hidden behind the crest, climbing out onto it, then gliding to its place as it grows
+    const s = lerp(sA, 1, glide);
+    const bottomA = crestRise + rest.bh * sA * (1 - emerge);
+    const ty = lerp(bottomA - rest.bottom, 0, glide);
+    const tx = lerp(W / 2 - rest.cx, 0, glide);
+    const rot = lerp((rtl ? 7 : -7) * (1 - emerge), 0, glide);
+    gsap.set(product, { x: tx, y: ty, scale: s, rotate: rot, transformOrigin: '50% 100%' });
+    // the clip at the crest belongs to the sunrise only: by its end the bottle stands wholly above the crest
+    const below = p < 0.40 ? Math.max(0, (rest.bottom + ty - crest) / s) : 0;
+    const bc = below > 0.5 ? `inset(0 0 ${f1(below)}px 0)` : '';
+    bottle.style.clipPath = bc; bottle.style.webkitClipPath = bc;
+  };
+
+  // One pinned timeline; the text tweens are swapped in whenever the copy re-splits (fonts, width) and the timeline
+  // is re-synced to the scroll position, so a rebuild never leaves the copy at its start state.
+  measure();
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section, start: 'top top', end: () => `+=${phone ? 160 : 180}%`, pin: true, scrub: 0.8, anticipatePin: 1,
+      invalidateOnRefresh: true, onRefreshInit: () => { measure(); render(); },
+    },
+  });
+  tl.to(st, { p: 1, duration: 1, ease: 'none', onUpdate: render }, 0);
+  if (stripes) tl.fromTo(stripes, { xPercent: rtl ? -40 : 40, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.34, ease: 'power2.out' }, 0.44);
+  if (blobWhite) tl.fromTo(blobWhite, { scale: 0.3, rotate: rtl ? 18 : -18, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.46);
+  if (blobCyan) tl.fromTo(blobCyan, { scale: 0.3, rotate: rtl ? -40 : 40, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.52);
+  if (glow) tl.fromTo(glow, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'power2.out' }, 0.5);
+  if (reflection) tl.fromTo(reflection, { opacity: 0 }, { opacity: 0.22, duration: 0.2 }, 0.58);
+  if (accents.length) tl.fromTo(accents, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }, 0.78);
+  if (actions) tl.from(actions, { opacity: 0, y: 16, duration: 0.12, ease: 'power3.out' }, 0.86);
+  tl.to({}, { duration: 0.02 }, 0.98);
+  const textTweens = { title: null, text: null };
+  const sync = () => { tl.progress(tl.scrollTrigger?.progress ?? 0); render(); };
+  const setLines = (key, lines, vars, at) => {
+    textTweens[key]?.kill(); // the tween only: tl.from() would hand back the timeline, and killing that kills the pin
+    textTweens[key] = lines.length ? gsap.from(lines, vars) : null;
+    if (textTweens[key]) tl.add(textTweens[key], at);
+    sync();
+  };
+  // Text in lines only (shaping kept).
+  const titleSplit = title ? SplitText.create(title, { type: 'lines', mask: 'lines', autoSplit: true,
+    onSplit: (self) => setLines('title', self.lines, { yPercent: 110, duration: 0.22, ease: 'expo.out', stagger: 0.05 }, 0.64) }) : null;
+  const textSplit = text ? SplitText.create(text, { type: 'lines', aria: 'none', autoSplit: true,
+    onSplit: (self) => setLines('text', self.lines, { opacity: 0, y: 18, duration: 0.2, ease: 'power3.out', stagger: 0.035 }, 0.74) }) : null;
+  render();
+  return () => {
+    tl.scrollTrigger?.kill();
+    tl.kill();
+    titleSplit?.revert();
+    textSplit?.revert();
+    stage.style.clipPath = ''; stage.style.webkitClipPath = '';
+    bottle.style.clipPath = ''; bottle.style.webkitClipPath = '';
+    gsap.set([product, stripes, blobWhite, blobCyan, glow, reflection, actions, ...accents].filter(Boolean), { clearProps: 'all' });
+  };
 });
 
 // ---------------------------------------------------------------- Label blobs: the mark moves with the page
