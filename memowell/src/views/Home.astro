@@ -762,9 +762,9 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-close__text { max-width: 38ch; color: var(--on-dark-soft); font-size: var(--fs-lead); line-height: 1.5; }
   .h-close :focus-visible { outline-color: var(--focus-on-dark); }
   /* Without the scene (reduced motion, no JS) the closing is the full blue stage, so the arch on Where's foot goes. */
-  @media (prefers-reduced-motion: reduce) { .h-where { --arch-sag: 0rem; } .h-where::after { display: none; } }
-  :global(html.no-js) .h-where { --arch-sag: 0rem; }
-  :global(html.no-js) .h-where::after { display: none; }
+  @media (prefers-reduced-motion: reduce) { section.h-where { --arch-sag: 0rem; } section.h-where::after { display: none; } }
+  :global(html.no-js) section.h-where { --arch-sag: 0rem; }
+  :global(html.no-js) section.h-where::after { display: none; }
 
   /* ============ Evidence → Closing on tablets and phones ============ */
   @media (max-width: 56.24rem) {
