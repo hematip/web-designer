@@ -775,7 +775,7 @@ mm.add(MQ.motion, () => {
   const lerp = (a, b, t) => a + (b - a) * t;
   const f1 = (v) => v.toFixed(1);
 
-  let W = 0, H = 0, rest = null, crestA = 0, sA = 0.66, phone = false;
+  let W = 0, H = 0, rest = null, crestA = 0, crestB = 0, sA = 0.6, phone = false;
   const measure = () => {
     gsap.set(product, { clearProps: 'transform' });
     const S = section.getBoundingClientRect(), B = bottle.getBoundingClientRect();
@@ -784,20 +784,24 @@ mm.add(MQ.motion, () => {
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
     const header = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 5.5) * rem;
     phone = phoneMQ.matches;
-    sA = phone ? 0.85 : 0.66;
-    // where the crest stands: the whole bottle (at its sunrise size) fits above it, clear of the header
-    crestA = gsap.utils.clamp(0.5 * H, 0.72 * H, header + 1.5 * rem + rest.bh * sA);
+    sA = phone ? 0.8 : 0.6;
+    // where the bottle stands: the whole bottle (at its climb size) fits above the crest, clear of the header
+    crestA = Math.min(0.72 * H, header + 1.5 * rem + rest.bh * sA);
+    // once it is out, the blue keeps rising behind it, so the white above shrinks to a cap before the pin
+    crestB = Math.max(0.3 * H, header + rem);
   };
 
   const st = { pre: 0, p: 0 };
   const render = () => {
     if (!rest) return;
     const { pre, p } = st;
-    const rise = out2(pre);                       // the dome lifts a little as the section comes in
-    const emerge = out3(band(pre, 0.42, 1));      // the bottle climbs out once the crest is on screen
+    const rise = out2(band(pre, 0, 0.8));         // the dome lifts a little as the section comes in
+    const emerge = out3(band(pre, 0.36, 0.8));    // the bottle climbs out once the crest is on screen
+    const rise2 = inOut2(band(pre, 0.8, 1));      // then the blue rises on behind the standing bottle
     const flood = inOut2(band(p, 0.06, 0.40));
     const glide = flood;
-    const crestRise = lerp(crestA + 0.08 * H, crestA, rise);
+    const crestStand = lerp(crestA + 0.08 * H, crestA, rise);
+    const crestRise = lerp(crestStand, crestB, rise2);
     const rx = lerp(phone ? 1.5 * W : 0.92 * W, 1.5 * W, flood);
     const ry = lerp(0.7 * H, 1.6 * H, flood);
     const cy = lerp(crestRise + 0.7 * H, H, flood);
@@ -805,7 +809,7 @@ mm.add(MQ.motion, () => {
     const clip = `ellipse(${f1(rx)}px ${f1(ry)}px at 50% ${f1(cy)}px)`;
     stage.style.clipPath = clip; stage.style.webkitClipPath = clip;
     const s = lerp(sA, 1, glide);
-    const bottomA = crestRise + rest.bh * sA * (1 - emerge);
+    const bottomA = crestStand + rest.bh * sA * (1 - emerge);
     const ty = lerp(bottomA - rest.bottom, 0, glide);
     const tx = lerp(W / 2 - rest.cx, 0, glide);
     const rot = lerp((rtl ? 7 : -7) * (1 - emerge), 0, glide);
