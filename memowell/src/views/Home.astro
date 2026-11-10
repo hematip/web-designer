@@ -745,11 +745,13 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-close__stage { position: absolute; inset: 0; z-index: 0; background: var(--brand-gradient-diag); }
   .h-close__inner { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center;
     padding-block: calc(var(--header-h) + 1.5rem) clamp(2.5rem, 5vw, 4rem); }
-  /* The product: the bottle over the label's shapes, a soft cyan light under it and its reflection on the blue. The
-     reflection is short (it fades out within 18% of the bottle's height, 14% on phones) so it ends inside the section
-     and no cut-off tail shows at the section's foot when the footer is in view. */
-  .h-close__reflection { position: absolute; z-index: 1; top: 100%; left: 0; width: 100%; height: auto; max-width: none; opacity: 0.22; pointer-events: none; transform: scaleY(-1) translateY(2px);
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 18%); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 18%); }
+  /* The product: the bottle over the label's shapes, a soft cyan light under it and its reflection on the blue — the
+     original long reflection (fading over 55% of the bottle's height, 36% on phones). Its opacity is 0.22 × --show (the
+     scene brings it in) × --leave (it fades out as the footer comes up, so no cut-off tail shows at the section's foot
+     when the footer is in view). */
+  .h-close__reflection { --fade: 55%; position: absolute; z-index: 1; top: 100%; left: 0; width: 100%; height: auto; max-width: none; pointer-events: none; transform: scaleY(-1) translateY(2px);
+    opacity: calc(0.22 * var(--show, 1) * var(--leave, 1));
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent var(--fade)); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent var(--fade)); }
   .h-close__product { grid-column: 1 / span 6; position: relative; isolation: isolate; justify-self: center; width: min(30vw, 19rem, 30svh); }
   .h-close__bottle { position: relative; z-index: 1; display: block; width: 100%; height: auto; max-width: none; filter: drop-shadow(0 30px 32px rgba(10, 18, 60, 0.45)); }
   .h-close__glow { position: absolute; z-index: 0; left: 50%; bottom: -16%; width: 190%; aspect-ratio: 2.2; translate: -50% 0; border-radius: 50%; pointer-events: none;
@@ -820,7 +822,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-close__inner { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding-block-start: calc(var(--header-h) + 1rem); }
     .h-close__product, .h-close__copy { grid-column: 1; }
     .h-close__product { width: min(42vw, 11rem, 16svh); }
-    .h-close__reflection { -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 14%); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 14%); }
+    .h-close__reflection { --fade: 36%; }
     .h-close__inner { row-gap: var(--s-3); }
     .h-close__copy { justify-items: center; text-align: center; }
     .h-close__title { max-width: 16ch; }

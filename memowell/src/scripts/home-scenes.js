@@ -839,12 +839,22 @@ mm.add(MQ.motion, () => {
   if (stripesBack) tl.fromTo(stripesBack, { xPercent: rtl ? 12 : -12, yPercent: 30, autoAlpha: 0 }, { xPercent: 0, yPercent: 0, autoAlpha: 0.9, duration: 0.32, ease: 'power3.out' }, 0.1);
   if (stripesMid) tl.fromTo(stripesMid, { xPercent: rtl ? -24 : 24, rotate: rtl ? 22 : -22, autoAlpha: 0 }, { xPercent: 0, rotate: rtl ? 10 : -10, autoAlpha: 0.4, duration: 0.3, ease: 'power3.out' }, 0.18);
   if (blobCyan) tl.fromTo(blobCyan, { scale: 0.3, rotate: rtl ? -40 : 40, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.2);
-  if (reflection) tl.fromTo(reflection, { opacity: 0 }, { opacity: 0.22, duration: 0.2 }, 0.28);
+  if (reflection) tl.fromTo(reflection, { '--show': 0 }, { '--show': 1, duration: 0.2 }, 0.28);
+  // as the footer comes up after the pin, the reflection fades out (one writer per property: --leave, not opacity)
+  const footer = $('.site-footer');
+  const leave = reflection && footer ? gsap.fromTo(reflection, { '--leave': 1 }, { '--leave': 0, ease: 'none', scrollTrigger: { trigger: footer, start: 'top 98%', end: 'top 60%', scrub: true } }) : null;
   if (glow) tl.fromTo(glow, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'power2.out' }, 0.18);
-  if (accents.length) tl.fromTo(accents, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }, 0.56);
   if (actions) tl.from(actions, { opacity: 0, y: 16, duration: 0.12, ease: 'power3.out' }, 0.66);
   tl.to({}, { duration: 0.02 }, 0.98);
-  const textTweens = { title: null, text: null };
+  const textTweens = { title: null, text: null, accents: null };
+  // The strokes under the accent live inside the split lines, so they are found again after every split.
+  const setAccents = () => {
+    textTweens.accents?.kill();
+    const now = title ? [...title.querySelectorAll('.accent')] : [];
+    gsap.set(now, { clearProps: 'backgroundSize' });
+    textTweens.accents = now.length ? gsap.fromTo(now, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }) : null;
+    if (textTweens.accents) tl.add(textTweens.accents, 0.56);
+  };
   const sync = () => { tl.progress(tl.scrollTrigger?.progress ?? 0); render(); };
   const setLines = (key, lines, vars, at) => {
     textTweens[key]?.kill(); // the tween only: tl.from() would hand back the timeline, and killing that kills the pin
@@ -854,7 +864,7 @@ mm.add(MQ.motion, () => {
   };
   // Text in lines only (shaping kept).
   const titleSplit = title ? SplitText.create(title, { type: 'lines', mask: 'lines', autoSplit: true,
-    onSplit: (self) => setLines('title', self.lines, { yPercent: 110, duration: 0.22, ease: 'expo.out', stagger: 0.05 }, 0.42) }) : null;
+    onSplit: (self) => { setAccents(); setLines('title', self.lines, { yPercent: 110, duration: 0.22, ease: 'expo.out', stagger: 0.05 }, 0.42); } }) : null;
   const textSplit = text ? SplitText.create(text, { type: 'lines', aria: 'none', autoSplit: true,
     onSplit: (self) => setLines('text', self.lines, { opacity: 0, y: 18, duration: 0.2, ease: 'power3.out', stagger: 0.035 }, 0.52) }) : null;
   render();
@@ -866,6 +876,9 @@ mm.add(MQ.motion, () => {
     textSplit?.revert();
     stage.style.clipPath = ''; stage.style.webkitClipPath = '';
     bottle.style.clipPath = ''; bottle.style.webkitClipPath = ''; bottle.style.filter = '';
+    leave?.scrollTrigger?.kill(); leave?.kill();
+    reflection?.style.removeProperty('--show'); reflection?.style.removeProperty('--leave');
+    textTweens.accents?.kill();
     gsap.set([product, reflection, stripesBack, stripesMid, blobWhite, blobCyan, glow, actions, ...accents].filter(Boolean), { clearProps: 'all' });
   };
 });
