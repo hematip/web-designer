@@ -738,9 +738,10 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-close { position: relative; isolation: isolate; overflow: clip; min-height: 100svh; display: grid; align-items: center; background: var(--paper); }
   /* The blue: the whole stage at rest; the scene clips it to the rising dome, then floods it (home-scenes.js). */
   .h-close__stage { position: absolute; inset: 0; z-index: 0; background: var(--brand-gradient-diag); }
-  .h-close__stripes { position: absolute; z-index: 0; top: -6%; inset-inline-end: -8%; width: 46%; aspect-ratio: 1.3; opacity: 0.3; pointer-events: none;
+  /* The stripe field: a small, faint corner texture (it was large and loud — client report). */
+  .h-close__stripes { position: absolute; z-index: 0; top: -4%; inset-inline-end: -3%; width: clamp(12rem, 20%, 24rem); aspect-ratio: 1.3; opacity: 0.13; pointer-events: none;
     background: repeating-linear-gradient(-38deg, var(--cyan-stripe) 0 4px, transparent 4px 12px);
-    -webkit-mask-image: radial-gradient(closest-side, #000 50%, transparent 100%); mask-image: radial-gradient(closest-side, #000 50%, transparent 100%); }
+    -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent 100%); mask-image: radial-gradient(closest-side, #000 20%, transparent 100%); }
   .h-close__inner { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center;
     padding-block: calc(var(--header-h) + 1.5rem) clamp(2.5rem, 5vw, 4rem); }
   /* The product: the bottle over the label's two shapes (white, then cyan over it) and a soft cyan light under it. No reflection: its tail showed at the section's foot. */
@@ -810,7 +811,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-close__copy { justify-items: center; text-align: center; }
     .h-close__title { max-width: 16ch; }
     .h-close .btn-row { justify-content: center; }
-    .h-close__stripes { width: 80%; top: -4%; }
+    .h-close__stripes { width: 46%; top: -2%; }
   }
   @media (max-width: 56.24rem) {
     .h-pro__stage { display: block; }
