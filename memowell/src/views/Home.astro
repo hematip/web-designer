@@ -371,17 +371,22 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
        frame: reduced motion and no-JS show it as is. Copy unchanged. -->
   <section class="h-close" id="closing" aria-labelledby="closing-title" data-close data-text-motion="off">
     <div class="h-close__stage" aria-hidden="true" data-close-stage>
-      <span class="h-close__stripes" data-close-stripes></span>
     </div>
     <div class="wrap h-close__inner">
       <div class="h-close__product" aria-hidden="true" data-close-product>
         <div class="h-close__mark" data-close-mark>
+          <!-- The label's layering, rebuilt behind the bottle (back to front): a cyan stripe blob peeking out above the
+               white shape, as the stripe blob peeks out behind the blue one on the label; the white shape; a navy stripe
+               blob laid over the white and slipping out under the cyan; the cyan shape; then the bottle. -->
+          <div class="h-close__blob h-close__blob--stripes-back" data-close-stripes-back><svg viewBox="0 0 440 330" aria-hidden="true" focusable="false"><defs><pattern id="close-stripes-back" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="3" height="8" fill="var(--cyan-stripe)" /></pattern></defs><path fill="url(#close-stripes-back)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
           <div class="h-close__blob h-close__blob--white" data-close-blob-white><Blob id="close-blob" tone="white" stripes={false} /></div>
+          <div class="h-close__blob h-close__blob--stripes-mid" data-close-stripes-mid><svg viewBox="0 0 440 330" aria-hidden="true" focusable="false"><defs><pattern id="close-stripes-mid" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="2.4" height="7" fill="var(--blue)" /></pattern></defs><path fill="url(#close-stripes-mid)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
           <div class="h-close__blob h-close__blob--cyan" data-close-blob-cyan><Blob id="close-blob-cyan" tone="cyan" stripes={false} /></div>
         </div>
         <span class="h-close__glow" data-close-glow></span>
         <img class="h-close__bottle" data-close-bottle src="/img/bottle-560.webp" srcset="/img/bottle-560.webp 560w, /img/bottle-820.webp 820w, /img/bottle-895.webp 895w"
           sizes="(min-width: 56.25rem) 19rem, 11rem" width="895" height="1713" alt="" loading="lazy" decoding="async" />
+        <img class="h-close__reflection" data-close-reflection src="/img/bottle-560.webp" width="895" height="1713" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="h-close__copy" data-close-copy>
         <h2 id="closing-title" class="h-close__title" set:html={accentWord(closing.heading, closing.accent ?? 'conversation')} />
@@ -738,13 +743,13 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-close { position: relative; isolation: isolate; overflow: clip; min-height: 100svh; display: grid; align-items: center; background: var(--paper); }
   /* The blue: the whole stage at rest; the scene clips it to the rising dome, then floods it (home-scenes.js). */
   .h-close__stage { position: absolute; inset: 0; z-index: 0; background: var(--brand-gradient-diag); }
-  /* The stripe field: a small, faint corner texture (it was large and loud — client report). */
-  .h-close__stripes { position: absolute; z-index: 0; top: -4%; inset-inline-end: -3%; width: clamp(12rem, 20%, 24rem); aspect-ratio: 1.3; opacity: 0.13; pointer-events: none;
-    background: repeating-linear-gradient(-38deg, var(--cyan-stripe) 0 4px, transparent 4px 12px);
-    -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent 100%); mask-image: radial-gradient(closest-side, #000 20%, transparent 100%); }
   .h-close__inner { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center;
     padding-block: calc(var(--header-h) + 1.5rem) clamp(2.5rem, 5vw, 4rem); }
-  /* The product: the bottle over the label's two shapes (white, then cyan over it) and a soft cyan light under it. No reflection: its tail showed at the section's foot. */
+  /* The product: the bottle over the label's shapes, a soft cyan light under it and its reflection on the blue. The
+     reflection is short (it fades out within 18% of the bottle's height, 14% on phones) so it ends inside the section
+     and no cut-off tail shows at the section's foot when the footer is in view. */
+  .h-close__reflection { position: absolute; z-index: 1; top: 100%; left: 0; width: 100%; height: auto; max-width: none; opacity: 0.22; pointer-events: none; transform: scaleY(-1) translateY(2px);
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 18%); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 18%); }
   .h-close__product { grid-column: 1 / span 6; position: relative; isolation: isolate; justify-self: center; width: min(30vw, 19rem, 30svh); }
   .h-close__bottle { position: relative; z-index: 1; display: block; width: 100%; height: auto; max-width: none; filter: drop-shadow(0 30px 32px rgba(10, 18, 60, 0.45)); }
   .h-close__glow { position: absolute; z-index: 0; left: 50%; bottom: -16%; width: 190%; aspect-ratio: 2.2; translate: -50% 0; border-radius: 50%; pointer-events: none;
@@ -753,6 +758,14 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   .h-close__blob { width: 100%; }
   .h-close__blob--cyan { position: absolute; left: 50%; top: 50%; width: 84%; translate: -50% -30%; rotate: -24deg; }
   :global([dir='rtl']) .h-close__blob--cyan { rotate: 24deg; }
+  /* The pattern as part of the layering: the cyan stripe blob behind everything, shifted up and toward the far side so
+     it rises out above the white shape; the navy stripe blob between white and cyan, low on the near side, so its
+     stripes print on the white and slip out from under the cyan. */
+  .h-close__blob--stripes-back { position: absolute; left: 50%; top: 50%; width: 76%; translate: -44% -86%; rotate: 12deg; opacity: 0.9; }
+  .h-close__blob--stripes-mid { position: absolute; left: 50%; top: 50%; width: 64%; translate: -94% -6%; rotate: -10deg; opacity: 0.4; }
+  .h-close__blob--stripes-back svg, .h-close__blob--stripes-mid svg { display: block; width: 100%; height: auto; overflow: visible; }
+  :global([dir='rtl']) .h-close__blob--stripes-back { translate: -56% -86%; rotate: -12deg; }
+  :global([dir='rtl']) .h-close__blob--stripes-mid { translate: -6% -6%; rotate: 10deg; }
   .h-close__copy { grid-column: 7 / span 6; display: grid; gap: var(--s-4); justify-items: start; min-width: 0; color: #fff; }
   .h-close__title { max-width: 14ch; font-size: clamp(2.5rem, 1.25rem + 3.4vw, 4.75rem); line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; }
   /* Kondor's two thin product-colour strokes under the key phrase (drawn in by the scene). */
@@ -807,11 +820,11 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
     .h-close__inner { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-4); padding-block-start: calc(var(--header-h) + 1rem); }
     .h-close__product, .h-close__copy { grid-column: 1; }
     .h-close__product { width: min(42vw, 11rem, 16svh); }
+    .h-close__reflection { -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 14%); mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 14%); }
     .h-close__inner { row-gap: var(--s-3); }
     .h-close__copy { justify-items: center; text-align: center; }
     .h-close__title { max-width: 16ch; }
     .h-close .btn-row { justify-content: center; }
-    .h-close__stripes { width: 46%; top: -2%; }
   }
   @media (max-width: 56.24rem) {
     .h-pro__stage { display: block; }

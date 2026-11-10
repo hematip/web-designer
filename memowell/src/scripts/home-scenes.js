@@ -748,7 +748,7 @@ mm.add(MQ.motion, () => {
 // its crest — clipped at the crest — until it stands whole on the white as the section fills the screen. (Earlier the
 // sunrise lived inside the pin and the approach was a screen of white — client report.) The pin (≈1.4 screens, 1.2 on
 // phones) drives `p` 0…1: a beat; flood — the dome swells until the blue fills the screen while the bottle glides to
-// its place and grows; the white shape blooms behind it, the cyan shape swings over that, the stripe field sweeps in,
+// its place and grows; the layers build up behind it back to front — cyan stripes rising out above, the white shape, navy stripes printed on it, the cyan shape over them —
 // a soft cyan light appears under it; then the invitation — heading lines from a mask, the
 // strokes under "Talk it through", text line by line, the button; a short hold, then the pin releases into the
 // footer. Reverse scroll undoes both. Reduced motion and no-JS: the resolved frame (the CSS).
@@ -758,7 +758,9 @@ mm.add(MQ.motion, () => {
   const product = section && $('[data-close-product]', section);
   const bottle = section && $('[data-close-bottle]', section);
   if (!section || !stage || !product || !bottle) return;
-  const stripes = $('[data-close-stripes]', section);
+  const stripesBack = $('[data-close-stripes-back]', section);
+  const reflection = $('[data-close-reflection]', section);
+  const stripesMid = $('[data-close-stripes-mid]', section);
   const glow = $('[data-close-glow]', section);
   const blobWhite = $('[data-close-blob-white]', section);
   const blobCyan = $('[data-close-blob-cyan]', section);
@@ -831,9 +833,13 @@ mm.add(MQ.motion, () => {
     },
   });
   tl.to(st, { p: 1, duration: 1, ease: 'none', onUpdate: render }, 0);
-  if (stripes) tl.fromTo(stripes, { xPercent: rtl ? -40 : 40, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.34, ease: 'power2.out' }, 0.12);
   if (blobWhite) tl.fromTo(blobWhite, { scale: 0.3, rotate: rtl ? 18 : -18, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.14);
+  // the layers build up back to front: cyan stripes rise out above, the white shape blooms, navy stripes print on it,
+  // the cyan shape swings over them
+  if (stripesBack) tl.fromTo(stripesBack, { xPercent: rtl ? 12 : -12, yPercent: 30, autoAlpha: 0 }, { xPercent: 0, yPercent: 0, autoAlpha: 0.9, duration: 0.32, ease: 'power3.out' }, 0.1);
+  if (stripesMid) tl.fromTo(stripesMid, { xPercent: rtl ? -24 : 24, rotate: rtl ? 22 : -22, autoAlpha: 0 }, { xPercent: 0, rotate: rtl ? 10 : -10, autoAlpha: 0.4, duration: 0.3, ease: 'power3.out' }, 0.18);
   if (blobCyan) tl.fromTo(blobCyan, { scale: 0.3, rotate: rtl ? -40 : 40, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.2);
+  if (reflection) tl.fromTo(reflection, { opacity: 0 }, { opacity: 0.22, duration: 0.2 }, 0.28);
   if (glow) tl.fromTo(glow, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'power2.out' }, 0.18);
   if (accents.length) tl.fromTo(accents, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }, 0.56);
   if (actions) tl.from(actions, { opacity: 0, y: 16, duration: 0.12, ease: 'power3.out' }, 0.66);
@@ -860,7 +866,7 @@ mm.add(MQ.motion, () => {
     textSplit?.revert();
     stage.style.clipPath = ''; stage.style.webkitClipPath = '';
     bottle.style.clipPath = ''; bottle.style.webkitClipPath = ''; bottle.style.filter = '';
-    gsap.set([product, stripes, blobWhite, blobCyan, glow, actions, ...accents].filter(Boolean), { clearProps: 'all' });
+    gsap.set([product, reflection, stripesBack, stripesMid, blobWhite, blobCyan, glow, actions, ...accents].filter(Boolean), { clearProps: 'all' });
   };
 });
 
