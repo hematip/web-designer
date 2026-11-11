@@ -1,10 +1,8 @@
 // Homepage cinematic scenes (v2; formulation story v5). Every scene animates *from* states set here; the HTML is already the
 // resolved composition, so reduced motion, no-JS and failures show complete content.
 import { gsap, ScrollTrigger, SplitText, mm, MQ, getLenis } from './motion.js';
-import { Flip } from 'gsap/Flip';
 import { monotone } from '../lib/monotone.js';
 
-gsap.registerPlugin(Flip);
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -408,71 +406,64 @@ mm.add('(prefers-reduced-motion: reduce)', () => {
   setSceneMode('static');
 });
 
-// ---------------------------------------------------------------- Who: four contexts move from contact sheet to focus
-mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: no-preference)', () => {
-  const section = $('[data-who-story]');
-  if (!section) return;
-  const gallery = $('[data-who-gallery]', section);
-  const head = $('.h-who__head', section);
-  const entries = $$('[data-who-entry]', section);
-  const details = entries.map((entry) => $('.h-who__detail', entry));
-  const frames = $$('[data-who-frame]', section);
-  if (!section || !gallery || frames.length !== entries.length || !entries.length) return;
+// ---------------------------------------------------------------- Who: the glass-card rail
+// Each card's --f (0…1) is how close its centre is to the screen's centre; it sets the card's scale, and the card
+// past halfway takes the label's blue (.is-active). Desktop with motion: the section pins and the track travels the
+// cards across the centre (the two label shapes drift at a third of the speed, so the frosted frames pass over them).
+// Elsewhere the rail scrolls natively and the same focus follows its scroll position.
+{
+  const section = $('[data-who-rail]');
+  const scroller = section && $('[data-who-scroller]', section);
+  const track = section && $('[data-who-track]', section);
+  const cards = section ? $$('[data-who-card]', section) : [];
+  if (section && scroller && track && cards.length) {
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const focus = () => {
+      const mid = window.innerWidth / 2;
+      cards.forEach((card) => {
+        const r = card.getBoundingClientRect();
+        const step = r.width + parseFloat(getComputedStyle(track).columnGap || '0');
+        const f = gsap.utils.clamp(0, 1, 1 - Math.abs(r.left + r.width / 2 - mid) / step);
+        if (!still.matches) card.style.setProperty('--f', f.toFixed(3));
+        card.classList.toggle('is-active', f > 0.5);
+      });
+    };
+    let raf = 0;
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; focus(); }); };
+    scroller.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    still.addEventListener?.('change', () => { if (still.matches) cards.forEach((c) => c.style.removeProperty('--f')); focus(); });
+    focus();
 
-  section.classList.add('is-story');
-  let active = -2;
-  let starts = [];
-  const select = (next, animate) => {
-    if (active === next) return;
-    Flip.killFlipsOf(frames);
-    const state = animate ? Flip.getState(frames) : null;
-    gallery.classList.toggle('is-focused', next >= 0);
-    frames.forEach((frame, i) => frame.classList.toggle('is-active', i === next));
-    active = next;
-    if (state) Flip.from(state, { duration: 0.75, ease: 'power3.inOut', absolute: true });
-  };
-  const sync = (animate = true) => {
-    let next = -1;
-    starts.forEach((start, i) => { if (window.scrollY >= start) next = i; });
-    select(next, animate);
-  };
-  const story = ScrollTrigger.create({
-    trigger: section, start: 'top bottom', end: 'bottom top',
-    onRefreshInit: () => {
-      Flip.killFlipsOf(frames);
-      // Measure the featured-photo layout, excluding the introduction and thumbnail strip.
-      select(0, false);
-      const photo = frames[0];
-      const stickyTop = parseFloat(getComputedStyle(head).top);
-      const photoCenter = stickyTop + gallery.offsetTop + photo.offsetTop + photo.offsetHeight / 2;
-      details.forEach((detail, i) => {
-        const top = photoCenter - detail.offsetHeight / 2;
-        detail.style.setProperty('--who-detail-top', `${top}px`);
-        entries[i].style.setProperty('--who-entry-inset', `${top - stickyTop}px`);
+    mm.add('(min-width: 56.25rem) and (min-height: 47.5rem) and (prefers-reduced-motion: no-preference)', () => {
+      const shapes = $('[data-who-shapes]', section);
+      section.classList.add('is-pinned');
+      scroller.scrollLeft = 0;
+      scroller.removeAttribute('tabindex');
+      // the track's travel: from the first card centred to the last card centred
+      const travel = () => Math.max(0, track.scrollWidth - window.innerWidth);
+      const rtl = (section.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
+      const sign = rtl ? 1 : -1;
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: section, start: 'top top', end: () => `+=${travel() * 1.15}`, pin: true, scrub: true, invalidateOnRefresh: true,
+          onUpdate: focus, onRefresh: focus,
+        },
       });
-    },
-    onRefresh: () => {
-      starts = entries.map((entry, i) => {
-        const textTop = parseFloat(details[i].style.getPropertyValue('--who-detail-top'));
-        const inset = parseFloat(getComputedStyle(entry).paddingTop);
-        return entry.getBoundingClientRect().top + window.scrollY + inset - textTop;
-      });
-      sync(false);
-    },
-    onUpdate: () => sync(),
-  });
-  ScrollTrigger.refresh();
-  return () => {
-    story.kill();
-    Flip.killFlipsOf(frames);
-    gsap.set(frames, { clearProps: 'all' });
-    section.classList.remove('is-story');
-    gallery.classList.remove('is-focused');
-    frames.forEach((frame) => frame.classList.remove('is-active'));
-    details.forEach((detail) => detail.style.removeProperty('--who-detail-top'));
-    entries.forEach((entry) => entry.style.removeProperty('--who-entry-inset'));
-  };
-});
+      tl.fromTo(track, { x: 0 }, { x: () => sign * travel() }, 0);
+      if (shapes) tl.fromTo(shapes, { x: 0 }, { x: () => sign * travel() * 0.33 }, 0);
+      ScrollTrigger.refresh();
+      return () => {
+        tl.scrollTrigger?.kill(); tl.kill();
+        gsap.set([track, shapes].filter(Boolean), { clearProps: 'transform' });
+        section.classList.remove('is-pinned');
+        scroller.setAttribute('tabindex', '0');
+        requestAnimationFrame(focus);
+      };
+    });
+  }
+}
 
 // ---------------------------------------------------------------- Professional photograph (when the band renders)
 // The professional photograph settles behind its panel as the band scrolls in.
