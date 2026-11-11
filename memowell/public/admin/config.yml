@@ -105,6 +105,7 @@ collections:
               hint: "summary / catalogue buttons use the files set in Settings → Downloads."
             - { label: "External link", name: external, widget: boolean, required: false, i18n: duplicate }
           - { label: "Inline link", name: inline_action, widget: object, required: false, i18n: true, fields: *action }
+          - { label: "Note card (home, with your doctor)", name: card, widget: object, required: false, i18n: true, fields: [{ label: "Title", name: title, widget: string, i18n: true }, { label: "Text", name: body, widget: string, required: false, i18n: true }] }
           - { label: "Sources (DOIs, without https://doi.org/)", name: sources, widget: list, required: false, i18n: true, field: { label: DOI, name: doi, widget: string } }
           - { label: "Image description (alt text)", name: image_alt, widget: string, required: false, i18n: true }
           - label: "Photo (illustrative)"

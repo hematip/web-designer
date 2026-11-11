@@ -419,19 +419,33 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 
 **7. Professional band** — *retired from the home page (2026-11-08, client direction).* Healthcare professionals reach `/science/professionals` from the Science menu and from the professional band at the end of the other content pages, which stays.
 
-**8. Where to find it**
+**8. With your doctor** *(client copy, 2026-11-11; beside the pharmacy photograph)*
+> With your doctor
+>
+> ## Start the conversation with your doctor
+>
+> Memowell can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's, start it under a specialist's supervision and track progress together.
+>
+> Can be taken with common Alzheimer's medicines
+>
+> Progress tracked with MMSE and simple blood tests
+>
+> A recommended course of at least 24 weeks
+>
+> [Information for doctors]
+>
+> Check in every 6 months
+>
+> MMSE and CBC with your doctor
+
+**9. Closing — where to find it** *(the former section 8 copy, moved here 2026-11-11)*
 > ## Where to find Memowell
 >
 > Availability, packaging and approved uses vary from country to country. See what applies where you live.
 >
 > [Check your country]
 
-**9. Closing**
-> ## Talk it through with your doctor or pharmacist
->
-> This site cannot tell you whether Memowell is right for you. Your doctor or pharmacist can, and the conversation is easier when you bring the facts with you.
->
-> [Download a one-page summary (PDF)] · [Contact us]
+*Note (2026-11-11, client):* the former closing ("Talk it through with your doctor or pharmacist", "This site cannot tell you whether Memowell is right for you. Your doctor or pharmacist can, and the conversation is easier when you bring the facts with you.") is retired from the home page; the doctor conversation is now section 8.
 
 ---
 

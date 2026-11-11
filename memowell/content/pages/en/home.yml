@@ -112,7 +112,8 @@ sections:
     actions:
       - { label: "Full directions, cautions and storage", href: "/memowell#directions" }
 
-  - id: availability
+  - id: doctor
+    # Copy from the client's "With your doctor" design (2026-11-11); the pharmacy photograph stays with it.
     # Illustrative photography (AI-generated, Kondor Brain + Higgsfield, official bottle cutout composited, not generated). Needs client approval: see README.
     photo:
       src: "/img/photos/where-pharmacy"
@@ -121,16 +122,24 @@ sections:
       widths: [640, 1024, 1600]
       focus: "50% 40%"
       alt: ""
+    eyebrow: "With your doctor"
+    heading: "Start the conversation with your doctor"
+    body: |-
+      Memowell can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's, start it under a specialist's supervision and track progress together.
+    items:
+      - { title: "Can be taken with common Alzheimer's medicines" }
+      - { title: "Progress tracked with MMSE and simple blood tests" }
+      - { title: "A recommended course of at least 24 weeks" }
+    # The note card over the photograph.
+    card: { title: "Check in every 6 months", body: "MMSE and CBC with your doctor" }
+    actions:
+      - { label: "Information for doctors", href: "/science/professionals" }
+
+  # The closing carries the former "Where to find Memowell" copy (client direction 2026-11-11).
+  - id: closing
     heading: "Where to find Memowell"
+    accent: "Where to find"
     body: |-
       Availability, packaging and approved uses vary from country to country. See what applies where you live.
     actions:
       - { label: "Check your country", href: "/about/availability" }
-
-  - id: closing
-    heading: "Talk it through with your doctor or pharmacist"
-    accent: "Talk it through"
-    body: |-
-      This site cannot tell you whether Memowell is right for you. Your doctor or pharmacist can, and the conversation is easier when you bring the facts with you.
-    actions:
-      - { label: "Contact us", href: "/contact" }

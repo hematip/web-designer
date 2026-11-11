@@ -166,7 +166,7 @@ These are interface or structural words, and none of them is a claim. They are a
 | `pro-reading` | Doctors & Specialists | Home, professional band — the doctor character (element `dr`) reading a printed results table in her consulting room, under the frosted panel (2026-10-27) |
 | `caregiver-planner` | Caregivers | Home, "Who it's for" gallery ("Brain fog and delirium"); no longer the "why" photo since 2026-10-27 — father writes on a wall calendar, his son beside him |
 | `wellness-lunch` | Wellness | `/memowell`, "How to take it" — terrace lunch; official bottle composited at ~6% of frame height |
-| `where-pharmacy` | Wellness | Home, "Where to find Memowell" — pharmacist conversation, the pharmacist is the doctor character (element `dr`); official bottle composited on the counter (remade 2026-10-27) |
+| `where-pharmacy` | Wellness | Home, "Start the conversation with your doctor" (section 8, the wave) — pharmacist conversation, the pharmacist is the doctor character (element `dr`); official bottle composited on the counter (remade 2026-10-27) |
 | `partners-counter` | Pharmacy / distribution | `/about/partners` — two pharmacists check a delivery, one is the doctor character (element `dr`); official bottle composited on the counter (remade 2026-10-27) |
 | `capsule-resin` | All | `/memowell`, "What is in it" — one cream capsule beside frankincense resin tears |
 

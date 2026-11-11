@@ -735,7 +735,7 @@ mm.add(MQ.motion, () => {
 // phones) drives `p` 0…1: a beat; flood — the dome swells until the blue fills the screen while the bottle glides to
 // its place and grows; the layers build up behind it back to front — the white shape, cyan and navy stripes printed on it, the cyan shape over them —
 // a soft cyan light appears under it; then the invitation — heading lines from a mask, the
-// strokes under "Talk it through", text line by line, the button; a short hold, then the pin releases into the
+// strokes under the accent words, text line by line, the button; a short hold, then the pin releases into the
 // footer. Reverse scroll undoes both. Reduced motion and no-JS: the resolved frame (the CSS).
 mm.add(MQ.motion, () => {
   const section = $('[data-close]');
