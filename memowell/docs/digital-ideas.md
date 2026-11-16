@@ -65,15 +65,13 @@ Ideas that run on the current static Astro site without accounts or stored data.
 
 ### 1.7 Doctor conversation sheet
 
-- The visitor writes, in their own words, what has changed, which medicines they take and what they want to ask; the result is a printable sheet; nothing is stored. Includes "ask my doctor for a baseline memory test". Sits beside the header action ("Taking this to your doctor") and the one-page summary PDF (still to be produced). Safe replacement for any symptom check-in.
+- A page with three plain text boxes the visitor fills in their own words — "What have you noticed?", "Which medicines and supplements are taken?", "What do you want to ask?" — and one optional tick, "ask my doctor for a baseline memory test". A Print button lays it out as a tidy A4 sheet to take to the visit. Nothing is stored; close the page and it is gone. Its job is preparing the visit, not assessing anyone — which is why it is the safe replacement for any symptom check-in. Sits beside the header action ("Taking this to your doctor") and the one-page summary PDF (still to be produced).
 
 ### 1.8 Later site ideas
 
-- **"How memory is measured" guide:** MMSE, MoCA, CDR, RAVLT, NIH Toolbox and quality-of-life scales explained as comparison cards (what it measures, who administers it, how long, what scores mean) — never the tests themselves. Extends blog article 4.
-- **Quality-of-life questionnaire (PROMIS-10)** on its own page, only with the HealthMeasures commercial licence, separate from the purchase path, result pointing to the doctor, nothing stored. MoCA XpressO only by written agreement with MoCA Cognition (link, not embed).
-- **Caregiver print pack:** the week plan, a brain-food menu, generation quiz cards, puzzles. Paper suits the older audience better than an app.
-- **Quick-test → 30-day routine (lead magnet):** questions about habits, not symptoms; answers stay in the browser; email only with consent.
-- **"The decade you grew up in":** decade playlists, period photos and a generation quiz on social; printable quiz cards on the site. Brings grandchildren in.
+- **"How memory is measured" guide (a blog article, firm):** the common tests introduced, never the tests themselves — one card each for MMSE, MoCA, CDR, RAVLT, NIH Toolbox and the quality-of-life scales: what it measures, who administers it, how long, what the score means. For the person whose doctor has named one of them. Extends blog article 4.
+- **Quality-of-life questionnaire, PROMIS-10 (conditional):** ten questions on health and quality of life from the person's own view, self-completed, result taken to the doctor. On its own page away from the purchase path, nothing stored, never presented as measuring the product's effect. The only test on the client's list that is licensable for the site; needs the HealthMeasures commercial licence (~USD 750 / 3 years) and a legal review. MoCA XpressO only by written agreement with MoCA Cognition (link, not embed).
+- **Caregiver print pack:** the week plan, a brain-food menu, the generation-quiz cards (from the community campaign), puzzles. Paper suits the older audience better than an app.
 - **Community question book:** "what did you wonder about memory this week?" on social; reviewed answers in the site FAQ. Needs moderation and scientific review — overlaps with 1.1.
 
 ---
@@ -83,7 +81,7 @@ Ideas that run on the current static Astro site without accounts or stored data.
 - **Caregiver group** with moderation and a professional present; a mentoring programme pairing new caregivers with experienced ones — preferably with a partner such as an Alzheimer society rather than built from scratch.
 - **Periodic campaigns:** "the dish with a story" (family recipes with photos and voice; user-generated), "decade playlists", "generation quiz", a monthly family challenge with a shared goal and **no leaderboard** (ranking discourages someone whose memory is weaker).
 - **"Try something new this week"** (photography, crafts, a new food) — newsletter and social, no app needed.
-- **Music guessing** by era — social playlists; licensing makes it expensive in an app.
+- **"The decade you grew up in":** decade playlists, period photos and music guessing by era on social; brings grandchildren in. Licensing makes music expensive in an app.
 
 ---
 
@@ -103,6 +101,7 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 - **20-second attention check twice a day** — reads as a diagnostic test, raises anxiety, too many notifications.
 - **Monthly symptom check-in with a trend chart** — quasi-diagnostic; replaced by the doctor conversation sheet (1.7).
 - **8-week habit challenge** — dropped by the client (2026-11-16); it would also pair "8 weeks" with the product's effect.
+- **Quick test → 30-day routine (lead magnet)** — dropped by the client (2026-11-16).
 - **"5 questions for your doctor"** — replaced by Ask the pharmacist (1.1), client direction 2026-11-16.
 - **Leaderboards anywhere** — see section 2.
 - **Cognitive tests on the site (MMSE, NIH Toolbox DCCS, MPOD)** — no self-administered version exists or is licensable for a commercial site; MPOD is an eye measurement, not a cognitive test. Full note in the feasibility PDF.
@@ -113,3 +112,4 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 
 - **2026-11-16** — Matrix reviewed; ideas sorted into site / community / app. Sudoku first set aside, then kept as the social hook "Today's puzzle" after the designer's objection (good hook; "best game for memory" is not supported by evidence and is not said). "5 questions" replaced by Ask the pharmacist. 8-week challenge dropped. Start page with QR recorded with its effort estimate (~3 days). Self-test feasibility PDF produced for the client. Podcast (caregiver stories + expert conversations, site + YouTube) recorded with its claim and consent rules and a three-story pilot as the first step.
 - **2026-11-16 (later)** — The mother-story frame and the "map of a day" idea (both designer-side proposals, not from the brand strategy) removed at the user's direction; the ideas stand on their own.
+- **2026-11-16 (later)** — Quick test dropped; "the decade you grew up in" moved from the site list to community (its concept is social); the doctor conversation sheet and the measurement guide / PROMIS-10 rewritten as two distinct items after the client asked what exactly goes on the site.
