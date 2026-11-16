@@ -53,22 +53,31 @@ Ideas that run on the current static Astro site without accounts or stored data.
 - **Build:** one new Astro page with content in the CMS, ~80 lines of JS, no library; EN/FR/AR including event titles; the reminder sentences added to the copy deck for scientific review (8 and 24 weeks are already on the site). About **3 days** in all: 1–2 days page and calendar, half a day testing (iOS Safari, Android Chrome, Samsung Internet, desktop), half a day content, a few hours QR and print asset.
 - **Client to confirm:** the default times; the two reminder texts (proposed: "Memowell: eight weeks. Talk to your doctor about how it has been." / "Memowell: 24 weeks, the recommended course. Talk to your doctor about what comes next."); whether a QR on the box is allowed under natural-health-product packaging rules — fallback is the leaflet or a sticker.
 
-### 1.6 Doctor conversation sheet
+### 1.6 Podcast "A good day" (caregiver stories + expert conversations, on the site and YouTube)
+
+- **Why it fits:** caregivers have time to listen (car, kitchen, evenings) more than to read; a pharmacist's or neurologist's calm voice builds the trust that text cannot; each episode yields 5–8 pieces for social, YouTube, the blog and the newsletter, under the "A good day" frame (1.9).
+- **One programme, two formats in each episode:** a 3–5 minute **caregiver story** (one day, one problem, one small solution) opens the episode and its subject leads into a 20–30 minute **conversation with a professional** (pharmacist, neurologist, geriatric nurse, psychologist, dietitian). "This week: my mother wakes at night" → the caregiver tells it → the sleep specialist explains. Season 1: 8 episodes, one every two weeks.
+- **Claims and consent:** the professional never discusses Memowell (a product endorsement by a clinician is advertising with professional endorsement — restricted for natural health products and dementia in Canada, and a problem for the guest's own regulator); the product appears only in a fixed 10-second sponsor line ("brought to you by Kondor Pharma, maker of Memowell"). Caregivers never speak about the product's effect (a testimonial is a claim under Part 5; cut in the edit). Written consent, right of withdrawal, anonymisation (no surname, no town) — the story concerns someone who may not be able to consent. Transcript reviewed by Kondor's scientific officer before release; every episode ends with the fixed "general information, not medical advice" line.
+- **YouTube:** the conversations are recorded as video-podcast (two simple cameras); full episode on YouTube, audio on Spotify/Apple, both on the site. Captions in EN/FR/AR (recording is in one language). 3–5 Shorts per episode, reused as Reels. Caregiver stories on YouTube as audio over a still or a slow animation of the brand shapes — no faces, cheap to make.
+- **On the site:** `/memory-health/podcast`, one page per episode: player, full transcript (accessibility, search, review), chapter list with timestamps, sources, link to the related article. The blog structure already does most of this; add audio/video fields to the CMS. Audio hosted on a podcast service (Transistor, Buzzsprout, ~USD 20/month) that also feeds Spotify and Apple; video from YouTube; the site only embeds. **Site effort: ~2 days.**
+- **The real cost is production, not the site:** 1–2 days per conversation episode (guest, recording, edit, captions, clips), half a day per caregiver story; a fixed host (ideally Kondor's pharmacist or a warm health presenter), an editor, the scientific reviewer. Season 1 ≈ 12–16 production days plus review. A podcast that stops after three episodes is worse than none: have four episodes ready before the first goes out.
+- **Simplest start:** three caregiver audio stories in the blog and on YouTube first — cheap, no expert guest, and they show whether the audience listens. If they do, start the conversations.
+
+### 1.7 Doctor conversation sheet
 
 - The visitor writes, in their own words, what has changed, which medicines they take and what they want to ask; the result is a printable sheet; nothing is stored. Includes "ask my doctor for a baseline memory test". Sits beside the header action ("Taking this to your doctor") and the one-page summary PDF (still to be produced). Safe replacement for any symptom check-in.
 
-### 1.7 Later site ideas
+### 1.8 Later site ideas
 
 - **"How memory is measured" guide:** MMSE, MoCA, CDR, RAVLT, NIH Toolbox and quality-of-life scales explained as comparison cards (what it measures, who administers it, how long, what scores mean) — never the tests themselves. Extends blog article 4.
 - **Quality-of-life questionnaire (PROMIS-10)** on its own page, only with the HealthMeasures commercial licence, separate from the purchase path, result pointing to the doctor, nothing stored. MoCA XpressO only by written agreement with MoCA Cognition (link, not embed).
 - **Caregiver print pack:** the week plan, a brain-food menu, generation quiz cards, puzzles. Paper suits the older audience better than an app.
-- **Caregiver audio stories** in Memory health, with the narrator's consent and nothing about the product's effect.
 - **Quick-test → 30-day routine (lead magnet):** questions about habits, not symptoms; answers stay in the browser; email only with consent.
 - **"The decade you grew up in":** decade playlists, period photos and a generation quiz on social; printable quiz cards on the site. Brings grandchildren in.
 - **"Map of a day":** one evergreen interactive picture (kitchen: food; table: puzzle; door: a walk); social opens one corner a week, the site shows the whole map.
 - **Community question book:** "what did you wonder about memory this week?" on social; reviewed answers in the site FAQ. Needs moderation and scientific review — overlaps with 1.1.
 
-### 1.8 Transmedia frame: "A good day"
+### 1.9 Transmedia frame: "A good day"
 
 One mother story under which the site-phase ideas sit: each week one piece of a good day for someone whose memory is changing — breakfast, a walk, the puzzle, a call with a grandchild, a question for the pharmacist. Social tells the moments, the site gives the tools, the newsletter gathers the week, the app (later) makes it daily.
 
@@ -97,7 +106,7 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 
 - **Pomodoro focus timer** — productivity register, not memory health; wrong audience.
 - **20-second attention check twice a day** — reads as a diagnostic test, raises anxiety, too many notifications.
-- **Monthly symptom check-in with a trend chart** — quasi-diagnostic; replaced by the doctor conversation sheet (1.6).
+- **Monthly symptom check-in with a trend chart** — quasi-diagnostic; replaced by the doctor conversation sheet (1.7).
 - **8-week habit challenge** — dropped by the client (2026-11-16); it would also pair "8 weeks" with the product's effect.
 - **"5 questions for your doctor"** — replaced by Ask the pharmacist (1.1), client direction 2026-11-16.
 - **Leaderboards anywhere** — see section 2.
@@ -107,4 +116,4 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 
 ## 5. Decisions log
 
-- **2026-11-16** — Matrix reviewed; ideas sorted into site / community / app. Sudoku first set aside, then kept as the social hook "Today's puzzle" after the designer's objection (good hook; "best game for memory" is not supported by evidence and is not said). "5 questions" replaced by Ask the pharmacist. 8-week challenge dropped. Start page with QR recorded with its effort estimate (~3 days). Self-test feasibility PDF produced for the client.
+- **2026-11-16** — Matrix reviewed; ideas sorted into site / community / app. Sudoku first set aside, then kept as the social hook "Today's puzzle" after the designer's objection (good hook; "best game for memory" is not supported by evidence and is not said). "5 questions" replaced by Ask the pharmacist. 8-week challenge dropped. Start page with QR recorded with its effort estimate (~3 days). Self-test feasibility PDF produced for the client. Podcast "A good day" (caregiver stories + expert conversations, site + YouTube) recorded with its claim and consent rules and a three-story pilot as the first step.
