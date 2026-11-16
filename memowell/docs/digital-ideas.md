@@ -63,14 +63,8 @@ Ideas that run on the current static Astro site without accounts or stored data.
 - **The real cost is production, not the site:** 1–2 days per conversation episode (guest, recording, edit, captions, clips), half a day per caregiver story; a fixed host (ideally Kondor's pharmacist or a warm health presenter), an editor, the scientific reviewer. Season 1 ≈ 12–16 production days plus review. A podcast that stops after three episodes is worse than none: have four episodes ready before the first goes out.
 - **Simplest start:** three caregiver audio stories in the blog and on YouTube first — cheap, no expert guest, and they show whether the audience listens. If they do, start the conversations.
 
-### 1.7 Doctor conversation sheet
+### 1.7 Later site ideas
 
-- A page with three plain text boxes the visitor fills in their own words — "What have you noticed?", "Which medicines and supplements are taken?", "What do you want to ask?" — and one optional tick, "ask my doctor for a baseline memory test". A Print button lays it out as a tidy A4 sheet to take to the visit. Nothing is stored; close the page and it is gone. Its job is preparing the visit, not assessing anyone — which is why it is the safe replacement for any symptom check-in. Sits beside the header action ("Taking this to your doctor") and the one-page summary PDF (still to be produced).
-
-### 1.8 Later site ideas
-
-- **"How memory is measured" guide (a blog article, firm):** the common tests introduced, never the tests themselves — one card each for MMSE, MoCA, CDR, RAVLT, NIH Toolbox and the quality-of-life scales: what it measures, who administers it, how long, what the score means. For the person whose doctor has named one of them. Extends blog article 4.
-- **Quality-of-life questionnaire, PROMIS-10 (conditional):** ten questions on health and quality of life from the person's own view, self-completed, result taken to the doctor. On its own page away from the purchase path, nothing stored, never presented as measuring the product's effect. The only test on the client's list that is licensable for the site; needs the HealthMeasures commercial licence (~USD 750 / 3 years) and a legal review. MoCA XpressO only by written agreement with MoCA Cognition (link, not embed).
 - **Caregiver print pack:** the week plan, a brain-food menu, the generation-quiz cards (from the community campaign), puzzles. Paper suits the older audience better than an app.
 - **Community question book:** "what did you wonder about memory this week?" on social; reviewed answers in the site FAQ. Needs moderation and scientific review — overlaps with 1.1.
 
@@ -99,12 +93,13 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 
 - **Pomodoro focus timer** — productivity register, not memory health; wrong audience.
 - **20-second attention check twice a day** — reads as a diagnostic test, raises anxiety, too many notifications.
-- **Monthly symptom check-in with a trend chart** — quasi-diagnostic; replaced by the doctor conversation sheet (1.7).
+- **Monthly symptom check-in with a trend chart** — quasi-diagnostic; no replacement on the site.
 - **8-week habit challenge** — dropped by the client (2026-11-16); it would also pair "8 weeks" with the product's effect.
 - **Quick test → 30-day routine (lead magnet)** — dropped by the client (2026-11-16).
 - **"5 questions for your doctor"** — replaced by Ask the pharmacist (1.1), client direction 2026-11-16.
 - **Leaderboards anywhere** — see section 2.
-- **Cognitive tests on the site (MMSE, NIH Toolbox DCCS, MPOD)** — no self-administered version exists or is licensable for a commercial site; MPOD is an eye measurement, not a cognitive test. Full note in the feasibility PDF.
+- **Cognitive tests on the site (MMSE, NIH Toolbox DCCS, MoCA, MPOD)** — no self-administered version exists or is licensable for a commercial site (MoCA XpressO only by written agreement, link not embed); MPOD is an eye measurement, not a cognitive test. The only licensable exception is the PROMIS-10 quality-of-life questionnaire (HealthMeasures licence ~USD 750 / 3 years, legal review) — raised with the client as a decision, not planned. Full note in the feasibility PDF.
+- **Doctor conversation sheet** and **"how memory is measured" guide** — dropped by the client (2026-11-16).
 
 ---
 
@@ -113,3 +108,4 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 - **2026-11-16** — Matrix reviewed; ideas sorted into site / community / app. Sudoku first set aside, then kept as the social hook "Today's puzzle" after the designer's objection (good hook; "best game for memory" is not supported by evidence and is not said). "5 questions" replaced by Ask the pharmacist. 8-week challenge dropped. Start page with QR recorded with its effort estimate (~3 days). Self-test feasibility PDF produced for the client. Podcast (caregiver stories + expert conversations, site + YouTube) recorded with its claim and consent rules and a three-story pilot as the first step.
 - **2026-11-16 (later)** — The mother-story frame and the "map of a day" idea (both designer-side proposals, not from the brand strategy) removed at the user's direction; the ideas stand on their own.
 - **2026-11-16 (later)** — Quick test dropped; "the decade you grew up in" moved from the site list to community (its concept is social); the doctor conversation sheet and the measurement guide / PROMIS-10 rewritten as two distinct items after the client asked what exactly goes on the site.
+- **2026-11-16 (later)** — Doctor conversation sheet, the measurement guide and the PROMIS-10 questionnaire removed from the site list; the tests question moved to the client approvals (tests need an administrator and a licence). Site list now seven ideas.
