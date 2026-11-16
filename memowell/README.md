@@ -3,6 +3,7 @@
 The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-approved brief) with the `bex-web-design` skill.
 
 - Design rationale, concept and the signature-scene contract: [`docs/design-brief.md`](docs/design-brief.md)
+- Digital ideas register (site / community / app, with decisions): [`docs/digital-ideas.md`](docs/digital-ideas.md); self-test feasibility note for the client: `docs/Memowell-self-tests-feasibility.pdf`
 - Draft one-page doctor summary: [`deliverables/memowell-doctor-summary-DRAFT.pdf`](deliverables/memowell-doctor-summary-DRAFT.pdf). It is **not linked** from the site until approved.
 
 ## Stack
