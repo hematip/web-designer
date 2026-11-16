@@ -53,9 +53,9 @@ Ideas that run on the current static Astro site without accounts or stored data.
 - **Build:** one new Astro page with content in the CMS, ~80 lines of JS, no library; EN/FR/AR including event titles; the reminder sentences added to the copy deck for scientific review (8 and 24 weeks are already on the site). About **3 days** in all: 1–2 days page and calendar, half a day testing (iOS Safari, Android Chrome, Samsung Internet, desktop), half a day content, a few hours QR and print asset.
 - **Client to confirm:** the default times; the two reminder texts (proposed: "Memowell: eight weeks. Talk to your doctor about how it has been." / "Memowell: 24 weeks, the recommended course. Talk to your doctor about what comes next."); whether a QR on the box is allowed under natural-health-product packaging rules — fallback is the leaflet or a sticker.
 
-### 1.6 Podcast "A good day" (caregiver stories + expert conversations, on the site and YouTube)
+### 1.6 Podcast (caregiver stories + expert conversations, on the site and YouTube)
 
-- **Why it fits:** caregivers have time to listen (car, kitchen, evenings) more than to read; a pharmacist's or neurologist's calm voice builds the trust that text cannot; each episode yields 5–8 pieces for social, YouTube, the blog and the newsletter, under the "A good day" frame (1.9).
+- **Why it fits:** caregivers have time to listen (car, kitchen, evenings) more than to read; a pharmacist's or neurologist's calm voice builds the trust that text cannot; each episode yields 5–8 pieces for social, YouTube, the blog and the newsletter.
 - **One programme, two formats in each episode:** a 3–5 minute **caregiver story** (one day, one problem, one small solution) opens the episode and its subject leads into a 20–30 minute **conversation with a professional** (pharmacist, neurologist, geriatric nurse, psychologist, dietitian). "This week: my mother wakes at night" → the caregiver tells it → the sleep specialist explains. Season 1: 8 episodes, one every two weeks.
 - **Claims and consent:** the professional never discusses Memowell (a product endorsement by a clinician is advertising with professional endorsement — restricted for natural health products and dementia in Canada, and a problem for the guest's own regulator); the product appears only in a fixed 10-second sponsor line ("brought to you by Kondor Pharma, maker of Memowell"). Caregivers never speak about the product's effect (a testimonial is a claim under Part 5; cut in the edit). Written consent, right of withdrawal, anonymisation (no surname, no town) — the story concerns someone who may not be able to consent. Transcript reviewed by Kondor's scientific officer before release; every episode ends with the fixed "general information, not medical advice" line.
 - **YouTube:** the conversations are recorded as video-podcast (two simple cameras); full episode on YouTube, audio on Spotify/Apple, both on the site. Captions in EN/FR/AR (recording is in one language). 3–5 Shorts per episode, reused as Reels. Caregiver stories on YouTube as audio over a still or a slow animation of the brand shapes — no faces, cheap to make.
@@ -74,12 +74,7 @@ Ideas that run on the current static Astro site without accounts or stored data.
 - **Caregiver print pack:** the week plan, a brain-food menu, generation quiz cards, puzzles. Paper suits the older audience better than an app.
 - **Quick-test → 30-day routine (lead magnet):** questions about habits, not symptoms; answers stay in the browser; email only with consent.
 - **"The decade you grew up in":** decade playlists, period photos and a generation quiz on social; printable quiz cards on the site. Brings grandchildren in.
-- **"Map of a day":** one evergreen interactive picture (kitchen: food; table: puzzle; door: a walk); social opens one corner a week, the site shows the whole map.
 - **Community question book:** "what did you wonder about memory this week?" on social; reviewed answers in the site FAQ. Needs moderation and scientific review — overlaps with 1.1.
-
-### 1.9 Transmedia frame: "A good day"
-
-One mother story under which the site-phase ideas sit: each week one piece of a good day for someone whose memory is changing — breakfast, a walk, the puzzle, a call with a grandchild, a question for the pharmacist. Social tells the moments, the site gives the tools, the newsletter gathers the week, the app (later) makes it daily.
 
 ---
 
@@ -116,4 +111,5 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 
 ## 5. Decisions log
 
-- **2026-11-16** — Matrix reviewed; ideas sorted into site / community / app. Sudoku first set aside, then kept as the social hook "Today's puzzle" after the designer's objection (good hook; "best game for memory" is not supported by evidence and is not said). "5 questions" replaced by Ask the pharmacist. 8-week challenge dropped. Start page with QR recorded with its effort estimate (~3 days). Self-test feasibility PDF produced for the client. Podcast "A good day" (caregiver stories + expert conversations, site + YouTube) recorded with its claim and consent rules and a three-story pilot as the first step.
+- **2026-11-16** — Matrix reviewed; ideas sorted into site / community / app. Sudoku first set aside, then kept as the social hook "Today's puzzle" after the designer's objection (good hook; "best game for memory" is not supported by evidence and is not said). "5 questions" replaced by Ask the pharmacist. 8-week challenge dropped. Start page with QR recorded with its effort estimate (~3 days). Self-test feasibility PDF produced for the client. Podcast (caregiver stories + expert conversations, site + YouTube) recorded with its claim and consent rules and a three-story pilot as the first step.
+- **2026-11-16 (later)** — The mother-story frame and the "map of a day" idea (both designer-side proposals, not from the brand strategy) removed at the user's direction; the ideas stand on their own.
