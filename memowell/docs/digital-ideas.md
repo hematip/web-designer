@@ -16,14 +16,6 @@ Working record of the digital features and content ideas proposed for Memowell, 
 
 Ideas that run on the current static Astro site without accounts or stored data. Ordered by priority.
 
-### 1.1 Ask the pharmacist (Q&A) — priority 1
-
-- **Form, no login:** a question, plus an optional email only if the visitor wants a private reply. No account is created. Same pattern as the existing contact forms.
-- **Answering:** a Kondor pharmacist or specialist answers from the CMS. Scope is the product and how to take it, not diagnosis; the form says so, and answers never become personal medical advice.
-- **Public Q&A page:** selected questions, anonymised, published with their answers. This page is the social destination: one question a week becomes a social card.
-- **Open points:** who answers, within how many days (README open question 3, unanswered); the adverse-event process.
-- *Replaces the earlier "5 questions for your doctor" idea (client direction 2026-11-16).*
-
 ### 1.2 Today's puzzle (sudoku as a social hook) — priority 2
 
 - **Role:** an acquisition hook, not a feature of the product. Daily social posts bring people to the site; the puzzle keeps them coming back.
@@ -43,15 +35,7 @@ Ideas that run on the current static Astro site without accounts or stored data.
 
 ### 1.4 Newsletter "one thing a week" — priority 4
 
-- The blog is its core, not its whole: each week one article or research note, one pharmacist Q&A, the week's puzzle, and one small step (a food, a family activity). Sign-up on the site, consent-based, unsubscribe link (the privacy policy already allows it). Social gives the pieces; the newsletter gives the week in one place.
-
-### 1.5 Start page with a QR code on the pack (`/start`) — priority: cheapest, build first when the client approves
-
-- **What the visitor sees:** three doses (after breakfast, lunch, dinner) with default times 8:30 / 13:30 / 20:30, editable; two dates counted from today or a chosen start date — week 8 ("talk to your doctor about how it has been") and week 24 (end of the recommended course); one button, **Add to calendar**.
-- **How it works:** the button builds an `.ics` file in the browser (three daily recurring events for 24 weeks plus two one-off events) and the phone's own calendar takes over the reminders. Nothing is sent to a server; no app; every phone has a calendar. A Google Calendar link sits beside it for Android (one event per link, so three links). Fixed line underneath: "This reminder does not replace your doctor's instructions or the leaflet in the pack."
-- **Limits:** it is a reminder, not a log — "taken / later" needs the app (app MVP). Many 70+ users will not scan; the caregiver does, usually on the user's phone, so: one big button, one step, no form.
-- **Build:** one new Astro page with content in the CMS, ~80 lines of JS, no library; EN/FR/AR including event titles; the reminder sentences added to the copy deck for scientific review (8 and 24 weeks are already on the site). About **3 days** in all: 1–2 days page and calendar, half a day testing (iOS Safari, Android Chrome, Samsung Internet, desktop), half a day content, a few hours QR and print asset.
-- **Client to confirm:** the default times; the two reminder texts (proposed: "Memowell: eight weeks. Talk to your doctor about how it has been." / "Memowell: 24 weeks, the recommended course. Talk to your doctor about what comes next."); whether a QR on the box is allowed under natural-health-product packaging rules — fallback is the leaflet or a sticker.
+- The blog is its core, not its whole: each week one article or research note, one recipe or small family step, the week's puzzle, and one note on what is new on the site. Sign-up on the site, consent-based, unsubscribe link (the privacy policy already allows it). Social gives the pieces; the newsletter gives the week in one place.
 
 ### 1.6 Podcast (caregiver stories + expert conversations, on the site and YouTube)
 
@@ -63,9 +47,17 @@ Ideas that run on the current static Astro site without accounts or stored data.
 - **The real cost is production, not the site:** 1–2 days per conversation episode (guest, recording, edit, captions, clips), half a day per caregiver story; a fixed host (ideally Kondor's pharmacist or a warm health presenter), an editor, the scientific reviewer. Season 1 ≈ 12–16 production days plus review. A podcast that stops after three episodes is worse than none: have four episodes ready before the first goes out.
 - **Simplest start:** three caregiver audio stories in the blog and on YouTube first — cheap, no expert guest, and they show whether the audience listens. If they do, start the conversations.
 
-### 1.7 Later site ideas
+### 1.7 Brain-food recipes
 
-- **Caregiver print pack:** the week plan, a brain-food menu, the generation-quiz cards (from the community campaign), puzzles. Paper suits the older audience better than an app.
+- A site section of recipes from the dietary patterns that nutrition research associates with brain health (Mediterranean and MIND: leafy greens, berries, fish, legumes, nuts, olive oil). Each recipe: ingredients, short steps, time, one "why it is on this list" line with its source, a printable version. Close to the audience's tastes (Middle East and Canada), simple enough for someone cooking for a parent. The weekly brain-food menu is built from them and goes into the caregiver print pack. Framing: "food that research has linked with brain health", never "food that improves memory"; no recipe is tied to Memowell. ~2 days site plus content (four recipes a month with photos); scientific review of each source line.
+
+### 1.8 "Your decade" (decade playlists and song guessing, site version)
+
+- One page per decade (1950s–1990s): a public playlist built on a music service (Spotify / YouTube Music / Anghami) and embedded, so rights and playback stay with the service and nothing is hosted on the site; period photos and objects under open licences; and a simple "guess the song" game that plays the first seconds from the same embed and offers three titles, no score, no ranking. Prompt on the page: "listen with your mum or dad and ask where they were when this played". Printable "decade" cards for a family evening in the caregiver print pack. ~3 days; depends on the service allowing preview playback in its embed — if not, playlist and photos only. Replaces the community-only version.
+
+### 1.9 Later site ideas
+
+- **Caregiver print pack:** the week plan, the brain-food menu (from 1.7), the decade and generation-quiz cards, puzzles. Paper suits the older audience better than an app.
 - **Community question book:** "what did you wonder about memory this week?" on social; reviewed answers in the site FAQ. Needs moderation and scientific review — overlaps with 1.1.
 
 ---
@@ -75,7 +67,7 @@ Ideas that run on the current static Astro site without accounts or stored data.
 - **Caregiver group** with moderation and a professional present; a mentoring programme pairing new caregivers with experienced ones — preferably with a partner such as an Alzheimer society rather than built from scratch.
 - **Periodic campaigns:** "the dish with a story" (family recipes with photos and voice; user-generated), "decade playlists", "generation quiz", a monthly family challenge with a shared goal and **no leaderboard** (ranking discourages someone whose memory is weaker).
 - **"Try something new this week"** (photography, crafts, a new food) — newsletter and social, no app needed.
-- **"The decade you grew up in":** decade playlists, period photos and music guessing by era on social; brings grandchildren in. Licensing makes music expensive in an app.
+- **Decade playlists on social** feed the site's "Your decade" pages (1.8); licensing makes music expensive in an app.
 
 ---
 
@@ -96,7 +88,8 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 - **Monthly symptom check-in with a trend chart** — quasi-diagnostic; no replacement on the site.
 - **8-week habit challenge** — dropped by the client (2026-11-16); it would also pair "8 weeks" with the product's effect.
 - **Quick test → 30-day routine (lead magnet)** — dropped by the client (2026-11-16).
-- **"5 questions for your doctor"** — replaced by Ask the pharmacist (1.1), client direction 2026-11-16.
+- **"5 questions for your doctor"** and **Ask the pharmacist (Q&A)** — both dropped by the client (2026-11-16/17).
+- **Start page with a QR code on the pack** — dropped by the client (2026-11-17).
 - **Leaderboards anywhere** — see section 2.
 - **Cognitive tests on the site (MMSE, NIH Toolbox DCCS, MoCA, MPOD)** — no self-administered version exists or is licensable for a commercial site (MoCA XpressO only by written agreement, link not embed); MPOD is an eye measurement, not a cognitive test. The only licensable exception is the PROMIS-10 quality-of-life questionnaire (HealthMeasures licence ~USD 750 / 3 years, legal review) — raised with the client as a decision, not planned. Full note in the feasibility PDF.
 - **Doctor conversation sheet** and **"how memory is measured" guide** — dropped by the client (2026-11-16).
@@ -109,3 +102,4 @@ Two roles (the person; the caregiver), large type, few notifications, no ranking
 - **2026-11-16 (later)** — The mother-story frame and the "map of a day" idea (both designer-side proposals, not from the brand strategy) removed at the user's direction; the ideas stand on their own.
 - **2026-11-16 (later)** — Quick test dropped; "the decade you grew up in" moved from the site list to community (its concept is social); the doctor conversation sheet and the measurement guide / PROMIS-10 rewritten as two distinct items after the client asked what exactly goes on the site.
 - **2026-11-16 (later)** — Doctor conversation sheet, the measurement guide and the PROMIS-10 questionnaire removed from the site list; the tests question moved to the client approvals (tests need an administrator and a licence). Site list now seven ideas.
+- **2026-11-17** — Client direction: Ask the pharmacist and the QR start page dropped; brain-food recipes added; "the decade you grew up in" reworked for the site (embedded playlists, guess-the-song on the embed). Site list sent to the client as a Word file (`docs/Memowell-site-ideas.docx`). The December social calendar (external HTML) reviewed; main findings: it builds on a 3-minute memory check that cannot be licensed, a monthly newsletter where the register has a weekly one, AI-generated first-person caregiver stories, and eight site features launching 1 Dec that are not built.
