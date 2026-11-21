@@ -97,9 +97,9 @@ sections:
     heading: "How to take it"
     lead: "One capsule after each of your three main meals."
     items:
-      - { title: "Morning", body: "One capsule, after breakfast" }
-      - { title: "Noon", body: "One capsule, after lunch" }
-      - { title: "Evening", body: "One capsule, after dinner" }
+      - { title: "Morning", body: "One capsule" }
+      - { title: "Noon", body: "One capsule" }
+      - { title: "Evening", body: "One capsule" }
     # Title of the eight-week panel.
     eyebrow: "Give it eight weeks"
     body: |-

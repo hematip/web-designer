@@ -403,11 +403,11 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > One capsule after each of your three main meals.
 >
-> **Morning** — One capsule, after breakfast
+> **Morning** — One capsule
 >
-> **Noon** — One capsule, after lunch
+> **Noon** — One capsule
 >
-> **Evening** — One capsule, after dinner
+> **Evening** — One capsule
 >
 > Taking it with food helps the body absorb the compounds.
 >
@@ -418,6 +418,8 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 > Take it under your doctor's supervision, especially if you also take prescribed medicines.
 >
 > [Full directions, cautions and storage]
+
+*Note (2026-11-22, client direction):* the three dose notes no longer name the meal ("after breakfast / lunch / dinner"); each reads "One capsule", with the lead carrying "after each of your three main meals".
 
 *Note (2026-11-08, client product document):* "after" each meal, the three times of day and the 24-week course come from the document's dosing and mechanism sections. The eight-week judgement period stays by the client's ruling (the document's "two to three weeks" was not adopted). "Continue to prevent progression" and "longer use is never harmful" are not published (Part 5: prevention and absolute-safety claims).
 
