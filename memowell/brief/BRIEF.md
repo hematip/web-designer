@@ -355,7 +355,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > **A first-degree relative with Alzheimer's** — Family history raises the risk. That is not a forecast, just a reason to pay attention earlier.
 >
-> **Brain fog and delirium** — Confusion, trouble concentrating and memory lapses, where inflammation has been studied as a factor.
+> **People who value better memory** — Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life.
 >
 > **From mid-life onward** — Risk rises with age, and the changes behind it can begin in mid-life.
 >
@@ -528,57 +528,49 @@ The PDF itself has not been produced yet. See Part 9.
 
 ### WHO IT'S FOR `/who-its-for`
 Meta title: `Who Memowell® is for | Memowell`
-Meta description: `Five situations where memory research may be relevant to you: mild cognitive impairment, family history of Alzheimer's, brain fog and delirium, mid-life onward, and living with Alzheimer's disease. What the research says about each.`
+Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma's product document: people who value memory, people past mid-life, relatives of people with Alzheimer's, people with mild cognitive impairment, and people with Alzheimer's disease.`
 
 **Introduction**
 > # Who Memowell® is for
 >
 > Five situations come up repeatedly in research on memory. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
 
-**Four sections**
-> ## Mild cognitive impairment (MCI)
+**Five groups, in the order of the client's product document**
+> ## People who value better memory and the regulation of neuroinflammation
 >
-> MCI is a measurable change in memory or other thinking skills — more than ordinary ageing, less than dementia. It can progress toward Alzheimer's disease.
+> Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life. Scientific research shows that modern lifestyle can lead to persistent inflammation in the nervous system and disrupt the communication between brain cells and the processes tied to learning and memory. Regulating inflammatory responses and helping to maintain the balance of the brain's immune function is therefore one of the main lines of research in cognitive health.
 >
-> In MCI, inflammation in the nervous system is rising. Research has examined whether controlling that inflammation supports memory.
+> Memowell, combining the boswellic acids in K-Vie™, *Bacopa* bacosides and vitamin D3, is designed to support memory and cognitive health, targeting the main factors involved in weak memory. People who value this aspect of their health can use Memowell daily. Balanced nutrition, physical activity, enough sleep, and mental and social activity are also essential parts of this approach.
 >
-> If you have been told you have MCI, or you suspect it, start Memowell under the supervision of a specialist.
->
-> Sources: DOI 10.1177/15500594211042708 · DOI 10.3390/ijms241310523
+> Source: DOI 10.1186/s12974-020-01820-6
 
-> ## A first-degree relative with Alzheimer's
+> ## People past mid-life
 >
-> Family history is one of the risk factors for Alzheimer's disease. People with a parent or sibling who has it are at roughly double the risk compared with people who have no family history.
+> With age, attention to memory and other cognitive abilities becomes more important. Age-related changes, together with inactivity, poor sleep, unbalanced nutrition, and vascular and metabolic risk factors, may affect brain health. Regulating inflammation is one of the biological pathways being studied in this area.
 >
-> Higher risk is not a forecast. It is a reason to pay attention earlier.
->
-> If you are the one caring for a relative, your own sleep, stress and general health matter too.
->
-> If this is you, talk to your doctor before starting Memowell.
-
-> ## Brain fog and delirium
->
-> Delirium brings confusion, difficulty concentrating and disrupted memory. Brain fog brings forgetfulness, haziness and trouble holding attention. Research has studied inflammation in the nervous system as a factor in both.
->
-> If either describes you, start Memowell under a doctor's supervision.
->
-> Sources: DOI 10.1038/s41572-020-00236-z · DOI 10.3928/02793695-20211013-01
-
-> ## From mid-life onward
->
-> Risk of Alzheimer's rises with age. Part of that rise has been linked to lifestyle and to increasing inflammation in the nervous system — one visible sign of which is the brain atrophy that can begin in mid-life.
->
-> From about age 50, Kondor Pharma recommends one capsule a day for this group, rather than the full three.
+> Modern lifestyle, unhealthy diet and lack of exercise are major causes of inflammation in the nervous system. This inflammation runs chronically through the body and progresses as the unhealthy lifestyle continues. It carries on chronically into later adulthood and raises the risk of cognitive diseases. For example, from age 50 the risk of Alzheimer's disease rises by about 6% for every 5 years of life, and between 65 and 90 the rise is exponential, doubling with every 5 years of age. For this reason, from about age 50 and before old age, one Memowell® capsule a day is recommended. Taken this way, by controlling neuroinflammation or preventing its onset, Memowell® will reduce the risk of Alzheimer's disease.
 >
 > Sources: DOI 10.3233/JAD-179925 · DOI 10.1007/s12035-009-8066-z
 
-> ## Living with Alzheimer's disease
+> ## Family members and close relatives of people with Alzheimer's disease
 >
-> For people living with Alzheimer's disease, keeping day-to-day abilities is a central aim of care.
+> Experiencing Alzheimer's disease in a close relative often makes people pay more attention to their own memory health. For those whose parent, brother or sister is affected, family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain. These people can decide on the place of Memowell® in their own care plan after counselling, an assessment of risk factors and planning for cognitive health. For spouses and other caregivers, attending to sleep, stress and general health also matters. For them, Memowell can be considered as an option to support memory, alongside lifestyle changes and with their individual situation reviewed.
+
+> ## People with mild cognitive impairment
 >
-> In a six-month study of 85 people with mild to moderate Alzheimer's, the group taking Memowell alongside their prescribed care scored higher on cognitive and clinical measures than the placebo group, and some inflammatory markers in their blood fell.
+> Mild cognitive impairment, or MCI, is an impairment in memory or other thinking skills whose progression leads a person to Alzheimer's disease and memory loss. In other words, MCI is the first clinical and diagnostic stage in the onset of Alzheimer's disease. In this state, chronic inflammation in the nervous system is spreading, and controlling this inflammation plays a very important role in improving the user's memory. Clinically, the effect of this control on memory and on halting the progression of the disease is clearly evident; it is therefore strongly recommended that people who are at the MCI stage in clinical diagnosis, or who are suspected of MCI, start taking Memowell® under the supervision of a specialist.
 >
-> That is a basis for a conversation with the specialist about whether Memowell has a place alongside the treatment plan. It is not a replacement for it.
+> Sources: DOI 10.1177/15500594211042708 · DOI 10.3390/ijms241310523
+
+> ## People with Alzheimer's disease
+>
+> Alzheimer's disease is one of the most common diseases in developed and developing societies. In this disease, the cells of the central nervous system gradually deteriorate and die, and as a result the patient's brain undergoes atrophy, or shrinkage. As the disease begins and spreads, the person's memory is gradually impaired and declines. Many studies have established the role of inflammation in the nervous system, and its progression, in causing forgetfulness and in the progression of Alzheimer's disease. The ingredients of Memowell are able to cross the capillaries of the nervous system and, with their strong anti-inflammatory effects, play a part in controlling and reducing inflammation in nerve cells. Memowell can also be used in neurodegenerative diseases such as Parkinson's disease and MS, where inflammation and forgetfulness are among the complications.
+>
+> According to the clinical studies carried out, Memowell, without side effects and by helping to reduce the symptoms of Alzheimer's disease, is effective in improving and controlling the following:
+>
+> **Lack of concentration and attention** · **Changes in personality and behaviour** · **Impairment of short-term and long-term memory** · **Difficulty speaking and understanding what others say** · **Loss of spatial and temporal memory, such as forgetting directions and days** · **Inability to judge, plan and organise tasks**
+>
+> For people with Alzheimer's disease, keeping cognitive function and day-to-day abilities is an important aim of care. In a six-month clinical study of 85 patients with mild to moderate Alzheimer's, taking K-Vie™, the main component of Memowell, went with improved cognitive and clinical scores compared with placebo and a reduction in some inflammatory markers in the blood. These findings provide a scientific basis for a conversation with the specialist about the possible use of Memowell alongside the treatment plan.
 >
 > Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026
 
@@ -586,6 +578,8 @@ Meta description: `Five situations where memory research may be relevant to you:
 > Not sure which of these fits? That is exactly the question to bring to a pharmacist or doctor.
 >
 > [Download a one-page summary (PDF)] · [What the research found]
+
+*Note (2026-11-21, client direction):* the five groups are now the product document's five «موارد مصرف» groups, translated as written and in its order; the earlier "Brain fog and delirium" group is gone (its article stays in Memory health). Several sentences exceed the Part 5 ceiling ("will reduce the risk of Alzheimer's", "halting the progression", "without side effects", Parkinson's/MS, the six-symptom list, the age-risk figures without a source, "first stage of Alzheimer's"); they are published on the client's instruction and are flagged for the scientific officer. Anchors kept: `#approaching-65` for the mid-life group.
 
 *Note (2026-11-08):* the client's product document of November 2026 is the source of truth. The fourth group is retitled "From mid-life onward" (was "Approaching 65"), matching the document's mid-life group and its start at about age 50; the page anchor stays `#approaching-65`. It sets the mid-life dose (one capsule a day from about age 50), adds the fifth group "Living with Alzheimer's disease" (written within the evidence: no "no side effects", no symptom list, no Parkinson's/MS) and the note for caregivers.
 

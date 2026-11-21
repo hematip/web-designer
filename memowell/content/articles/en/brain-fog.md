@@ -11,7 +11,7 @@ published: ""
 last_reviewed: ""
 sources:
   - "10.3928/02793695-20211013-01"
-related: { label: "Who Memowell® is for", href: "/who-its-for#brain-fog" }
+related: { label: "Who Memowell® is for", href: "/who-its-for" }
 built_from: "DOI 10.3928/02793695-20211013-01"
 meta_description: ""
 ---
