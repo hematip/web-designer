@@ -54,16 +54,10 @@ const photo = photoOf(locale, 'professionals', 'entrance');
   </section>
 
   <section class="section pro-comp" id="composition" aria-labelledby="comp-title">
-    <div class="wrap pro-two">
-      <div class="pro-two__main" data-reveal>
-        <h2 id="comp-title">{composition.heading}</h2>
-        <div class="prose spec" set:html={md(composition.body)} />
-      </div>
-      <div class="pro-two__side is-dark aurora" data-reveal>
-        <h2 id="mon-title" class="h3">{monitoring.heading}</h2>
-        <div class="prose" set:html={md(monitoring.body)} />
-      </div>
-    </div>
+    <div class="wrap"><div class="pro-cases__inner" data-reveal>
+      <h2 id="comp-title">{composition.heading}</h2>
+      <div class="prose spec" set:html={md(composition.body)} />
+    </div></div>
   </section>
 
   {mechanism && (
@@ -75,6 +69,14 @@ const photo = photoOf(locale, 'professionals', 'entrance');
       </div></div>
     </section>
   )}
+
+  <section class="section pro-cases" id="monitoring" aria-labelledby="mon-title">
+    <div class="wrap"><div class="pro-cases__inner" data-reveal>
+      <h2 id="mon-title">{monitoring.heading}</h2>
+      <div class="prose" set:html={md(monitoring.body)} />
+      <Sources dois={monitoring.sources} locale={locale} />
+    </div></div>
+  </section>
 
   <section class="section pro-cases" id="case-reports" aria-labelledby="cases-title">
     <div class="wrap"><div class="pro-cases__inner" data-reveal>

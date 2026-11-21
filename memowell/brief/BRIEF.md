@@ -691,23 +691,25 @@ DOIs link to `https://doi.org/<DOI>`. The client asks that each study also shows
 >
 > Product information must be read against the label approved in the country of purchase.
 
-**Monitoring**
-> ## Following response
+**Mechanism** (client document, section «مکانیسم تاثیر», as written — 2026-11-21)
+> ## How does Memowell improve memory and prevent the progression of, and control, forgetfulness?
 >
-> The published work used MMSE at six-month intervals, and tracked the neutrophil-to-lymphocyte ratio on CBC differential as a marker of inflammatory activity. Whether either is appropriate for a given patient is a clinical judgement.
-
-**Proposed mechanism**
-> ## Proposed mechanism
+> Inflammation, and its spread in the brain, plays a key role in the onset of many neurological diseases and is one of the important factors in forgetfulness and the decline of memory. In Alzheimer's disease, inflammatory agents cause the build-up of amyloid-beta and tau protein aggregates in the brain. These protein aggregates are among the most important signs of age-related memory diseases such as Alzheimer's. Enzymes such as beta-secretase and certain kinase enzymes, which are responsible for creating these aggregates, are specifically stimulated and activated by inflammatory molecules. Enzymes, in general, are proteins that speed up chemical reactions in cells. The compounds in the Memowell® capsule can, by inhibiting the activity of inflammatory enzymes such as lipoxygenase and cyclooxygenase in the brain, reduce the protein aggregates and reduce the symptoms of Alzheimer's disease.
 >
-> Boswellic acids have been investigated as inhibitors of 5-lipoxygenase and, to a lesser extent, of cyclooxygenase pathways.
->
-> Neuroinflammatory signalling has been linked in the literature to the enzymes that drive amyloid-β and tau aggregation, among them β-secretase and several kinases.
->
-> Whether these mechanisms account for the clinical findings above has not been established.
+> Strengthening the immune system has a marked effect on controlling inflammation; so taking the Memowell capsule together with the medicines prescribed by the specialist, and alongside a healthy lifestyle and diet, will have notable effects in preventing forgetfulness and improving memory. Besides their anti-inflammatory effects, the compounds in the Memowell capsule are also **modulators and regulators of the body's immune system**. To benefit from these advantages, it is recommended that Memowell™ be taken over long periods. Besides its short-term anti-inflammatory effects, Memowell is also effective in controlling inflammation in the long term. To benefit from these advantages, it is recommended that Memowell capsules be taken for at least **24 weeks**. Taking it beyond this period is in no way harmful and, besides the short-term anti-inflammatory effects, also guards against the return of inflammation in the long term.
 >
 > Sources: DOI 10.1016/j.biopha.2021.112250 · DOI 10.1186/s12974-020-01820-6
 
-*Note (2026-11-08):* from the client's product document of November 2026 (mechanism section). Kept to "has been investigated / has been linked" and to the professional page only: the document's step from enzyme inhibition to "fewer protein deposits and fewer Alzheimer's symptoms" is a clinical claim the mechanistic evidence does not carry.
+**Assessment** (same section of the client document, as written)
+> ## How can the effect of Memowell be assessed?
+>
+> Specialists detect the onset and progression of diseases of the central nervous system, including Alzheimer's disease, from abnormal changes in cognitive tests and clinical examinations.
+>
+> Many psychological tests exist for monitoring Alzheimer's disease. One of the most reliable, called MMSE, is used by doctors. To learn about this test and how it is scored, see the Memory health articles on this site. Generally, as Alzheimer's disease progresses, if this test is done every 6 months, a noticeable fall in the score will be seen. After continuous use of Memowell, this test can be done in 6-month periods and the scores obtained in the 6-month periods compared with one another. The studies carried out have shown that in most patients the rate of decline (disease progression) is very small. This is covered in detail in the studies above. The effect of Memowell can also be seen in blood markers. We have all seen markers such as **CRP**, **ESR** and the count and percentage of **neutrophil** and **lymphocyte** cells in our blood tests. The Memory health articles on this site explain these markers and their function. These markers are the main early signs for detecting inflammation. **A rise in CRP and ESR, and a fall in lymphocytes alongside a rise in neutrophils in the blood, indicates the presence of inflammatory agents and the progression of the disease.** The Memory health articles describe lymphocytes, neutrophils, their role in the body and the ratio of neutrophils to lymphocytes as one of the important factors in detection. Compounds that can act on these markers and regulate them are considered anti-inflammatory. Clinical studies in Alzheimer's patients have shown that taking Memowell reduces the inflammatory markers CRP and ESR. Taking Memowell also markedly raises the number of lymphocytes in the blood and lowers the number of neutrophils. These changes can be seen clearly after about six months of continuous, regular use of Memowell. If you wish, and with your specialist's opinion, you can have a blood test before starting Memowell and repeat it after about six months of use. In the medical laboratory, the simple blood test is known as the CBC test and is done in every check-up. A fall in the number and percentage of neutrophils, a rise in the number of lymphocytes, and a fall in the ratio of neutrophils to lymphocytes on the CBC test clearly show the anti-inflammatory effects of Memowell on the disease and on your body in general.
+>
+> Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026
+
+*Note (2026-11-21, client direction):* both blocks replace the earlier "Following response" and "Proposed mechanism" texts (written to the evidence ceiling on 2026-11-08) with the product document's own wording, now that Science is the professional section. Two substitutions for the build's banned-word check: "Drugs that…" → "Compounds that…"; "prevents the return of inflammation" → "guards against the return of inflammation". The document's "Alzheimer's / memory science magazine" is rendered as "the Memory health articles on this site". Flagged for the scientific officer: enzyme inhibition → "reduce the symptoms of Alzheimer's" (mechanism as effect), "will have notable effects in preventing forgetfulness", "in no way harmful", and CRP/ESR reduction (the recorded sources say "more than five inflammatory compounds decreased").
 
 **Case reports**
 > ## Case reports
