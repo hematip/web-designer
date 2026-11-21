@@ -326,15 +326,17 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **3. What is in it**
 > ## What's inside Memowell®
 >
-> **Ground extremely fine** — The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that.
+> **Ground extremely fine** — Memowell®'s key ingredient starts as an extract of *Boswellia* resin, the source of frankincense. Its active compounds, the boswellic acids, are hard for the body to absorb, so Kondor Pharma grinds the extract extremely fine.
 >
-> **Formed into tiny crystals** — The fine powder is then formed into tiny, even crystals.
+> **Formed into tiny, even crystals** — The fine powder is then formed into tiny, even crystals. Together, the fine grinding and the crystal form let more of the boswellic acids reach the bloodstream.
 >
-> **40% active compounds** — K-Vie™ is made so that 40% of it is boswellic acids.
+> **K-Vie™: 40% boswellic acids** — The finished ingredient is K-Vie™, made so that 40% of it is boswellic acids. Each capsule contains 333 mg of K-Vie™, together with bacosides from *Bacopa* and vitamin D3.
 >
-> **A closer look: AKBA** — AKBA is one of the boswellic acids. This is its shape.
+> **A closer look: AKBA** — AKBA is one of the boswellic acids found in *Boswellia* resin. This is its molecule, the structure behind the anti-inflammatory activity that boswellic acids are studied for.
 >
 > [More about what's inside]
+
+*Note (2026-11-22, client direction):* the four chapters were rewritten for consistency. The former set was uneven (one long opening, two one-line steps, "This is its shape"), out of step with the product page's facts and silent on the dose and the other ingredients. Each chapter now has the same shape: what happens at this stage, then why it matters, in plain words; the facts are those of `/memowell` (resin of *Boswellia*, 40% boswellic acids, 333 mg of K-Vie™ per capsule, *Bacopa* bacosides and vitamin D3, "studied for their anti-inflammatory activity"). The order follows the 3D scene (fine powder → crystals → K-Vie™ → AKBA). The share of AKBA in K-Vie™ is still unspecified, so chapter 4 says "found in *Boswellia* resin". The former wording (not a copy-deck line): **Ground extremely fine** — The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that. · **Formed into tiny crystals** — The fine powder is then formed into tiny, even crystals. · **40% active compounds** — K-Vie™ is made so that 40% of it is boswellic acids. · **A closer look: AKBA** — AKBA is one of the boswellic acids. This is its shape.
 
 *Note (2026-11-21, client document, section 4 «مزیت مصرف»):* the gluten note is now the document's own text, as written, including "about 1% of people" (no source recorded; client direction to keep the figure).
 

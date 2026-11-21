@@ -28,28 +28,31 @@ sections:
       This is an area of active research, not a settled answer.
     # Plain-language home (client direction 2026-11-08): no DOI or reading link here; the source is cited on
     # /memory-health (article "inflammation in the nervous system") and /science/professionals.
-    # Illustrative photography (2026-11-22, client direction: a moment families notice, not a doctor's visit; Seedream 5.0 Pro on Higgsfield, Kondor rules). Needs client approval: see README.
+    # Illustrative photography (2026-11-22, client direction: researchers at work on inflammation, a scientific image;
+    # Seedream 5.0 Pro on Higgsfield, the client's "dr" character, official bottle cutout composited on the bench). Needs client approval: see README.
     photo:
-      src: "/img/photos/family-pause"
+      src: "/img/photos/lab-inflammation"
       width: 1600
       height: 1197
       widths: [640, 1024, 1600]
-      focus: "50% 45%"
+      focus: "50% 40%"
       alt: ""
 
   - id: formulation
     # v7 3D story (K-Vie™ → a look inside at AKBA; the capsule chapter is removed, client direction 2026-11-09). Plain-language labels and bodies for a general
     # audience (client direction 2026-11-08); the technical terms stay on /memowell and /science/professionals.
     heading: "What's inside Memowell®"
+    # Chapters rewritten 2026-11-22 (client direction): one structure per step (what happens, why it matters), the
+    # product facts of /memowell carried through (resin source, 40%, 333 mg, Bacopa and vitamin D3), AKBA tied back.
     chapters:
       - label: "Ground extremely fine"
-        body: "The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that."
-      - label: "Formed into tiny crystals"
-        body: "The fine powder is then formed into tiny, even crystals."
-      - label: "40% active compounds"
-        body: "K-Vie™ is made so that 40% of it is boswellic acids."
+        body: "Memowell®'s key ingredient starts as an extract of *Boswellia* resin, the source of frankincense. Its active compounds, the boswellic acids, are hard for the body to absorb, so Kondor Pharma grinds the extract extremely fine."
+      - label: "Formed into tiny, even crystals"
+        body: "The fine powder is then formed into tiny, even crystals. Together, the fine grinding and the crystal form let more of the boswellic acids reach the bloodstream."
+      - label: "K-Vie™: 40% boswellic acids"
+        body: "The finished ingredient is K-Vie™, made so that 40% of it is boswellic acids. Each capsule contains 333 mg of K-Vie™, together with bacosides from *Bacopa* and vitamin D3."
       - label: "A closer look: AKBA"
-        body: "AKBA is one of the boswellic acids. This is its shape."
+        body: "AKBA is one of the boswellic acids found in *Boswellia* resin. This is its molecule, the structure behind the anti-inflammatory activity that boswellic acids are studied for."
     actions:
       - { label: "More about what's inside", href: "/memowell#composition" }
 
