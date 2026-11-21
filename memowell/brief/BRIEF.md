@@ -520,7 +520,7 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 4. How would we tell whether it is doing anything?
 5. How long before we review it together?
 
-The PDF itself has not been produced yet. See Part 9.
+The PDF is built from this copy by `scripts/build-summary-pdf.mjs` and linked from the site (client direction 2026-11-21); the file still goes to the scientific officer with the rest of the batch.
 
 **End of page:** product disclaimer (see "Footer and repeated text" at the end of this part), then the professional band.
 
@@ -581,7 +581,7 @@ Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma'
 >
 > Memowell™, by slowing the progression of neuroinflammation, leads to stronger memory, and from middle age onward it helps to strengthen memory.
 >
-> [Download a one-page summary (PDF)] · [What the research found]
+> [Download a one-page summary (PDF)]
 
 *Note (2026-11-21, client direction):* the five groups are now the product document's five «موارد مصرف» groups, translated as written and in its order; the earlier "Brain fog and delirium" group is gone (its article stays in Memory health). Several sentences exceed the Part 5 ceiling ("will reduce the risk of Alzheimer's", "halting the progression", "without side effects", Parkinson's/MS, the six-symptom list, the age-risk figures without a source, "first stage of Alzheimer's"); they are published on the client's instruction and are flagged for the scientific officer. Anchors kept: `#approaching-65` for the mid-life group. The document's question "Does Memowell strengthen memory in healthy people?" closes the page in place of "Not sure which of these fits?", as written (no study in healthy people; the 14-billion / 100,000-a-day figures have no source) — also flagged.
 
@@ -1076,9 +1076,7 @@ Requirements:
     - how it is taken
     - the published studies
     - the five questions in Part 4
-  - The file does not exist yet.
-  - It can be designed and built as part of this project, and must pass scientific approval.
-  - Until then, the buttons must not lead to a dead link.
+  - Built: `public/downloads/memowell-doctor-summary.pdf` (one A4 page, from the approved copy of `/memowell` and `/science`, the five questions, both disclaimers). Linked 2026-11-21 at the client's direction; scientific sign-off of the file pending.
 - **Catalogue PDF** for partners: not supplied.
 
 ### Accessibility and readability (client priority)
@@ -1133,7 +1131,7 @@ Requirements:
 | Is Iran in scope? Persian is not among the three languages, though Iran is a target market and memowell.ir appears in the catalogue | Project scope | Client |
 | Which language `memowell.ru` opens in | Domain setup | Client |
 | French and Arabic translations | FR / AR versions | Client's translator + scientific officer |
-| One-page summary PDF | Primary action | To produce + approve |
+| One-page summary PDF | Primary action | Built and linked (2026-11-21); file awaiting scientific sign-off |
 | Catalogue PDF for partners | `/about/partners` | Client |
 | Amazon listing URL(s) | Availability page | Client |
 | Terms of use text | `/terms` | Client |

@@ -4,7 +4,7 @@ The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-app
 
 - Design rationale, concept and the signature-scene contract: [`docs/design-brief.md`](docs/design-brief.md)
 - Digital ideas register (site / community / app, with decisions): [`docs/digital-ideas.md`](docs/digital-ideas.md); client summaries (Persian): `docs/Memowell-digital-ideas.pdf` (ideas by site / community / app, social–site cycle) and `docs/Memowell-self-tests-feasibility.pdf`
-- Draft one-page doctor summary: [`deliverables/memowell-doctor-summary-DRAFT.pdf`](deliverables/memowell-doctor-summary-DRAFT.pdf). It is **not linked** from the site until approved.
+- One-page doctor summary (the primary action): `public/downloads/memowell-doctor-summary.pdf`, built by `node scripts/build-summary-pdf.mjs` from approved site copy; review render in `deliverables/`. Linked from the site at the client's direction (2026-11-21); the file itself still needs the scientific officer's sign-off.
 
 ## Stack
 
@@ -26,7 +26,7 @@ npm run build:preview    # review build → dist-preview/ (EN/FR/AR, drafts, mut
 npm run check:content    # verifies the copy deck verbatim, banned words, disclaimers and internal links (run after build)
 npm run cms              # local CMS backend; then open http://localhost:4321/admin/
 node scripts/a11y-check.mjs http://localhost:4321 / /memowell/   # axe-core WCAG A/AA scan of a running build
-node scripts/build-summary-pdf.mjs                                  # rebuild the draft summary PDF from site copy
+node scripts/build-summary-pdf.mjs                                  # rebuild the one-page doctor summary PDF from site copy
 ```
 
 **Review preview.** Every push to `claude/happy-volta-7wdu1t` that touches `memowell/` runs `.github/workflows/memowell-preview.yml`: it builds `dist-preview`, runs `check:preview`, and deploys to production of the Vercel project `memowell-preview-site` (team Bextudio), so the review URL stays the same. It needs the repository secret `VERCEL_TOKEN`; without it the deploy is skipped.
@@ -38,7 +38,7 @@ node scripts/build-summary-pdf.mjs                                  # rebuild th
 - **Languages.** EN is the default at `/`; FR is at `/fr/` and AR at `/ar/`, with a full RTL layout. In the production build they stay unpublished until `published_locales` in Settings includes them. Until a translation exists, the preview shows the English original inside the mirrored layout with English language semantics. Nothing is machine-translated for publication.
 - **Honest states.**
   - Forms stay disabled with the notice "This form will open soon." until an endpoint is set in Settings.
-  - The summary and catalogue buttons show "This file will be available soon." until a file is approved.
+  - The catalogue button shows "This file will be available soon." until a file is approved; the summary PDF is linked.
   - Unpublished pages are never linked.
 
 ## Visual direction (v3, 2026-11-08): "the label, in motion"
@@ -115,7 +115,7 @@ Every item below is built around and never invented. Preview pages keep local pe
 | 11 | Is Iran / Persian in scope? (memowell.ir appears in the catalogue) | Project scope | Not built | Client |
 | 12 | Which language `memowell.ru` opens in | Domain setup | See Domains above | Client |
 | 13 | French and Arabic translations | `/fr/`, `/ar/` | Structure, switcher and RTL built; content falls back to English in preview only; unpublished in production | Client's translator + scientific officer |
-| 14 | One-page summary PDF | `/memowell`, `/who-its-for`, `/science` | **Draft produced** (`deliverables/`). Buttons show "This file will be available soon." until it is approved and set in Settings → Downloads. The homepage PDF action was removed at the client's request | Scientific officer |
+| 14 | One-page summary PDF | `/memowell`, `/who-its-for`, `/science` | **Built and linked** (`public/downloads/`, from approved site copy); the file awaits the scientific officer's sign-off | Scientific officer |
 | 15 | Catalogue PDF for partners | `/about/partners` | Button disabled, "This file will be available soon." | Client |
 | 16 | Amazon listing URL(s) | `/about/availability` | Approved sentence shown without a link; Settings → `amazon_urls` | Client |
 | 17 | Terms of use text | `/terms` | Draft page, not generated in production; footer shows the label without a link | Client |

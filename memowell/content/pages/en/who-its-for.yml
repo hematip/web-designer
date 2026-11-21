@@ -70,4 +70,3 @@ sections:
       Memowell™, by slowing the progression of neuroinflammation, leads to stronger memory, and from middle age onward it helps to strengthen memory.
     actions:
       - { label: "Download a one-page summary (PDF)", kind: summary }
-      - { label: "What the research found", href: "/science" }
