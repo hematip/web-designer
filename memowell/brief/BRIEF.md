@@ -333,6 +333,8 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > [More about what's inside]
 
+*Note (2026-11-21, client document, section 4 «مزیت مصرف»):* the gluten note is now the document's own text, as written, including "about 1% of people" (no source recorded; client direction to keep the figure).
+
 *Note (2026-11-21, client document, section 1 «معرفی»):* the K-Vie™ sentence now carries the document's wording on how Kondor Pharma developed it ("drawing on current knowledge of preparation, standardisation and formulation … to carry the maximum amount of boswellic acids"); needs scientific-officer sign-off with the rest of the batch.
 
 *Note (2026-11-09, client direction):* the section heading is now "What's inside Memowell" (was "What's inside each capsule"). The capsule is removed from the home formulation story: the 3D capsule and the fifth chapter ("Vegetarian and gluten-free — Each bottle holds 90 vegetarian capsules.") are gone, and the story ends on AKBA. The vegetarian / gluten-free facts stay on `/memowell` and `/science/professionals`.
@@ -470,7 +472,11 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 >
 > Ordinary frankincense resin contains these compounds, but the digestive system absorbs very little of them. Drawing on current knowledge of preparation, standardisation and formulation, Kondor Pharma developed K-Vie™ to carry the maximum amount of boswellic acids: the resin is standardised to 40% boswellic acids, then micronized and microcrystalline so that more of the compound reaches the bloodstream.
 >
-> The capsules are vegetarian and gluten-free. Gluten contains gliadin, a protein that can trigger an inflammatory reaction in the digestive system of some people, most clearly in coeliac disease, so Kondor Pharma uses ingredients confirmed to be gluten-free.
+> The capsules are vegetarian and gluten-free.
+>
+> **Why are Kondor Pharma's products gluten-free?**
+>
+> Gluten is a combination of two proteins, gliadin and glutelin, and is found in wheat, barley and rye. Of the two proteins that make up gluten, gliadin has inflammatory properties, and about 1% of people are sensitive to the presence of this protein in their diet and in medicinal products; their digestive system shows an inflammatory reaction to it. One of the most important inflammatory diseases that arises for this reason is coeliac disease. Since Kondor Pharma's products are anti-inflammatory products, they must be completely free of inflammatory compounds, including gluten. With this in mind, Kondor Pharma's specialists source and process the raw materials used in Kondor Pharma's products while making sure they are gluten-free.
 
 *Note:* this section answers the client's own question about the difference from ordinary frankincense. Composition (K-Vie™ + *Bacopa* bacosides + vitamin D3), the amount ("Each capsule contains 333 mg of K-Vie™.") and the gluten explanation come from the client's product document of November 2026, which the client made the source of truth. Amounts of bacosides and vitamin D3 were not given.
 
@@ -710,6 +716,13 @@ DOIs link to `https://doi.org/<DOI>`. The client asks that each study also shows
 > Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026
 
 *Note (2026-11-21, client direction):* both blocks replace the earlier "Following response" and "Proposed mechanism" texts (written to the evidence ceiling on 2026-11-08) with the product document's own wording, now that Science is the professional section. Two substitutions for the build's banned-word check: "Drugs that…" → "Compounds that…"; "prevents the return of inflammation" → "guards against the return of inflammation". The document's "Alzheimer's / memory science magazine" is rendered as "the Memory health articles on this site". Flagged for the scientific officer: enzyme inhibition → "reduce the symptoms of Alzheimer's" (mechanism as effect), "will have notable effects in preventing forgetfulness", "in no way harmful", and CRP/ESR reduction (the recorded sources say "more than five inflammatory compounds decreased").
+
+**With prescribed medicines** (client document, section «مزیت مصرف», as written — 2026-11-21)
+> ## Does taking Memowell alongside the common Alzheimer's and memory-loss medicines have an advantage?
+>
+> The aim of many medicines used to control Alzheimer's disease is to strengthen nerve endings and increase the release of neurotransmitters in the central nervous system. Almost none of the conventional medicines used to control Alzheimer's disease are anti-inflammatory, and in principle anti-inflammatory treatments are not used to control or reduce inflammation in Alzheimer's disease, because these medicines do not enter nerve cells and because of the irreversible side effects of their long-term use. The results of much research in recent years have shown that inflammation of the nervous system is one of the main and decisive factors in the progression of Alzheimer's disease and forgetfulness. Therefore the Memowell capsule, with its anti-inflammatory effects in the nervous system, can, alongside the conventional medicines prescribed by the treating physician, increase their effect and help to control and prevent the progression of Alzheimer's disease. On the other hand, clinical studies have shown that the active compounds in frankincense resin, apart from inducing anti-inflammatory effects, are also regulators of the immune system. With its immune-modulating and immune-regulating properties, Memowell can strengthen the function of the immune system in Alzheimer's patients.
+
+*Note (2026-11-21, client direction):* published as written. Flagged for the scientific officer: "increase their effect" (synergy without a study), "help to control and prevent the progression of Alzheimer's disease", and the comparison with anti-inflammatory medicines ("irreversible side effects"). The claim-matrix row "Use with medication" (Part 5) still awaits sign-off.
 
 **Case reports**
 > ## Case reports

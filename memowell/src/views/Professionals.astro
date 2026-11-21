@@ -11,7 +11,7 @@ import { getPage, getSite, section, md, mdInline, doiUrl, photoOf } from '../lib
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'professionals');
 const s = (id: string) => section(page, id);
-const entrance = s('entrance'), studies = s('studies'), composition = s('composition'), monitoring = s('monitoring'), mechanism = s('mechanism'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
+const entrance = s('entrance'), studies = s('studies'), composition = s('composition'), monitoring = s('monitoring'), mechanism = s('mechanism'), withMeds = s('with-medicines'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
 const keys = ['study', 'population', 'design', 'findings'];
 const missingCitations = studies.rows.some((r: any) => !r.citation || !r.publisher_url);
 const photo = photoOf(locale, 'professionals', 'entrance');
@@ -77,6 +77,15 @@ const photo = photoOf(locale, 'professionals', 'entrance');
       <Sources dois={monitoring.sources} locale={locale} />
     </div></div>
   </section>
+
+  {withMeds && (
+    <section class="section pro-cases" id="with-medicines" aria-labelledby="meds-title">
+      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+        <h2 id="meds-title">{withMeds.heading}</h2>
+        <div class="prose" set:html={md(withMeds.body)} />
+      </div></div>
+    </section>
+  )}
 
   <section class="section pro-cases" id="case-reports" aria-labelledby="cases-title">
     <div class="wrap"><div class="pro-cases__inner" data-reveal>
