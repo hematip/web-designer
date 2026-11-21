@@ -450,9 +450,11 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **9. Closing — where to find it** *(the former section 8 copy, moved here 2026-11-11)*
 > ## Where to find Memowell®
 >
-> Availability, packaging and approved uses vary from country to country. See what applies where you live.
+> Memowell® is sold on Amazon, in bottles of 90 capsules, made by Kondor Pharma in Canada under NPN 80107357. Order it there, and keep the bottle handy for your next conversation with your doctor.
 >
-> [Check your country]
+> [Buy on Amazon.ca] [Buy on Amazon.com]
+
+*Note (2026-11-22, client direction):* the former copy ("Availability, packaging and approved uses vary from country to country. See what applies where you live." with [Check your country] → `/about/availability`) is retired: the product is not available in every country, and the home closes on the Amazon purchase. The two buttons link to the public listings (Amazon.ca ASIN B09FYCHR47, Amazon.com ASIN B08T21L6MT), found 2026-11-22; the client confirms they are the official ones. "90 capsules" is from the product facts (Part 1).
 
 *Note (2026-11-11, client):* the former closing ("Talk it through with your doctor or pharmacist", "This site cannot tell you whether Memowell is right for you. Your doctor or pharmacist can, and the conversation is easier when you bring the facts with you.") is retired from the home page; the doctor conversation is now section 8.
 
@@ -861,11 +863,11 @@ Meta title: `Kondor Pharma, the company behind Memowell®`
 >
 > ## Other Kondor Pharma products
 >
-> **Strowell** · **Genuwell** · **Inflawell**
+> **Strowell** · **Genuwell**
 >
 > Each has its own composition and intended use. See kondorpharma.com for details.
 
-*Note:* the other products get their names and a link only. No descriptions and no claims.
+*Note:* the other products get their names and a link only. No descriptions and no claims. Inflawell removed 2026-11-22 (client: not available for now).
 
 ### AVAILABILITY `/about/availability`
 > # Where to find Memowell®
@@ -883,7 +885,7 @@ Meta title: `Kondor Pharma, the company behind Memowell®`
 *Note:*
 - The page structure stays open so each country can get its own block later.
 - **Write no market details other than Canada's** until the client confirms registration status.
-- No Amazon URL has been supplied.
+- Amazon listings set 2026-11-22 in Settings → amazon_urls (Amazon.ca ASIN B09FYCHR47, Amazon.com ASIN B08T21L6MT), to be confirmed by the client.
 
 ### PARTNERS `/about/partners`
 Meta title: `Pharmacy and distribution enquiries | Memowell®`
@@ -962,7 +964,7 @@ Text 1 and text 2 were written by the client and are fixed. Do not change them w
 |---|---|
 | Memowell | What it is · Who it's for · What the research found · How to take it |
 | Learn | Memory health · For healthcare professionals |
-| Kondor Pharma | About · Availability · Partners · kondorpharma.com · Strowell, Genuwell, Inflawell |
+| Kondor Pharma | About · Availability · Partners · kondorpharma.com · Strowell, Genuwell |
 | Contact | Contact us · [email] · [social links] |
 | Legal | Privacy policy · Terms of use · General disclaimer |
 
@@ -1206,7 +1208,7 @@ Requirements:
 | French and Arabic translations | FR / AR versions | Client's translator + scientific officer |
 | One-page summary PDF | Primary action | Built and linked (2026-11-21); file awaiting scientific sign-off |
 | Catalogue PDF for partners | `/about/partners` | Client |
-| Amazon listing URL(s) | Availability page | Client |
+| Amazon listing URL(s) | Availability page, home closing | Set from the public listings 2026-11-22; client to confirm |
 | Terms of use text | `/terms` | Client |
 | Analytics tool, if any | Privacy policy | Client |
 | Logo files for Health Canada, Alzheimer's Association, mednet.ca | Any trust marks | Client |

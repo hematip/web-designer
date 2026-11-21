@@ -53,7 +53,7 @@ footer_columns:
       - { label: "Availability", href: "/about/availability" }
       - { label: "Partners", href: "/about/partners" }
       - { label: "kondorpharma.com", href: "https://kondorpharma.com", external: true }
-    products: ["Strowell", "Genuwell", "Inflawell"]
+    products: ["Strowell", "Genuwell"]
   - title: "Contact"
     links:
       - { label: "Contact us", href: "/contact" }

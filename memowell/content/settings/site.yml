@@ -30,5 +30,7 @@ contact:
   instagram: ""
   linkedin: ""
 
-# Amazon listing URL(s) — not supplied.
-amazon_urls: []
+# Amazon listings (found 2026-11-22 from the public listings; the client confirms they are the official ones).
+amazon_urls:
+  - { label: "Memowell® on Amazon.ca", url: "https://www.amazon.ca/dp/B09FYCHR47" }
+  - { label: "Memowell® on Amazon.com", url: "https://www.amazon.com/dp/B08T21L6MT" }

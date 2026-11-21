@@ -15,6 +15,6 @@ sections:
     items:
       - { title: "Strowell" }
       - { title: "Genuwell" }
-      - { title: "Inflawell" }
+      # Inflawell removed 2026-11-22 (client: not available for now).
     body: |-
       Each has its own composition and intended use. See kondorpharma.com for details.

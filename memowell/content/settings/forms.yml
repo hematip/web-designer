@@ -9,14 +9,14 @@ scientific:
   fields:
     - { name: "name", label: "Name", type: "text", autocomplete: "name", required: true }
     - { name: "profession", label: "Profession", type: "text", autocomplete: "organization-title", required: true }
-    - { name: "country", label: "Country", type: "text", autocomplete: "country-name", required: true }
+    - { name: "country", label: "Country", type: "text", autocomplete: "country-name", required: false }
     - { name: "email", label: "Email", type: "email", autocomplete: "email", required: true }
     - { name: "question", label: "Your question", type: "textarea", required: true }
 feedback:
   fields:
     - { name: "name", label: "Name", type: "text", autocomplete: "name", required: true }
     - { name: "profession", label: "Profession", type: "text", autocomplete: "organization-title", required: true }
-    - { name: "country", label: "Country", type: "text", autocomplete: "country-name", required: true }
+    - { name: "country", label: "Country", type: "text", autocomplete: "country-name", required: false }
     - { name: "email", label: "Email", type: "email", autocomplete: "email", required: true }
     - { name: "patient_context", label: "Patient context, no identifying details", type: "textarea", required: false }
     - { name: "observation", label: "What you observed", type: "textarea", required: true }

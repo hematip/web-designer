@@ -137,9 +137,12 @@ sections:
 
   # The closing carries the former "Where to find Memowell" copy (client direction 2026-11-11).
   - id: closing
+    # Client direction 2026-11-22: the home closes on the Amazon purchase, not on the per-country availability page
+    # (the product is not available in every country). Listings from Settings → amazon_urls.
     heading: "Where to find Memowell®"
     accent: "Where to find"
     body: |-
-      Availability, packaging and approved uses vary from country to country. See what applies where you live.
+      Memowell® is sold on Amazon, in bottles of 90 capsules, made by Kondor Pharma in Canada under NPN 80107357. Order it there, and keep the bottle handy for your next conversation with your doctor.
     actions:
-      - { label: "Check your country", href: "/about/availability" }
+      - { label: "Buy on Amazon.ca", href: "https://www.amazon.ca/dp/B09FYCHR47", external: true }
+      - { label: "Buy on Amazon.com", href: "https://www.amazon.com/dp/B08T21L6MT", external: true }

@@ -118,7 +118,7 @@ Every item below is built around and never invented. Preview pages keep local pe
 | 13 | French and Arabic translations | `/fr/`, `/ar/` | Structure, switcher and RTL built; content falls back to English in preview only; unpublished in production | Client's translator + scientific officer |
 | 14 | One-page summary PDF | `/memowell` (summary section) | **Built and linked** (`public/downloads/`, from approved site copy); the file awaits the scientific officer's sign-off | Scientific officer |
 | 15 | Catalogue PDF for partners | `/about/partners` | Button disabled, "This file will be available soon." | Client |
-| 16 | Amazon listing URL(s) | `/about/availability` | Approved sentence shown without a link; Settings → `amazon_urls` | Client |
+| 16 | Amazon listing URL(s) | `/about/availability`, home closing | **Set 2026-11-22** from the public listings (Amazon.ca ASIN B09FYCHR47, Amazon.com ASIN B08T21L6MT) in Settings → `amazon_urls`; the home closes on "Buy on Amazon.ca / .com" | Client confirms the listings are official |
 | 17 | Terms of use text | `/terms` | Draft page, not generated in production; footer shows the label without a link | Client |
 | 18 | Analytics tool, if any | Privacy policy | None installed; no cookies set | Client |
 | 19 | Logo files for Health Canada, Alzheimer's Association, mednet.ca | Possible trust marks | None shown (not recreated). The Health Canada licence appears as text, NPN 80107357 | Client |
