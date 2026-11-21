@@ -826,7 +826,7 @@ Meta description: `Plain-language articles on memory, mild cognitive impairment,
 
 The index has pagination.
 
-**The first eight articles: titles only.** The bodies are not written. Do not write them; each one needs scientific approval.
+**The first eight articles.** Bodies drafted within the recorded evidence (2026-11-21/22, at the designer's request) and held as drafts in `content/articles/en/`; each one needs scientific approval before publication. Titles as listed.
 
 | # | Title | Category | Built from |
 |---|---|---|---|
