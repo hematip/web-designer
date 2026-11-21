@@ -3,7 +3,7 @@
 The Memowell site for Kondor Pharma, built from `brief/BRIEF.md` (the agency-approved brief) with the `bex-web-design` skill.
 
 - Design rationale, concept and the signature-scene contract: [`docs/design-brief.md`](docs/design-brief.md)
-- Open questions for the client, one editable Word file (Persian; scientific review of sentences published at the client's direction, conflicts with the brief, Part 9 gaps, every preview pending marker): `docs/Memowell-client-questions.docx` (2026-11-21)
+- Open questions for the client, one editable Word file (Persian; scientific review of sentences published at the client's direction, conflicts with the brief, Part 9 gaps, trimmed by the designer to 21 items): `docs/Memowell-client-questions.docx` (2026-11-22)
 - Digital ideas register (site / community / app, with decisions): [`docs/digital-ideas.md`](docs/digital-ideas.md); client summaries (Persian): `docs/Memowell-digital-ideas.pdf` (ideas by site / community / app, social–site cycle) and `docs/Memowell-self-tests-feasibility.pdf`
 - One-page doctor summary (the primary action): `public/downloads/memowell-doctor-summary.pdf`, built by `node scripts/build-summary-pdf.mjs` from approved site copy; review render in `deliverables/`. Linked from the site at the client's direction (2026-11-21); the file itself still needs the scientific officer's sign-off.
 
