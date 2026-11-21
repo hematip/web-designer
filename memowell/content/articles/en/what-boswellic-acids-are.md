@@ -30,7 +30,7 @@ Boswellic acids are large, fat-loving molecules, and the digestive system absorb
 
 ## What K-Vie™ is
 
-K-Vie™ is Kondor Pharma's answer to that problem. The resin is processed into an ingredient standardised to 40% boswellic acids, so that each batch contains the same amount of the active compounds, and then micronized and microcrystalline, that is, reduced to very small, uniform particles so that more of the compound dissolves and reaches the bloodstream. Each Memowell capsule contains 333 mg of K-Vie™, taken with a meal, because food helps the absorption further.
+K-Vie™ is Kondor Pharma's answer to that problem. The resin is processed into an ingredient standardised to 40% boswellic acids, so that each batch contains the same amount of the active compounds, and then micronized and microcrystalline, that is, reduced to very small, uniform particles so that more of the compound dissolves and reaches the bloodstream. Each Memowell® capsule contains 333 mg of K-Vie™, taken with a meal, because food helps the absorption further.
 
 ## What this does and does not tell you
 

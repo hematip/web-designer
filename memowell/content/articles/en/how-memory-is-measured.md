@@ -18,7 +18,7 @@ built_from: "All three studies"
 meta_description: "How memory is measured in research and in the clinic: the MMSE, CDR and RAVLT tests explained in plain language, who administers them and how to read a score."
 ---
 
-When a study reports that one group "scored 3.11 points higher", the obvious question is: on what? Memory and thinking are measured with standard tests that have been used for decades, so that results from different clinics and different years can be compared. Three of them appear in the published research on Memowell.
+When a study reports that one group "scored 3.11 points higher", the obvious question is: on what? Memory and thinking are measured with standard tests that have been used for decades, so that results from different clinics and different years can be compared. Three of them appear in the published research on Memowell®.
 
 ## MMSE: the Mini-Mental State Examination
 
@@ -34,7 +34,7 @@ The RAVLT is a learning test. The examiner reads a list of fifteen words, and th
 
 ## Blood markers
 
-The published work on Memowell also looked at blood. A routine blood count (CBC) reports white blood cells, among them neutrophils and lymphocytes; the ratio between them was tracked as one sign of inflammatory activity. Other analyses looked at proteins linked to Alzheimer's disease. These are research measures; whether any of them is useful for a given person is a clinical judgement.
+The published work on Memowell® also looked at blood. A routine blood count (CBC) reports white blood cells, among them neutrophils and lymphocytes; the ratio between them was tracked as one sign of inflammatory activity. Other analyses looked at proteins linked to Alzheimer's disease. These are research measures; whether any of them is useful for a given person is a clinical judgement.
 
 ## Reading a score
 

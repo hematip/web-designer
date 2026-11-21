@@ -2,7 +2,7 @@
 status: approved
 
 nav:
-  - { label: "Memowell", href: "/memowell" }
+  - { label: "Memowell®", href: "/memowell" }
   - { label: "Who it's for", href: "/who-its-for" }
   # Science is the professional section (client direction 2026-11-21); the general audience reads the home page.
   - { label: "Science", href: "/science" }
@@ -37,7 +37,7 @@ market_line:
   action: { label: "See availability", href: "/about/availability" }
 
 footer_columns:
-  - title: "Memowell"
+  - title: "Memowell®"
     links:
       - { label: "What it is", href: "/memowell" }
       - { label: "Who it's for", href: "/who-its-for" }
@@ -73,7 +73,7 @@ footer_last_line: "Memowell® · Kondor Pharma, Canada · NPN 80107357 · LIVE W
 summary_note:
   title: "Taking this to your doctor"
   rows:
-    - { section: "formulation", label: "What's inside Memowell" }
+    - { section: "formulation", label: "What's inside Memowell®" }
     - { section: "evidence", label: "What the research found" }
     - { section: "directions", label: "How to take it" }
     - { section: "closing", label: "Five questions worth asking" }

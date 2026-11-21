@@ -36,8 +36,8 @@ Treat higher risk as a reason to pay attention earlier, not as a verdict.
 - Talk to your doctor about your family history and ask whether a baseline memory assessment makes sense for you, so that any change later can be measured against something.
 - Look after the risk factors that can be changed: blood pressure, movement, sleep, hearing, weight, smoking.
 - Stay socially and mentally active. The research on these habits is observational, but it points consistently in the same direction.
-- If you decide with your doctor to try Memowell, start it under their supervision and review it together.
+- If you decide with your doctor to try Memowell®, start it under their supervision and review it together.
 
 ## If you are also the carer
 
-Many people reading this are caring for the relative in question. Your own sleep, stress and general health matter, both for you and for the care you give. The caregivers' articles on this site, and the page on who Memowell is for, have more on that.
+Many people reading this are caring for the relative in question. Your own sleep, stress and general health matter, both for you and for the care you give. The caregivers' articles on this site, and the page on who Memowell® is for, have more on that.

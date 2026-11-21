@@ -45,4 +45,4 @@ Expect questions about what you have noticed and since when; a short memory test
 
 ## Before the visit
 
-Write down three things: what you have noticed, roughly when it started, and every medicine and supplement you take. Take someone who knows you well; they will remember details you might not. If you want a single page to bring along, the Memowell summary for your doctor is on the product page of this site.
+Write down three things: what you have noticed, roughly when it started, and every medicine and supplement you take. Take someone who knows you well; they will remember details you might not. If you want a single page to bring along, the Memowell® summary for your doctor is on the product page of this site.

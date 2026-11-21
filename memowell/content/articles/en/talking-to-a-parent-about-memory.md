@@ -45,4 +45,4 @@ Book the appointment while you are both still agreed. Before it, write down toge
 
 ## Looking after yourself
 
-If this becomes a longer road, your own sleep, health and company matter: for you, and for the care you give. There is more for caregivers on this site, and the page on who Memowell is for has a note written for you.
+If this becomes a longer road, your own sleep, health and company matter: for you, and for the care you give. There is more for caregivers on this site, and the page on who Memowell® is for has a note written for you.

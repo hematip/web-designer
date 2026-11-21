@@ -1,7 +1,7 @@
 # Science (plain language). NOT A PAGE since 2026-11-21 (client direction: Science is the professional section; the general
 # audience reads the home page). Kept as the data source for the one-page doctor summary (scripts/build-summary-pdf.mjs).
 status: retired
-meta_title: "What the research on Memowell® found | Memowell"
+meta_title: "What the research on Memowell® found | Memowell®"
 meta_description: "Three published studies, in plain language: an 85-patient trial in Alzheimer's disease, blood markers, and 80 people after brain injury. With sources."
 sections:
   - id: intro
@@ -13,9 +13,9 @@ sections:
     heading: "85 people with mild to moderate Alzheimer's, six months"
     published: "Published in *Alzheimer's & Dementia*, 2023."
     body: |-
-      Eighty-five people with mild to moderate Alzheimer's disease were divided into two groups. One group took Memowell alongside their prescribed care; the other took a placebo — a capsule with no active ingredient. Neither the participants nor the researchers knew who was in which group.
+      Eighty-five people with mild to moderate Alzheimer's disease were divided into two groups. One group took Memowell® alongside their prescribed care; the other took a placebo — a capsule with no active ingredient. Neither the participants nor the researchers knew who was in which group.
 
-      After six months, the Memowell group scored **3.11 points higher on MMSE** than the placebo group. MMSE is a standard test of memory and orientation; a higher score means better performance.
+      After six months, the Memowell® group scored **3.11 points higher on MMSE** than the placebo group. MMSE is a standard test of memory and orientation; a higher score means better performance.
 
       On CDR-SOB, a second standard measure, the difference was **1.65 points**, in the direction of slower change.
 

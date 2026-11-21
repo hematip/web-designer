@@ -1,15 +1,15 @@
 # What Memowell is — approved English copy (brief Part 4, PRODUCT).
 status: approved
-meta_title: "What Memowell® is, and how to take it | Memowell"
-meta_description: "Memowell is a dietary supplement containing K-Vie™ boswellic acids, Bacopa bacosides and vitamin D3. Composition, directions, cautions and storage — and what to ask your doctor."
+meta_title: "What Memowell® is, and how to take it | Memowell®"
+meta_description: "Memowell® is a dietary supplement containing K-Vie™ boswellic acids, Bacopa bacosides and vitamin D3. Composition, directions, cautions and storage — and what to ask your doctor."
 sections:
   - id: intro
     heading: "What Memowell® is"
     body: |-
-      Memowell is a dietary supplement for memory and cognitive health. One bottle holds 90 vegetarian capsules. It is made by Kondor Pharma in Canada, where it is licensed under natural product number NPN 80107357.
+      Memowell® is a dietary supplement for memory and cognitive health. One bottle holds 90 vegetarian capsules. It is made by Kondor Pharma in Canada, where it is licensed under natural product number NPN 80107357.
 
       It is a supplement, not a medicine, and it is not a substitute for anything your doctor has prescribed.
-    image_alt: "The Memowell bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
+    image_alt: "The Memowell® bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
 
   - id: composition
     # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
@@ -20,9 +20,9 @@ sections:
       widths: [640, 1024]
       focus: "45% 60%"
       alt: ""
-    heading: "What's inside Memowell"
+    heading: "What's inside Memowell®"
     body: |-
-      Memowell combines K-Vie™ boswellic acids with bacosides from *Bacopa* and vitamin D3.
+      Memowell® combines K-Vie™ boswellic acids with bacosides from *Bacopa* and vitamin D3.
 
       The boswellic acids are drawn from the resin of *Boswellia* trees — the tree that produces frankincense. Boswellic acids have been studied for their anti-inflammatory activity.
 
@@ -35,7 +35,7 @@ sections:
       Gluten is a combination of two proteins, gliadin and glutelin, and is found in wheat, barley and rye. Of the two proteins that make up gluten, gliadin has inflammatory properties, and about 1% of people are sensitive to the presence of this protein in their diet and in medicinal products; their digestive system shows an inflammatory reaction to it. One of the most important inflammatory diseases that arises for this reason is coeliac disease. Since Kondor Pharma's products are anti-inflammatory products, they must be completely free of inflammatory compounds, including gluten. With this in mind, Kondor Pharma's specialists source and process the raw materials used in Kondor Pharma's products while making sure they are gluten-free.
     # Client product document, November 2026.
     per_capsule_amount: "Each capsule contains 333 mg of K-Vie™."
-    image_alt: "A single cream-coloured Memowell capsule held between finger and thumb."
+    image_alt: "A single cream-coloured Memowell® capsule held between finger and thumb."
 
   - id: directions
     heading: "How to take it"
@@ -44,9 +44,9 @@ sections:
       - { title: "Allow eight weeks.", body: "Effects on memory symptoms are generally observed after about eight weeks of regular use." }
       - { title: "Keep taking it under supervision.", body: "For memory health, the supplement is intended for long-term, regular use with your doctor's oversight — not a short course. Kondor Pharma recommends a course of at least 24 weeks." }
     body: |-
-      **When should I take Memowell?**
+      **When should I take Memowell®?**
 
-      The nature of the compounds in Memowell is such that if you take it with food, the active compounds in the Memowell capsule are better absorbed in the digestive system, which speeds up the product's effect. The best time to take Memowell is therefore after meals, in three doses: morning, noon and evening. To benefit from the Memowell capsule in preventing the progression of forgetfulness and reducing the progression of Alzheimer's disease, it is recommended that use be continued regularly.
+      The nature of the compounds in Memowell® is such that if you take it with food, the active compounds in the Memowell® capsule are better absorbed in the digestive system, which speeds up the product's effect. The best time to take Memowell® is therefore after meals, in three doses: morning, noon and evening. To benefit from the Memowell® capsule in preventing the progression of forgetfulness and reducing the progression of Alzheimer's disease, it is recommended that use be continued regularly.
 
       Follow the directions on the packaging approved in the country where you bought it. Where they differ from this page, the packaging is correct.
     # Illustrative photography (AI-generated, Kondor Brain + Higgsfield; official bottle cutout composited, not generated). Needs client approval: see README.
@@ -61,7 +61,7 @@ sections:
   - id: cautions
     heading: "Before you start"
     body: |-
-      **Take Memowell under a doctor's supervision, and take particular care during pregnancy or breastfeeding.**
+      **Take Memowell® under a doctor's supervision, and take particular care during pregnancy or breastfeeding.**
 
       Talk to your doctor before starting if you have liver or kidney disease, heart or vascular disease, a blood disorder, or an autoimmune condition.
 
@@ -69,18 +69,18 @@ sections:
 
       Do not change or stop a prescribed medicine without talking to the doctor who prescribed it.
 
-      **When should Memowell not be taken?**
+      **When should Memowell® not be taken?**
 
-      Limited digestive symptoms may appear at the start of taking the Memowell capsule; these symptoms disappear as use continues. Also, since the active ingredient of the Memowell capsule is obtained from frankincense resin and is highly concentrated, it is generally recommended that Memowell be taken **under a doctor's supervision**, and that caution be exercised in **pregnancy** and **breastfeeding**.
+      Limited digestive symptoms may appear at the start of taking the Memowell® capsule; these symptoms disappear as use continues. Also, since the active ingredient of the Memowell® capsule is obtained from frankincense resin and is highly concentrated, it is generally recommended that Memowell® be taken **under a doctor's supervision**, and that caution be exercised in **pregnancy** and **breastfeeding**.
 
   - id: storage
-    heading: "What are the storage conditions for Memowell?"
+    heading: "What are the storage conditions for Memowell®?"
     body: |-
       Room temperature, 15 to 30°C. Away from direct light. Out of reach of children. Best used within two years of the production date printed on the bottle.
 
   - id: summary
     heading: "Taking this to your doctor"
     body: |-
-      One page, with what is in Memowell, how it is taken, the published studies, and five questions worth asking.
+      One page, with what is in Memowell®, how it is taken, the published studies, and five questions worth asking.
     actions:
       - { label: "Download the summary (PDF)", kind: summary }

@@ -281,7 +281,7 @@ Rules:
 Keep to these if anything has to be adjusted, and flag every adjustment:
 - Every number appears with its study population and source.
 - Study results are written in the past tense ("scored higher", not "improves").
-- The product name is always **Memowell®**: with ® on first mention per page, plain afterwards. Never ™.
+- The product name is always **Memowell®**, with ® on every mention (client direction 2026-11-22; until then: first mention per page, plain afterwards). Never ™ — including sentences quoted from the client's product document.
 - The product is a **supplement**, never a drug or medication.
 - Every content page ends by inviting a conversation with a doctor or pharmacist.
 - No comparison with any other brand, explicit or implied.
@@ -321,7 +321,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 *Note:* source DOI 10.1186/s12974-020-01820-6, cited on `/memory-health` (article) and `/science/professionals`, not on the plain-language home (client direction 2026-11-08). The last sentence is deliberate: it neutralises any definitive reading.
 
 **3. What is in it**
-> ## What's inside Memowell
+> ## What's inside Memowell®
 >
 > **Ground extremely fine** — The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that.
 >
@@ -376,11 +376,11 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 **5. Evidence**
 > ## What the research found
 >
-> Memowell has been tested in three published studies. The largest followed 85 people with mild to moderate Alzheimer's disease for six months.
+> Memowell® has been tested in three published studies. The largest followed 85 people with mild to moderate Alzheimer's disease for six months.
 >
 > The main result
 >
-> After six months, people who took Memowell alongside their usual treatment scored 3.11 points higher on a 30-point memory test than people who took a dummy capsule.
+> After six months, people who took Memowell® alongside their usual treatment scored 3.11 points higher on a 30-point memory test than people who took a dummy capsule.
 >
 > The test, called the MMSE, is one doctors use to check memory and orientation.
 >
@@ -388,7 +388,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > **6 months** — alongside their usual treatment
 >
-> **A fair test** — chance decided who took Memowell and who took a dummy capsule
+> **A fair test** — chance decided who took Memowell® and who took a dummy capsule
 >
 > **Published** — in the journal Alzheimer's & Dementia, 2023
 >
@@ -430,7 +430,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > ## Start the conversation with your doctor
 >
-> Memowell can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's, start it under a specialist's supervision and track progress together.
+> Memowell® can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's, start it under a specialist's supervision and track progress together.
 >
 > Can be taken with common Alzheimer's medicines
 >
@@ -445,7 +445,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 > MMSE and CBC with your doctor
 
 **9. Closing — where to find it** *(the former section 8 copy, moved here 2026-11-11)*
-> ## Where to find Memowell
+> ## Where to find Memowell®
 >
 > Availability, packaging and approved uses vary from country to country. See what applies where you live.
 >
@@ -456,20 +456,20 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 ---
 
 ### PRODUCT `/memowell`
-Meta title: `What Memowell® is, and how to take it | Memowell`
-Meta description: `Memowell is a dietary supplement containing K-Vie™ boswellic acids, Bacopa bacosides and vitamin D3. Composition, directions, cautions and storage — and what to ask your doctor.`
+Meta title: `What Memowell® is, and how to take it | Memowell®`
+Meta description: `Memowell® is a dietary supplement containing K-Vie™ boswellic acids, Bacopa bacosides and vitamin D3. Composition, directions, cautions and storage — and what to ask your doctor.`
 
 **1. Introduction**
 > # What Memowell® is
 >
-> Memowell is a dietary supplement for memory and cognitive health. One bottle holds 90 vegetarian capsules. It is made by Kondor Pharma in Canada, where it is licensed under natural product number NPN 80107357.
+> Memowell® is a dietary supplement for memory and cognitive health. One bottle holds 90 vegetarian capsules. It is made by Kondor Pharma in Canada, where it is licensed under natural product number NPN 80107357.
 >
 > It is a supplement, not a medicine, and it is not a substitute for anything your doctor has prescribed.
 
 **2. Composition**
-> ## What's inside Memowell
+> ## What's inside Memowell®
 >
-> Memowell combines K-Vie™ boswellic acids with bacosides from *Bacopa* and vitamin D3.
+> Memowell® combines K-Vie™ boswellic acids with bacosides from *Bacopa* and vitamin D3.
 >
 > The boswellic acids are drawn from the resin of *Boswellia* trees — the tree that produces frankincense. Boswellic acids have been studied for their anti-inflammatory activity.
 >
@@ -494,9 +494,9 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 >
 > **Keep taking it under supervision.** For memory health, the supplement is intended for long-term, regular use with your doctor's oversight — not a short course. Kondor Pharma recommends a course of at least 24 weeks.
 >
-> **When should I take Memowell?**
+> **When should I take Memowell®?**
 >
-> The nature of the compounds in Memowell is such that if you take it with food, the active compounds in the Memowell capsule are better absorbed in the digestive system, which speeds up the product's effect. The best time to take Memowell is therefore after meals, in three doses: morning, noon and evening. To benefit from the Memowell capsule in preventing the progression of forgetfulness and reducing the progression of Alzheimer's disease, it is recommended that use be continued regularly.
+> The nature of the compounds in Memowell® is such that if you take it with food, the active compounds in the Memowell® capsule are better absorbed in the digestive system, which speeds up the product's effect. The best time to take Memowell® is therefore after meals, in three doses: morning, noon and evening. To benefit from the Memowell® capsule in preventing the progression of forgetfulness and reducing the progression of Alzheimer's disease, it is recommended that use be continued regularly.
 >
 > Follow the directions on the packaging approved in the country where you bought it. Where they differ from this page, the packaging is correct.
 
@@ -505,7 +505,7 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 **4. Cautions**
 > ## Before you start
 >
-> **Take Memowell under a doctor's supervision, and take particular care during pregnancy or breastfeeding.**
+> **Take Memowell® under a doctor's supervision, and take particular care during pregnancy or breastfeeding.**
 >
 > Talk to your doctor before starting if you have liver or kidney disease, heart or vascular disease, a blood disorder, or an autoimmune condition.
 >
@@ -513,21 +513,21 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 >
 > Do not change or stop a prescribed medicine without talking to the doctor who prescribed it.
 >
-> **When should Memowell not be taken?**
+> **When should Memowell® not be taken?**
 >
-> Limited digestive symptoms may appear at the start of taking the Memowell capsule; these symptoms disappear as use continues. Also, since the active ingredient of the Memowell capsule is obtained from frankincense resin and is highly concentrated, it is generally recommended that Memowell be taken **under a doctor's supervision**, and that caution be exercised in **pregnancy** and **breastfeeding**.
+> Limited digestive symptoms may appear at the start of taking the Memowell® capsule; these symptoms disappear as use continues. Also, since the active ingredient of the Memowell® capsule is obtained from frankincense resin and is highly concentrated, it is generally recommended that Memowell® be taken **under a doctor's supervision**, and that caution be exercised in **pregnancy** and **breastfeeding**.
 
 *Note:* the catalogue's "no serious side effects and no drug interactions" is removed, because the client prohibits it. *2026-11-21:* the document's «موارد منع مصرف» paragraph is added as written, without its first sentence (FDA classification, "no serious side effects or drug interactions, no contraindications"), which the client's own rules and the build's banned-word list exclude.
 
 **5. Storage**
-> ## What are the storage conditions for Memowell?
+> ## What are the storage conditions for Memowell®?
 >
 > Room temperature, 15 to 30°C. Away from direct light. Out of reach of children. Best used within two years of the production date printed on the bottle.
 
 **6. Downloadable summary**
 > ## Taking this to your doctor
 >
-> One page, with what is in Memowell, how it is taken, the published studies, and five questions worth asking.
+> One page, with what is in Memowell®, how it is taken, the published studies, and five questions worth asking.
 >
 > [Download the summary (PDF)]
 
@@ -545,7 +545,7 @@ The PDF is built from this copy by `scripts/build-summary-pdf.mjs` and linked fr
 ---
 
 ### WHO IT'S FOR `/who-its-for`
-Meta title: `Who Memowell® is for | Memowell`
+Meta title: `Who Memowell® is for | Memowell®`
 Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma's product document: people who value memory, people past mid-life, relatives of people with Alzheimer's, people with mild cognitive impairment, and people with Alzheimer's disease.`
 
 **Introduction**
@@ -558,7 +558,7 @@ Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma'
 >
 > Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life. Scientific research shows that modern lifestyle can lead to persistent inflammation in the nervous system and disrupt the communication between brain cells and the processes tied to learning and memory. Regulating inflammatory responses and helping to maintain the balance of the brain's immune function is therefore one of the main lines of research in cognitive health.
 >
-> Memowell, combining the boswellic acids in K-Vie™, *Bacopa* bacosides and vitamin D3, is designed to support memory and cognitive health, targeting the main factors involved in weak memory. People who value this aspect of their health can use Memowell daily. Balanced nutrition, physical activity, enough sleep, and mental and social activity are also essential parts of this approach.
+> Memowell®, combining the boswellic acids in K-Vie™, *Bacopa* bacosides and vitamin D3, is designed to support memory and cognitive health, targeting the main factors involved in weak memory. People who value this aspect of their health can use Memowell® daily. Balanced nutrition, physical activity, enough sleep, and mental and social activity are also essential parts of this approach.
 >
 > Source: DOI 10.1186/s12974-020-01820-6
 
@@ -572,7 +572,7 @@ Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma'
 
 > ## Family members and close relatives of people with Alzheimer's disease
 >
-> Experiencing Alzheimer's disease in a close relative often makes people pay more attention to their own memory health. For those whose parent, brother or sister is affected, family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain. These people can decide on the place of Memowell® in their own care plan after counselling, an assessment of risk factors and planning for cognitive health. For spouses and other caregivers, attending to sleep, stress and general health also matters. For them, Memowell can be considered as an option to support memory, alongside lifestyle changes and with their individual situation reviewed.
+> Experiencing Alzheimer's disease in a close relative often makes people pay more attention to their own memory health. For those whose parent, brother or sister is affected, family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain. These people can decide on the place of Memowell® in their own care plan after counselling, an assessment of risk factors and planning for cognitive health. For spouses and other caregivers, attending to sleep, stress and general health also matters. For them, Memowell® can be considered as an option to support memory, alongside lifestyle changes and with their individual situation reviewed.
 
 > ## People with mild cognitive impairment
 >
@@ -582,22 +582,22 @@ Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma'
 
 > ## People with Alzheimer's disease
 >
-> Alzheimer's disease is one of the most common diseases in developed and developing societies. In this disease, the cells of the central nervous system gradually deteriorate and die, and as a result the patient's brain undergoes atrophy, or shrinkage. As the disease begins and spreads, the person's memory is gradually impaired and declines. Many studies have established the role of inflammation in the nervous system, and its progression, in causing forgetfulness and in the progression of Alzheimer's disease. The ingredients of Memowell are able to cross the capillaries of the nervous system and, with their strong anti-inflammatory effects, play a part in controlling and reducing inflammation in nerve cells. Memowell can also be used in neurodegenerative diseases such as Parkinson's disease and MS, where inflammation and forgetfulness are among the complications.
+> Alzheimer's disease is one of the most common diseases in developed and developing societies. In this disease, the cells of the central nervous system gradually deteriorate and die, and as a result the patient's brain undergoes atrophy, or shrinkage. As the disease begins and spreads, the person's memory is gradually impaired and declines. Many studies have established the role of inflammation in the nervous system, and its progression, in causing forgetfulness and in the progression of Alzheimer's disease. The ingredients of Memowell® are able to cross the capillaries of the nervous system and, with their strong anti-inflammatory effects, play a part in controlling and reducing inflammation in nerve cells. Memowell® can also be used in neurodegenerative diseases such as Parkinson's disease and MS, where inflammation and forgetfulness are among the complications.
 >
-> According to the clinical studies carried out, Memowell, without side effects and by helping to reduce the symptoms of Alzheimer's disease, is effective in improving and controlling the following:
+> According to the clinical studies carried out, Memowell®, without side effects and by helping to reduce the symptoms of Alzheimer's disease, is effective in improving and controlling the following:
 >
 > **Lack of concentration and attention** · **Changes in personality and behaviour** · **Impairment of short-term and long-term memory** · **Difficulty speaking and understanding what others say** · **Loss of spatial and temporal memory, such as forgetting directions and days** · **Inability to judge, plan and organise tasks**
 >
-> For people with Alzheimer's disease, keeping cognitive function and day-to-day abilities is an important aim of care. In a six-month clinical study of 85 patients with mild to moderate Alzheimer's, taking K-Vie™, the main component of Memowell, went with improved cognitive and clinical scores compared with placebo and a reduction in some inflammatory markers in the blood. These findings provide a scientific basis for a conversation with the specialist about the possible use of Memowell alongside the treatment plan.
+> For people with Alzheimer's disease, keeping cognitive function and day-to-day abilities is an important aim of care. In a six-month clinical study of 85 patients with mild to moderate Alzheimer's, taking K-Vie™, the main component of Memowell®, went with improved cognitive and clinical scores compared with placebo and a reduction in some inflammatory markers in the blood. These findings provide a scientific basis for a conversation with the specialist about the possible use of Memowell® alongside the treatment plan.
 >
 > Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026
 
 **Closing: the document's question**
-> ## Does Memowell strengthen memory in healthy people?
+> ## Does Memowell® strengthen memory in healthy people?
 >
 > The human brain has about 14 billion cells at birth, and this number does not increase. Unlike many other tissues of the body, the cells of brain tissue do not multiply, and after the age of 25, 100,000 of these cells are lost every day. From about the age of 35 this loss intensifies, and after 50 it becomes clearly visible on brain imaging. One of the signs of this loss is the onset of brain atrophy (shrinkage) in middle age. To strengthen memory and prevent forgetfulness, the rate at which the cells of the nervous system are lost must be controlled. The compounds in the resin of plants of the *Boswellia* family have long been used to strengthen memory.
 >
-> Memowell™, by slowing the progression of neuroinflammation, leads to stronger memory, and from middle age onward it helps to strengthen memory.
+> Memowell®, by slowing the progression of neuroinflammation, leads to stronger memory, and from middle age onward it helps to strengthen memory.
 >
 *Note (2026-11-21, client direction):* the five groups are now the product document's five «موارد مصرف» groups, translated as written and in its order; the earlier "Brain fog and delirium" group is gone (its article stays in Memory health). Several sentences exceed the Part 5 ceiling ("will reduce the risk of Alzheimer's", "halting the progression", "without side effects", Parkinson's/MS, the six-symptom list, the age-risk figures without a source, "first stage of Alzheimer's"); they are published on the client's instruction and are flagged for the scientific officer. Anchors kept: `#approaching-65` for the mid-life group. The document's question "Does Memowell strengthen memory in healthy people?" closes the page in place of "Not sure which of these fits?", as written, with no download button (the client: people in this group do not need a doctor's visit to decide) (no study in healthy people; the 14-billion / 100,000-a-day figures have no source) — also flagged.
 
@@ -611,7 +611,7 @@ Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma'
 
 *Client direction (2026-11-21):* Science is the professional section only; the general audience gets its evidence from the home page (§5). The plain-language page below is no longer built; `/science` now serves the professional page and the old `/science/professionals` address redirects there. The copy is kept as a record (indented, no longer checked) and still feeds the one-page doctor summary.
 
-Meta title: `What the research on Memowell® found | Memowell`
+Meta title: `What the research on Memowell® found | Memowell®`
 Meta description: `Three published studies, in plain language: an 85-patient trial in Alzheimer's disease, blood markers, and 80 people after brain injury. With sources.`
 
 **Introduction**
@@ -671,24 +671,24 @@ Meta description: `Three published studies, in plain language: an 85-patient tri
 ---
 
 ### FOR HEALTHCARE PROFESSIONALS `/science` (until 2026-11-21: `/science/professionals`)
-Meta title: `Memowell® for healthcare professionals | Memowell`
-Meta description: `Study designs, results, composition and cautions for Memowell, with DOI links. Includes a form to reach Kondor Pharma scientific affairs.`
+Meta title: `Memowell® for healthcare professionals | Memowell®`
+Meta description: `Study designs, results, composition and cautions for Memowell®, with DOI links. Includes a form to reach Kondor Pharma scientific affairs.`
 
 **Section entrance** (a non-blocking note, set in italics in the copy deck)
 > *This section is written for healthcare professionals. It assumes clinical vocabulary and reports findings at the level of the published papers.*
 >
 > # Memowell® for healthcare professionals
 >
-> Memowell is a dietary supplement containing K-Vie™, a micronized microcrystalline *Boswellia* extract standardised to 40% boswellic acids. Licensed in Canada under NPN 80107357.
+> Memowell® is a dietary supplement containing K-Vie™, a micronized microcrystalline *Boswellia* extract standardised to 40% boswellic acids. Licensed in Canada under NPN 80107357.
 
 **Evidence introduction** (client document, section «شواهد علمی», as written — 2026-11-21)
-> ## Is there reliable scientific evidence for the performance and effect of Memowell?
+> ## Is there reliable scientific evidence for the performance and effect of Memowell®?
 >
 > Many of today's modern medicines, such as some anti-cancer, antimicrobial and antiviral, anticonvulsant, anti-cholera and other medicines, have their roots in the texts of ancient Eastern medicine and were derived from them. The uses recorded in those texts have been updated by the science of translational medicine, and their effects have been established through numerous clinical investigations.
 >
 > Since ancient times, and according to the texts of traditional medicine, the use of frankincense, the resin of plants of the *Boswellia* family, has been recommended for preventing forgetfulness and strengthening memory. In regions of the world such as some countries of the Middle East and North Africa and the Indian subcontinent, where frankincense resin is traditionally used from childhood, the incidence and prevalence of Alzheimer's disease are lower.
 >
-> To confirm the effect and performance of a medicine or product in a disease, preclinical research on animal models of the disease and clinical trials on patients must be carried out; one cannot be sure of a product's effectiveness merely by claiming it, without proof. Numerous preclinical and clinical investigations have established the anti-inflammatory and memory-strengthening effects of the active compounds in the Memowell™ capsule.
+> To confirm the effect and performance of a medicine or product in a disease, preclinical research on animal models of the disease and clinical trials on patients must be carried out; one cannot be sure of a product's effectiveness merely by claiming it, without proof. Numerous preclinical and clinical investigations have established the anti-inflammatory and memory-strengthening effects of the active compounds in the Memowell® capsule.
 
 **Studies table** (use exactly as given)
 > ## Published studies
@@ -705,13 +705,13 @@ DOIs link to `https://doi.org/<DOI>`. *Client ruling (2026-11-21):* the DOI is s
 **What the studies showed** (client document, section «شواهد علمی», as written — 2026-11-21; trial size and journal from the recorded sources, client direction)
 > ## What the studies showed
 >
-> In research published in 2023 in *Alzheimer's & Dementia*, the effect of Memowell™ was established in a study with 85 patients with mild to moderate Alzheimer's disease. In this study, the mean MMSE score of patients who had taken Memowell for six months was far higher than that of patients who had taken placebo. The rise in MMSE score in these patients came from an improvement in their memory and concentration.
+> In research published in 2023 in *Alzheimer's & Dementia*, the effect of Memowell® was established in a study with 85 patients with mild to moderate Alzheimer's disease. In this study, the mean MMSE score of patients who had taken Memowell® for six months was far higher than that of patients who had taken placebo. The rise in MMSE score in these patients came from an improvement in their memory and concentration.
 >
-> Another internationally recognised scoring test for diagnosing the progression of Alzheimer's disease is the CDR test. The scores obtained on the CDR test also indicate a slowing of the progression of Alzheimer's disease in these patients. Important proteins such as amyloid-beta and transthyretin (TTR), which are markers of Alzheimer's progression, had decreased in these patients' blood. This study showed that, besides the effect of Memowell™ on patients' memory function, the level of more than five inflammatory compounds in their blood had decreased. A plain-language account of this research is in the Memory health articles on this site.
+> Another internationally recognised scoring test for diagnosing the progression of Alzheimer's disease is the CDR test. The scores obtained on the CDR test also indicate a slowing of the progression of Alzheimer's disease in these patients. Important proteins such as amyloid-beta and transthyretin (TTR), which are markers of Alzheimer's progression, had decreased in these patients' blood. This study showed that, besides the effect of Memowell® on patients' memory function, the level of more than five inflammatory compounds in their blood had decreased. A plain-language account of this research is in the Memory health articles on this site.
 >
-> In another clinical study, published in 2022 in the journal *Brain Injury*, the effect of Memowell™ was examined in about 80 patients with symptoms of memory deficit and cognitive disorders arising after traumatic brain injury (TBI). The results of this research clearly indicated an improvement in memory and cognitive symptoms in these patients and were assessed as very positive overall. It should be noted that in neither of the two studies mentioned was any side effect observed in the patients. A translated abstract of the results of this research is also in the Memory health articles on this site.
+> In another clinical study, published in 2022 in the journal *Brain Injury*, the effect of Memowell® was examined in about 80 patients with symptoms of memory deficit and cognitive disorders arising after traumatic brain injury (TBI). The results of this research clearly indicated an improvement in memory and cognitive symptoms in these patients and were assessed as very positive overall. It should be noted that in neither of the two studies mentioned was any side effect observed in the patients. A translated abstract of the results of this research is also in the Memory health articles on this site.
 >
-> Therefore, on the basis of acceptable scientific evidence and reasons, it can be claimed that taking the Memowell™ capsule has notable effects in reducing brain inflammation, strengthening memory, controlling the symptoms of Alzheimer's disease and controlling the symptoms of cognitive disorders.
+> Therefore, on the basis of acceptable scientific evidence and reasons, it can be claimed that taking the Memowell® capsule has notable effects in reducing brain inflammation, strengthening memory, controlling the symptoms of Alzheimer's disease and controlling the symptoms of cognitive disorders.
 >
 > Change from baseline at six months, placebo vs K-Vie™ (85 people with mild to moderate Alzheimer's). * p < 0.0001. Redrawn from Kondor Pharma's chart; source DOI 10.1002/alz.063660.
 >
@@ -737,29 +737,29 @@ DOIs link to `https://doi.org/<DOI>`. *Client ruling (2026-11-21):* the DOI is s
 > Product information must be read against the label approved in the country of purchase.
 
 **Mechanism** (client document, section «مکانیسم تاثیر», as written — 2026-11-21)
-> ## How does Memowell improve memory and prevent the progression of, and control, forgetfulness?
+> ## How does Memowell® improve memory and prevent the progression of, and control, forgetfulness?
 >
 > Inflammation, and its spread in the brain, plays a key role in the onset of many neurological diseases and is one of the important factors in forgetfulness and the decline of memory. In Alzheimer's disease, inflammatory agents cause the build-up of amyloid-beta and tau protein aggregates in the brain. These protein aggregates are among the most important signs of age-related memory diseases such as Alzheimer's. Enzymes such as beta-secretase and certain kinase enzymes, which are responsible for creating these aggregates, are specifically stimulated and activated by inflammatory molecules. Enzymes, in general, are proteins that speed up chemical reactions in cells. The compounds in the Memowell® capsule can, by inhibiting the activity of inflammatory enzymes such as lipoxygenase and cyclooxygenase in the brain, reduce the protein aggregates and reduce the symptoms of Alzheimer's disease.
 >
-> Strengthening the immune system has a marked effect on controlling inflammation; so taking the Memowell capsule together with the medicines prescribed by the specialist, and alongside a healthy lifestyle and diet, will have notable effects in preventing forgetfulness and improving memory. Besides their anti-inflammatory effects, the compounds in the Memowell capsule are also **modulators and regulators of the body's immune system**. To benefit from these advantages, it is recommended that Memowell™ be taken over long periods. Besides its short-term anti-inflammatory effects, Memowell is also effective in controlling inflammation in the long term. To benefit from these advantages, it is recommended that Memowell capsules be taken for at least **24 weeks**. Taking it beyond this period is in no way harmful and, besides the short-term anti-inflammatory effects, also guards against the return of inflammation in the long term.
+> Strengthening the immune system has a marked effect on controlling inflammation; so taking the Memowell® capsule together with the medicines prescribed by the specialist, and alongside a healthy lifestyle and diet, will have notable effects in preventing forgetfulness and improving memory. Besides their anti-inflammatory effects, the compounds in the Memowell® capsule are also **modulators and regulators of the body's immune system**. To benefit from these advantages, it is recommended that Memowell® be taken over long periods. Besides its short-term anti-inflammatory effects, Memowell® is also effective in controlling inflammation in the long term. To benefit from these advantages, it is recommended that Memowell® capsules be taken for at least **24 weeks**. Taking it beyond this period is in no way harmful and, besides the short-term anti-inflammatory effects, also guards against the return of inflammation in the long term.
 >
 > Sources: DOI 10.1016/j.biopha.2021.112250 · DOI 10.1186/s12974-020-01820-6
 
 **Assessment** (same section of the client document, as written)
-> ## How can the effect of Memowell be assessed?
+> ## How can the effect of Memowell® be assessed?
 >
 > Specialists detect the onset and progression of diseases of the central nervous system, including Alzheimer's disease, from abnormal changes in cognitive tests and clinical examinations.
 >
-> Many psychological tests exist for monitoring Alzheimer's disease. One of the most reliable, called MMSE, is used by doctors. To learn about this test and how it is scored, see the Memory health articles on this site. Generally, as Alzheimer's disease progresses, if this test is done every 6 months, a noticeable fall in the score will be seen. After continuous use of Memowell, this test can be done in 6-month periods and the scores obtained in the 6-month periods compared with one another. The studies carried out have shown that in most patients the rate of decline (disease progression) is very small. This is covered in detail in the studies above. The effect of Memowell can also be seen in blood markers. We have all seen markers such as **CRP**, **ESR** and the count and percentage of **neutrophil** and **lymphocyte** cells in our blood tests. The Memory health articles on this site explain these markers and their function. These markers are the main early signs for detecting inflammation. **A rise in CRP and ESR, and a fall in lymphocytes alongside a rise in neutrophils in the blood, indicates the presence of inflammatory agents and the progression of the disease.** The Memory health articles describe lymphocytes, neutrophils, their role in the body and the ratio of neutrophils to lymphocytes as one of the important factors in detection. Compounds that can act on these markers and regulate them are considered anti-inflammatory. Clinical studies in Alzheimer's patients have shown that taking Memowell reduces the inflammatory markers CRP and ESR. Taking Memowell also markedly raises the number of lymphocytes in the blood and lowers the number of neutrophils. These changes can be seen clearly after about six months of continuous, regular use of Memowell. If you wish, and with your specialist's opinion, you can have a blood test before starting Memowell and repeat it after about six months of use. In the medical laboratory, the simple blood test is known as the CBC test and is done in every check-up. A fall in the number and percentage of neutrophils, a rise in the number of lymphocytes, and a fall in the ratio of neutrophils to lymphocytes on the CBC test clearly show the anti-inflammatory effects of Memowell on the disease and on your body in general.
+> Many psychological tests exist for monitoring Alzheimer's disease. One of the most reliable, called MMSE, is used by doctors. To learn about this test and how it is scored, see the Memory health articles on this site. Generally, as Alzheimer's disease progresses, if this test is done every 6 months, a noticeable fall in the score will be seen. After continuous use of Memowell®, this test can be done in 6-month periods and the scores obtained in the 6-month periods compared with one another. The studies carried out have shown that in most patients the rate of decline (disease progression) is very small. This is covered in detail in the studies above. The effect of Memowell® can also be seen in blood markers. We have all seen markers such as **CRP**, **ESR** and the count and percentage of **neutrophil** and **lymphocyte** cells in our blood tests. The Memory health articles on this site explain these markers and their function. These markers are the main early signs for detecting inflammation. **A rise in CRP and ESR, and a fall in lymphocytes alongside a rise in neutrophils in the blood, indicates the presence of inflammatory agents and the progression of the disease.** The Memory health articles describe lymphocytes, neutrophils, their role in the body and the ratio of neutrophils to lymphocytes as one of the important factors in detection. Compounds that can act on these markers and regulate them are considered anti-inflammatory. Clinical studies in Alzheimer's patients have shown that taking Memowell® reduces the inflammatory markers CRP and ESR. Taking Memowell® also markedly raises the number of lymphocytes in the blood and lowers the number of neutrophils. These changes can be seen clearly after about six months of continuous, regular use of Memowell®. If you wish, and with your specialist's opinion, you can have a blood test before starting Memowell® and repeat it after about six months of use. In the medical laboratory, the simple blood test is known as the CBC test and is done in every check-up. A fall in the number and percentage of neutrophils, a rise in the number of lymphocytes, and a fall in the ratio of neutrophils to lymphocytes on the CBC test clearly show the anti-inflammatory effects of Memowell® on the disease and on your body in general.
 >
 > Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026
 
 *Note (2026-11-21, client direction):* both blocks replace the earlier "Following response" and "Proposed mechanism" texts (written to the evidence ceiling on 2026-11-08) with the product document's own wording, now that Science is the professional section. Two substitutions for the build's banned-word check: "Drugs that…" → "Compounds that…"; "prevents the return of inflammation" → "guards against the return of inflammation". The document's "Alzheimer's / memory science magazine" is rendered as "the Memory health articles on this site". Flagged for the scientific officer: enzyme inhibition → "reduce the symptoms of Alzheimer's" (mechanism as effect), "will have notable effects in preventing forgetfulness", "in no way harmful", and CRP/ESR reduction (the recorded sources say "more than five inflammatory compounds decreased").
 
 **With prescribed medicines** (client document, section «مزیت مصرف», as written — 2026-11-21)
-> ## Does taking Memowell alongside the common Alzheimer's and memory-loss medicines have an advantage?
+> ## Does taking Memowell® alongside the common Alzheimer's and memory-loss medicines have an advantage?
 >
-> The aim of many medicines used to control Alzheimer's disease is to strengthen nerve endings and increase the release of neurotransmitters in the central nervous system. Almost none of the conventional medicines used to control Alzheimer's disease are anti-inflammatory, and in principle anti-inflammatory treatments are not used to control or reduce inflammation in Alzheimer's disease, because these medicines do not enter nerve cells and because of the irreversible side effects of their long-term use. The results of much research in recent years have shown that inflammation of the nervous system is one of the main and decisive factors in the progression of Alzheimer's disease and forgetfulness. Therefore the Memowell capsule, with its anti-inflammatory effects in the nervous system, can, alongside the conventional medicines prescribed by the treating physician, increase their effect and help to control and prevent the progression of Alzheimer's disease. On the other hand, clinical studies have shown that the active compounds in frankincense resin, apart from inducing anti-inflammatory effects, are also regulators of the immune system. With its immune-modulating and immune-regulating properties, Memowell can strengthen the function of the immune system in Alzheimer's patients.
+> The aim of many medicines used to control Alzheimer's disease is to strengthen nerve endings and increase the release of neurotransmitters in the central nervous system. Almost none of the conventional medicines used to control Alzheimer's disease are anti-inflammatory, and in principle anti-inflammatory treatments are not used to control or reduce inflammation in Alzheimer's disease, because these medicines do not enter nerve cells and because of the irreversible side effects of their long-term use. The results of much research in recent years have shown that inflammation of the nervous system is one of the main and decisive factors in the progression of Alzheimer's disease and forgetfulness. Therefore the Memowell® capsule, with its anti-inflammatory effects in the nervous system, can, alongside the conventional medicines prescribed by the treating physician, increase their effect and help to control and prevent the progression of Alzheimer's disease. On the other hand, clinical studies have shown that the active compounds in frankincense resin, apart from inducing anti-inflammatory effects, are also regulators of the immune system. With its immune-modulating and immune-regulating properties, Memowell® can strengthen the function of the immune system in Alzheimer's patients.
 
 *Note (2026-11-21, client direction):* published as written. Flagged for the scientific officer: "increase their effect" (synergy without a study), "help to control and prevent the progression of Alzheimer's disease", and the comparison with anti-inflammatory medicines ("irreversible side effects"). The claim-matrix row "Use with medication" (Part 5) still awaits sign-off.
 
@@ -796,7 +796,7 @@ DOIs link to `https://doi.org/<DOI>`. *Client ruling (2026-11-21):* the DOI is s
 
 > ## Report what you observed
 >
-> If you have prescribed or dispensed Memowell, what you saw is useful to us.
+> If you have prescribed or dispensed Memowell®, what you saw is useful to us.
 >
 > Fields: Name · Profession · Country · Email · Patient context, no identifying details · What you observed · Over what period
 
@@ -807,7 +807,7 @@ DOIs link to `https://doi.org/<DOI>`. *Client ruling (2026-11-21):* the DOI is s
 ---
 
 ### MEMORY HEALTH (blog) `/memory-health`
-Meta title: `Memory health — articles and research notes | Memowell`
+Meta title: `Memory health — articles and research notes | Memowell®`
 Meta description: `Plain-language articles on memory, mild cognitive impairment, inflammation in the nervous system, and caring for someone with Alzheimer's.`
 
 **Index page**
@@ -848,7 +848,7 @@ The index has pagination.
 Meta title: `Kondor Pharma, the company behind Memowell®`
 > # The company behind Memowell®
 >
-> Kondor Pharma is a Canadian company working on boswellic acid formulations. It developed K-Vie™, the micronized microcrystalline extract used in Memowell, and manufactures Memowell in Canada under NPN 80107357.
+> Kondor Pharma is a Canadian company working on boswellic acid formulations. It developed K-Vie™, the micronized microcrystalline extract used in Memowell®, and manufactures Memowell® in Canada under NPN 80107357.
 >
 > [Visit kondorpharma.com]
 >
@@ -871,7 +871,7 @@ Meta title: `Kondor Pharma, the company behind Memowell®`
 >
 > [Contact us about availability]
 >
-> Memowell is also sold on Amazon in markets where that listing is available.
+> Memowell® is also sold on Amazon in markets where that listing is available.
 
 *Note:*
 - The page structure stays open so each country can get its own block later.
@@ -879,7 +879,7 @@ Meta title: `Kondor Pharma, the company behind Memowell®`
 - No Amazon URL has been supplied.
 
 ### PARTNERS `/about/partners`
-Meta title: `Pharmacy and distribution enquiries | Memowell`
+Meta title: `Pharmacy and distribution enquiries | Memowell®`
 > # For pharmacies and distribution partners
 >
 > **The product:** Memowell®, a dietary supplement containing K-Vie™ *Boswellia* extract standardised to 40% boswellic acids. 90 vegetarian capsules per bottle. Gluten-free. Manufactured in Canada by Kondor Pharma, NPN 80107357.
@@ -900,7 +900,7 @@ Meta title: `Pharmacy and distribution enquiries | Memowell`
 
 ### CONTACT `/contact`
 Meta title: `Contact Memowell® | Kondor Pharma`
-Meta description: `Reach Kondor Pharma about Memowell: general questions, scientific enquiries from healthcare professionals, and distribution partnerships.`
+Meta description: `Reach Kondor Pharma about Memowell®: general questions, scientific enquiries from healthcare professionals, and distribution partnerships.`
 
 > # Contact us
 >

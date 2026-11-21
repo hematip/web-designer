@@ -24,6 +24,6 @@ In Alzheimer's disease, inflammatory signals are linked to a build-up of two pro
 
 Boswellic acids, the compounds in the resin of *Boswellia* trees, have been studied for their ability to inhibit two inflammatory enzymes in the brain, lipoxygenase and cyclooxygenase. Research on these compounds also describes them as modulators of the immune system, which has its own part in controlling inflammation.
 
-This is why Kondor Pharma recommends taking Memowell over a longer period rather than as a short course: at least 24 weeks, with a doctor's supervision, alongside any medicines the doctor has prescribed and a healthy lifestyle and diet.
+This is why Kondor Pharma recommends taking Memowell® over a longer period rather than as a short course: at least 24 weeks, with a doctor's supervision, alongside any medicines the doctor has prescribed and a healthy lifestyle and diet.
 
 This is an area of active research. How much of the clinical findings in the published studies these mechanisms explain has not been established.

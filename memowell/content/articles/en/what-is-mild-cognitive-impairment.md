@@ -37,4 +37,4 @@ Research has looked at what happens in the nervous system during MCI. One of the
 
 ## What to do if this sounds familiar
 
-If you, or someone close to you, recognise the pattern above, the useful next step is a conversation with a doctor. Write down what you have noticed and since when, bring a list of every medicine and supplement, and take someone with you if you can. If you have been told you have MCI, Kondor Pharma recommends starting Memowell under the supervision of a specialist, as part of a plan that also covers sleep, movement, nutrition and social contact.
+If you, or someone close to you, recognise the pattern above, the useful next step is a conversation with a doctor. Write down what you have noticed and since when, bring a list of every medicine and supplement, and take someone with you if you can. If you have been told you have MCI, Kondor Pharma recommends starting Memowell® under the supervision of a specialist, as part of a plan that also covers sleep, movement, nutrition and social contact.

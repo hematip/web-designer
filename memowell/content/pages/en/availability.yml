@@ -16,5 +16,5 @@ sections:
     actions:
       - { label: "Contact us about availability", href: "/contact#general" }
   - id: amazon
-    body: "Memowell is also sold on Amazon in markets where that listing is available."
+    body: "Memowell® is also sold on Amazon in markets where that listing is available."
     # Gap: Amazon listing URL(s) not supplied. Add them in Settings → amazon_urls.

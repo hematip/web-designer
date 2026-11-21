@@ -14,7 +14,7 @@ sections:
       - { label: "What the research found", href: "/#evidence" }
     trust: "Licensed by Health Canada · NPN 80107357"
     # Official front-view bottle cutout beside the product line (client direction 2026-11-08: show the product in the hero).
-    product_image_alt: "The Memowell bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
+    product_image_alt: "The Memowell® bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
     # Design fields (v2). accent = word set in the italic accent face (no words change).
     # marquee = fragments of approved copy and the bottle label, decorative (aria-hidden). Flagged in README.
     accent: "names"
@@ -40,7 +40,7 @@ sections:
   - id: formulation
     # v7 3D story (K-Vie™ → a look inside at AKBA; the capsule chapter is removed, client direction 2026-11-09). Plain-language labels and bodies for a general
     # audience (client direction 2026-11-08); the technical terms stay on /memowell and /science/professionals.
-    heading: "What's inside Memowell"
+    heading: "What's inside Memowell®"
     chapters:
       - label: "Ground extremely fine"
         body: "The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that."
@@ -72,13 +72,13 @@ sections:
     # source (journal and year, in words) inside the same panel; the DOI and study design live on /science and
     # /science/professionals. MMSE scores run from 0 to 30.
     heading: "What the research found"
-    lead: "Memowell has been tested in three published studies. The largest followed 85 people with mild to moderate Alzheimer's disease for six months."
+    lead: "Memowell® has been tested in three published studies. The largest followed 85 people with mild to moderate Alzheimer's disease for six months."
     eyebrow: "The main result"
     # The large figure shown in the result panel (must appear in Body), and the words beside it.
     highlight: "3.11"
     unit: "points higher on a memory test"
     body: |-
-      After six months, people who took Memowell alongside their usual treatment scored 3.11 points higher on a 30-point memory test than people who took a dummy capsule.
+      After six months, people who took Memowell® alongside their usual treatment scored 3.11 points higher on a 30-point memory test than people who took a dummy capsule.
 
       The test, called the MMSE, is one doctors use to check memory and orientation.
 
@@ -86,7 +86,7 @@ sections:
     items:
       - { title: "85 people", body: "with mild to moderate Alzheimer's" }
       - { title: "6 months", body: "alongside their usual treatment" }
-      - { title: "A fair test", body: "chance decided who took Memowell and who took a dummy capsule" }
+      - { title: "A fair test", body: "chance decided who took Memowell® and who took a dummy capsule" }
       - { title: "Published", body: "in the journal Alzheimer's & Dementia, 2023" }
     actions:
       - { label: "Read all three studies", href: "/science" }
@@ -124,7 +124,7 @@ sections:
     eyebrow: "With your doctor"
     heading: "Start the conversation with your doctor"
     body: |-
-      Memowell can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's, start it under a specialist's supervision and track progress together.
+      Memowell® can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's, start it under a specialist's supervision and track progress together.
     items:
       - { title: "Can be taken with common Alzheimer's medicines" }
       - { title: "Progress tracked with MMSE and simple blood tests" }
@@ -136,7 +136,7 @@ sections:
 
   # The closing carries the former "Where to find Memowell" copy (client direction 2026-11-11).
   - id: closing
-    heading: "Where to find Memowell"
+    heading: "Where to find Memowell®"
     accent: "Where to find"
     body: |-
       Availability, packaging and approved uses vary from country to country. See what applies where you live.

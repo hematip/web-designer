@@ -40,4 +40,4 @@ Research has studied inflammation in the nervous system as a factor in both brai
 
 See a doctor if the fog lasts more than a few weeks, if it is getting worse, if it interferes with work or daily tasks, if other people have noticed it, or if it came on suddenly. Take a note of when it started, what was happening in your life at the time, how you sleep, and every medicine and supplement you take. Most causes of brain fog can be identified, and many can be put right.
 
-If brain fog or delirium describes you or someone close to you, Kondor Pharma recommends starting Memowell under a doctor's supervision, after the causes above have been looked at.
+If brain fog or delirium describes you or someone close to you, Kondor Pharma recommends starting Memowell® under a doctor's supervision, after the causes above have been looked at.
