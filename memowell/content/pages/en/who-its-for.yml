@@ -68,5 +68,4 @@ sections:
       The human brain has about 14 billion cells at birth, and this number does not increase. Unlike many other tissues of the body, the cells of brain tissue do not multiply, and after the age of 25, 100,000 of these cells are lost every day. From about the age of 35 this loss intensifies, and after 50 it becomes clearly visible on brain imaging. One of the signs of this loss is the onset of brain atrophy (shrinkage) in middle age. To strengthen memory and prevent forgetfulness, the rate at which the cells of the nervous system are lost must be controlled. The compounds in the resin of plants of the *Boswellia* family have long been used to strengthen memory.
 
       Memowell™, by slowing the progression of neuroinflammation, leads to stronger memory, and from middle age onward it helps to strengthen memory.
-    actions:
-      - { label: "Download a one-page summary (PDF)", kind: summary }
+    actions: []
