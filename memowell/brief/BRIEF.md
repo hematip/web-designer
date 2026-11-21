@@ -352,17 +352,19 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > Memowell has been studied in people with Alzheimer's disease and in people with memory problems after a brain injury.
 >
-> **Small changes in memory or thinking** — Doctors call this mild cognitive impairment. It can progress toward Alzheimer's disease.
->
-> **A first-degree relative with Alzheimer's** — Family history raises the risk. That is not a forecast, just a reason to pay attention earlier.
->
 > **People who value better memory** — Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life.
 >
-> **From mid-life onward** — Risk rises with age, and the changes behind it can begin in mid-life.
+> **People past mid-life** — With age, attention to memory and other cognitive abilities becomes more important.
+>
+> **Family and close relatives of people with Alzheimer's** — Family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain.
+>
+> **People with mild cognitive impairment** — A measurable change in memory or thinking. If you have been told you have MCI, or suspect it, the research on this site is written for you.
+>
+> **People with Alzheimer's disease** — For people living with Alzheimer's disease, keeping cognitive function and day-to-day abilities is an important aim of care.
 >
 > [Read about all five]
 
-*Note (2026-11-08, client direction, plain language):* the first card is titled "Small changes in memory or thinking" on the home page; its body gives the medical name. The `/who-its-for` section keeps the heading "Mild cognitive impairment (MCI)".
+*Note (2026-11-22, client direction):* the cards are the five groups of the client's product document, in its order, matching `/who-its-for`; each card's sentence is taken from that page's published text (the MCI card paraphrases its definition in plain words). Earlier card wording (2026-11-03/08) is in git history.
 
 *Layout note:* the "Clinical studies of Memowell" line is set in small type beneath the link (a fact line, like the hero's NPN line).
 

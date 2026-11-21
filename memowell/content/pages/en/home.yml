@@ -54,15 +54,15 @@ sections:
       - { label: "More about what's inside", href: "/memowell#composition" }
 
   - id: who
-    # Client direction 2026-11-03: Memowell was studied in two populations (Alzheimer's disease; post-TBI memory
-    # problems). The four groups below are where the research may be relevant, so the section no longer says they
-    # were "studied"; the two study populations sit in a small fact line. Brief Part 4, HOME §4.
+    # The five groups of the client's product document, in its order, as on /who-its-for (2026-11-22); each card's
+    # sentence is drawn from that page's published text. The two study populations sit in a small fact line. Brief Part 4, HOME §4.
     heading: "Who it's for"
     items:
-      - { title: "Small changes in memory or thinking", body: "Doctors call this mild cognitive impairment. It can progress toward Alzheimer's disease." }
-      - { title: "A first-degree relative with Alzheimer's", body: "Family history raises the risk. That is not a forecast, just a reason to pay attention earlier." }
       - { title: "People who value better memory", body: "Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life." }
-      - { title: "From mid-life onward", body: "Risk rises with age, and the changes behind it can begin in mid-life." }
+      - { title: "People past mid-life", body: "With age, attention to memory and other cognitive abilities becomes more important." }
+      - { title: "Family and close relatives of people with Alzheimer's", body: "Family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain." }
+      - { title: "People with mild cognitive impairment", body: "A measurable change in memory or thinking. If you have been told you have MCI, or suspect it, the research on this site is written for you." }
+      - { title: "People with Alzheimer's disease", body: "For people living with Alzheimer's disease, keeping cognitive function and day-to-day abilities is an important aim of care." }
     body: |-
       Five situations come up again and again in research on memory. Find the one closest to yours and read what research says about it, in plain language.
     fact: "Memowell has been studied in people with Alzheimer's disease and in people with memory problems after a brain injury."
