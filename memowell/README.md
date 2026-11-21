@@ -103,19 +103,19 @@ Every item below is built around and never invented. Preview pages keep local pe
 | # | Item | Where it shows | What the site does now | Owner |
 |---|---|---|---|---|
 | 1 | Contact details (address, phone, email, social handles) | `/contact` details block, footer Contact column | Hidden in production; marked placeholders in preview | Client |
-| 2 | Scientific officer's email | Scientific-question form, feedback form (`/science/professionals`, `/contact`) | Forms built, disabled, "This form will open soon." | Client |
+| 2 | Scientific officer's email | Scientific-question form, feedback form (`/science`, `/contact`) | Forms built, disabled, "This form will open soon." | Client |
 | 3 | Recipient and response time for the general form | `/contact` general form; availability enquiry routes here | Same | Client |
 | 4 | Partnership form recipient | `/about/partners`, `/contact` | Same | Client |
 | 5 | Updated logo with ® | Every page (header, note, footer) | Supplied ™ artwork used as is (not edited); product name in text uses ® | Client |
 | 6 | Active ingredient amount per capsule | `/memowell` "What is in it", summary PDF | Field `per_capsule_amount` empty; marked placeholder in preview | Client |
 | 7 | Mid-life dose (catalogue: 1 a day vs client: 3 a day) | `/who-its-for` "From mid-life onward" | Resolved 2026-11-08: one a day from about age 50 (client product document) | Client / scientific officer |
-| 8 | Approval of the four "needs approval" claims: use with medication, K-Vie™ formulation, eight weeks, mednet.ca | Home §3 and §6, `/memowell`, `/science/professionals`, summary PDF | Copy deck wording used; **mednet.ca not shown anywhere**. The site must not go live before sign-off | Scientific officer |
-| 9 | English text of the five case reports | `/science/professionals/case-reports` | Button plus empty target marked "Awaiting approved English text from the scientific officer". In production the button shows "Coming soon" and the page is not generated | Scientific officer |
+| 8 | Approval of the four "needs approval" claims: use with medication, K-Vie™ formulation, eight weeks, mednet.ca | Home §3 and §6, `/memowell`, `/science`, summary PDF | Copy deck wording used; **mednet.ca not shown anywhere**. The site must not go live before sign-off | Scientific officer |
+| 9 | English text of the five case reports | `/science/case-reports` | Button plus empty target marked "Awaiting approved English text from the scientific officer". In production the button shows "Coming soon" and the page is not generated | Scientific officer |
 | 10 | Registration status in the UAE, GCC, MENA and Russia | `/about/availability`, Arabic version | Only the Canada block is written; the page is ready for per-country blocks | Client |
 | 11 | Is Iran / Persian in scope? (memowell.ir appears in the catalogue) | Project scope | Not built | Client |
 | 12 | Which language `memowell.ru` opens in | Domain setup | See Domains above | Client |
 | 13 | French and Arabic translations | `/fr/`, `/ar/` | Structure, switcher and RTL built; content falls back to English in preview only; unpublished in production | Client's translator + scientific officer |
-| 14 | One-page summary PDF | `/memowell`, `/who-its-for`, `/science` | **Built and linked** (`public/downloads/`, from approved site copy); the file awaits the scientific officer's sign-off | Scientific officer |
+| 14 | One-page summary PDF | `/memowell` (summary section) | **Built and linked** (`public/downloads/`, from approved site copy); the file awaits the scientific officer's sign-off | Scientific officer |
 | 15 | Catalogue PDF for partners | `/about/partners` | Button disabled, "This file will be available soon." | Client |
 | 16 | Amazon listing URL(s) | `/about/availability` | Approved sentence shown without a link; Settings → `amazon_urls` | Client |
 | 17 | Terms of use text | `/terms` | Draft page, not generated in production; footer shows the label without a link | Client |
@@ -160,7 +160,7 @@ These are interface or structural words, and none of them is a claim. They are a
 
 | Photo | Audience | Where |
 |---|---|---|
-| `hcp-evidence` | Doctors & specialists | `/science/professionals`, wide band — the doctor character (element `dr`) and a younger colleague review a printed paper in a Dubai clinic office (remade 2026-10-27) |
+| `hcp-evidence` | Doctors & specialists | `/science`, wide band — the doctor character (element `dr`) and a younger colleague review a printed paper in a Dubai clinic office (remade 2026-10-27) |
 | `patient-routine` | Patients `[LOCAL REGULATORY REVIEW REQUIRED]` | `/who-its-for`, page head — follow-up appointment, he explains his own planner; his doctor is the doctor character (element `dr`) (remade 2026-10-27) |
 | `caregiver-walk` | Caregivers | `/memory-health`, page head — mother and daughter on a seaside promenade, the mother leads |
 | `researcher-lab` | Doctors & Specialists | Home, "why" section — the client's doctor character (Higgsfield element `dr`) talking through a hand-drawn result and a printed paper with a colleague at a daylight research bench: researchers looking at an open question (2026-10-27) |

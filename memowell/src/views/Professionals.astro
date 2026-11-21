@@ -12,14 +12,12 @@ const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'professionals');
 const s = (id: string) => section(page, id);
 const entrance = s('entrance'), studies = s('studies'), composition = s('composition'), monitoring = s('monitoring'), mechanism = s('mechanism'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
-const nav = getSite(locale).data.nav;
-const crumbs = [{ label: nav.find((n: any) => n.href === '/science')?.label ?? 'Science', href: '/science' }];
 const keys = ['study', 'population', 'design', 'findings'];
 const missingCitations = studies.rows.some((r: any) => !r.citation || !r.publisher_url);
 const photo = photoOf(locale, 'professionals', 'entrance');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-pro">
-  <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} crumbs={crumbs} wide />
+  <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} wide />
   {photo && <div class="wrap pro-photo" data-reveal><Photo photo={photo} variant="wide" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
 
   <section class="pro-studies" aria-labelledby="studies-caption">

@@ -11,7 +11,7 @@ published: ""
 last_reviewed: ""
 sources:
   - "10.1016/j.biopha.2021.112250"
-related: { label: "What the research found", href: "/science" }
+related: { label: "What the research found", href: "/#evidence" }
 built_from: "Catalogue + DOI 10.1016/j.biopha.2021.112250"
 meta_description: ""
 ---

@@ -4,11 +4,8 @@ status: approved
 nav:
   - { label: "Memowell", href: "/memowell" }
   - { label: "Who it's for", href: "/who-its-for" }
-  - label: "Science"
-    href: "/science"
-    children:
-      - { label: "Evidence in plain language", href: "/science" }
-      - { label: "For healthcare professionals", href: "/science/professionals" }
+  # Science is the professional section (client direction 2026-11-21); the general audience reads the home page.
+  - { label: "Science", href: "/science" }
   - { label: "Memory health", href: "/memory-health" }
   - label: "About"
     href: "/about"
@@ -32,7 +29,7 @@ product_disclaimer: "Take Memowell® according to the directions on the packagin
 pro_band:
   lead: "Are you a doctor, pharmacist or dietitian?"
   body: "Study designs, full results and composition are in the professional section."
-  action: { label: "Go there", href: "/science/professionals" }
+  action: { label: "Go there", href: "/science" }
 
 # Repeated text 4 — footer, beside the language switcher.
 market_line:
@@ -44,12 +41,12 @@ footer_columns:
     links:
       - { label: "What it is", href: "/memowell" }
       - { label: "Who it's for", href: "/who-its-for" }
-      - { label: "What the research found", href: "/science" }
+      - { label: "What the research found", href: "/#evidence" }
       - { label: "How to take it", href: "/memowell#directions" }
   - title: "Learn"
     links:
       - { label: "Memory health", href: "/memory-health" }
-      - { label: "For healthcare professionals", href: "/science/professionals" }
+      - { label: "For healthcare professionals", href: "/science" }
   - title: "Kondor Pharma"
     links:
       - { label: "About", href: "/about" }

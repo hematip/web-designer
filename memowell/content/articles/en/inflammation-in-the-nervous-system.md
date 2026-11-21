@@ -11,7 +11,7 @@ published: ""
 last_reviewed: ""
 sources:
   - "10.1186/s12974-020-01820-6"
-related: { label: "What the research found", href: "/science" }
+related: { label: "What the research found", href: "/#evidence" }
 built_from: "DOI 10.1186/s12974-020-01820-6"
 meta_description: ""
 ---

@@ -710,3 +710,7 @@ Request: the two sections had been built from the same template (a coloured blob
 - **The closing now carries the former section 8 copy:** "Where to find Memowell" (accent strokes under "Where to find"), the availability sentence and "Check your country". The finale scene is unchanged. The former closing copy ("Talk it through with your doctor or pharmacist") is retired from the home page.
 
 - **Who it's for — glass-card rail tried and withdrawn (2026-11-11, client):** a horizontal rail of glass-framed cards (pinned on desktop) was built and rejected; the section is back to the contact-sheet/focus story as it was.
+
+## Science is the professional section (2026-11-21, client)
+
+- The plain-language science page is retired: the general audience gets its evidence on the home page (What the research found) and the summary PDF. `/science` now serves the professional page (same copy, no breadcrumb), case reports move to `/science/case-reports`, and the old `/science/professionals` addresses redirect. The Science menu item has no dropdown. Home, footer and article links that pointed to the plain-language page now point to the home evidence section (`/#evidence`); links for doctors point to `/science`.

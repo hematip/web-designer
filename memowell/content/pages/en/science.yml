@@ -1,5 +1,6 @@
-# Science (plain language) — approved English copy (brief Part 4, SCIENCE).
-status: approved
+# Science (plain language). NOT A PAGE since 2026-11-21 (client direction: Science is the professional section; the general
+# audience reads the home page). Kept as the data source for the one-page doctor summary (scripts/build-summary-pdf.mjs).
+status: retired
 meta_title: "What the research on Memowell® found | Memowell"
 meta_description: "Three published studies, in plain language: an 85-patient trial in Alzheimer's disease, blood markers, and 80 people after brain injury. With sources."
 sections:

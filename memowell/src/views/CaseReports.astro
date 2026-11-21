@@ -10,10 +10,7 @@ const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'case-reports');
 const nav = getSite(locale).data.nav;
 const science = nav.find((n: any) => n.href === '/science');
-const crumbs = [
-  { label: science?.label ?? 'Science', href: '/science' },
-  { label: science?.children?.find((c: any) => c.href === '/science/professionals')?.label ?? 'For healthcare professionals', href: '/science/professionals' },
-];
+const crumbs = [{ label: science?.label ?? 'Science', href: '/science' }];
 const intro = section(page, 'intro');
 const reports = section(page, 'reports');
 ---

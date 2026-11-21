@@ -217,8 +217,7 @@ The client supplied four comments. **They cannot be used as testimonials**: all 
 | `/` | Home |
 | `/memowell` | What Memowell is |
 | `/who-its-for` | Who it's for |
-| `/science` | What the research found (plain language) |
-| `/science/professionals` | For healthcare professionals |
+| `/science` | For healthcare professionals (the plain-language science page was retired 2026-11-21, client direction: the general audience reads the home page) |
 | `/memory-health` | Blog: index plus article template |
 | `/about` | Kondor Pharma |
 | `/about/availability` | Availability by country |
@@ -233,7 +232,7 @@ All three language versions share the same structure. What changes between them 
 |---|---|---|
 | Memowell | `/memowell` | none |
 | Who it's for | `/who-its-for` | none |
-| Science ▾ | `/science` | Evidence in plain language (`/science`) · For healthcare professionals (`/science/professionals`) |
+| Science | `/science` | none (professional section; was a dropdown until 2026-11-21) |
 | Memory health | `/memory-health` | none |
 | About ▾ | `/about` | Kondor Pharma (`/about`) · Availability (`/about/availability`) · Partners (`/about/partners`) · Contact (`/contact`) |
 
@@ -589,58 +588,61 @@ Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma'
 
 ---
 
-### SCIENCE `/science`
+### SCIENCE `/science` — RETIRED 2026-11-21
+
+*Client direction (2026-11-21):* Science is the professional section only; the general audience gets its evidence from the home page (§5). The plain-language page below is no longer built; `/science` now serves the professional page and the old `/science/professionals` address redirects there. The copy is kept as a record (indented, no longer checked) and still feeds the one-page doctor summary.
+
 Meta title: `What the research on Memowell® found | Memowell`
 Meta description: `Three published studies, in plain language: an 85-patient trial in Alzheimer's disease, blood markers, and 80 people after brain injury. With sources.`
 
 **Introduction**
-> # What the research found
->
-> Three published studies sit behind Memowell®. Here they are in plain language, each with the number of people, how long it ran, and where to read it. Nothing on this page is a promise about what will happen to you.
+    # What the research found
+    
+    Three published studies sit behind Memowell®. Here they are in plain language, each with the number of people, how long it ran, and where to read it. Nothing on this page is a promise about what will happen to you.
 
 **Study 1**
-> ## 85 people with mild to moderate Alzheimer's, six months
->
-> Published in *Alzheimer's & Dementia*, 2023.
->
-> Eighty-five people with mild to moderate Alzheimer's disease were divided into two groups. One group took Memowell alongside their prescribed care; the other took a placebo — a capsule with no active ingredient. Neither the participants nor the researchers knew who was in which group.
->
-> After six months, the Memowell group scored **3.11 points higher on MMSE** than the placebo group. MMSE is a standard test of memory and orientation; a higher score means better performance.
->
-> On CDR-SOB, a second standard measure, the difference was **1.65 points**, in the direction of slower change.
->
-> Both differences were statistically significant (p < 0.0001), meaning they were unlikely to be chance.
->
-> Source: DOI 10.1002/alz.063660
+    ## 85 people with mild to moderate Alzheimer's, six months
+    
+    Published in *Alzheimer's & Dementia*, 2023.
+    
+    Eighty-five people with mild to moderate Alzheimer's disease were divided into two groups. One group took Memowell alongside their prescribed care; the other took a placebo — a capsule with no active ingredient. Neither the participants nor the researchers knew who was in which group.
+    
+    After six months, the Memowell group scored **3.11 points higher on MMSE** than the placebo group. MMSE is a standard test of memory and orientation; a higher score means better performance.
+    
+    On CDR-SOB, a second standard measure, the difference was **1.65 points**, in the direction of slower change.
+    
+    Both differences were statistically significant (p < 0.0001), meaning they were unlikely to be chance.
+    
+    Source: DOI 10.1002/alz.063660
 
 **Study 2**
-> ## What changed in the blood
->
-> The same research also looked at what could be measured in participants' blood.
->
-> The ratio of two proteins, Aβ42 to Aβ40, rose. A falling ratio is one of the signals researchers track as Alzheimer's disease advances.
->
-> More than five inflammatory compounds decreased, and the proportion of lymphocytes — a type of white blood cell — rose.
->
-> Sources: DOI 10.3233/JAD-221026 · DOI 10.14283/jpad.2018.41
+    ## What changed in the blood
+    
+    The same research also looked at what could be measured in participants' blood.
+    
+    The ratio of two proteins, Aβ42 to Aβ40, rose. A falling ratio is one of the signals researchers track as Alzheimer's disease advances.
+    
+    More than five inflammatory compounds decreased, and the proportion of lymphocytes — a type of white blood cell — rose.
+    
+    Sources: DOI 10.3233/JAD-221026 · DOI 10.14283/jpad.2018.41
 
 **Study 3**
-> ## 80 people with cognitive difficulty after a brain injury
->
-> Published in *Brain Injury*.
->
-> Eighty people with cognitive difficulty following traumatic brain injury were studied. Scores on RAVLT — a test of verbal learning and memory — improved.
->
-> Source: DOI 10.1080/02699052.2022.2059816
+    ## 80 people with cognitive difficulty after a brain injury
+    
+    Published in *Brain Injury*.
+    
+    Eighty people with cognitive difficulty following traumatic brain injury were studied. Scores on RAVLT — a test of verbal learning and memory — improved.
+    
+    Source: DOI 10.1080/02699052.2022.2059816
 
 **Closing**
-> ## Reading this honestly
->
-> These are published findings in defined groups of people over defined periods. They are not a guarantee, and they do not replace what your own doctor knows about your situation.
->
-> Looking for study designs, full results tables and composition? [For healthcare professionals]
->
-> [Download a one-page summary (PDF)]
+    ## Reading this honestly
+    
+    These are published findings in defined groups of people over defined periods. They are not a guarantee, and they do not replace what your own doctor knows about your situation.
+    
+    Looking for study designs, full results tables and composition? [For healthcare professionals]
+    
+    [Download a one-page summary (PDF)]
 
 *Note:* numbers always stay next to the name of the test, so they are never quoted without context. Any chart you build from these numbers must:
 - be drawn to scale
@@ -649,7 +651,7 @@ Meta description: `Three published studies, in plain language: an 85-patient tri
 
 ---
 
-### FOR HEALTHCARE PROFESSIONALS `/science/professionals`
+### FOR HEALTHCARE PROFESSIONALS `/science` (until 2026-11-21: `/science/professionals`)
 Meta title: `Memowell® for healthcare professionals | Memowell`
 Meta description: `Study designs, results, composition and cautions for Memowell, with DOI links. Includes a form to reach Kondor Pharma scientific affairs.`
 

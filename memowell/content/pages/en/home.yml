@@ -11,7 +11,7 @@ sections:
       Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma.
     actions:
       - { label: "Who it's for", href: "/who-its-for" }
-      - { label: "What the research found", href: "/science" }
+      - { label: "What the research found", href: "/#evidence" }
     trust: "Licensed by Health Canada · NPN 80107357"
     # Official front-view bottle cutout beside the product line (client direction 2026-11-08: show the product in the hero).
     product_image_alt: "The Memowell bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
@@ -133,7 +133,7 @@ sections:
     # The note card over the photograph.
     card: { title: "Check in every 6 months", body: "MMSE and CBC with your doctor" }
     actions:
-      - { label: "Information for doctors", href: "/science/professionals" }
+      - { label: "Information for doctors", href: "/science" }
 
   # The closing carries the former "Where to find Memowell" copy (client direction 2026-11-11).
   - id: closing

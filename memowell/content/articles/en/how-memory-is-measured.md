@@ -13,7 +13,7 @@ sources:
   - "10.1002/alz.063660"
   - "10.3233/JAD-221026"
   - "10.1080/02699052.2022.2059816"
-related: { label: "What the research found", href: "/science" }
+related: { label: "What the research found", href: "/#evidence" }
 built_from: "All three studies"
 meta_description: ""
 ---
