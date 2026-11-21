@@ -613,7 +613,7 @@ const chapters: { label: string; body?: string }[] = formulation.chapters ?? [];
   :global(.h-who.is-story) .h-who__head { position: sticky; top: calc(var(--header-h) + 1rem); height: var(--who-stage-h); grid-template-rows: auto auto minmax(0, 1fr); }
   :global(.h-who.is-story) .h-who__gallery { height: auto; }
   :global(.h-who.is-story) .h-who__entry { display: block; align-content: start; min-height: var(--who-stage-h); padding-block-start: var(--who-entry-inset); }
-  :global(.h-who.is-story) .h-who__entry:not(:last-child) { margin-block-end: calc(-1 * var(--who-entry-inset)); }
+  :global(.h-who.is-story) .h-who__entry:not(:last-child) { margin-block-end: calc(-1 * var(--who-next-inset, var(--who-entry-inset))); }
   :global(.h-who.is-story) .h-who__detail { position: sticky; top: var(--who-detail-top); }
   :global(.h-who.is-story) .h-who__entry:last-child .h-who__detail { position: static; }
   :global(.h-who__gallery.is-focused) { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) 4.5rem; }

@@ -408,7 +408,7 @@ mm.add('(prefers-reduced-motion: reduce)', () => {
   setSceneMode('static');
 });
 
-// ---------------------------------------------------------------- Who: four contexts move from contact sheet to focus
+// ---------------------------------------------------------------- Who: five contexts move from contact sheet to focus
 mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: no-preference)', () => {
   const section = $('[data-who-story]');
   if (!section) return;
@@ -445,10 +445,14 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
       const photo = frames[0];
       const stickyTop = parseFloat(getComputedStyle(head).top);
       const photoCenter = stickyTop + gallery.offsetTop + photo.offsetTop + photo.offsetHeight / 2;
+      // Each detail is centred on the photo, so a taller detail has a smaller inset. An entry overlaps the next by the
+      // NEXT entry's inset, so the next detail enters the flow exactly where this entry ends — never under the
+      // sticky detail that is still being pushed out (with the entry's own inset, a taller next detail overlapped).
+      const insets = details.map((detail) => photoCenter - detail.offsetHeight / 2 - stickyTop);
       details.forEach((detail, i) => {
-        const top = photoCenter - detail.offsetHeight / 2;
-        detail.style.setProperty('--who-detail-top', `${top}px`);
-        entries[i].style.setProperty('--who-entry-inset', `${top - stickyTop}px`);
+        detail.style.setProperty('--who-detail-top', `${insets[i] + stickyTop}px`);
+        entries[i].style.setProperty('--who-entry-inset', `${insets[i]}px`);
+        entries[i].style.setProperty('--who-next-inset', `${insets[i + 1] ?? 0}px`);
       });
     },
     onRefresh: () => {
@@ -470,7 +474,7 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
     gallery.classList.remove('is-focused');
     frames.forEach((frame) => frame.classList.remove('is-active'));
     details.forEach((detail) => detail.style.removeProperty('--who-detail-top'));
-    entries.forEach((entry) => entry.style.removeProperty('--who-entry-inset'));
+    entries.forEach((entry) => { entry.style.removeProperty('--who-entry-inset'); entry.style.removeProperty('--who-next-inset'); });
   };
 });
 

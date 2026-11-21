@@ -65,7 +65,6 @@ sections:
       - { title: "People with Alzheimer's disease", body: "For people living with Alzheimer's disease, keeping cognitive function and day-to-day abilities is an important aim of care." }
     body: |-
       Five situations come up again and again in research on memory. Find the one closest to yours and read what research says about it, in plain language.
-    fact: "Memowell has been studied in people with Alzheimer's disease and in people with memory problems after a brain injury."
     inline_action: { label: "Read about all five", href: "/who-its-for" }
 
   - id: evidence

@@ -350,7 +350,6 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > Five situations come up again and again in research on memory. Find the one closest to yours and read what research says about it, in plain language.
 >
-> Memowell has been studied in people with Alzheimer's disease and in people with memory problems after a brain injury.
 >
 > **People who value better memory** — Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life.
 >
@@ -366,7 +365,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 
 *Note (2026-11-22, client direction):* the cards are the five groups of the client's product document, in its order, matching `/who-its-for`; each card's sentence is taken from that page's published text (the MCI card paraphrases its definition in plain words). Earlier card wording (2026-11-03/08) is in git history.
 
-*Layout note:* the "Clinical studies of Memowell" line is set in small type beneath the link (a fact line, like the hero's NPN line).
+*Note (2026-11-22, client direction):* the fact line ("Memowell has been studied in people with Alzheimer's disease and in people with memory problems after a brain injury.") is removed from this section.
 
 *Note (2026-11-03, Kondor copywriter pass on two cards, client direction):* "Approaching 65" no longer names brain atrophy on the home page (disease-fear vocabulary; the sourced explanation stays on `/who-its-for`). "A first-degree relative" no longer carries "roughly doubles" on the home page: that figure's only recorded source is the catalogue (p.9); it stays on `/who-its-for` pending a published source from the scientific officer. The card now reuses the approved "not a forecast… pay attention earlier" thought.
 
