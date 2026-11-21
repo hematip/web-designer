@@ -77,6 +77,8 @@ sections:
       In another clinical study, published in 2022 in the journal *Brain Injury*, the effect of Memowell™ was examined in about 80 patients with symptoms of memory deficit and cognitive disorders arising after traumatic brain injury (TBI). The results of this research clearly indicated an improvement in memory and cognitive symptoms in these patients and were assessed as very positive overall. It should be noted that in neither of the two studies mentioned was any side effect observed in the patients. A translated abstract of the results of this research is also in the Memory health articles on this site.
 
       Therefore, on the basis of acceptable scientific evidence and reasons, it can be claimed that taking the Memowell™ capsule has notable effects in reducing brain inflammation, strengthening memory, controlling the symptoms of Alzheimer's disease and controlling the symptoms of cognitive disorders.
+    # The trial's two outcome charts, redrawn from the client's product document (components/TrialChart.astro).
+    chart_caption: "Change from baseline at six months, placebo vs K-Vie™ (85 people with mild to moderate Alzheimer's). * p < 0.0001. Redrawn from Kondor Pharma's chart; source DOI 10.1002/alz.063660."
     sources: ["10.1002/alz.063660", "10.3233/JAD-221026", "10.1080/02699052.2022.2059816"]
 
   - id: composition

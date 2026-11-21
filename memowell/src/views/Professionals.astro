@@ -6,6 +6,7 @@ import Action from '../components/Action.astro';
 import Form from '../components/Form.astro';
 import Pending from '../components/Pending.astro';
 import Photo from '../components/Photo.astro';
+import TrialChart from '../components/TrialChart.astro';
 import { getPage, getSite, section, md, mdInline, doiUrl, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
@@ -66,6 +67,7 @@ const photo = photoOf(locale, 'professionals', 'entrance');
       <div class="wrap"><div class="pro-cases__inner" data-reveal>
         <h2 id="narrative-title">{narrative.heading}</h2>
         <div class="prose" set:html={md(narrative.body)} />
+        {narrative.chart_caption && <TrialChart caption={narrative.chart_caption} />}
         <Sources dois={narrative.sources} locale={locale} />
       </div></div>
     </section>

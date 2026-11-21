@@ -710,7 +710,11 @@ DOIs link to `https://doi.org/<DOI>`. *Client ruling (2026-11-21):* the DOI is s
 >
 > Therefore, on the basis of acceptable scientific evidence and reasons, it can be claimed that taking the Memowell™ capsule has notable effects in reducing brain inflammation, strengthening memory, controlling the symptoms of Alzheimer's disease and controlling the symptoms of cognitive disorders.
 >
+> Change from baseline at six months, placebo vs K-Vie™ (85 people with mild to moderate Alzheimer's). * p < 0.0001. Redrawn from Kondor Pharma's chart; source DOI 10.1002/alz.063660.
+>
 > Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026 · DOI 10.1080/02699052.2022.2059816
+
+*Note (2026-11-22):* the document's chart (two box plots: CDR-SOB and MMSE change from baseline, placebo vs K-Vie™) is redrawn in the site's system under "What the studies showed"; its five-number summaries are read from the client's chart and are approximate, with a table view saying so. The client is asked for the underlying numbers (client-questions file, row 12).
 
 *Note (2026-11-21):* the document says "about fifty patients" in JAD; the recorded trial is 85 patients in *Alzheimer's & Dementia* (DOI 10.1002/alz.063660), with the blood analysis in JAD (10.3233/JAD-221026); the client ruled that the recorded sources set the figures. Flagged for the scientific officer: "no side effect observed", the lower-prevalence claim for frankincense-using regions (no source), TTR, and the closing "it can be claimed…" summary.
 

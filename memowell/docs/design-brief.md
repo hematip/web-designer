@@ -714,3 +714,7 @@ Request: the two sections had been built from the same template (a coloured blob
 ## Science is the professional section (2026-11-21, client)
 
 - The plain-language science page is retired: the general audience gets its evidence on the home page (What the research found) and the summary PDF. `/science` now serves the professional page (same copy, no breadcrumb), case reports move to `/science/case-reports`, and the old `/science/professionals` addresses redirect. The Science menu item has no dropdown. Home, footer and article links that pointed to the plain-language page now point to the home evidence section (`/#evidence`); links for doctors point to `/science`.
+
+## Trial chart on the professional page (2026-11-22, client)
+
+- DEC-05 (no chart of study results, because only between-group differences were supplied) is superseded: the client's product document carries two box plots (CDR-SOB and MMSE change from baseline, placebo vs K-Vie™, the trial of 85). They are redrawn in `src/components/TrialChart.astro` as inline SVG under "What the studies showed": two panels, one y-axis each, placebo `#2f5fc4` and K-Vie™ `#06b2c8` (validated: lightness band, CVD and normal-vision separation; the cyan's contrast is relieved by direct labels and a table view), native tooltips per group, a `<details>` table of the values and a note that they are read from the client's chart. Single column under 40rem.

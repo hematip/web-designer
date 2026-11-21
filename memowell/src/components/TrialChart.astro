@@ -1,0 +1,108 @@
+---
+// The 85-patient trial's two outcome charts (change from baseline at six months, placebo vs K-Vie™), redrawn in the
+// site's system from the chart in Kondor Pharma's product document (November 2026). The five-number summaries and
+// outliers are read from that chart, so they are approximate; the published differences (MMSE +3.11, CDR-SOB 1.65,
+// p < 0.0001; DOI 10.1002/alz.063660) are the numbers the copy states. Two panels, one y-axis each; colours validated
+// (lightness, CVD and normal-vision separation); identity is also carried by direct labels and a table view.
+interface Props { caption: string }
+const { caption } = Astro.props;
+
+type Box = { name: string; lo: number; q1: number; med: number; mean: number; q3: number; hi: number; out?: number[]; star?: boolean };
+type Panel = { id: string; title: string; measure: string; min: number; max: number; step: number; groups: Box[] };
+const panels: Panel[] = [
+  { id: 'cdr', title: 'CDR-SOB', measure: 'change from baseline', min: -5, max: 4, step: 1, groups: [
+    { name: 'Placebo', lo: -2, q1: 0, med: 1, mean: 1, q3: 2, hi: 4 },
+    { name: 'K-Vie™', lo: -2, q1: -1.5, med: -1, mean: -0.8, q3: 0, hi: 1, out: [-4, -5], star: true },
+  ] },
+  { id: 'mmse', title: 'MMSE', measure: 'change from baseline', min: -10, max: 8, step: 2, groups: [
+    { name: 'Placebo', lo: -5, q1: -2, med: -1.5, mean: -1.3, q3: 0, hi: 3, out: [-10] },
+    { name: 'K-Vie™', lo: 0, q1: 1, med: 1.5, mean: 1.8, q3: 2, hi: 3, out: [7, -2, -4], star: true },
+  ] },
+];
+const COLOURS = ['#2f5fc4', '#06b2c8'];
+// geometry (viewBox units)
+const W = 300, H = 260, PAD = { t: 34, r: 12, b: 36, l: 34 }, BOX_W = 46;
+const plotH = H - PAD.t - PAD.b, plotW = W - PAD.l - PAD.r;
+const y = (p: Panel, v: number) => PAD.t + ((p.max - v) / (p.max - p.min)) * plotH;
+const cx = (i: number) => PAD.l + (plotW / 2) * (i + 0.5);
+const ticks = (p: Panel) => { const t: number[] = []; for (let v = p.min; v <= p.max; v += p.step) t.push(v); return t; };
+const fmt = (v: number) => (Number.isInteger(v) ? String(v) : v.toFixed(1));
+---
+<figure class="trial-chart">
+  <div class="trial-chart__panels">
+    {panels.map((p) => (
+      <div class="trial-chart__panel">
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby={`tc-${p.id}-title`} class="trial-chart__svg">
+          <title id={`tc-${p.id}-title`}>{p.title} change from baseline: placebo and K-Vie™ groups, box plots</title>
+          <text x={PAD.l} y="16" class="tc-title"><tspan class="tc-title-b">{p.title}</tspan> {p.measure}</text>
+          {ticks(p).map((v) => (
+            <g>
+              <line x1={PAD.l} x2={W - PAD.r} y1={y(p, v)} y2={y(p, v)} class={v === 0 ? 'tc-zero' : 'tc-grid'} />
+              <text x={PAD.l - 6} y={y(p, v)} class="tc-tick" text-anchor="end" dominant-baseline="middle">{v}</text>
+            </g>
+          ))}
+          {p.groups.map((g, i) => (
+            <g class="tc-group" style={`--c: ${COLOURS[i]}`}>
+              <title>{g.name} · median {fmt(g.med)} · box {fmt(g.q1)} to {fmt(g.q3)} · whiskers {fmt(g.lo)} to {fmt(g.hi)}{g.out?.length ? ` · outliers ${g.out.map(fmt).join(', ')}` : ''}</title>
+              <line x1={cx(i)} x2={cx(i)} y1={y(p, g.hi)} y2={y(p, g.q3)} class="tc-whisker" />
+              <line x1={cx(i)} x2={cx(i)} y1={y(p, g.q1)} y2={y(p, g.lo)} class="tc-whisker" />
+              <line x1={cx(i) - 10} x2={cx(i) + 10} y1={y(p, g.hi)} y2={y(p, g.hi)} class="tc-whisker" />
+              <line x1={cx(i) - 10} x2={cx(i) + 10} y1={y(p, g.lo)} y2={y(p, g.lo)} class="tc-whisker" />
+              <rect x={cx(i) - BOX_W / 2} y={y(p, g.q3)} width={BOX_W} height={Math.max(2, y(p, g.q1) - y(p, g.q3))} rx="3" class="tc-box" />
+              <line x1={cx(i) - BOX_W / 2} x2={cx(i) + BOX_W / 2} y1={y(p, g.med)} y2={y(p, g.med)} class="tc-median" />
+              <path d={`M${cx(i) - 3.5} ${y(p, g.mean) - 3.5}l7 7m0 -7l-7 7`} class="tc-mean" />
+              {(g.out ?? []).map((o) => <circle cx={cx(i)} cy={y(p, o)} r="3" class="tc-outlier" />)}
+              {g.star && <text x={cx(i)} y={y(p, Math.max(g.hi, ...(g.out ?? []))) - 8} class="tc-star" text-anchor="middle">*</text>}
+              <text x={cx(i)} y={H - 12} class="tc-label" text-anchor="middle">{g.name}</text>
+            </g>
+          ))}
+        </svg>
+      </div>
+    ))}
+  </div>
+  <figcaption class="trial-chart__caption">{caption}</figcaption>
+  <details class="trial-chart__table">
+    <summary>Chart as a table</summary>
+    <table>
+      <thead><tr><th scope="col">Measure</th><th scope="col">Group</th><th scope="col">Whiskers</th><th scope="col">Box (Q1 to Q3)</th><th scope="col">Median</th><th scope="col">Mean</th><th scope="col">Outliers</th></tr></thead>
+      <tbody>
+        {panels.map((p) => p.groups.map((g) => (
+          <tr><th scope="row">{p.title}</th><td>{g.name}{g.star ? ' *' : ''}</td><td>{fmt(g.lo)} to {fmt(g.hi)}</td><td>{fmt(g.q1)} to {fmt(g.q3)}</td><td>{fmt(g.med)}</td><td>{fmt(g.mean)}</td><td>{g.out?.length ? g.out.map(fmt).join(', ') : '—'}</td></tr>
+        )))}
+      </tbody>
+    </table>
+    <p class="trial-chart__note">Values read from the chart in Kondor Pharma's product document; approximate.</p>
+  </details>
+</figure>
+
+<style>
+  .trial-chart { margin: var(--s-4) 0 0; }
+  .trial-chart__panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 3vw, 2.5rem); }
+  .trial-chart__panel { min-width: 0; }
+  .trial-chart__svg { display: block; width: 100%; height: auto; font-family: var(--font-body); }
+  .tc-title { font-size: 12px; fill: var(--ink); font-weight: 450; }
+  .tc-title-b { font-weight: 700; }
+  .tc-grid { stroke: var(--line); stroke-width: 1; }
+  .tc-zero { stroke: var(--line-strong); stroke-width: 1; }
+  .tc-tick { font-size: 10px; fill: var(--ink-soft); }
+  .tc-label { font-size: 11px; fill: var(--ink); font-weight: 600; }
+  .tc-group { cursor: default; }
+  .tc-whisker { stroke: var(--c); stroke-width: 2; stroke-linecap: round; }
+  .tc-box { fill: var(--c); fill-opacity: 0.85; stroke: var(--paper); stroke-width: 2; }
+  .tc-median { stroke: var(--paper); stroke-width: 2; }
+  .tc-mean { stroke: var(--paper); stroke-width: 1.5; fill: none; }
+  .tc-outlier { fill: var(--c); stroke: var(--paper); stroke-width: 2; }
+  .tc-star { font-size: 16px; fill: var(--ink); font-weight: 700; }
+  .tc-group:hover .tc-box, .tc-group:focus-within .tc-box { fill-opacity: 1; }
+  .trial-chart__caption { margin-block-start: var(--s-2); font-size: 0.875rem; line-height: 1.5; color: var(--ink-soft); max-width: var(--measure); }
+  .trial-chart__table { margin-block-start: var(--s-2); font-size: 0.875rem; }
+  .trial-chart__table summary { cursor: pointer; color: var(--blue); font-weight: 600; }
+  .trial-chart__table table { width: 100%; border-collapse: collapse; margin-block-start: var(--s-2); }
+  .trial-chart__table th, .trial-chart__table td { text-align: start; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .trial-chart__table thead th { color: var(--ink-soft); font-weight: 600; font-size: 0.8125rem; }
+  .trial-chart__note { margin-block-start: var(--s-2); color: var(--ink-soft); font-size: 0.8125rem; }
+  @media (max-width: 40rem) {
+    .trial-chart__panels { grid-template-columns: minmax(0, 1fr); }
+    .trial-chart__table { overflow-x: auto; }
+  }
+</style>
