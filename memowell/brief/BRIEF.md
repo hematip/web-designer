@@ -334,6 +334,8 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > [More about what's inside]
 
+*Note (2026-11-21, client document, section 1 «معرفی»):* the K-Vie™ sentence now carries the document's wording on how Kondor Pharma developed it ("drawing on current knowledge of preparation, standardisation and formulation … to carry the maximum amount of boswellic acids"); needs scientific-officer sign-off with the rest of the batch.
+
 *Note (2026-11-09, client direction):* the section heading is now "What's inside Memowell" (was "What's inside each capsule"). The capsule is removed from the home formulation story: the 3D capsule and the fifth chapter ("Vegetarian and gluten-free — Each bottle holds 90 vegetarian capsules.") are gone, and the story ends on AKBA. The vegetarian / gluten-free facts stay on `/memowell` and `/science/professionals`.
 
 *Note (2026-11-08, client direction):* the home page is written for a general audience, not medical experts. The 3D chapters keep their scenes but use plain words; "micronized", "microcrystalline", "standardised" and the chemical name of AKBA stay on `/memowell` and `/science/professionals`.
@@ -467,7 +469,7 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 >
 > The boswellic acids are drawn from the resin of *Boswellia* trees — the tree that produces frankincense. Boswellic acids have been studied for their anti-inflammatory activity.
 >
-> Ordinary frankincense resin contains these compounds, but the digestive system absorbs very little of them. Kondor Pharma processes the resin into K-Vie™: standardised to 40% boswellic acids, then micronized and microcrystalline so that more of the compound reaches the bloodstream.
+> Ordinary frankincense resin contains these compounds, but the digestive system absorbs very little of them. Drawing on current knowledge of preparation, standardisation and formulation, Kondor Pharma developed K-Vie™ to carry the maximum amount of boswellic acids: the resin is standardised to 40% boswellic acids, then micronized and microcrystalline so that more of the compound reaches the bloodstream.
 >
 > The capsules are vegetarian and gluten-free. Gluten contains gliadin, a protein that can trigger an inflammatory reaction in the digestive system of some people, most clearly in coeliac disease, so Kondor Pharma uses ingredients confirmed to be gluten-free.
 
