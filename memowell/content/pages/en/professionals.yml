@@ -17,6 +17,18 @@ sections:
       focus: "76% 40%"
       alt: ""
 
+  # Section «شواهد علمی» of the client's product document, translated as written (client direction 2026-11-21). The
+  # trial's size and journal follow the recorded sources (85 patients, Alzheimer's & Dementia; DOI 10.1002/alz.063660),
+  # not the document's "about fifty, JAD" (client direction).
+  - id: evidence-intro
+    heading: "Is there reliable scientific evidence for the performance and effect of Memowell?"
+    body: |-
+      Many of today's modern medicines, such as some anti-cancer, antimicrobial and antiviral, anticonvulsant, anti-cholera and other medicines, have their roots in the texts of ancient Eastern medicine and were derived from them. The uses recorded in those texts have been updated by the science of translational medicine, and their effects have been established through numerous clinical investigations.
+
+      Since ancient times, and according to the texts of traditional medicine, the use of frankincense, the resin of plants of the *Boswellia* family, has been recommended for preventing forgetfulness and strengthening memory. In regions of the world such as some countries of the Middle East and North Africa and the Indian subcontinent, where frankincense resin is traditionally used from childhood, the incidence and prevalence of Alzheimer's disease are lower.
+
+      To confirm the effect and performance of a medicine or product in a disease, preclinical research on animal models of the disease and clinical trials on patients must be carried out; one cannot be sure of a product's effectiveness merely by claiming it, without proof. Numerous preclinical and clinical investigations have established the anti-inflammatory and memory-strengthening effects of the active compounds in the Memowell™ capsule.
+
   - id: studies
     columns: ["Study", "Population", "Design", "Primary findings", "Source"]
     rows:
@@ -53,6 +65,18 @@ sections:
         citation: ""
         publisher_url: ""
         free_full_text_url: ""
+
+  - id: studies-narrative
+    heading: "What the studies showed"
+    body: |-
+      In research published in 2023 in *Alzheimer's & Dementia*, the effect of Memowell™ was established in a study with 85 patients with mild to moderate Alzheimer's disease. In this study, the mean MMSE score of patients who had taken Memowell for six months was far higher than that of patients who had taken placebo. The rise in MMSE score in these patients came from an improvement in their memory and concentration.
+
+      Another internationally recognised scoring test for diagnosing the progression of Alzheimer's disease is the CDR test. The scores obtained on the CDR test also indicate a slowing of the progression of Alzheimer's disease in these patients. Important proteins such as amyloid-beta and transthyretin (TTR), which are markers of Alzheimer's progression, had decreased in these patients' blood. This study showed that, besides the effect of Memowell™ on patients' memory function, the level of more than five inflammatory compounds in their blood had decreased. A plain-language account of this research is in the Memory health articles on this site.
+
+      In another clinical study, published in 2022 in the journal *Brain Injury*, the effect of Memowell™ was examined in about 80 patients with symptoms of memory deficit and cognitive disorders arising after traumatic brain injury (TBI). The results of this research clearly indicated an improvement in memory and cognitive symptoms in these patients and were assessed as very positive overall. It should be noted that in neither of the two studies mentioned was any side effect observed in the patients. A translated abstract of the results of this research is also in the Memory health articles on this site.
+
+      Therefore, on the basis of acceptable scientific evidence and reasons, it can be claimed that taking the Memowell™ capsule has notable effects in reducing brain inflammation, strengthening memory, controlling the symptoms of Alzheimer's disease and controlling the symptoms of cognitive disorders.
+    sources: ["10.1002/alz.063660", "10.3233/JAD-221026", "10.1080/02699052.2022.2059816"]
 
   - id: composition
     heading: "Composition and administration"

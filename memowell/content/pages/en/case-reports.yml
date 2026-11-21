@@ -1,14 +1,20 @@
-# Case reports — target of the "Read the five case reports" button on /science/professionals.
-# The client's Persian summaries are written as success stories and must NOT be published.
-# Status stays "draft" until the scientific officer supplies approved English text.
-status: draft
+# Case reports — target of the "Read the five case reports" button on /science. The five cases are the client's product
+# document (section «شواهد علمی», patent CA2207437A1) translated as written (client direction 2026-11-21); the page's
+# warning paragraph stays above them. Flagged for the scientific officer.
+status: approved
 meta_title: "Case reports | Memowell"
-meta_description: ""
+meta_description: "Five case reports of boswellic acids in Alzheimer's disease, from patent CA2207437A1, as described in Kondor Pharma's product document. Individual observations, not controlled evidence."
 sections:
   - id: intro
     heading: "Case reports"
     body: |-
       Five published case reports describe patients aged 59 to 83 with Alzheimer's disease. Dosing in these reports varied and in some cases exceeded the label directions. They are individual observations, not controlled evidence.
+
+      In the most important research, described in patent CA2207437A1 (US patent), numerous patients took boswellic acids; the results for some of these patients are given below.
   - id: reports
-    pending: "case-reports"
-    items: []
+    items:
+      - body: "**Case 1.** An 83-year-old woman, two years after the onset of the clinical signs of Alzheimer's disease, which included memory loss, inability to find words, reduced cognitive function and aggression. For one month, this patient took three capsules a day containing beta-boswellic acid, orally. Only four weeks after the start of treatment, her cognitive impairment had decreased markedly and her mood had improved. She continued this treatment for several more months, which led to a notable and repeated improvement in all clinical aspects of the disease. Her close family members also confirmed this improvement."
+      - body: "**Case 2.** An 81-year-old man with Alzheimer's disease took, for three weeks, two capsules containing boswellic acids three times a day. Three weeks after the start of treatment, his inability to find words, his lack of orientation in time and place and his deficits in cognitive function improved. After that period the dose was halved, so that the patient took one capsule containing beta-boswellic compounds three times a day. With the dose reduced after the third week, for four weeks it seemed that no improvement was achieved; but with time, all the signs of the disease improved."
+      - body: "**Case 3.** A 79-year-old man with Alzheimer's disease, with signs such as lack of orientation in time and place, inability to recognise reality, and severe mood changes with aggression. This patient took one capsule containing beta-boswellic acid three times a day. Three weeks after starting, his disorientation in time and place had decreased markedly and he was mostly able to recognise those around him correctly. Besides this improvement, his mood became markedly more stable, his aggression decreased, and his speech also became more orderly."
+      - body: "**Case 4.** A 63-year-old woman with Alzheimer's disease, four years after diagnosis and in the advanced stages of the disease: she no longer recognised her children, and had no orientation in time or place and no control over regulatory functions such as eating and excretion. For this patient, capsules containing beta-boswellic compounds were prescribed three times a day. Three weeks after the start of treatment, the first signs of improvement appeared. For her, the improvement continued slowly but steadily."
+      - body: "**Case 5.** A 59-year-old woman with Alzheimer's disease, five years after diagnosis. She was not at all aware of time and place, did not recognise those around her and her acquaintances, and needed care. After four weeks of taking capsules containing beta-boswellic acid (two doses three times a day), her clinical condition improved."

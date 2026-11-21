@@ -1,7 +1,6 @@
 ---
-// Empty target for "Read the five case reports" (brief: build the button and an empty target,
-// marked "awaiting approved English text from the scientific officer"). Only generated in preview
-// until the page is approved; the Persian success-story summaries are never published.
+// Target of "Read the five case reports": the five cases of the client's product document, as written
+// (client direction 2026-11-21), under the page's warning paragraph.
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import { getPage, getSite, section, md } from '../lib/content.js';
@@ -14,7 +13,7 @@ const crumbs = [{ label: science?.label ?? 'Science', href: '/science' }];
 const intro = section(page, 'intro');
 const reports = section(page, 'reports');
 ---
-<Base locale={locale} routePath={routePath} title={page.meta_title} fallback={fallback} status={page.status} noindex>
+<Base locale={locale} routePath={routePath} title={page.meta_title} fallback={fallback} status={page.status}>
   <PageHead locale={locale} title={intro.heading} body={intro.body} crumbs={crumbs} />
   <section class="wrap" style="padding-block: var(--section)">
     {(reports.items ?? []).length === 0

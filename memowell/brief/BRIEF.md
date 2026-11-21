@@ -668,6 +668,15 @@ Meta description: `Study designs, results, composition and cautions for Memowell
 >
 > Memowell is a dietary supplement containing K-Vie™, a micronized microcrystalline *Boswellia* extract standardised to 40% boswellic acids. Licensed in Canada under NPN 80107357.
 
+**Evidence introduction** (client document, section «شواهد علمی», as written — 2026-11-21)
+> ## Is there reliable scientific evidence for the performance and effect of Memowell?
+>
+> Many of today's modern medicines, such as some anti-cancer, antimicrobial and antiviral, anticonvulsant, anti-cholera and other medicines, have their roots in the texts of ancient Eastern medicine and were derived from them. The uses recorded in those texts have been updated by the science of translational medicine, and their effects have been established through numerous clinical investigations.
+>
+> Since ancient times, and according to the texts of traditional medicine, the use of frankincense, the resin of plants of the *Boswellia* family, has been recommended for preventing forgetfulness and strengthening memory. In regions of the world such as some countries of the Middle East and North Africa and the Indian subcontinent, where frankincense resin is traditionally used from childhood, the incidence and prevalence of Alzheimer's disease are lower.
+>
+> To confirm the effect and performance of a medicine or product in a disease, preclinical research on animal models of the disease and clinical trials on patients must be carried out; one cannot be sure of a product's effectiveness merely by claiming it, without proof. Numerous preclinical and clinical investigations have established the anti-inflammatory and memory-strengthening effects of the active compounds in the Memowell™ capsule.
+
 **Studies table** (use exactly as given)
 
 | Study | Population | Design | Primary findings | Source |
@@ -681,6 +690,21 @@ DOIs link to `https://doi.org/<DOI>`. The client asks that each study also shows
 - full citation details
 - a link to the publisher page
 - a link to the free full text where one is legally available
+
+**What the studies showed** (client document, section «شواهد علمی», as written — 2026-11-21; trial size and journal from the recorded sources, client direction)
+> ## What the studies showed
+>
+> In research published in 2023 in *Alzheimer's & Dementia*, the effect of Memowell™ was established in a study with 85 patients with mild to moderate Alzheimer's disease. In this study, the mean MMSE score of patients who had taken Memowell for six months was far higher than that of patients who had taken placebo. The rise in MMSE score in these patients came from an improvement in their memory and concentration.
+>
+> Another internationally recognised scoring test for diagnosing the progression of Alzheimer's disease is the CDR test. The scores obtained on the CDR test also indicate a slowing of the progression of Alzheimer's disease in these patients. Important proteins such as amyloid-beta and transthyretin (TTR), which are markers of Alzheimer's progression, had decreased in these patients' blood. This study showed that, besides the effect of Memowell™ on patients' memory function, the level of more than five inflammatory compounds in their blood had decreased. A plain-language account of this research is in the Memory health articles on this site.
+>
+> In another clinical study, published in 2022 in the journal *Brain Injury*, the effect of Memowell™ was examined in about 80 patients with symptoms of memory deficit and cognitive disorders arising after traumatic brain injury (TBI). The results of this research clearly indicated an improvement in memory and cognitive symptoms in these patients and were assessed as very positive overall. It should be noted that in neither of the two studies mentioned was any side effect observed in the patients. A translated abstract of the results of this research is also in the Memory health articles on this site.
+>
+> Therefore, on the basis of acceptable scientific evidence and reasons, it can be claimed that taking the Memowell™ capsule has notable effects in reducing brain inflammation, strengthening memory, controlling the symptoms of Alzheimer's disease and controlling the symptoms of cognitive disorders.
+>
+> Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026 · DOI 10.1080/02699052.2022.2059816
+
+*Note (2026-11-21):* the document says "about fifty patients" in JAD; the recorded trial is 85 patients in *Alzheimer's & Dementia* (DOI 10.1002/alz.063660), with the blood analysis in JAD (10.3233/JAD-221026); the client ruled that the recorded sources set the figures. Flagged for the scientific officer: "no side effect observed", the lower-prevalence claim for frankincense-using regions (no source), TTR, and the closing "it can be claimed…" summary.
 
 **Composition and administration**
 > ## Composition and administration
@@ -724,12 +748,24 @@ DOIs link to `https://doi.org/<DOI>`. The client asks that each study also shows
 
 *Note (2026-11-21, client direction):* published as written. Flagged for the scientific officer: "increase their effect" (synergy without a study), "help to control and prevent the progression of Alzheimer's disease", and the comparison with anti-inflammatory medicines ("irreversible side effects"). The claim-matrix row "Use with medication" (Part 5) still awaits sign-off.
 
-**Case reports**
+**Case reports** (the page `/science/case-reports`; client document, patent CA2207437A1, as written — 2026-11-21)
 > ## Case reports
 >
 > Five published case reports describe patients aged 59 to 83 with Alzheimer's disease. Dosing in these reports varied and in some cases exceeded the label directions. They are individual observations, not controlled evidence.
 >
 > [Read the five case reports]
+>
+> In the most important research, described in patent CA2207437A1 (US patent), numerous patients took boswellic acids; the results for some of these patients are given below.
+>
+> **Case 1.** An 83-year-old woman, two years after the onset of the clinical signs of Alzheimer's disease, which included memory loss, inability to find words, reduced cognitive function and aggression. For one month, this patient took three capsules a day containing beta-boswellic acid, orally. Only four weeks after the start of treatment, her cognitive impairment had decreased markedly and her mood had improved. She continued this treatment for several more months, which led to a notable and repeated improvement in all clinical aspects of the disease. Her close family members also confirmed this improvement.
+>
+> **Case 2.** An 81-year-old man with Alzheimer's disease took, for three weeks, two capsules containing boswellic acids three times a day. Three weeks after the start of treatment, his inability to find words, his lack of orientation in time and place and his deficits in cognitive function improved. After that period the dose was halved, so that the patient took one capsule containing beta-boswellic compounds three times a day. With the dose reduced after the third week, for four weeks it seemed that no improvement was achieved; but with time, all the signs of the disease improved.
+>
+> **Case 3.** A 79-year-old man with Alzheimer's disease, with signs such as lack of orientation in time and place, inability to recognise reality, and severe mood changes with aggression. This patient took one capsule containing beta-boswellic acid three times a day. Three weeks after starting, his disorientation in time and place had decreased markedly and he was mostly able to recognise those around him correctly. Besides this improvement, his mood became markedly more stable, his aggression decreased, and his speech also became more orderly.
+>
+> **Case 4.** A 63-year-old woman with Alzheimer's disease, four years after diagnosis and in the advanced stages of the disease: she no longer recognised her children, and had no orientation in time or place and no control over regulatory functions such as eating and excretion. For this patient, capsules containing beta-boswellic compounds were prescribed three times a day. Three weeks after the start of treatment, the first signs of improvement appeared. For her, the improvement continued slowly but steadily.
+>
+> **Case 5.** A 59-year-old woman with Alzheimer's disease, five years after diagnosis. She was not at all aware of time and place, did not recognise those around her and her acquaintances, and needed care. After four weeks of taking capsules containing beta-boswellic acid (two doses three times a day), her clinical condition improved.
 
 *Note:*
 - The case reports appear only here, behind this button, with these two warning sentences.
