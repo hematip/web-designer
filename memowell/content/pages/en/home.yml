@@ -10,7 +10,7 @@ sections:
     body: |-
       Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma.
     actions:
-      - { label: "Who it's for", href: "/who-its-for" }
+      - { label: "Who benefits", href: "/who-its-for" }
       - { label: "What the research found", href: "/#evidence" }
     trust: "Licensed by Health Canada · NPN 80107357"
     # Official front-view bottle cutout beside the product line (client direction 2026-11-08: show the product in the hero).
@@ -56,7 +56,7 @@ sections:
   - id: who
     # The five groups of the client's product document, in its order, as on /who-its-for (2026-11-22); each card's
     # sentence is drawn from that page's published text. The two study populations sit in a small fact line. Brief Part 4, HOME §4.
-    heading: "Who it's for"
+    heading: "Who can benefit from taking Memowell®?"
     items:
       - { title: "People who value better memory", body: "Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life." }
       - { title: "People past mid-life", body: "With age, attention to memory and other cognitive abilities becomes more important." }

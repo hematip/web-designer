@@ -216,7 +216,7 @@ The client supplied four comments. **They cannot be used as testimonials**: all 
 |---|---|
 | `/` | Home |
 | `/memowell` | What Memowell is |
-| `/who-its-for` | Who it's for |
+| `/who-its-for` | Who benefits (page: Who can benefit from taking Memowell®?) |
 | `/science` | For healthcare professionals (the plain-language science page was retired 2026-11-21, client direction: the general audience reads the home page) |
 | `/memory-health` | Blog: index plus article template |
 | `/about` | Kondor Pharma |
@@ -231,7 +231,7 @@ All three language versions share the same structure. What changes between them 
 | Item | Target | Children |
 |---|---|---|
 | Memowell | `/memowell` | none |
-| Who it's for | `/who-its-for` | none |
+| Who benefits | `/who-its-for` | none |
 | Science | `/science` | none (professional section; was a dropdown until 2026-11-21) |
 | Memory health | `/memory-health` | none |
 | About ▾ | `/about` | Kondor Pharma (`/about`) · Availability (`/about/availability`) · Partners (`/about/partners`) · Contact (`/contact`) |
@@ -306,7 +306,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma.
 >
-> [Who it's for] [What the research found]
+> [Who benefits] [What the research found]
 >
 > Licensed by Health Canada · NPN 80107357
 
@@ -348,8 +348,8 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 
 *Note:* the catalogue's "about three times similar formulations" is deliberately omitted until the scientific officer rules on that comparison.
 
-**4. Who it's for (four cards)**
-> ## Who it's for
+**4. Who it's for (five cards)**
+> ## Who can benefit from taking Memowell®?
 >
 > Five situations come up again and again in research on memory. Find the one closest to yours and read what research says about it, in plain language.
 >
@@ -548,11 +548,13 @@ The PDF is built from this copy by `scripts/build-summary-pdf.mjs` and linked fr
 ---
 
 ### WHO IT'S FOR `/who-its-for`
-Meta title: `Who Memowell® is for | Memowell®`
+*Note (2026-11-22, client direction):* the client found the title "Who it's for" unprofessional and gave the Persian «مصرف Memowell برای چه کسانی مفید است؟»; its English equivalent, "Who can benefit from taking Memowell®?", is the page title and the home §4 heading. The navigation and footer label is the short "Who benefits".
+
+Meta title: `Who can benefit from taking Memowell®? | Memowell®`
 Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma's product document: people who value memory, people past mid-life, relatives of people with Alzheimer's disease, people with mild cognitive impairment, and people with Alzheimer's disease.`
 
 **Introduction**
-> # Who Memowell® is for
+> # Who can benefit from taking Memowell®?
 >
 > Five situations come up repeatedly in research on memory. Reading your own situation into one of them is not a diagnosis — that conversation belongs with a doctor. But it will tell you whether the research is relevant to you at all.
 
