@@ -6,6 +6,7 @@
 //   BOTTLE="x,y,h" node scripts/prepare-photo.mjs ...
 //   x, y = bottom-centre of the bottle in source pixels (where it touches the surface), h = bottle height in px.
 //   BOTTLE_TONE="brightness,saturation" optionally matches the cutout to the scene light (defaults 1,1).
+//   BOTTLE_BLUR="sigma" softens the cutout to match a background that is out of focus (default 0 = sharp).
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -26,7 +27,10 @@ if (process.env.BOTTLE) {
   const [x, y, h] = process.env.BOTTLE.split(',').map(Number);
   const [bri, sat] = (process.env.BOTTLE_TONE ?? '1,1').split(',').map(Number);
   const cutout = path.join(root, 'brief/assets/official/memowell-bottle-front.png');
-  const bottle = await sharp(cutout).trim().resize({ height: Math.round(h) }).modulate({ brightness: bri, saturation: sat }).png().toBuffer();
+  const blur = Number(process.env.BOTTLE_BLUR ?? 0);
+  let cut = sharp(cutout).trim().resize({ height: Math.round(h) }).modulate({ brightness: bri, saturation: sat });
+  if (blur > 0) cut = cut.blur(blur);
+  const bottle = await cut.png().toBuffer();
   const bm = await sharp(bottle).metadata();
   const left = Math.round(x - bm.width / 2);
   const top = Math.round(y - bm.height);
