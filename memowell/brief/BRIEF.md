@@ -358,7 +358,7 @@ Meta description: `Memowell® is a dietary supplement for memory and cognitive h
 >
 > **People past mid-life** — With age, attention to memory and other cognitive abilities becomes more important.
 >
-> **Family and close relatives of people with Alzheimer's disease** — Family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain.
+> **People with a family history of Alzheimer's disease** — Family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain.
 >
 > **People with mild cognitive impairment** — A measurable change in memory or thinking. If you have been told you have MCI, or suspect it, the research on this site is written for you.
 >
@@ -548,6 +548,8 @@ The PDF is built from this copy by `scripts/build-summary-pdf.mjs` and linked fr
 ---
 
 ### WHO IT'S FOR `/who-its-for`
+*Note (2026-11-22, client direction):* the third group's heading departs from the document's literal "Family members and close relatives of people with Alzheimer's disease": the client's intent is people who may be at risk because of family history, so the heading is "People with a family history of Alzheimer's disease" (on the page and the home card); the body is unchanged. "Prevention" stays out of the copy (claim ceiling; "prevents" is a banned word).
+
 *Note (2026-11-22, client direction):* the client found the title "Who it's for" unprofessional and gave the Persian «مصرف Memowell برای چه کسانی مفید است؟»; its English equivalent, "Who can benefit from taking Memowell®?", is the page title and the home §4 heading. The navigation and footer label is the short "Who benefits".
 
 Meta title: `Who can benefit from taking Memowell®? | Memowell®`
@@ -575,7 +577,7 @@ Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma'
 >
 > Sources: DOI 10.3233/JAD-179925 · DOI 10.1007/s12035-009-8066-z
 
-> ## Family members and close relatives of people with Alzheimer's disease
+> ## People with a family history of Alzheimer's disease
 >
 > Experiencing Alzheimer's disease in a close relative often makes people pay more attention to their own memory health. For those whose parent, brother or sister is affected, family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain. These people can decide on the place of Memowell® in their own care plan after counselling, an assessment of risk factors and planning for cognitive health. For spouses and other caregivers, attending to sleep, stress and general health also matters. For them, Memowell® can be considered as an option to support memory, alongside lifestyle changes and with their individual situation reviewed.
 
