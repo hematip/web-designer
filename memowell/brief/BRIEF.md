@@ -574,19 +574,16 @@ Meta description: `Who Memowell® is for, in the five groups from Kondor Pharma'
 >
 > Sources: DOI 10.1002/alz.063660 · DOI 10.3233/JAD-221026
 
-**The document's question, after the five groups**
+**Closing: the document's question**
 > ## Does Memowell strengthen memory in healthy people?
 >
 > The human brain has about 14 billion cells at birth, and this number does not increase. Unlike many other tissues of the body, the cells of brain tissue do not multiply, and after the age of 25, 100,000 of these cells are lost every day. From about the age of 35 this loss intensifies, and after 50 it becomes clearly visible on brain imaging. One of the signs of this loss is the onset of brain atrophy (shrinkage) in middle age. To strengthen memory and prevent forgetfulness, the rate at which the cells of the nervous system are lost must be controlled. The compounds in the resin of plants of the *Boswellia* family have long been used to strengthen memory.
 >
 > Memowell™, by slowing the progression of neuroinflammation, leads to stronger memory, and from middle age onward it helps to strengthen memory.
-
-**Closing**
-> Not sure which of these fits? That is exactly the question to bring to a pharmacist or doctor.
 >
 > [Download a one-page summary (PDF)] · [What the research found]
 
-*Note (2026-11-21, client direction):* the five groups are now the product document's five «موارد مصرف» groups, translated as written and in its order; the earlier "Brain fog and delirium" group is gone (its article stays in Memory health). Several sentences exceed the Part 5 ceiling ("will reduce the risk of Alzheimer's", "halting the progression", "without side effects", Parkinson's/MS, the six-symptom list, the age-risk figures without a source, "first stage of Alzheimer's"); they are published on the client's instruction and are flagged for the scientific officer. Anchors kept: `#approaching-65` for the mid-life group. The document's question "Does Memowell strengthen memory in healthy people?" follows the five groups, as written (no study in healthy people; the 14-billion / 100,000-a-day figures have no source) — also flagged.
+*Note (2026-11-21, client direction):* the five groups are now the product document's five «موارد مصرف» groups, translated as written and in its order; the earlier "Brain fog and delirium" group is gone (its article stays in Memory health). Several sentences exceed the Part 5 ceiling ("will reduce the risk of Alzheimer's", "halting the progression", "without side effects", Parkinson's/MS, the six-symptom list, the age-risk figures without a source, "first stage of Alzheimer's"); they are published on the client's instruction and are flagged for the scientific officer. Anchors kept: `#approaching-65` for the mid-life group. The document's question "Does Memowell strengthen memory in healthy people?" closes the page in place of "Not sure which of these fits?", as written (no study in healthy people; the 14-billion / 100,000-a-day figures have no source) — also flagged.
 
 *Note (2026-11-08):* the client's product document of November 2026 is the source of truth. The fourth group is retitled "From mid-life onward" (was "Approaching 65"), matching the document's mid-life group and its start at about age 50; the page anchor stays `#approaching-65`. It sets the mid-life dose (one capsule a day from about age 50), adds the fifth group "Living with Alzheimer's disease" (written within the evidence: no "no side effects", no symptom list, no Parkinson's/MS) and the note for caregivers.
 
