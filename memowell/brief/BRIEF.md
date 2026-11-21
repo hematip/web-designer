@@ -687,10 +687,7 @@ Meta description: `Study designs, results, composition and cautions for Memowell
 | *Brain Injury* | 80 patients with post-TBI cognitive impairment | Clinical study | RAVLT scores improved | DOI 10.1080/02699052.2022.2059816 |
 | Mechanistic and preclinical | — | Review of boswellic acid activity | Anti-inflammatory activity of boswellic acids | DOI 10.1016/j.biopha.2021.112250 · DOI 10.1186/s12974-020-01820-6 |
 
-DOIs link to `https://doi.org/<DOI>`. The client asks that each study also shows:
-- full citation details
-- a link to the publisher page
-- a link to the free full text where one is legally available
+DOIs link to `https://doi.org/<DOI>`. *Client ruling (2026-11-21):* the DOI is sufficient; the earlier request for full citation details, publisher pages and free full-text links is withdrawn.
 
 **What the studies showed** (client document, section «شواهد علمی», as written — 2026-11-21; trial size and journal from the recorded sources, client direction)
 > ## What the studies showed

@@ -13,7 +13,6 @@ const { data: page, fallback } = getPage(locale, 'professionals');
 const s = (id: string) => section(page, id);
 const entrance = s('entrance'), evidenceIntro = s('evidence-intro'), studies = s('studies'), narrative = s('studies-narrative'), composition = s('composition'), monitoring = s('monitoring'), mechanism = s('mechanism'), withMeds = s('with-medicines'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
 const keys = ['study', 'population', 'design', 'findings'];
-const missingCitations = studies.rows.some((r: any) => !r.citation || !r.publisher_url);
 const photo = photoOf(locale, 'professionals', 'entrance');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-pro">
@@ -59,7 +58,6 @@ const photo = photoOf(locale, 'professionals', 'entrance');
           </tbody>
         </table>
       </div>
-      {missingCitations && <Pending label="full citations, publisher pages and legally free full-text links" detail="Requested by the client for each study but not supplied; DOI links resolve meanwhile. Link labels for these extras also need approved wording." />}
     </div>
   </section>
 
