@@ -678,6 +678,7 @@ Meta description: `Study designs, results, composition and cautions for Memowell
 > To confirm the effect and performance of a medicine or product in a disease, preclinical research on animal models of the disease and clinical trials on patients must be carried out; one cannot be sure of a product's effectiveness merely by claiming it, without proof. Numerous preclinical and clinical investigations have established the anti-inflammatory and memory-strengthening effects of the active compounds in the Memowell™ capsule.
 
 **Studies table** (use exactly as given)
+> ## Published studies
 
 | Study | Population | Design | Primary findings | Source |
 |---|---|---|---|---|

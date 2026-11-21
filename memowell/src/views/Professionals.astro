@@ -29,8 +29,9 @@ const photo = photoOf(locale, 'professionals', 'entrance');
     </section>
   )}
 
-  <section class="pro-studies" aria-labelledby="studies-caption">
+  <section class="pro-studies" aria-labelledby="studies-title">
     <div class="wrap">
+      <h2 id="studies-title" class="pro-studies__title" data-reveal>{studies.heading}</h2>
       <div class="table-wrap" data-reveal>
         <table class="studies-table">
           <caption id="studies-caption" class="visually-hidden">{studies.columns.join(', ')}</caption>
@@ -133,6 +134,7 @@ const photo = photoOf(locale, 'professionals', 'entrance');
 <style>
   .pro-photo { position: relative; z-index: 2; margin-block: calc(-1 * clamp(2.5rem, 2rem + 2.5vw, 4.5rem)) clamp(2rem, 1.5rem + 2vw, 3.5rem); }
   .pro-studies { padding-block: var(--section) calc(var(--section) * 0.6); }
+  .pro-studies__title { margin-block-end: var(--s-4); }
   .table-wrap { border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; background: #fff; box-shadow: var(--shadow-soft); }
   .studies-table { width: 100%; border-collapse: collapse; font-size: 1.0625rem; line-height: 1.5; table-layout: fixed; }
   .studies-table col.c-study { width: 15%; } .studies-table col.c-pop { width: 16%; } .studies-table col.c-design { width: 19%; }
