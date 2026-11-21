@@ -98,7 +98,7 @@ footer .brand{color:var(--navy);font-weight:600}
     <section>
       <h2>${dir.heading}</h2>
       <ol class="steps">${dir.items.map((i) => `<li><strong>${mdi(i.title)}</strong> ${mdi(i.body)}</li>`).join('')}</ol>
-      <p class="note">${mdi(dir.body.trim())}</p>
+      <p class="note">${mdi(paras(dir.body).at(-1))}</p>
     </section>
     <section>
       <h2>${cautions.heading}</h2>

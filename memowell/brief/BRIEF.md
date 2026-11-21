@@ -491,7 +491,13 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 >
 > **Keep taking it under supervision.** For memory health, the supplement is intended for long-term, regular use with your doctor's oversight — not a short course. Kondor Pharma recommends a course of at least 24 weeks.
 >
+> **When should I take Memowell?**
+>
+> The nature of the compounds in Memowell is such that if you take it with food, the active compounds in the Memowell capsule are better absorbed in the digestive system, which speeds up the product's effect. The best time to take Memowell is therefore after meals, in three doses: morning, noon and evening. To benefit from the Memowell capsule in preventing the progression of forgetfulness and reducing the progression of Alzheimer's disease, it is recommended that use be continued regularly.
+>
 > Follow the directions on the packaging approved in the country where you bought it. Where they differ from this page, the packaging is correct.
+
+*Note (2026-11-21, client document, section «زمان و دوره مصرف», as written):* the document's "effects appear after two to three weeks" is left out — the client's eight-week ruling stands (kept again 2026-11-21).
 
 **4. Cautions**
 > ## Before you start
@@ -503,11 +509,15 @@ Meta description: `Memowell is a dietary supplement containing K-Vie™ boswelli
 > Some people notice mild digestive discomfort in the first days. If anything concerns you, stop and speak to your doctor or pharmacist.
 >
 > Do not change or stop a prescribed medicine without talking to the doctor who prescribed it.
+>
+> **When should Memowell not be taken?**
+>
+> Limited digestive symptoms may appear at the start of taking the Memowell capsule; these symptoms disappear as use continues. Also, since the active ingredient of the Memowell capsule is obtained from frankincense resin and is highly concentrated, it is generally recommended that Memowell be taken **under a doctor's supervision**, and that caution be exercised in **pregnancy** and **breastfeeding**.
 
-*Note:* the catalogue's "no serious side effects and no drug interactions" is removed, because the client prohibits it.
+*Note:* the catalogue's "no serious side effects and no drug interactions" is removed, because the client prohibits it. *2026-11-21:* the document's «موارد منع مصرف» paragraph is added as written, without its first sentence (FDA classification, "no serious side effects or drug interactions, no contraindications"), which the client's own rules and the build's banned-word list exclude.
 
 **5. Storage**
-> ## Storage
+> ## What are the storage conditions for Memowell?
 >
 > Room temperature, 15 to 30°C. Away from direct light. Out of reach of children. Best used within two years of the production date printed on the bottle.
 
