@@ -60,7 +60,7 @@ sections:
     items:
       - { title: "People who value better memory", body: "Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life." }
       - { title: "People past mid-life", body: "With age, attention to memory and other cognitive abilities becomes more important." }
-      - { title: "Family and close relatives of people with Alzheimer's", body: "Family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain." }
+      - { title: "Family and close relatives of people with Alzheimer's disease", body: "Family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain." }
       - { title: "People with mild cognitive impairment", body: "A measurable change in memory or thinking. If you have been told you have MCI, or suspect it, the research on this site is written for you." }
       - { title: "People with Alzheimer's disease", body: "For people living with Alzheimer's disease, keeping cognitive function and day-to-day abilities is an important aim of care." }
     body: |-
@@ -84,7 +84,7 @@ sections:
 
       Two more studies looked at blood tests, and at 80 people with memory problems after a brain injury.
     items:
-      - { title: "85 people", body: "with mild to moderate Alzheimer's" }
+      - { title: "85 people", body: "with mild to moderate Alzheimer's disease" }
       - { title: "6 months", body: "alongside their usual treatment" }
       - { title: "A fair test", body: "chance decided who took Memowell® and who took a dummy capsule" }
       - { title: "Published", body: "in the journal Alzheimer's & Dementia, 2023" }
@@ -124,9 +124,9 @@ sections:
     eyebrow: "With your doctor"
     heading: "Start the conversation with your doctor"
     body: |-
-      Memowell® can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's, start it under a specialist's supervision and track progress together.
+      Memowell® can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's disease, start it under a specialist's supervision and track progress together.
     items:
-      - { title: "Can be taken with common Alzheimer's medicines" }
+      - { title: "Can be taken with common Alzheimer's disease medicines" }
       - { title: "Progress tracked with MMSE and simple blood tests" }
       - { title: "A recommended course of at least 24 weeks" }
     # The note card over the photograph.

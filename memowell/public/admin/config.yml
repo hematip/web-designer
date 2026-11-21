@@ -186,7 +186,7 @@ collections:
         i18n: duplicate
         options:
           - { label: "Memory health", value: "memory-health" }
-          - { label: "Alzheimer's and MCI", value: "alzheimers-and-mci" }
+          - { label: "Alzheimer's disease and MCI", value: "alzheimers-and-mci" }
           - { label: "Inflammation and the nervous system", value: "inflammation-and-the-nervous-system" }
           - { label: "For caregivers", value: "for-caregivers" }
       - { label: "Author", name: author, widget: string, required: false, i18n: true }

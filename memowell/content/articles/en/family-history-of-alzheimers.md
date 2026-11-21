@@ -3,8 +3,8 @@
 # evidence; needs scientific-officer approval before status can become "approved".
 status: draft
 order: 5
-title: "Family history of Alzheimer's: what the risk figures mean"
-summary: "A parent or sibling with Alzheimer's raises your own risk, but risk is not a forecast. What the figure means and what to do with it."
+title: "Family history of Alzheimer's disease: what the risk figures mean"
+summary: "A parent or sibling with Alzheimer's disease raises your own risk, but risk is not a forecast. What the figure means and what to do with it."
 category: "alzheimers-and-mci"
 author: ""
 published: ""
