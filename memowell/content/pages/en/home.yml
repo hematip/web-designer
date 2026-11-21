@@ -28,13 +28,13 @@ sections:
       This is an area of active research, not a settled answer.
     # Plain-language home (client direction 2026-11-08): no DOI or reading link here; the source is cited on
     # /memory-health (article "inflammation in the nervous system") and /science/professionals.
-    # Illustrative photography (remade 2026-11-21: Seedream 5.0 Pro on Higgsfield, the client's "dr" character element, official bottle cutout composited on the shelf). Needs client approval: see README.
+    # Illustrative photography (2026-11-22, client direction: a moment families notice, not a doctor's visit; Seedream 5.0 Pro on Higgsfield, Kondor rules). Needs client approval: see README.
     photo:
-      src: "/img/photos/researcher-lab"
+      src: "/img/photos/family-pause"
       width: 1600
       height: 1197
       widths: [640, 1024, 1600]
-      focus: "50% 40%"
+      focus: "50% 45%"
       alt: ""
 
   - id: formulation
@@ -112,14 +112,15 @@ sections:
       - { label: "Full directions, cautions and storage", href: "/memowell#directions" }
 
   - id: doctor
-    # Copy from the client's "With your doctor" design (2026-11-11); the pharmacy photograph stays with it.
-    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield, official bottle cutout composited, not generated). Needs client approval: see README.
+    # Copy from the client's "With your doctor" design (2026-11-11). Photograph: the doctor's consulting room (client
+    # direction 2026-11-22, replacing the pharmacy), the official bottle cutout composited on the desk, not generated.
+    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
     photo:
-      src: "/img/photos/where-pharmacy"
+      src: "/img/photos/doctor-office"
       width: 1600
       height: 2143
       widths: [640, 1024, 1600]
-      focus: "50% 40%"
+      focus: "50% 62%"
       alt: ""
     eyebrow: "With your doctor"
     heading: "Start the conversation with your doctor"
