@@ -14,7 +14,7 @@ const amazon = section(page, 'amazon');
 const nav = getSite(locale).data.nav;
 const about = nav.find((n: any) => n.href === '/about');
 const crumbs = [{ label: about?.label ?? 'About', href: '/about' }];
-const title = page.meta_title || `${intro.heading} | Memowell`;
+const title = page.meta_title || `${intro.heading} | Memowell®`;
 const amazonUrls = settings.amazon_urls ?? [];
 ---
 <Base locale={locale} routePath={routePath} title={title} description={page.meta_description} fallback={fallback} status={page.status}>

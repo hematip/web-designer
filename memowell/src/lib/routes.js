@@ -6,9 +6,9 @@ export const PAGES = [
   { path: '/', id: 'home', view: 'Home' },
   { path: '/memowell', id: 'memowell', view: 'Product' },
   { path: '/who-its-for', id: 'who-its-for', view: 'WhoItsFor' },
-  { path: '/science', id: 'science', view: 'Science' },
-  { path: '/science/professionals', id: 'professionals', view: 'Professionals' },
-  { path: '/science/professionals/case-reports', id: 'case-reports', view: 'CaseReports' },
+  // Science is the professional section (client direction 2026-11-21): the general audience reads the home page.
+  { path: '/science', id: 'professionals', view: 'Professionals' },
+  { path: '/science/case-reports', id: 'case-reports', view: 'CaseReports' },
   { path: '/memory-health', id: 'memory-health', view: 'BlogIndex' },
   { path: '/about', id: 'about', view: 'About' },
   { path: '/about/availability', id: 'availability', view: 'Availability' },

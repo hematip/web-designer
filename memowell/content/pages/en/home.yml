@@ -10,62 +10,64 @@ sections:
     body: |-
       Memowell® is a dietary supplement for memory and cognitive health, made by Kondor Pharma.
     actions:
-      - { label: "Who it's for", href: "/who-its-for" }
-      - { label: "What the research found", href: "/science" }
+      - { label: "Who benefits", href: "/who-its-for" }
+      - { label: "What the research found", href: "/#evidence" }
     trust: "Licensed by Health Canada · NPN 80107357"
     # Official front-view bottle cutout beside the product line (client direction 2026-11-08: show the product in the hero).
-    product_image_alt: "The Memowell bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
+    product_image_alt: "The Memowell® bottle, front view: a white bottle of 90 vegetarian capsules with a blue label."
     # Design fields (v2). accent = word set in the italic accent face (no words change).
     # marquee = fragments of approved copy and the bottle label, decorative (aria-hidden). Flagged in README.
     accent: "names"
     marquee: ["Memory health", "90 vegetarian capsules", "Gluten-free", "K-Vie™ boswellic acids", "Made by Kondor Pharma in Canada", "NPN 80107357"]
 
   - id: why
-    heading: "One thing researchers are looking at: inflammation in the nervous system"
+    heading: "One thing researchers are looking at: inflammation and memory"
     body: |-
-      In Alzheimer's disease, researchers have linked inflammation in the nervous system to a build-up of protein. That build-up disrupts how nerve cells communicate with each other. It is associated with the changes families often notice first: forgetting names, losing the thread of a conversation, repeating a question.
+      Researchers have linked persistent inflammation in the nervous system to changes in memory. It disrupts how nerve cells communicate with each other, and the processes behind learning and recall. It is associated with the changes families often notice first: forgetting names, losing the thread of a conversation, repeating a question.
 
       This is an area of active research, not a settled answer.
     # Plain-language home (client direction 2026-11-08): no DOI or reading link here; the source is cited on
     # /memory-health (article "inflammation in the nervous system") and /science/professionals.
-    # Illustrative photography (AI-generated in Higgsfield from the client's "dr" character element). Needs client approval: see README.
+    # Illustrative photography (2026-11-22, client direction: researchers at work on inflammation, a scientific image;
+    # Seedream 5.0 Pro on Higgsfield, the client's "dr" character, official bottle cutout composited on the bench). Needs client approval: see README.
     photo:
-      src: "/img/photos/researcher-lab"
+      src: "/img/photos/lab-inflammation"
       width: 1600
-      height: 1853
+      height: 1197
       widths: [640, 1024, 1600]
-      focus: "60% 35%"
+      focus: "50% 40%"
       alt: ""
 
   - id: formulation
     # v7 3D story (K-Vie™ → a look inside at AKBA; the capsule chapter is removed, client direction 2026-11-09). Plain-language labels and bodies for a general
     # audience (client direction 2026-11-08); the technical terms stay on /memowell and /science/professionals.
-    heading: "What's inside Memowell"
+    heading: "What's inside Memowell®"
+    # Chapters rewritten 2026-11-22 (client direction): one structure per step (what happens, why it matters), the
+    # product facts of /memowell carried through (resin source, 40%, 333 mg, Bacopa and vitamin D3), AKBA tied back.
     chapters:
       - label: "Ground extremely fine"
-        body: "The active compounds in frankincense, called boswellic acids, are hard for the body to absorb. Kondor Pharma grinds them extremely fine into an ingredient called K-Vie™ to help with that."
-      - label: "Formed into tiny crystals"
-        body: "The fine powder is then formed into tiny, even crystals."
-      - label: "40% active compounds"
-        body: "K-Vie™ is made so that 40% of it is boswellic acids."
+        body: "Memowell®'s key ingredient starts as an extract of *Boswellia* resin, the source of frankincense. Its active compounds, the boswellic acids, are hard for the body to absorb, so Kondor Pharma grinds the extract extremely fine."
+      - label: "Formed into tiny, even crystals"
+        body: "The fine powder is then formed into tiny, even crystals. Together, the fine grinding and the crystal form let more of the boswellic acids reach the bloodstream."
+      - label: "K-Vie™: 40% boswellic acids"
+        body: "The finished ingredient is K-Vie™, made so that 40% of it is boswellic acids. Each capsule contains 333 mg of K-Vie™, together with bacosides from *Bacopa* and vitamin D3."
       - label: "A closer look: AKBA"
-        body: "AKBA is one of the boswellic acids. This is its shape."
+        body: "AKBA is one of the boswellic acids found in *Boswellia* resin. This is its molecule, the structure behind the anti-inflammatory activity that boswellic acids are studied for."
     actions:
       - { label: "More about what's inside", href: "/memowell#composition" }
 
   - id: who
-    # Client direction 2026-11-03: Memowell was studied in two populations (Alzheimer's disease; post-TBI memory
-    # problems). The four groups below are where the research may be relevant, so the section no longer says they
-    # were "studied"; the two study populations sit in a small fact line. Brief Part 4, HOME §4.
-    heading: "Who it's for"
+    # The five groups of the client's product document, in its order, as on /who-its-for (2026-11-22); each card's
+    # sentence is drawn from that page's published text. The two study populations sit in a small fact line. Brief Part 4, HOME §4.
+    heading: "Who can benefit from taking Memowell®?"
     items:
-      - { title: "Small changes in memory or thinking", body: "Doctors call this mild cognitive impairment. It can progress toward Alzheimer's disease." }
-      - { title: "A first-degree relative with Alzheimer's", body: "Family history raises the risk. That is not a forecast, just a reason to pay attention earlier." }
-      - { title: "Brain fog and delirium", body: "Confusion, trouble concentrating and memory lapses, where inflammation has been studied as a factor." }
-      - { title: "From mid-life onward", body: "Risk rises with age, and the changes behind it can begin in mid-life." }
+      - { title: "People who value better memory", body: "Keeping the ability to learn, concentrate and recall information is an important part of health and quality of life." }
+      - { title: "People past mid-life", body: "With age, attention to memory and other cognitive abilities becomes more important." }
+      - { title: "People with a family history of Alzheimer's disease", body: "Family history can go together with a higher likelihood of developing the disease; even so, it does not mean the disease is certain." }
+      - { title: "People with mild cognitive impairment", body: "A measurable change in memory or thinking. If you have been told you have MCI, or suspect it, the research on this site is written for you." }
+      - { title: "People with Alzheimer's disease", body: "For people living with Alzheimer's disease, keeping cognitive function and day-to-day abilities is an important aim of care." }
     body: |-
       Five situations come up again and again in research on memory. Find the one closest to yours and read what research says about it, in plain language.
-    fact: "Memowell has been studied in people with Alzheimer's disease and in people with memory problems after a brain injury."
     inline_action: { label: "Read about all five", href: "/who-its-for" }
 
   - id: evidence
@@ -73,21 +75,21 @@ sections:
     # source (journal and year, in words) inside the same panel; the DOI and study design live on /science and
     # /science/professionals. MMSE scores run from 0 to 30.
     heading: "What the research found"
-    lead: "Memowell has been tested in three published studies. The largest followed 85 people with mild to moderate Alzheimer's disease for six months."
+    lead: "Memowell® has been tested in three published studies. The largest followed 85 people with mild to moderate Alzheimer's disease for six months."
     eyebrow: "The main result"
     # The large figure shown in the result panel (must appear in Body), and the words beside it.
     highlight: "3.11"
     unit: "points higher on a memory test"
     body: |-
-      After six months, people who took Memowell alongside their usual treatment scored 3.11 points higher on a 30-point memory test than people who took a dummy capsule.
+      After six months, people who took Memowell® alongside their usual treatment scored 3.11 points higher on a 30-point memory test than people who took a dummy capsule.
 
       The test, called the MMSE, is one doctors use to check memory and orientation.
 
       Two more studies looked at blood tests, and at 80 people with memory problems after a brain injury.
     items:
-      - { title: "85 people", body: "with mild to moderate Alzheimer's" }
+      - { title: "85 people", body: "with mild to moderate Alzheimer's disease" }
       - { title: "6 months", body: "alongside their usual treatment" }
-      - { title: "A fair test", body: "chance decided who took Memowell and who took a dummy capsule" }
+      - { title: "A fair test", body: "chance decided who took Memowell® and who took a dummy capsule" }
       - { title: "Published", body: "in the journal Alzheimer's & Dementia, 2023" }
     actions:
       - { label: "Read all three studies", href: "/science" }
@@ -98,9 +100,9 @@ sections:
     heading: "How to take it"
     lead: "One capsule after each of your three main meals."
     items:
-      - { title: "Morning", body: "One capsule, after breakfast" }
-      - { title: "Noon", body: "One capsule, after lunch" }
-      - { title: "Evening", body: "One capsule, after dinner" }
+      - { title: "Morning", body: "One capsule" }
+      - { title: "Noon", body: "One capsule" }
+      - { title: "Evening", body: "One capsule" }
     # Title of the eight-week panel.
     eyebrow: "Give it eight weeks"
     body: |-
@@ -112,25 +114,38 @@ sections:
     actions:
       - { label: "Full directions, cautions and storage", href: "/memowell#directions" }
 
-  - id: availability
-    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield, official bottle cutout composited, not generated). Needs client approval: see README.
+  - id: doctor
+    # Copy from the client's "With your doctor" design (2026-11-11). Photograph: the doctor's consulting room (client
+    # direction 2026-11-22, replacing the pharmacy), the official bottle cutout composited on the desk, not generated.
+    # Illustrative photography (AI-generated, Kondor Brain + Higgsfield). Needs client approval: see README.
     photo:
-      src: "/img/photos/where-pharmacy"
+      src: "/img/photos/doctor-office"
       width: 1600
       height: 2143
       widths: [640, 1024, 1600]
-      focus: "50% 40%"
+      focus: "50% 62%"
       alt: ""
-    heading: "Where to find Memowell"
+    eyebrow: "With your doctor"
+    heading: "Start the conversation with your doctor"
     body: |-
-      Availability, packaging and approved uses vary from country to country. See what applies where you live.
+      Memowell® can sit alongside the treatment your doctor prescribes. With mild cognitive impairment or Alzheimer's disease, start it under a specialist's supervision and track progress together.
+    items:
+      - { title: "Can be taken with common Alzheimer's disease medicines" }
+      - { title: "Progress tracked with MMSE and simple blood tests" }
+      - { title: "A recommended course of at least 24 weeks" }
+    # The note card over the photograph.
+    card: { title: "Check in every 6 months", body: "MMSE and CBC with your doctor" }
     actions:
-      - { label: "Check your country", href: "/about/availability" }
+      - { label: "Information for doctors", href: "/science" }
 
+  # The closing carries the former "Where to find Memowell" copy (client direction 2026-11-11).
   - id: closing
-    heading: "Talk it through with your doctor or pharmacist"
-    accent: "Talk it through"
+    # Client direction 2026-11-22: the home closes on the Amazon purchase, not on the per-country availability page
+    # (the product is not available in every country). Listings from Settings → amazon_urls.
+    heading: "Where to find Memowell®"
+    accent: "Where to find"
     body: |-
-      This site cannot tell you whether Memowell is right for you. Your doctor or pharmacist can, and the conversation is easier when you bring the facts with you.
+      Memowell® is sold on Amazon, in bottles of 90 capsules, made by Kondor Pharma in Canada under NPN 80107357. Order it there, and keep the bottle handy for your next conversation with your doctor.
     actions:
-      - { label: "Contact us", href: "/contact" }
+      - { label: "Buy on Amazon.ca", href: "https://www.amazon.ca/dp/B09FYCHR47", external: true }
+      - { label: "Buy on Amazon.com", href: "https://www.amazon.com/dp/B08T21L6MT", external: true }

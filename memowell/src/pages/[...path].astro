@@ -3,7 +3,6 @@ import { buildRoutes } from '../lib/routes.js';
 import Home from '../views/Home.astro';
 import Product from '../views/Product.astro';
 import WhoItsFor from '../views/WhoItsFor.astro';
-import Science from '../views/Science.astro';
 import Professionals from '../views/Professionals.astro';
 import CaseReports from '../views/CaseReports.astro';
 import BlogIndex from '../views/BlogIndex.astro';
@@ -18,7 +17,7 @@ export function getStaticPaths() {
   return buildRoutes();
 }
 
-const views = { Home, Product, WhoItsFor, Science, Professionals, CaseReports, BlogIndex, Article, About, Availability, Partners, Contact, Legal };
+const views = { Home, Product, WhoItsFor, Professionals, CaseReports, BlogIndex, Article, About, Availability, Partners, Contact, Legal };
 const { view, ...props } = Astro.props;
 const View = views[view];
 ---

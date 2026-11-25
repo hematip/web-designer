@@ -16,7 +16,7 @@ const { list, fallback } = getArticlesWithFallback(locale);
 const a = list.find((x: any) => x.slug === slug);
 const cat = (blog.categories ?? []).find((c: any) => c.slug === a.category);
 const fixedLine = section(blog, 'article-template').fixed_line;
-const title = `${a.title} | Memowell`;
+const title = `${a.title} | Memowell®`;
 ---
 <Base locale={locale} routePath={routePath} title={title} description={a.meta_description || a.summary} fallback={fallback} status={a.status}>
   <article class="article">

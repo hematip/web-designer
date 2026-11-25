@@ -1,7 +1,7 @@
 # Memory health (blog index) — approved English copy (brief Part 4, MEMORY HEALTH).
 status: approved
-meta_title: "Memory health — articles and research notes | Memowell"
-meta_description: "Plain-language articles on memory, mild cognitive impairment, inflammation in the nervous system, and caring for someone with Alzheimer's."
+meta_title: "Memory health — articles and research notes | Memowell®"
+meta_description: "Plain-language articles on memory, mild cognitive impairment, inflammation in the nervous system, and caring for someone with Alzheimer's disease."
 sections:
   - id: intro
     heading: "Memory health"
@@ -21,7 +21,7 @@ sections:
     fixed_line: "This article is general information, not medical advice. Talk to your doctor about your own situation."
 categories:
   - { slug: "memory-health", label: "Memory health" }
-  - { slug: "alzheimers-and-mci", label: "Alzheimer's and MCI" }
+  - { slug: "alzheimers-and-mci", label: "Alzheimer's disease and MCI" }
   - { slug: "inflammation-and-the-nervous-system", label: "Inflammation and the nervous system" }
   - { slug: "for-caregivers", label: "For caregivers" }
 page_size: 6

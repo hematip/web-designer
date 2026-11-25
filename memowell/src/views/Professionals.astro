@@ -6,24 +6,32 @@ import Action from '../components/Action.astro';
 import Form from '../components/Form.astro';
 import Pending from '../components/Pending.astro';
 import Photo from '../components/Photo.astro';
+import TrialChart from '../components/TrialChart.astro';
 import { getPage, getSite, section, md, mdInline, doiUrl, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'professionals');
 const s = (id: string) => section(page, id);
-const entrance = s('entrance'), studies = s('studies'), composition = s('composition'), monitoring = s('monitoring'), mechanism = s('mechanism'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
-const nav = getSite(locale).data.nav;
-const crumbs = [{ label: nav.find((n: any) => n.href === '/science')?.label ?? 'Science', href: '/science' }];
+const entrance = s('entrance'), evidenceIntro = s('evidence-intro'), studies = s('studies'), narrative = s('studies-narrative'), composition = s('composition'), monitoring = s('monitoring'), mechanism = s('mechanism'), withMeds = s('with-medicines'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
 const keys = ['study', 'population', 'design', 'findings'];
-const missingCitations = studies.rows.some((r: any) => !r.citation || !r.publisher_url);
 const photo = photoOf(locale, 'professionals', 'entrance');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-pro">
-  <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} crumbs={crumbs} wide />
+  <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} wide />
   {photo && <div class="wrap pro-photo" data-reveal><Photo photo={photo} variant="wide" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
 
-  <section class="pro-studies" aria-labelledby="studies-caption">
+  {evidenceIntro && (
+    <section class="section pro-cases" id="evidence" aria-labelledby="evidence-title">
+      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+        <h2 id="evidence-title">{evidenceIntro.heading}</h2>
+        <div class="prose" set:html={md(evidenceIntro.body)} />
+      </div></div>
+    </section>
+  )}
+
+  <section class="pro-studies" aria-labelledby="studies-title">
     <div class="wrap">
+      <h2 id="studies-title" class="pro-studies__title" data-reveal>{studies.heading}</h2>
       <div class="table-wrap" data-reveal>
         <table class="studies-table">
           <caption id="studies-caption" class="visually-hidden">{studies.columns.join(', ')}</caption>
@@ -51,21 +59,25 @@ const photo = photoOf(locale, 'professionals', 'entrance');
           </tbody>
         </table>
       </div>
-      {missingCitations && <Pending label="full citations, publisher pages and legally free full-text links" detail="Requested by the client for each study but not supplied; DOI links resolve meanwhile. Link labels for these extras also need approved wording." />}
     </div>
   </section>
 
+  {narrative && (
+    <section class="section pro-cases" id="studies-narrative" aria-labelledby="narrative-title">
+      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+        <h2 id="narrative-title">{narrative.heading}</h2>
+        <div class="prose" set:html={md(narrative.body)} />
+        {narrative.chart_caption && <TrialChart caption={narrative.chart_caption} />}
+        <Sources dois={narrative.sources} locale={locale} />
+      </div></div>
+    </section>
+  )}
+
   <section class="section pro-comp" id="composition" aria-labelledby="comp-title">
-    <div class="wrap pro-two">
-      <div class="pro-two__main" data-reveal>
-        <h2 id="comp-title">{composition.heading}</h2>
-        <div class="prose spec" set:html={md(composition.body)} />
-      </div>
-      <div class="pro-two__side is-dark aurora" data-reveal>
-        <h2 id="mon-title" class="h3">{monitoring.heading}</h2>
-        <div class="prose" set:html={md(monitoring.body)} />
-      </div>
-    </div>
+    <div class="wrap"><div class="pro-cases__inner" data-reveal>
+      <h2 id="comp-title">{composition.heading}</h2>
+      <div class="prose spec" set:html={md(composition.body)} />
+    </div></div>
   </section>
 
   {mechanism && (
@@ -74,6 +86,23 @@ const photo = photoOf(locale, 'professionals', 'entrance');
         <h2 id="mech-title">{mechanism.heading}</h2>
         <div class="prose" set:html={md(mechanism.body)} />
         <Sources dois={mechanism.sources} locale={locale} />
+      </div></div>
+    </section>
+  )}
+
+  <section class="section pro-cases" id="monitoring" aria-labelledby="mon-title">
+    <div class="wrap"><div class="pro-cases__inner" data-reveal>
+      <h2 id="mon-title">{monitoring.heading}</h2>
+      <div class="prose" set:html={md(monitoring.body)} />
+      <Sources dois={monitoring.sources} locale={locale} />
+    </div></div>
+  </section>
+
+  {withMeds && (
+    <section class="section pro-cases" id="with-medicines" aria-labelledby="meds-title">
+      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+        <h2 id="meds-title">{withMeds.heading}</h2>
+        <div class="prose" set:html={md(withMeds.body)} />
       </div></div>
     </section>
   )}
@@ -105,6 +134,7 @@ const photo = photoOf(locale, 'professionals', 'entrance');
 <style>
   .pro-photo { position: relative; z-index: 2; margin-block: calc(-1 * clamp(2.5rem, 2rem + 2.5vw, 4.5rem)) clamp(2rem, 1.5rem + 2vw, 3.5rem); }
   .pro-studies { padding-block: var(--section) calc(var(--section) * 0.6); }
+  .pro-studies__title { margin-block-end: var(--s-4); }
   .table-wrap { border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; background: #fff; box-shadow: var(--shadow-soft); }
   .studies-table { width: 100%; border-collapse: collapse; font-size: 1.0625rem; line-height: 1.5; table-layout: fixed; }
   .studies-table col.c-study { width: 15%; } .studies-table col.c-pop { width: 16%; } .studies-table col.c-design { width: 19%; }

@@ -408,7 +408,7 @@ mm.add('(prefers-reduced-motion: reduce)', () => {
   setSceneMode('static');
 });
 
-// ---------------------------------------------------------------- Who: four contexts move from contact sheet to focus
+// ---------------------------------------------------------------- Who: five contexts move from contact sheet to focus
 mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: no-preference)', () => {
   const section = $('[data-who-story]');
   if (!section) return;
@@ -445,10 +445,14 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
       const photo = frames[0];
       const stickyTop = parseFloat(getComputedStyle(head).top);
       const photoCenter = stickyTop + gallery.offsetTop + photo.offsetTop + photo.offsetHeight / 2;
+      // Each detail is centred on the photo, so a taller detail has a smaller inset. An entry overlaps the next by the
+      // NEXT entry's inset, so the next detail enters the flow exactly where this entry ends — never under the
+      // sticky detail that is still being pushed out (with the entry's own inset, a taller next detail overlapped).
+      const insets = details.map((detail) => photoCenter - detail.offsetHeight / 2 - stickyTop);
       details.forEach((detail, i) => {
-        const top = photoCenter - detail.offsetHeight / 2;
-        detail.style.setProperty('--who-detail-top', `${top}px`);
-        entries[i].style.setProperty('--who-entry-inset', `${top - stickyTop}px`);
+        detail.style.setProperty('--who-detail-top', `${insets[i] + stickyTop}px`);
+        entries[i].style.setProperty('--who-entry-inset', `${insets[i]}px`);
+        entries[i].style.setProperty('--who-next-inset', `${insets[i + 1] ?? 0}px`);
       });
     },
     onRefresh: () => {
@@ -470,7 +474,7 @@ mm.add('(min-width: 64rem) and (min-height: 48rem) and (prefers-reduced-motion: 
     gallery.classList.remove('is-focused');
     frames.forEach((frame) => frame.classList.remove('is-active'));
     details.forEach((detail) => detail.style.removeProperty('--who-detail-top'));
-    entries.forEach((entry) => entry.style.removeProperty('--who-entry-inset'));
+    entries.forEach((entry) => { entry.style.removeProperty('--who-entry-inset'); entry.style.removeProperty('--who-next-inset'); });
   };
 });
 
@@ -599,7 +603,6 @@ mm.add(MQ.motion, () => {
   const navy = shape && $('[data-where-navy]', shape);
   const rim = shape && $('[data-where-rim]', shape);
   if (section && navy && rim) {
-    const stripes = $('[data-where-stripes]', section);
     const photo = $('[data-where-photo]', section);
     const photoImg = photo && $('img', photo);
     const rtl = (section.closest('[dir]')?.getAttribute('dir') || document.documentElement.dir) === 'rtl';
@@ -670,20 +673,6 @@ mm.add(MQ.motion, () => {
       const qN = phone ? 0 : ease(band(p, 0.42, 1)), qR = phone ? 0 : ease(band(p, 0.36, 0.94));
       navy.setAttribute('d', wave(fN, qN, 0, 0));
       rim.setAttribute('d', wave(fR, qR, R * 0.16 + 6, W * 0.045 * qR));
-      if (stripes) {
-        const sw = stripes.clientWidth, sh = sw * 0.75;
-        let x, y;
-        if (phone) { x = W - sw * 0.85; y = (photo ? photo.offsetTop : Hs - R) - sh * 0.55 + (1 - out(band(p, 0.25, 1))) * 60; }
-        else {
-          const xT = lerp(W * 1.12, edge().xT, qN);
-          x = Math.min(xT - sw * 0.55, W - sw * 0.7);
-          y = R * 0.72 + (1 - fN) * Hs * 1.08 - R - sh * 0.7;
-        }
-        if (rtl) x = W - x - sw;
-        stripes.style.setProperty('--sx', `${f1(x)}px`);
-        stripes.style.setProperty('--sy', `${f1(y)}px`);
-        stripes.style.opacity = phone ? String(band(p, 0.3, 0.7)) : String(fN);
-      }
       // On wide screens the photograph waits under the wave until the wave covers the section, so it is never seen
       // before the edge uncovers it.
       if (photo && !phone) photo.style.opacity = p < 0.4 ? '0' : '1';
@@ -748,9 +737,9 @@ mm.add(MQ.motion, () => {
 // its crest — clipped at the crest — until it stands whole on the white as the section fills the screen. (Earlier the
 // sunrise lived inside the pin and the approach was a screen of white — client report.) The pin (≈1.4 screens, 1.2 on
 // phones) drives `p` 0…1: a beat; flood — the dome swells until the blue fills the screen while the bottle glides to
-// its place and grows; the layers build up behind it back to front — cyan stripes rising out above, the white shape, navy stripes printed on it, the cyan shape over them —
+// its place and grows; the layers build up behind it back to front — the white shape, cyan and navy stripes printed on it, the cyan shape over them —
 // a soft cyan light appears under it; then the invitation — heading lines from a mask, the
-// strokes under "Talk it through", text line by line, the button; a short hold, then the pin releases into the
+// strokes under the accent words, text line by line, the button; a short hold, then the pin releases into the
 // footer. Reverse scroll undoes both. Reduced motion and no-JS: the resolved frame (the CSS).
 mm.add(MQ.motion, () => {
   const section = $('[data-close]');
@@ -834,17 +823,27 @@ mm.add(MQ.motion, () => {
   });
   tl.to(st, { p: 1, duration: 1, ease: 'none', onUpdate: render }, 0);
   if (blobWhite) tl.fromTo(blobWhite, { scale: 0.3, rotate: rtl ? 18 : -18, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.14);
-  // the layers build up back to front: cyan stripes rise out above, the white shape blooms, navy stripes print on it,
-  // the cyan shape swings over them
-  if (stripesBack) tl.fromTo(stripesBack, { xPercent: rtl ? 12 : -12, yPercent: 30, autoAlpha: 0 }, { xPercent: 0, yPercent: 0, autoAlpha: 0.9, duration: 0.32, ease: 'power3.out' }, 0.1);
+  // the layers build up back to front: the white shape blooms, cyan and navy stripes print on it, the cyan shape
+  // swings over them
+  if (stripesBack) tl.fromTo(stripesBack, { xPercent: rtl ? 12 : -12, yPercent: 30, autoAlpha: 0 }, { xPercent: 0, yPercent: 0, autoAlpha: 0.85, duration: 0.32, ease: 'power3.out' }, 0.17);
   if (stripesMid) tl.fromTo(stripesMid, { xPercent: rtl ? -24 : 24, rotate: rtl ? 22 : -22, autoAlpha: 0 }, { xPercent: 0, rotate: rtl ? 10 : -10, autoAlpha: 0.4, duration: 0.3, ease: 'power3.out' }, 0.18);
   if (blobCyan) tl.fromTo(blobCyan, { scale: 0.3, rotate: rtl ? -40 : 40, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, 0.2);
-  if (reflection) tl.fromTo(reflection, { opacity: 0 }, { opacity: 0.22, duration: 0.2 }, 0.28);
+  if (reflection) tl.fromTo(reflection, { '--show': 0 }, { '--show': 1, duration: 0.2 }, 0.28);
+  // as the footer comes up after the pin, the reflection fades out (one writer per property: --leave, not opacity)
+  const footer = $('.site-footer');
+  const leave = reflection && footer ? gsap.fromTo(reflection, { '--leave': 1 }, { '--leave': 0, ease: 'none', scrollTrigger: { trigger: footer, start: 'top 98%', end: 'top 60%', scrub: true } }) : null;
   if (glow) tl.fromTo(glow, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'power2.out' }, 0.18);
-  if (accents.length) tl.fromTo(accents, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }, 0.56);
   if (actions) tl.from(actions, { opacity: 0, y: 16, duration: 0.12, ease: 'power3.out' }, 0.66);
   tl.to({}, { duration: 0.02 }, 0.98);
-  const textTweens = { title: null, text: null };
+  const textTweens = { title: null, text: null, accents: null };
+  // The strokes under the accent live inside the split lines, so they are found again after every split.
+  const setAccents = () => {
+    textTweens.accents?.kill();
+    const now = title ? [...title.querySelectorAll('.accent')] : [];
+    gsap.set(now, { clearProps: 'backgroundSize' });
+    textTweens.accents = now.length ? gsap.fromTo(now, { backgroundSize: '0% 0.04em, 0% 0.04em' }, { backgroundSize: '100% 0.04em, 100% 0.04em', duration: 0.12, ease: 'power2.inOut' }) : null;
+    if (textTweens.accents) tl.add(textTweens.accents, 0.56);
+  };
   const sync = () => { tl.progress(tl.scrollTrigger?.progress ?? 0); render(); };
   const setLines = (key, lines, vars, at) => {
     textTweens[key]?.kill(); // the tween only: tl.from() would hand back the timeline, and killing that kills the pin
@@ -854,7 +853,7 @@ mm.add(MQ.motion, () => {
   };
   // Text in lines only (shaping kept).
   const titleSplit = title ? SplitText.create(title, { type: 'lines', mask: 'lines', autoSplit: true,
-    onSplit: (self) => setLines('title', self.lines, { yPercent: 110, duration: 0.22, ease: 'expo.out', stagger: 0.05 }, 0.42) }) : null;
+    onSplit: (self) => { setAccents(); setLines('title', self.lines, { yPercent: 110, duration: 0.22, ease: 'expo.out', stagger: 0.05 }, 0.42); } }) : null;
   const textSplit = text ? SplitText.create(text, { type: 'lines', aria: 'none', autoSplit: true,
     onSplit: (self) => setLines('text', self.lines, { opacity: 0, y: 18, duration: 0.2, ease: 'power3.out', stagger: 0.035 }, 0.52) }) : null;
   render();
@@ -866,6 +865,9 @@ mm.add(MQ.motion, () => {
     textSplit?.revert();
     stage.style.clipPath = ''; stage.style.webkitClipPath = '';
     bottle.style.clipPath = ''; bottle.style.webkitClipPath = ''; bottle.style.filter = '';
+    leave?.scrollTrigger?.kill(); leave?.kill();
+    reflection?.style.removeProperty('--show'); reflection?.style.removeProperty('--leave');
+    textTweens.accents?.kill();
     gsap.set([product, reflection, stripesBack, stripesMid, blobWhite, blobCyan, glow, actions, ...accents].filter(Boolean), { clearProps: 'all' });
   };
 });

@@ -22,7 +22,7 @@ let pendingNote: string | null = null;
 if (action.kind === 'summary') {
   const d = settings.downloads?.summary;
   target = d?.approved && d?.file ? d.file : null;
-  if (!target) { pendingText = ui.file_pending; pendingNote = 'One-page summary PDF: drafted in deliverables/, awaiting scientific-officer approval (brief Part 7 Downloads).'; }
+  if (!target) { pendingText = ui.file_pending; pendingNote = 'One-page summary PDF not linked (Settings → downloads.summary; brief Part 7 Downloads).'; }
 } else if (action.kind === 'catalogue') {
   const d = settings.downloads?.catalogue;
   target = d?.approved && d?.file ? d.file : null;
@@ -33,10 +33,11 @@ if (action.kind === 'summary') {
   target = null;
 }
 
-const isExternal = !!action.external || /^https?:/.test(target ?? '');
-const finalHref = target ? localHref(locale, target) : null;
-const cls = variant === 'link' ? 'text-link' : `btn${variant !== 'primary' ? ` btn--${variant}` : ''}${small ? ' btn--small' : ''}`;
 const isDownload = action.kind === 'summary' || action.kind === 'catalogue';
+const isExternal = !!action.external || /^https?:/.test(target ?? '');
+// Downloads are one file for every language; page links take the locale prefix.
+const finalHref = target ? (isDownload ? target : localHref(locale, target)) : null;
+const cls = variant === 'link' ? 'text-link' : `btn${variant !== 'primary' ? ` btn--${variant}` : ''}${small ? ' btn--small' : ''}`;
 ---
 {finalHref ? (
   <a class={cls} href={finalHref} {...(isExternal ? { rel: 'noopener' } : {})} {...(isDownload ? { download: '' } : {})}>
