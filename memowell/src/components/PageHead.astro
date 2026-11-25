@@ -1,13 +1,15 @@
 ---
-// Inner-page opening (v3): the brand-gradient stage with the label blob on the far side (the catalogue's divider
-// pages), breadcrumb pills, oversized H1 and the approved intro copy. Optional media slot on the side.
+// Inner-page opening, in the home page's language (2026-11-25): the brand-gradient stage with the label blob on the
+// far side, breadcrumb pills, a kicker, the oversized H1 with one accented word, and the approved intro copy.
+// Optional media slot on the side; a photograph there takes the label's single large corner.
 import { getSite, href, md } from '../lib/content.js';
 import Blob from './Blob.astro';
 
-interface Props { locale: string; title: string; body?: string; crumbs?: { label: string; href: string }[]; note?: string; wide?: boolean }
-const { locale, title, body, crumbs = [], note, wide = false } = Astro.props;
+interface Props { locale: string; title: string; body?: string; crumbs?: { label: string; href: string }[]; note?: string; wide?: boolean; accent?: string; kicker?: string }
+const { locale, title, body, crumbs = [], note, wide = false, accent, kicker } = Astro.props;
 const ui = getSite(locale).data.ui;
 const hasMedia = Astro.slots.has('media');
+const titleHtml = accent && title.includes(accent) ? title.replace(accent, `<span class="accent">${accent}</span>`) : title;
 ---
 <header class:list={['page-head', 'is-dark', 'aurora', { 'page-head--media': hasMedia }]} data-pointer>
   <div class="wrap page-head__grid">
@@ -19,11 +21,12 @@ const hasMedia = Astro.slots.has('media');
         </ol>
       </nav>
       {note && <p class="page-head__note">{note}</p>}
-      <h1 class:list={{ 'page-head__wide': wide }} data-split="load">{title}</h1>
+      {kicker && <p class="ed-kicker page-head__kicker">{kicker}</p>}
+      <h1 class:list={{ 'page-head__wide': wide }} data-split="load" set:html={titleHtml} />
       {body && <div class="page-head__lead flow" set:html={md(body)} />}
       <slot />
     </div>
-    {hasMedia && <div class="page-head__media" data-reveal><slot name="media" /></div>}
+    {hasMedia && <div class="page-head__media ed-photo" data-reveal><slot name="media" /></div>}
   </div>
   <div class="page-head__mark" aria-hidden="true"><Blob id="head-blob" tone="white" /></div>
 </header>
@@ -34,11 +37,13 @@ const hasMedia = Astro.slots.has('media');
     padding-block: calc(var(--header-h) + clamp(3rem, 2rem + 4vw, 6rem)) clamp(3rem, 2rem + 4vw, 6rem);
   }
   .page-head__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-  .page-head__copy { grid-column: 1 / span 9; }
+  .page-head__copy { grid-column: 1 / span 9; display: grid; justify-items: start; }
   .page-head--media .page-head__copy { grid-column: 1 / span 7; }
   .page-head__media { grid-column: 8 / span 5; position: relative; }
-  .page-head h1 { max-width: 16ch; font-size: clamp(2.5rem, 1.5rem + 4vw, 5.5rem); letter-spacing: -0.028em; line-height: 0.98; }
+  .page-head__kicker { margin-block-end: var(--s-3); }
+  .page-head h1 { max-width: 15ch; font-size: clamp(2.5rem, 1.5rem + 4vw, 5.5rem); letter-spacing: -0.028em; line-height: 0.98; }
   .page-head h1.page-head__wide { max-width: 22ch; }
+  .page-head h1 :global(.accent) { color: var(--cyan); }
   .page-head__lead { margin-block-start: var(--s-4); max-width: 42rem; font-size: var(--fs-lead); line-height: 1.55; color: var(--on-dark-soft); }
   .page-head__copy :global(.btn-row) { margin-block-start: var(--s-4); }
   .page-head__note {
@@ -51,6 +56,6 @@ const hasMedia = Astro.slots.has('media');
   @media (max-width: 63.99rem) {
     .page-head__mark { width: 18rem; top: auto; bottom: -5rem; translate: 0 0; opacity: 0.12; }
     .page-head__copy, .page-head--media .page-head__copy, .page-head__media { grid-column: 1 / -1; }
-    .page-head__media { margin-block-start: var(--s-5); }
+    .page-head__media { margin-block-start: var(--s-5); max-width: 36rem; }
   }
 </style>

@@ -219,10 +219,7 @@ The client supplied four comments. **They cannot be used as testimonials**: all 
 | `/who-its-for` | Who benefits (page: Who can benefit from taking Memowell®?) |
 | `/science` | For healthcare professionals (the plain-language science page was retired 2026-11-21, client direction: the general audience reads the home page) |
 | `/memory-health` | Blog: index plus article template |
-| `/about` | Kondor Pharma |
-| `/about/availability` | Availability by country |
-| `/about/partners` | Pharmacy and distribution enquiries |
-| `/contact` | Contact (three forms) |
+| `/about` | Kondor Pharma: one page since 2026-11-25 (client direction) with the sections Availability (`#availability`), Other products, Partners (`#partners`) and Contact (`#contact`, three forms); the former `/about/availability`, `/about/partners` and `/contact` redirect to them |
 | `/privacy`, `/terms` | Legal |
 
 All three language versions share the same structure. What changes between them is the availability text and the disclaimer text.
@@ -234,7 +231,7 @@ All three language versions share the same structure. What changes between them 
 | Who benefits | `/who-its-for` | none |
 | Science | `/science` | none (professional section; was a dropdown until 2026-11-21) |
 | Memory health | `/memory-health` | none |
-| About ▾ | `/about` | Kondor Pharma (`/about`) · Availability (`/about/availability`) · Partners (`/about/partners`) · Contact (`/contact`) |
+| About ▾ | `/about` | Kondor Pharma (`/about`) · Availability (`/about#availability`) · Partners (`/about#partners`) · Contact (`/about#contact`) — sections of the one About page since 2026-11-25 |
 
 Beside the nav:
 - a language switcher (EN / FR / AR)
@@ -871,7 +868,7 @@ Meta title: `Kondor Pharma, the company behind Memowell®`
 
 *Note:* the other products get their names and a link only. No descriptions and no claims. Inflawell removed 2026-11-22 (client: not available for now).
 
-### AVAILABILITY `/about/availability`
+### AVAILABILITY `/about#availability` (a section of the About page since 2026-11-25; was `/about/availability`)
 > # Where to find Memowell®
 >
 > Availability, packaging and approved uses are set per country. Product information on this site must be read against the label approved where you buy it.
@@ -889,7 +886,7 @@ Meta title: `Kondor Pharma, the company behind Memowell®`
 - **Write no market details other than Canada's** until the client confirms registration status.
 - Amazon listings set 2026-11-22 in Settings → amazon_urls (Amazon.ca ASIN B09FYCHR47, Amazon.com ASIN B08T21L6MT), to be confirmed by the client.
 
-### PARTNERS `/about/partners`
+### PARTNERS `/about#partners` (a section of the About page since 2026-11-25; was `/about/partners`)
 Meta title: `Pharmacy and distribution enquiries | Memowell®`
 > # For pharmacies and distribution partners
 >
@@ -909,7 +906,7 @@ Meta title: `Pharmacy and distribution enquiries | Memowell®`
 
 ---
 
-### CONTACT `/contact`
+### CONTACT `/about#contact` (a section of the About page since 2026-11-25; was `/contact`)
 Meta title: `Contact Memowell® | Kondor Pharma`
 Meta description: `Reach Kondor Pharma about Memowell®: general questions, scientific enquiries from healthcare professionals, and distribution partnerships.`
 
@@ -1135,9 +1132,9 @@ These are context only:
 ### Forms
 There are five forms in total:
 - general
-- scientific question (appears on both `/contact` and `/science/professionals`)
+- scientific question (appears on both `/about#contact` and `/science`)
 - professional feedback
-- partnership (appears on both `/contact` and `/about/partners`)
+- partnership (on `/about#contact`; the Partners section links to it)
 - availability enquiry (routes to the general form)
 
 Requirements:
@@ -1209,7 +1206,7 @@ Requirements:
 | Which language `memowell.ru` opens in | Domain setup | Client |
 | French and Arabic translations | FR / AR versions | Client's translator + scientific officer |
 | One-page summary PDF | Primary action | Built and linked (2026-11-21); file awaiting scientific sign-off |
-| Catalogue PDF for partners | `/about/partners` | Client |
+| Catalogue PDF for partners | `/about#partners` | Client |
 | Amazon listing URL(s) | Availability page, home closing | Set from the public listings 2026-11-22; client to confirm |
 | Terms of use text | `/terms` | Client |
 | Analytics tool, if any | Privacy policy | Client |

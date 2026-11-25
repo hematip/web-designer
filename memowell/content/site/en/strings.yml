@@ -10,10 +10,11 @@ nav:
   - label: "About"
     href: "/about"
     children:
+      # One About page since 2026-11-25; the children jump to its sections.
       - { label: "Kondor Pharma", href: "/about" }
-      - { label: "Availability", href: "/about/availability" }
-      - { label: "Partners", href: "/about/partners" }
-      - { label: "Contact", href: "/contact" }
+      - { label: "Availability", href: "/about#availability" }
+      - { label: "Partners", href: "/about#partners" }
+      - { label: "Contact", href: "/about#contact" }
 
 # Primary action beside the nav (brief Part 3: "the doctor summary").
 # Label reuses the approved /memowell heading; flagged for agency check.
@@ -34,7 +35,7 @@ pro_band:
 # Repeated text 4 — footer, beside the language switcher.
 market_line:
   body: "Availability, packaging and approved uses differ by country."
-  action: { label: "See availability", href: "/about/availability" }
+  action: { label: "See availability", href: "/about#availability" }
 
 footer_columns:
   - title: "Memowell®"
@@ -50,13 +51,13 @@ footer_columns:
   - title: "Kondor Pharma"
     links:
       - { label: "About", href: "/about" }
-      - { label: "Availability", href: "/about/availability" }
-      - { label: "Partners", href: "/about/partners" }
+      - { label: "Availability", href: "/about#availability" }
+      - { label: "Partners", href: "/about#partners" }
       - { label: "kondorpharma.com", href: "https://kondorpharma.com", external: true }
     products: ["Strowell", "Genuwell"]
   - title: "Contact"
     links:
-      - { label: "Contact us", href: "/contact" }
+      - { label: "Contact us", href: "/about#contact" }
     contact_slots: true
   - title: "Legal"
     links:
@@ -108,5 +109,6 @@ ui:
   page_of: "Page {n} of {total}"
   no_articles: "Articles will appear here after scientific review."
   related: "Related"
+  partnership_form_link: "Go to the partnership form"
   not_found_title: "Page not found"
   not_found_body: "This page does not exist. Use the menu, or go to the home page."

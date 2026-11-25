@@ -10,10 +10,9 @@ export const PAGES = [
   { path: '/science', id: 'professionals', view: 'Professionals' },
   { path: '/science/case-reports', id: 'case-reports', view: 'CaseReports' },
   { path: '/memory-health', id: 'memory-health', view: 'BlogIndex' },
+  // One About page (client direction 2026-11-25): availability, partners and contact are its sections; their old
+  // addresses redirect there (astro.config.mjs). Their content files stay the sections' sources.
   { path: '/about', id: 'about', view: 'About' },
-  { path: '/about/availability', id: 'availability', view: 'Availability' },
-  { path: '/about/partners', id: 'partners', view: 'Partners' },
-  { path: '/contact', id: 'contact', view: 'Contact' },
   { path: '/privacy', id: 'privacy', view: 'Legal' },
   { path: '/terms', id: 'terms', view: 'Legal' },
 ];

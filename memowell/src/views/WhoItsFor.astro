@@ -1,4 +1,6 @@
 ---
+// The five groups, in the home page's language (2026-11-25): a sticky index beside numbered open entries parted by
+// hairlines; the photograph takes the label's corner. Copy unchanged.
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Sources from '../components/Sources.astro';
@@ -11,33 +13,33 @@ import { getPage, getSite, section, md, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'who-its-for');
-const ui = getSite(locale).data.ui;
+const site = getSite(locale).data;
+const ui = site.ui;
+const navLabel = site.nav.find((n: any) => n.href === '/who-its-for')?.label;
 const intro = section(page, 'intro');
 const closing = section(page, 'closing');
 const groups = page.sections.filter((x: any) => !['intro', 'closing'].includes(x.id));
 const photo = photoOf(locale, 'who-its-for', 'intro');
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
-  <PageHead locale={locale} title={intro.heading} body={intro.body}>
+  <PageHead locale={locale} title={intro.heading} body={intro.body} accent="Memowell®" kicker={navLabel}>
     {photo && <Photo slot="media" photo={photo} variant="portrait" sizes="(min-width: 64rem) 34vw, 92vw" eager />}
   </PageHead>
 
-  <div class="wrap groups">
-    <nav class="groups__index" aria-labelledby="otp-title">
-      <div class="groups__index-inner">
-        <p id="otp-title" class="groups__index-title">{ui.on_this_page}</p>
-        <ol role="list">
-          {groups.map((g: any, i: number) => (
-            <li><a href={`#${g.id}`}><span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{g.heading}</a></li>
-          ))}
-        </ol>
-      </div>
+  <div class="wrap ed-split ed-split--narrow groups">
+    <nav class="ed-split__a ed-index ed-index--sticky" aria-labelledby="otp-title">
+      <p id="otp-title" class="ed-index__title">{ui.on_this_page}</p>
+      <ol role="list">
+        {groups.map((g: any, i: number) => (
+          <li><a href={`#${g.id}`}><span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{g.heading}</a></li>
+        ))}
+      </ol>
     </nav>
 
-    <div class="groups__list">
+    <div class="ed-split__b ed-entries">
       {groups.map((g: any, i: number) => (
-        <section class="group" data-reveal id={g.id} aria-labelledby={`${g.id}-title`}>
-          <span class="group__idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <section class="ed-entry group" data-reveal id={g.id} aria-labelledby={`${g.id}-title`}>
+          <p class="ed-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}<span> / {String(groups.length).padStart(2, '0')}</span></p>
           <h2 id={`${g.id}-title`}>{g.heading}</h2>
           <div class="prose" set:html={md(g.body)} />
           {g.pending === 'mid-life-dose' && (
@@ -55,25 +57,11 @@ const photo = photoOf(locale, 'who-its-for', 'intro');
 </Base>
 
 <style>
-  .groups { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); padding-block: var(--section); }
-  .groups__index { grid-column: 1 / span 4; }
-  .groups__index-inner { position: sticky; top: calc(var(--header-h) + 2rem); display: grid; gap: var(--s-2); }
-  .groups__index-title { font-weight: 700; color: var(--ink-soft); font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; }
-  .groups__index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-  .groups__index a {
-    display: flex; gap: 0.85rem; align-items: center; min-height: 3.5rem; padding: 0.6rem 1.1rem 0.6rem 0.6rem; border-radius: 999px;
-    background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 700; line-height: 1.3;
-    transition: transform 0.3s var(--ease-out), border-color 0.2s var(--ease);
-  }
-  .groups__index a:hover { border-color: var(--blue); transform: translateX(4px); }
-  .idx { flex: none; display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--navy); color: #fff; font: 800 0.9375rem/1 var(--font-display); }
-  .groups__list { grid-column: 6 / span 7; display: grid; gap: var(--s-3); }
-  .group { position: relative; overflow: hidden; isolation: isolate; padding: clamp(1.75rem, 1.2rem + 2vw, 3.25rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); display: grid; gap: var(--s-3); justify-items: start; }
-  .group::after { content: ''; position: absolute; z-index: -1; width: 22rem; height: 22rem; inset-inline-end: -8rem; top: -10rem; border-radius: 50%; background: radial-gradient(circle, rgba(6, 178, 200, 0.16), transparent 70%); }
-  .group__idx { font: 800 clamp(3.5rem, 2.5rem + 3vw, 5.5rem)/0.85 var(--font-display); letter-spacing: -0.03em; background: linear-gradient(120deg, var(--blue), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .group h2 { max-width: 18ch; font-size: clamp(1.875rem, 1.3rem + 2vw, 3rem); }
+  .groups { padding-block: var(--section) 0; }
+  .group:first-child { border-block-start: 0; padding-block-start: 0; }
+  .group h2 { max-width: 20ch; }
+  .group :global(.prose) { max-width: 40rem; }
   @media (max-width: 63.99rem) {
-    .groups__index, .groups__list { grid-column: 1 / -1; }
-    .groups__index-inner { position: static; margin-block-end: var(--s-4); }
+    .groups :global(.ed-index) { margin-block-end: var(--s-2); }
   }
 </style>

@@ -1,56 +1,219 @@
 ---
+// About: one page for the company (client direction 2026-11-25; formerly four pages). The sections run in the order a
+// visitor needs them: who makes it → where to find it → the company's other products → the trade (partners) →
+// contact. The retired addresses (/about/availability, /about/partners, /contact) redirect to the sections.
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Action from '../components/Action.astro';
+import Form from '../components/Form.astro';
+import Photo from '../components/Photo.astro';
+import Pending from '../components/Pending.astro';
 import ProBand from '../components/ProBand.astro';
-import { getPage, section, md, settings } from '../lib/content.js';
+import Icon from '../components/Icon.astro';
+import { getPage, getSite, section, md, settings, photoOf, IS_PREVIEW } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'about');
+const avail = getPage(locale, 'availability')?.data;
+const partners = getPage(locale, 'partners')?.data;
+const contact = getPage(locale, 'contact')?.data;
+const site = getSite(locale).data;
+const ui = site.ui;
+const aboutNav = site.nav.find((n: any) => n.href === '/about');
+const label = (hash: string, fallbackLabel: string) => aboutNav?.children?.find((c: any) => c.href.endsWith(hash))?.label ?? fallbackLabel;
+
 const intro = section(page, 'intro');
 const products = section(page, 'products');
+const availIntro = section(avail, 'intro'), markets = section(avail, 'markets'), amazon = section(avail, 'amazon');
+const amazonUrls = settings.amazon_urls ?? [];
+const partnersIntro = section(partners, 'intro'), partnersForm = section(partners, 'form');
+const partnersPhoto = photoOf(locale, 'partners', 'intro');
+const contactIntro = section(contact, 'intro');
+const routes = ['general', 'scientific', 'partnership'].map((id) => section(contact, id));
+const details = section(contact, 'details');
+const c = settings.contact ?? {};
+const filled = [c.address, c.phone, c.email, c.instagram, c.linkedin].some(Boolean);
+const jumps = [
+  { href: '#availability', label: label('#availability', 'Availability') },
+  { href: '#partners', label: label('#partners', 'Partners') },
+  { href: '#contact', label: label('#contact', 'Contact') },
+];
+const description = page.meta_description || contact?.meta_description || '';
 ---
-<Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
-  <PageHead locale={locale} title={intro.heading} body={intro.body}>
-    <div class="btn-row about-actions">{intro.actions.map((a: any) => <Action action={a} locale={locale} />)}</div>
+<Base locale={locale} routePath={routePath} title={page.meta_title} description={description} fallback={fallback} status={page.status}>
+  <PageHead locale={locale} title={intro.heading} body={intro.body} accent="Memowell®" kicker={aboutNav?.label}>
+    <div class="btn-row about-actions">{intro.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
+    <nav class="ed-index ed-index--row about-jumps" aria-label={ui.on_this_page}>
+      <ul>{jumps.map((j) => <li><a href={j.href}>{j.label}</a></li>)}</ul>
+    </nav>
     <div slot="media" class="kondor-mark">
       <img src="/brand/kondor-pharma-logo.png" width="420" height="185" alt="Kondor Pharma" />
     </div>
   </PageHead>
 
-  <section class="section other" aria-labelledby="other-title">
-    <div class="wrap">
-      <h2 id="other-title" data-split>{products.heading}</h2>
+  {avail && (
+    <section class="section about-sec" id="availability" aria-labelledby="availability-title">
+      <div class="wrap about-sec__inner">
+        <div class="ed-head" data-reveal>
+          <p class="ed-kicker">{label('#availability', 'Availability')}</p>
+          <h2 id="availability-title" class="ed-title" set:html={availIntro.heading.replace('Memowell®', '<span class="accent">Memowell®</span>')} />
+          <div class="ed-lead" set:html={md(availIntro.body)} />
+        </div>
+        <ul class="markets" role="list">
+          {markets.items.map((m: any) => (
+            <li class="ed-entry market" data-reveal>
+              <h3>{m.title}</h3>
+              <p class="market__body">{m.body}</p>
+            </li>
+          ))}
+        </ul>
+        <div class="btn-row" data-reveal>{markets.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
+        <Pending label="market registration status (UAE, GCC, MENA, Russia)" detail="Add a country block per market only once the client confirms registration (brief Part 9)." />
+        <div class="amazon" data-reveal>
+          <p class="ed-pull">{amazon.body}</p>
+          {amazonUrls.length > 0
+            ? <div class="btn-row">{amazonUrls.map((u: any) => <Action action={{ label: u.label, href: u.url, external: true }} locale={locale} />)}</div>
+            : <Pending label="Amazon listing URL(s)" detail="Not supplied (brief Part 9)." />}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section about-sec other" id="products" aria-labelledby="other-title">
+    <div class="wrap about-sec__inner">
+      <div class="ed-head" data-reveal>
+        <p class="ed-kicker">Kondor Pharma</p>
+        <h2 id="other-title" class="ed-title">{products.heading}</h2>
+      </div>
       <ul class="products" role="list">
         {products.items.map((p: any) => (
-          <li data-reveal><a class={`product-link product-link--${p.title.toLowerCase()}`} href={settings.kondor_url} rel="noopener"><strong>{p.title}</strong></a></li>
+          <li data-reveal><a class={`product-link product-link--${p.title.toLowerCase()}`} href={settings.kondor_url} rel="noopener"><strong>{p.title}</strong><Icon name="external" class="arrow" /></a></li>
         ))}
       </ul>
       <div class="prose" set:html={md(products.body)} />
     </div>
   </section>
 
+  {partners && (
+    <section class="section about-sec" id="partners" aria-labelledby="partners-title">
+      <div class="wrap about-sec__inner">
+        <div class="ed-head" data-reveal>
+          <p class="ed-kicker">{label('#partners', 'Partners')}</p>
+          <h2 id="partners-title" class="ed-title ed-title--wide">{partnersIntro.heading}</h2>
+        </div>
+        <div class="ed-split ed-split--center partner-grid">
+          <div class="ed-split__a partner-spec" data-reveal>
+            <div class="prose spec" set:html={md(partnersIntro.body)} />
+            <div class="btn-row">{partnersIntro.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
+            <div class="ed-aside partner-talk">
+              <h3>{partnersForm.heading}</h3>
+              <div class="prose" set:html={md(partnersForm.body)} />
+              <a class="text-link" href="#partnership"><span>{ui.partnership_form_link}</span><Icon name="arrow" class="arrow" /></a>
+            </div>
+          </div>
+          {partnersPhoto && <div class="ed-split__b ed-photo partner-photo" data-reveal><Photo photo={partnersPhoto} variant="portrait" sizes="(min-width: 64rem) 420px, 92vw" /></div>}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {contact && (
+    <section class="section about-sec contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap about-sec__inner">
+        <div class="ed-head" data-reveal>
+          <p class="ed-kicker">{label('#contact', 'Contact')}</p>
+          <h2 id="contact-title" class="ed-title">{contactIntro.heading}</h2>
+          <div class="ed-lead" set:html={md(contactIntro.body)} />
+          <nav class="ed-index ed-index--row" aria-label={contactIntro.heading}>
+            <ul>{routes.map((r: any, i: number) => <li><a href={`#${r.id}`}><span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{r.heading}</a></li>)}</ul>
+          </nav>
+        </div>
+        <div class="routes">
+          {routes.map((r: any, i: number) => (
+            <article class="ed-entry contact-route" id={r.id} aria-labelledby={`${r.id}-title`} data-reveal>
+              <div class="ed-split ed-split--narrow">
+                <div class="ed-split__a contact-route__intro">
+                  <p class="ed-num">{String(i + 1).padStart(2, '0')}<span> / {String(routes.length).padStart(2, '0')}</span></p>
+                  <h3 id={`${r.id}-title`}>{r.heading}</h3>
+                  <div class="prose" set:html={md(r.body)} />
+                </div>
+                <div class="ed-split__b">
+                  <Form form={r.form} locale={locale} labelledby={`${r.id}-title`} beside={r.beside_submit} />
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        {(filled || IS_PREVIEW) && (
+          <p class="details__line">
+            <strong>{details.company}</strong>
+            {[c.address, c.phone, c.email && <a href={`mailto:${c.email}`}>{c.email}</a>, c.instagram && <a href={c.instagram} rel="noopener">Instagram</a>, c.linkedin && <a href={c.linkedin} rel="noopener">LinkedIn</a>]
+              .filter(Boolean).map((x) => <><span aria-hidden="true"> · </span>{x}</>)}
+            {!filled && <span class="pending" style="display:inline-block;margin-inline-start:.75rem">[address] · [phone] · [email] · [Instagram] · [LinkedIn] — not supplied</span>}
+          </p>
+        )}
+      </div>
+    </section>
+  )}
+
   <ProBand locale={locale} />
 </Base>
 
 <style>
   .about-actions { margin-block-start: var(--s-4); }
-  /* Parent logo: the exact master, straight, on a clean white plane (no rotation, no shadow). */
-  .kondor-mark { background: #fff; border-radius: var(--r-xl); padding: clamp(2rem, 4vw, 4rem); display: grid; place-items: center; }
+  .about-jumps { margin-block-start: var(--s-4); }
+  .about-jumps :global(a) { background: var(--glass); border-color: var(--glass-line); color: #fff; min-height: 3rem; padding: 0.5rem 1.15rem; }
+  .about-jumps :global(a:hover) { background: #fff; color: var(--navy); border-color: #fff; transform: none; }
+  /* Parent logo: the exact master, straight, on a white plane that takes the label's corner. */
+  .kondor-mark { background: #fff; border-radius: var(--r-m); border-start-end-radius: clamp(3rem, 6vw, 6rem); padding: clamp(2.5rem, 4vw, 4.5rem); display: grid; place-items: center; }
   .kondor-mark img { width: min(100%, 20rem); min-width: 8.75rem; }
-  .other .wrap { display: grid; gap: var(--s-4); }
-  .products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-3); }
+
+  .about-sec { padding-block: var(--section) 0; }
+  .about-sec:last-of-type { padding-block-end: calc(var(--section) * 0.5); }
+  .about-sec__inner { display: grid; gap: var(--s-5); justify-items: start; }
+
+  /* Availability: the markets as two entries side by side; the Amazon line as a pull statement with its buttons. */
+  .markets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); width: 100%; }
+  .market { padding-block: var(--s-4) 0; gap: var(--s-2); }
+  .market h3 { max-width: 12ch; font-size: clamp(2.25rem, 1.4rem + 2.6vw, 4rem); line-height: 1; letter-spacing: -0.028em; }
+  .market__body { color: var(--ink-soft); max-width: 28rem; }
+  .amazon { display: grid; gap: var(--s-3); justify-items: start; padding-block-start: var(--s-4); border-block-start: 1px solid var(--line-strong); width: 100%; }
+
+  /* Other products: a name each, as a row on a hairline (no descriptions, no claims). */
+  .products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); width: 100%; }
   .product-link {
-    position: relative; overflow: hidden; isolation: isolate; display: flex; align-items: flex-end; min-height: 12rem; padding: var(--s-4);
-    border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none;
-    font: 700 clamp(1.75rem, 1.3rem + 1.5vw, 2.75rem)/1 var(--font-display); letter-spacing: -0.025em; transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding-block: var(--s-4); border-block-start: 1px solid var(--line-strong);
+    color: var(--ink); text-decoration: none; font: 700 clamp(1.75rem, 1.3rem + 1.5vw, 2.75rem)/1 var(--font-display); letter-spacing: -0.025em;
+    transition: color 0.25s var(--ease);
   }
-  .product-link::before { content: ''; position: absolute; z-index: -1; width: 14rem; height: 14rem; inset-inline-end: -4rem; top: -5rem; border-radius: 50%; background: radial-gradient(circle, var(--glow, rgba(6, 178, 200, 0.22)), transparent 70%); }
-  /* Each product keeps its own colour family; Inflawell has no family in the brand rules, so it stays neutral. */
-  .product-link--strowell { --glow: rgba(139, 63, 196, 0.26); --hover: #7a2fb3; }
-  .product-link--genuwell { --glow: rgba(40, 150, 80, 0.26); --hover: #1f7a44; }
-  .product-link--inflawell { --glow: rgba(120, 128, 150, 0.22); --hover: var(--ink); }
-  .product-link strong { font-weight: 700; }
-  .product-link:hover { transform: translateY(-6px); box-shadow: var(--shadow-soft); color: var(--hover, var(--blue)); }
-  @media (max-width: 47.99rem) { .products { grid-template-columns: 1fr; } }
+  .product-link :global(.arrow) { width: 1.4rem; height: 1.4rem; flex: none; color: var(--ink-soft); transition: transform 0.35s var(--ease-out), color 0.25s var(--ease); }
+  .product-link:hover { color: var(--hover, var(--blue)); }
+  .product-link:hover :global(.arrow) { transform: translate(3px, -3px); color: currentColor; }
+  /* Each product keeps its own colour family (brand rules). */
+  .product-link--strowell { --hover: #7a2fb3; }
+  .product-link--genuwell { --hover: #1f7a44; }
+  .other .prose { max-width: 32rem; }
+
+  /* Partners: the specification as two statements parted by a hairline, the catalogue, the invitation to talk. */
+  .partner-grid { width: 100%; }
+  .partner-spec { display: grid; gap: var(--s-4); justify-items: start; }
+  .spec :global(p) { font-size: var(--fs-lead); line-height: 1.55; color: var(--ink-soft); }
+  .spec :global(p + p) { border-top: 1px solid var(--line-strong); padding-block-start: var(--s-3); }
+  .spec :global(strong) { display: block; color: var(--ink); font: 700 0.875rem/1.2 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; margin-block-end: 0.5rem; }
+  :global([dir='rtl']) .spec :global(strong) { letter-spacing: 0; text-transform: none; }
+  .partner-talk { margin-block-start: var(--s-2); }
+  .partner-photo :global(.photo) { aspect-ratio: 4 / 5; }
+
+  /* Contact: the three routes as numbered entries, intro beside its form; no boxes. */
+  .routes { width: 100%; }
+  .contact-route { padding-block: var(--s-5); }
+  .contact-route__intro { display: grid; gap: var(--s-3); justify-items: start; align-content: start; }
+  .contact-route__intro h3 { max-width: 16ch; font-size: clamp(1.875rem, 1.3rem + 1.8vw, 3rem); line-height: 1.1; letter-spacing: -0.022em; }
+  .contact-route :global(.form) { max-width: 44rem; }
+  .details__line { font-size: var(--fs-lead); padding-block-start: var(--s-4); border-block-start: 1px solid var(--line-strong); width: 100%; }
+
+  @media (max-width: 63.99rem) {
+    .markets, .products { grid-template-columns: 1fr; }
+    .partner-photo { max-width: 30rem; }
+  }
 </style>

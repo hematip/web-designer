@@ -76,7 +76,7 @@ for (const p of pages) {
 // 3. Disclaimers and professional band.
 const general = 'This website exists to introduce Memowell® and to provide scientific and educational information';
 const band = 'Are you a doctor, pharmacist or dietitian?';
-const needsBand = ['memowell', 'who-its-for', 'memory-health', 'about/index', 'about/availability'];
+const needsBand = ['memowell', 'who-its-for', 'memory-health', 'about/index'];
 for (const p of pages) {
   if (!p.text.includes(general)) fail(`general disclaimer missing in ${p.f}`);
   const rel = path.relative(dist, p.f);

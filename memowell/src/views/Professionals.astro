@@ -1,4 +1,6 @@
 ---
+// The professional section, in the home page's language (2026-11-25): an index row under the photograph, then the
+// sections as numbered open entries parted by hairlines; the studies table and chart keep their own forms. Copy unchanged.
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Sources from '../components/Sources.astro';
@@ -11,27 +13,46 @@ import { getPage, getSite, section, md, mdInline, doiUrl, photoOf } from '../lib
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'professionals');
+const site = getSite(locale).data;
+const ui = site.ui;
+const navLabel = site.nav.find((n: any) => n.href === '/science')?.label;
 const s = (id: string) => section(page, id);
 const entrance = s('entrance'), evidenceIntro = s('evidence-intro'), studies = s('studies'), narrative = s('studies-narrative'), composition = s('composition'), monitoring = s('monitoring'), mechanism = s('mechanism'), withMeds = s('with-medicines'), cases = s('case-reports'), q = s('question-form'), fb = s('feedback-form');
-const keys = ['study', 'population', 'design', 'findings'];
 const photo = photoOf(locale, 'professionals', 'entrance');
+// The reading order; each entry is numbered on the page and in the index.
+const entries = [
+  evidenceIntro?.heading && { id: 'evidence', title: evidenceIntro.heading },
+  { id: 'studies', title: studies.heading },
+  narrative?.heading && { id: 'studies-narrative', title: narrative.heading },
+  { id: 'composition', title: composition.heading },
+  mechanism?.heading && { id: 'mechanism', title: mechanism.heading },
+  { id: 'monitoring', title: monitoring.heading },
+  withMeds?.heading && { id: 'with-medicines', title: withMeds.heading },
+  { id: 'case-reports', title: cases.heading },
+].filter(Boolean) as { id: string; title: string }[];
+const n = (id: string) => `${String(entries.findIndex((e) => e.id === id) + 1).padStart(2, '0')}<span> / ${String(entries.length).padStart(2, '0')}</span>`;
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status} bodyClass="page-pro">
-  <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} wide />
-  {photo && <div class="wrap pro-photo" data-reveal><Photo photo={photo} variant="wide" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
+  <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} accent="Memowell®" kicker={navLabel} wide />
+  {photo && <div class="wrap pro-photo ed-photo" data-reveal><Photo photo={photo} variant="wide" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
 
-  {evidenceIntro && (
-    <section class="section pro-cases" id="evidence" aria-labelledby="evidence-title">
-      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+  <nav class="wrap pro-index ed-index ed-index--row" aria-labelledby="otp-title">
+    <p id="otp-title" class="ed-index__title">{ui.on_this_page}</p>
+    <ol role="list">{entries.map((e, i) => <li><a href={`#${e.id}`}><span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{e.title}</a></li>)}</ol>
+  </nav>
+
+  <div class="wrap pro-entries ed-entries">
+    {evidenceIntro?.heading && (
+      <section class="ed-entry pro-entry" id="evidence" aria-labelledby="evidence-title" data-reveal>
+        <p class="ed-num" set:html={n('evidence')} />
         <h2 id="evidence-title">{evidenceIntro.heading}</h2>
         <div class="prose" set:html={md(evidenceIntro.body)} />
-      </div></div>
-    </section>
-  )}
+      </section>
+    )}
 
-  <section class="pro-studies" aria-labelledby="studies-title">
-    <div class="wrap">
-      <h2 id="studies-title" class="pro-studies__title" data-reveal>{studies.heading}</h2>
+    <section class="ed-entry pro-entry pro-entry--wide" id="studies" aria-labelledby="studies-title">
+      <p class="ed-num" set:html={n('studies')} data-reveal />
+      <h2 id="studies-title" data-reveal>{studies.heading}</h2>
       <div class="table-wrap" data-reveal>
         <table class="studies-table">
           <caption id="studies-caption" class="visually-hidden">{studies.columns.join(', ')}</caption>
@@ -59,83 +80,83 @@ const photo = photoOf(locale, 'professionals', 'entrance');
           </tbody>
         </table>
       </div>
-    </div>
-  </section>
+    </section>
 
-  {narrative && (
-    <section class="section pro-cases" id="studies-narrative" aria-labelledby="narrative-title">
-      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+    {narrative?.heading && (
+      <section class="ed-entry pro-entry pro-entry--wide" id="studies-narrative" aria-labelledby="narrative-title" data-reveal>
+        <p class="ed-num" set:html={n('studies-narrative')} />
         <h2 id="narrative-title">{narrative.heading}</h2>
         <div class="prose" set:html={md(narrative.body)} />
-        {narrative.chart_caption && <TrialChart caption={narrative.chart_caption} />}
+        {narrative.chart_caption && <div class="pro-chart"><TrialChart caption={narrative.chart_caption} /></div>}
         <Sources dois={narrative.sources} locale={locale} />
-      </div></div>
-    </section>
-  )}
+      </section>
+    )}
 
-  <section class="section pro-comp" id="composition" aria-labelledby="comp-title">
-    <div class="wrap"><div class="pro-cases__inner" data-reveal>
+    <section class="ed-entry pro-entry" id="composition" aria-labelledby="comp-title" data-reveal>
+      <p class="ed-num" set:html={n('composition')} />
       <h2 id="comp-title">{composition.heading}</h2>
       <div class="prose spec" set:html={md(composition.body)} />
-    </div></div>
-  </section>
+    </section>
 
-  {mechanism && (
-    <section class="section pro-cases" id="mechanism" aria-labelledby="mech-title">
-      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+    {mechanism?.heading && (
+      <section class="ed-entry pro-entry" id="mechanism" aria-labelledby="mech-title" data-reveal>
+        <p class="ed-num" set:html={n('mechanism')} />
         <h2 id="mech-title">{mechanism.heading}</h2>
         <div class="prose" set:html={md(mechanism.body)} />
         <Sources dois={mechanism.sources} locale={locale} />
-      </div></div>
-    </section>
-  )}
+      </section>
+    )}
 
-  <section class="section pro-cases" id="monitoring" aria-labelledby="mon-title">
-    <div class="wrap"><div class="pro-cases__inner" data-reveal>
+    <section class="ed-entry pro-entry" id="monitoring" aria-labelledby="mon-title" data-reveal>
+      <p class="ed-num" set:html={n('monitoring')} />
       <h2 id="mon-title">{monitoring.heading}</h2>
       <div class="prose" set:html={md(monitoring.body)} />
       <Sources dois={monitoring.sources} locale={locale} />
-    </div></div>
-  </section>
+    </section>
 
-  {withMeds && (
-    <section class="section pro-cases" id="with-medicines" aria-labelledby="meds-title">
-      <div class="wrap"><div class="pro-cases__inner" data-reveal>
+    {withMeds?.heading && (
+      <section class="ed-entry pro-entry" id="with-medicines" aria-labelledby="meds-title" data-reveal>
+        <p class="ed-num" set:html={n('with-medicines')} />
         <h2 id="meds-title">{withMeds.heading}</h2>
         <div class="prose" set:html={md(withMeds.body)} />
-      </div></div>
-    </section>
-  )}
+      </section>
+    )}
 
-  <section class="section pro-cases" id="case-reports" aria-labelledby="cases-title">
-    <div class="wrap"><div class="pro-cases__inner" data-reveal>
+    <section class="ed-entry pro-entry" id="case-reports" aria-labelledby="cases-title" data-reveal>
+      <p class="ed-num" set:html={n('case-reports')} />
       <h2 id="cases-title">{cases.heading}</h2>
       <div class="prose" set:html={md(cases.body)} />
       <div class="btn-row">{cases.actions.map((a: any) => <Action action={a} locale={locale} variant="secondary" />)}</div>
-    </div></div>
-  </section>
+    </section>
+  </div>
 
-  <div class="section pro-forms">
-    <div class="wrap pro-forms__grid">
-      <div class="pro-form" id="scientific-question" data-reveal>
-        <h2 id="q-title">{q.heading}</h2>
-        <div class="prose" set:html={md(q.body)} />
-        <Form form={q.form} locale={locale} labelledby="q-title" />
-      </div>
-      <div class="pro-form" id="report-observation" data-reveal>
-        <h2 id="fb-title">{fb.heading}</h2>
-        <div class="prose" set:html={md(fb.body)} />
-        <Form form={fb.form} locale={locale} labelledby="fb-title" />
-      </div>
+  <div class="wrap pro-forms">
+    <div class="pro-form" id="scientific-question" data-reveal>
+      <h2 id="q-title">{q.heading}</h2>
+      <div class="prose" set:html={md(q.body)} />
+      <Form form={q.form} locale={locale} labelledby="q-title" />
+    </div>
+    <div class="pro-form" id="report-observation" data-reveal>
+      <h2 id="fb-title">{fb.heading}</h2>
+      <div class="prose" set:html={md(fb.body)} />
+      <Form form={fb.form} locale={locale} labelledby="fb-title" />
     </div>
   </div>
 </Base>
 
 <style>
   .pro-photo { position: relative; z-index: 2; margin-block: calc(-1 * clamp(2.5rem, 2rem + 2.5vw, 4.5rem)) clamp(2rem, 1.5rem + 2vw, 3.5rem); }
-  .pro-studies { padding-block: var(--section) calc(var(--section) * 0.6); }
-  .pro-studies__title { margin-block-end: var(--s-4); }
-  .table-wrap { border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; background: #fff; box-shadow: var(--shadow-soft); }
+  .pro-photo :global(.photo) { border-start-end-radius: var(--r-m); border-end-end-radius: clamp(3rem, 6vw, 6rem); }
+  .pro-index { padding-block: var(--s-4) 0; }
+  .pro-index a { font-size: 1rem; min-height: 3rem; }
+  .pro-entries { padding-block: var(--s-5) 0; }
+  .pro-entry { padding-block: var(--s-6); }
+  .pro-entry > h2 { max-width: 22ch; }
+  .pro-entry > :global(.prose) { max-width: 52rem; }
+  .pro-entry--wide { width: 100%; }
+  .pro-chart { width: 100%; max-width: 60rem; }
+
+  .table-wrap { width: 100%; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; background: #fff; }
   .studies-table { width: 100%; border-collapse: collapse; font-size: 1.0625rem; line-height: 1.5; table-layout: fixed; }
   .studies-table col.c-study { width: 15%; } .studies-table col.c-pop { width: 16%; } .studies-table col.c-design { width: 19%; }
   .studies-table col.c-find { width: 25%; } .studies-table col.c-src { width: 25%; }
@@ -148,30 +169,18 @@ const photo = photoOf(locale, 'professionals', 'entrance');
   .doi-list a { overflow-wrap: anywhere; font-size: 1rem; font-variant-numeric: tabular-nums; }
   .cite { margin-block-start: 0.5rem; color: var(--ink-soft); font-size: 1rem; }
 
-  .pro-comp { padding-top: 0; }
-  .pro-two { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: start; }
-  .pro-two__main { grid-column: 1 / span 7; display: grid; gap: var(--s-3); padding: clamp(1.75rem, 1.2rem + 2vw, 3rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
-  .pro-two__side { grid-column: 9 / span 4; display: grid; gap: var(--s-2); border-radius: var(--r-xl); padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem); }
-  .pro-two__side :global(.prose) { color: var(--on-dark-soft); }
-  .h3 { font-size: var(--fs-h3); line-height: 1.2; }
   .spec :global(p) { padding-block: 0.9rem; border-bottom: 1px solid var(--line); margin: 0; }
   .spec :global(p:last-child) { border-bottom: 0; color: var(--ink-soft); }
 
-  .pro-cases { padding-top: 0; }
-  .pro-cases__inner { display: grid; gap: var(--s-3); justify-items: start; max-width: 52rem; padding: clamp(1.75rem, 1.2rem + 2vw, 3rem); border-radius: var(--r-xl); background: linear-gradient(135deg, #fff, var(--sky)); border: 1px solid var(--line); }
-
-  .pro-forms { padding-top: 0; }
-  .pro-forms__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
-  .pro-form { display: grid; gap: var(--s-3); align-content: start; padding: clamp(1.75rem, 1.2rem + 2vw, 3rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
-  .pro-form h2 { font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem); }
+  .pro-forms { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); padding-block: var(--s-5) var(--section); }
+  .pro-form { display: grid; gap: var(--s-3); align-content: start; justify-items: start; padding-block-start: var(--s-5); border-block-start: 1px solid var(--line-strong); }
+  .pro-form h2 { max-width: 16ch; font-size: clamp(1.875rem, 1.3rem + 1.8vw, 3rem); line-height: 1.1; letter-spacing: -0.022em; }
 
   @media (max-width: 63.99rem) {
-    .pro-two__main, .pro-two__side { grid-column: 1 / -1; }
-    .pro-two__side { margin-block-start: var(--s-3); }
-    .pro-forms__grid { grid-template-columns: 1fr; }
+    .pro-forms { grid-template-columns: 1fr; }
   }
   @media (max-width: 52rem) {
-    .table-wrap { border: 0; background: none; border-radius: 0; box-shadow: none; }
+    .table-wrap { border: 0; background: none; border-radius: 0; }
     .studies-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
     .studies-table, .studies-table tbody, .studies-table tr, .studies-table th, .studies-table td { display: block; width: auto !important; }
     .studies-table tr { background: #fff !important; border: 1px solid var(--line); border-radius: var(--r-l); margin-block-end: var(--s-2); padding: 0.5rem 0; }

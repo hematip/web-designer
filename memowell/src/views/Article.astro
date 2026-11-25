@@ -28,7 +28,7 @@ const title = `${a.title} | Memowell®`;
           {cat && <li><a href={href(locale, `/memory-health/category/${cat.slug}`)}>{cat.label}</a></li>}
         </ol>
       </nav>
-      {cat && <p class="article__cat"><span class="visually-hidden">{ui.category}: </span>{cat.label}</p>}
+      {cat && <p class="ed-kicker article__cat"><span class="visually-hidden">{ui.category}: </span>{cat.label}</p>}
       <h1 data-split="load">{a.title}</h1>
       {a.summary ? <p class="lead article__summary">{a.summary}</p> : <Pending label="one-sentence summary" />}
       <dl class="article__meta">
@@ -51,7 +51,7 @@ const title = `${a.title} | Memowell®`;
         </section>
       )}
 
-      <p class="article__fixed"><em>{fixedLine}</em></p>
+      <p class="article__fixed ed-aside"><em>{fixedLine}</em></p>
 
       {a.related && (
         <p class="article__related"><span class="muted">{ui.related}: </span><Action action={a.related} locale={locale} variant="link" /></p>
@@ -64,8 +64,8 @@ const title = `${a.title} | Memowell®`;
 <style>
   .article__head { padding-block: calc(var(--header-h) + clamp(3rem, 2rem + 4vw, 6rem)) clamp(3rem, 2rem + 3vw, 5rem); margin: 0 clamp(0.5rem, 1.5vw, 1.5rem); border-radius: 0 0 var(--r-xl) var(--r-xl); }
   .article__head-inner { display: grid; gap: var(--s-3); justify-items: start; max-width: calc(54rem + 2 * var(--gutter)); }
-  .article__cat { padding: 0.35rem 0.85rem; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-line); font-weight: 700; color: #fff; }
-  .article h1 { font-size: clamp(2.25rem, 1.5rem + 3vw, 4.25rem); max-width: 22ch; letter-spacing: -0.025em; }
+  .article__cat { color: var(--cyan-stripe); }
+  .article h1 { font-size: clamp(2.5rem, 1.5rem + 3.4vw, 4.75rem); max-width: 20ch; letter-spacing: -0.028em; line-height: 0.98; }
   .article__summary { color: var(--on-dark-soft); }
   .article__meta { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4); margin: 0; font-size: 1rem; }
   .article__meta div { display: flex; gap: 0.4rem; }
@@ -77,5 +77,5 @@ const title = `${a.title} | Memowell®`;
   .article__sources ul { margin: 0; padding-inline-start: 1.2em; }
   .article__sources a { overflow-wrap: anywhere; }
   .h3 { font-size: var(--fs-h3); }
-  .article__fixed { padding: var(--s-4); background: #fff; border: 1px solid var(--line); border-radius: var(--r-l); max-width: var(--measure); }
+  .article__fixed { max-width: var(--measure); color: var(--ink-soft); }
 </style>

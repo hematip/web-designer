@@ -103,22 +103,22 @@ Every item below is built around and never invented. Preview pages keep local pe
 
 | # | Item | Where it shows | What the site does now | Owner |
 |---|---|---|---|---|
-| 1 | Contact details (address, phone, email, social handles) | `/contact` details block, footer Contact column | Hidden in production; marked placeholders in preview | Client |
-| 2 | Scientific officer's email | Scientific-question form, feedback form (`/science`, `/contact`) | Forms built, disabled, "This form will open soon." | Client |
-| 3 | Recipient and response time for the general form | `/contact` general form; availability enquiry routes here | Same | Client |
-| 4 | Partnership form recipient | `/about/partners`, `/contact` | Same | Client |
+| 1 | Contact details (address, phone, email, social handles) | `/about#contact` details block, footer Contact column | Hidden in production; marked placeholders in preview | Client |
+| 2 | Scientific officer's email | Scientific-question form, feedback form (`/science`, `/about#contact`) | Forms built, disabled, "This form will open soon." | Client |
+| 3 | Recipient and response time for the general form | `/about#contact` general form; availability enquiry routes here | Same | Client |
+| 4 | Partnership form recipient | `/about#contact` (linked from `/about#partners`) | Same | Client |
 | 5 | Updated logo with ® | Every page (header, note, footer) | Supplied ™ artwork used as is (not edited); product name in text uses ® | Client |
 | 6 | Active ingredient amount per capsule | `/memowell` "What is in it", summary PDF | Field `per_capsule_amount` empty; marked placeholder in preview | Client |
 | 7 | Mid-life dose (catalogue: 1 a day vs client: 3 a day) | `/who-its-for` "From mid-life onward" | Resolved 2026-11-08: one a day from about age 50 (client product document) | Client / scientific officer |
 | 8 | Approval of the four "needs approval" claims: use with medication, K-Vie™ formulation, eight weeks, mednet.ca | Home §3 and §6, `/memowell`, `/science`, summary PDF | Copy deck wording used; **mednet.ca not shown anywhere**. The site must not go live before sign-off | Scientific officer |
 | 9 | English text of the five case reports | `/science/case-reports` | **Published** from the client's product document, as written (2026-11-21), under the page's warning; awaits the scientific officer's sign-off | Scientific officer |
-| 10 | Registration status in the UAE, GCC, MENA and Russia | `/about/availability`, Arabic version | Only the Canada block is written; the page is ready for per-country blocks | Client |
+| 10 | Registration status in the UAE, GCC, MENA and Russia | `/about#availability`, Arabic version | Only the Canada block is written; the page is ready for per-country blocks | Client |
 | 11 | Is Iran / Persian in scope? (memowell.ir appears in the catalogue) | Project scope | Not built | Client |
 | 12 | Which language `memowell.ru` opens in | Domain setup | See Domains above | Client |
 | 13 | French and Arabic translations | `/fr/`, `/ar/` | Structure, switcher and RTL built; content falls back to English in preview only; unpublished in production | Client's translator + scientific officer |
 | 14 | One-page summary PDF | `/memowell` (summary section) | **Built and linked** (`public/downloads/`, from approved site copy); the file awaits the scientific officer's sign-off | Scientific officer |
-| 15 | Catalogue PDF for partners | `/about/partners` | Button disabled, "This file will be available soon." | Client |
-| 16 | Amazon listing URL(s) | `/about/availability`, home closing | **Set 2026-11-22** from the public listings (Amazon.ca ASIN B09FYCHR47, Amazon.com ASIN B08T21L6MT) in Settings → `amazon_urls`; the home closes on "Buy on Amazon.ca / .com" | Client confirms the listings are official |
+| 15 | Catalogue PDF for partners | `/about#partners` | Button disabled, "This file will be available soon." | Client |
+| 16 | Amazon listing URL(s) | `/about#availability`, home closing | **Set 2026-11-22** from the public listings (Amazon.ca ASIN B09FYCHR47, Amazon.com ASIN B08T21L6MT) in Settings → `amazon_urls`; the home closes on "Buy on Amazon.ca / .com" | Client confirms the listings are official |
 | 17 | Terms of use text | `/terms` | Draft page, not generated in production; footer shows the label without a link | Client |
 | 18 | Analytics tool, if any | Privacy policy | None installed; no cookies set | Client |
 | 19 | Logo files for Health Canada, Alzheimer's Association, mednet.ca | Possible trust marks | None shown (not recreated). The Health Canada licence appears as text, NPN 80107357 | Client |
@@ -132,7 +132,7 @@ Every item below is built around and never invented. Preview pages keep local pe
 | 22 | Privacy policy translations | EN, FR and AR translations of the client's Persian draft are written (`content/pages/*/privacy.yml`) with status **draft**. They need client and scientific-officer approval. The analytics tool and the access/deletion contact route still need adding. The draft mentions a newsletter; none is built. Until approved, the production footer shows "Privacy policy" without a link. |
 | 23 | Study citation details | Closed 2026-11-21: the client ruled the DOI links are sufficient. The optional citation / publisher / full-text fields stay in the CMS for later use. | — |
 | 24 | Blog articles | All eight bodies are now drafted from the recorded sources (one from the client document's mechanism section, seven on 2026-11-22); summaries and meta descriptions filled. Status stays **draft** (preview only) until the scientific officer approves each; author and dates still to come from the client. |
-| 25 | Missing meta descriptions | No meta description was supplied for `/about`, `/about/availability` or `/about/partners`, and no meta title for `/about/availability` (the build uses "Where to find Memowell® \| Memowell"). |
+| 25 | Missing meta descriptions | No meta description was supplied for `/about` (the one About page uses the Contact description meanwhile). |
 | 26 | Arabic footer line | The NPN only has meaning in Canada. The Arabic footer line must be worded so it does not read as a local licence (translator + scientific officer). |
 | 27 | Testimonials | None in v1, as required. No placeholder is shown publicly; add a section later from consented feedback. |
 
@@ -172,7 +172,7 @@ These are interface or structural words, and none of them is a claim. They are a
 | `doctor-office` | Doctors & Specialists | Home, "Start the conversation with your doctor" (section 8, the wave) — the consulting-room scene of `researcher-lab` (stethoscope removed) outpainted to 3:4 (Higgsfield outpaint, 1792×2400); official bottle cutout composited on the desk at a realistic size (`BOTTLE="1330,1960,210"`, tone 0.98/0.95, blur 0.6). Needs client approval |
 | `family-pause` | Wellness | Kept, not used (replaced the same day by `lab-inflammation` at the client's request) — a mother pauses mid-sentence over tea, her adult daughter waits |
 | `lab-inflammation` | Doctors & Specialists | Home, "why" section (inflammation and memory) since 2026-11-22 — the doctor character (element `dr`) as a research scientist pipetting blood samples at a lab bench, a colleague noting the result; microscope, tube rack, no screens, no brain imagery. Seedream 5.0 Pro, 2k, 4:3; official bottle cutout composited on the bench (`BOTTLE="1560,1700,220"`, tone 0.98/0.95, blur 0.8). Needs client approval |
-| `partners-counter` | Pharmacy / distribution | `/about/partners` — two pharmacists check a delivery, one is the doctor character (element `dr`); official bottle composited on the counter (remade 2026-10-27) |
+| `partners-counter` | Pharmacy / distribution | `/about#partners` — two pharmacists check a delivery, one is the doctor character (element `dr`); official bottle composited on the counter (remade 2026-10-27) |
 | `capsule-resin` | All | `/memowell`, "What is in it" — one cream capsule beside frankincense resin tears |
 
 v6 (2026-10-13): all eight regenerated through the **Kondor Brain plugin** (approval packet `docs/kondor-brain/approval-packet-v1.md`, site review findings): broader casting for the UAE/GCC market, no white trousers, fewer table scenes, restrained blue, bottle composited at ≤6% of frame height with the official `memowell-front.png` (scene generated without it). GPT Image 2.5 (high, 2k) on Higgsfield. The plugin's capsule reference photo could not be passed to the generator (upload blocked in this environment), so the capsule is matched by description only.

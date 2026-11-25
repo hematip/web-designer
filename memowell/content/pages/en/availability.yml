@@ -1,4 +1,4 @@
-# Availability — approved English copy (brief Part 4, AVAILABILITY).
+# Availability — approved English copy (brief Part 4, AVAILABILITY). Since 2026-11-25 a section of /about (#availability).
 # Add one market block per country only after the client confirms registration status.
 status: approved
 # No meta title/description were supplied in the copy deck (gap). Title falls back to the H1.
@@ -14,7 +14,7 @@ sections:
       - { title: "Canada", body: "Licensed under NPN 80107357." }
       - { title: "Other markets", body: "Availability varies. Tell us your country and we will point you to the right source." }
     actions:
-      - { label: "Contact us about availability", href: "/contact#general" }
+      - { label: "Contact us about availability", href: "/about#general" }
   - id: amazon
     body: "Memowell® is also sold on Amazon in markets where that listing is available."
     # Gap: Amazon listing URL(s) not supplied. Add them in Settings → amazon_urls.

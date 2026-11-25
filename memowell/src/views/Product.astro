@@ -1,4 +1,6 @@
 ---
+// Product page in the home page's language (2026-11-25): numbered open sections, the label's photo corner, pull
+// statements and hairlines instead of boxed cards. Copy unchanged.
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import BottleStage from '../components/BottleStage.astro';
@@ -10,73 +12,87 @@ import ProBand from '../components/ProBand.astro';
 import Icon from '../components/Icon.astro';
 import Capsule from '../components/Capsule.astro';
 import Photo from '../components/Photo.astro';
-import { getPage, section, md, mdInline, photoOf } from '../lib/content.js';
+import { getPage, getSite, section, md, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
 const { data: page, fallback } = getPage(locale, 'memowell');
+const site = getSite(locale).data;
+const navLabel = site.nav.find((n: any) => n.href === '/memowell')?.label;
 const s = (id: string) => section(page, id);
 const intro = s('intro'), composition = s('composition'), directions = s('directions'), cautions = s('cautions'), storage = s('storage'), summary = s('summary');
 const directionsPhoto = photoOf(locale, 'memowell', 'directions');
 const compositionPhoto = photoOf(locale, 'memowell', 'composition');
+const accent = (t: string) => t.includes('Memowell®') ? t.replace('Memowell®', '<span class="accent">Memowell®</span>') : t;
+const num = (i: number, n = 4) => `${String(i).padStart(2, '0')}<span> / ${String(n).padStart(2, '0')}</span>`;
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={page.meta_description} fallback={fallback} status={page.status}>
-  <PageHead locale={locale} title={intro.heading} body={intro.body}>
+  <PageHead locale={locale} title={intro.heading} body={intro.body} accent="Memowell®" kicker={navLabel}>
     <BottleStage slot="media" id="product" alt={intro.image_alt} />
   </PageHead>
 
-  <section class="section product-composition" id="composition" aria-labelledby="composition-title">
-    <div class="wrap split">
-      <div class="split__text" data-reveal>
-        <h2 id="composition-title" data-split>{composition.heading}</h2>
+  <!-- 1 · What's inside: copy beside the capsule photograph. -->
+  <section class="section p-sec" id="composition" aria-labelledby="composition-title">
+    <div class="wrap ed-split ed-split--center">
+      <div class="ed-split__a p-copy" data-reveal>
+        <p class="ed-num" set:html={num(1)} />
+        <h2 id="composition-title" class="ed-title" set:html={accent(composition.heading)} />
         <div class="prose" set:html={md(composition.body)} />
         {composition.per_capsule_amount
-          ? <p class="amount">{composition.per_capsule_amount}</p>
+          ? <p class="ed-pull p-amount">{composition.per_capsule_amount}</p>
           : <Pending label="amount of active ingredient per capsule" detail="Not supplied by the client (brief Part 9). Shown here once confirmed." />}
       </div>
-      {compositionPhoto && <div class="split__media capsule-frame" data-reveal><Photo photo={compositionPhoto} variant="fill" sizes="(min-width: 64rem) 480px, 92vw" /></div>}
+      {compositionPhoto && <div class="ed-split__b ed-photo p-capsule" data-reveal><Photo photo={compositionPhoto} variant="portrait" sizes="(min-width: 64rem) 480px, 92vw" /></div>}
     </div>
   </section>
 
-  <section class="section directions" id="directions" aria-labelledby="directions-title">
+  <!-- 2 · How to take it: the photograph, then three steps on hairlines, then the label note. -->
+  <section class="section p-sec directions" id="directions" aria-labelledby="directions-title">
     <div class="wrap">
-      <h2 id="directions-title" data-split>{directions.heading}</h2>
-      {directionsPhoto && <div class="directions__photo" data-reveal><Photo photo={directionsPhoto} variant="landscape" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
+      <div class="ed-head" data-reveal>
+        <p class="ed-num" set:html={num(2)} />
+        <h2 id="directions-title" class="ed-title">{directions.heading}</h2>
+      </div>
+      {directionsPhoto && <div class="directions__photo ed-photo" data-reveal><Photo photo={directionsPhoto} variant="landscape" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
       <ol class="steps" role="list">
         {directions.items.map((item: any, i: number) => (
           <li class="step" data-reveal>
-            <span class="step__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            {i === 0 && <span class="step__art" aria-hidden="true"><Capsule id="step-cap" /></span>}
-            <p><strong>{item.title}</strong> {item.body}</p>
+            <p class="step__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}{i === 0 && <span class="step__art"><Capsule id="step-cap" /></span>}</p>
+            <h3>{item.title}</h3>
+            <p class="step__body">{item.body}</p>
           </li>
         ))}
       </ol>
-      <div class="prose label-note"><Icon name="info" /><div set:html={md(directions.body)} /></div>
+      <div class="ed-aside label-note" data-reveal><Icon name="info" /><div class="prose" set:html={md(directions.body)} /></div>
     </div>
   </section>
 
-  <section class="section cautions-wrap" id="cautions" aria-labelledby="cautions-title">
-    <div class="wrap split split--top">
-      <div class="cautions" data-reveal>
-        <h2 id="cautions-title" data-split>{cautions.heading}</h2>
+  <!-- 3 · Before you start, with storage beside it. -->
+  <section class="section p-sec cautions-wrap" id="cautions" aria-labelledby="cautions-title">
+    <div class="wrap ed-split ed-split--wide">
+      <div class="ed-split__a p-copy cautions" data-reveal>
+        <p class="ed-num" set:html={num(3)} />
+        <h2 id="cautions-title" class="ed-title">{cautions.heading}</h2>
         <div class="prose" set:html={md(cautions.body)} />
       </div>
-      <div class="storage" id="storage" data-reveal>
-        <h2 class="h3">{storage.heading}</h2>
+      <aside class="ed-split__b ed-aside storage" id="storage" data-reveal aria-labelledby="storage-title">
+        <h2 id="storage-title">{storage.heading}</h2>
         <div class="prose" set:html={md(storage.body)} />
-      </div>
+      </aside>
     </div>
   </section>
 
+  <!-- 4 · Taking this to your doctor: the one dark panel on the page, with the summary note. -->
   <section class="summary" id="summary" aria-labelledby="summary-title">
     <div class="wrap">
-     <div class="summary__panel is-dark aurora split" data-pointer>
-      <div class="split__text">
-        <h2 id="summary-title" data-split>{summary.heading}</h2>
-        <div class="prose lead" set:html={md(summary.body)} />
-        <div class="btn-row">{summary.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
+      <div class="ed-panel is-dark aurora summary__panel" data-pointer>
+        <div class="summary__copy">
+          <p class="ed-num" set:html={num(4)} />
+          <h2 id="summary-title" class="ed-title" data-split>{summary.heading}</h2>
+          <div class="ed-lead" set:html={md(summary.body)} />
+          <div class="btn-row">{summary.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
+        </div>
+        <div class="summary__note" data-reveal><Note locale={locale} state="complete" /></div>
       </div>
-      <div class="split__media summary__note" data-reveal><Note locale={locale} state="complete" /></div>
-     </div>
     </div>
   </section>
 
@@ -85,47 +101,41 @@ const compositionPhoto = photoOf(locale, 'memowell', 'composition');
 </Base>
 
 <style>
-  .directions__photo { margin-block-start: var(--s-5); }
-  .split { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-  .split--top { align-items: start; }
-  .split__text { grid-column: 1 / span 6; display: grid; gap: var(--s-3); justify-items: start; }
-  .split__media { grid-column: 8 / span 5; }
-  .capsule-frame { aspect-ratio: 4 / 5; border-radius: var(--r-xl); overflow: hidden; background: #fff; box-shadow: var(--shadow-soft); }
-  .amount { font-weight: 700; }
+  .p-sec { padding-block: var(--section) 0; }
+  .p-copy { display: grid; gap: var(--s-3); justify-items: start; }
+  .p-copy :global(.prose) { max-width: 36rem; }
+  .p-amount { margin-block-start: var(--s-2); padding-block-start: var(--s-3); border-block-start: 1px solid var(--line-strong); }
+  .p-capsule :global(.photo) { aspect-ratio: 4 / 5; }
 
-  .directions { padding-top: 0; }
-  .steps { list-style: none; padding: 0; margin: var(--s-5) 0 var(--s-4); display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: var(--s-3); }
-  .step { position: relative; overflow: hidden; isolation: isolate; background: #fff; border: 1px solid var(--line); border-radius: var(--r-xl); padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.75rem); display: grid; gap: var(--s-3); align-content: start; min-height: 20rem; }
-  .step:first-child { background: var(--brand-gradient-diag); color: #fff; border-color: transparent; }
-  .step:first-child::before { content: none; }
-  .step:first-child p { color: var(--on-dark-soft); }
-  .step__num { font: 800 clamp(3rem, 2rem + 3vw, 4.75rem)/0.9 var(--font-display); letter-spacing: -0.03em; background: linear-gradient(120deg, var(--blue), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .step:first-child .step__num { background: linear-gradient(120deg, #fff, var(--cyan)); -webkit-background-clip: text; background-clip: text; }
-  .step__art { position: absolute; width: 9rem; inset-inline-end: 1.5rem; top: 1.75rem; rotate: -20deg; filter: drop-shadow(0 14px 14px rgba(20, 30, 80, 0.4)); }
-  .step p { color: var(--ink-soft); }
-  .step strong { display: block; color: inherit; font: 700 var(--fs-h3)/1.2 var(--font-display); letter-spacing: -0.02em; margin-block-end: 0.5rem; }
-  .step:first-child strong { color: #fff; }
-  .label-note { display: grid; grid-template-columns: auto 1fr; gap: var(--s-2); align-items: start; max-width: 46rem; padding: var(--s-3); border-radius: var(--r-l); background: var(--ice-2); }
+  .directions .wrap { display: grid; gap: var(--s-5); justify-items: start; }
+  .directions__photo { width: 100%; }
+  .directions__photo :global(.photo) { aspect-ratio: 21 / 9; }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); width: 100%; }
+  .step { position: relative; display: grid; gap: var(--s-2); align-content: start; padding-block: var(--s-4) var(--s-3); border-block-start: 1px solid var(--line-strong); }
+  .step__num { display: flex; align-items: center; gap: var(--s-3); font: 800 clamp(3rem, 2rem + 3vw, 4.75rem)/0.9 var(--font-display); letter-spacing: -0.03em; color: var(--blue-bright); }
+  .step__art { width: 5.5rem; rotate: -20deg; filter: drop-shadow(0 10px 10px rgba(20, 30, 80, 0.25)); }
+  .step h3 { max-width: 16ch; font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem); line-height: 1.15; letter-spacing: -0.02em; }
+  .step__body { color: var(--ink-soft); max-width: 30rem; }
+  .label-note { grid-template-columns: auto 1fr; column-gap: var(--s-2); max-width: 46rem; }
   .label-note :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--blue); margin-top: 0.2rem; }
+  .label-note :global(.prose) { max-width: none; }
 
-  .cautions-wrap { padding-top: 0; }
-  .cautions { grid-column: 1 / span 7; display: grid; gap: var(--s-3); padding: clamp(1.75rem, 1.2rem + 2vw, 3rem); border-radius: var(--r-xl); background: #fff; border: 1px solid var(--line); }
-  .cautions :global(p:first-child strong) {
-    display: block; font: 700 var(--fs-h3)/1.3 var(--font-display); letter-spacing: -0.015em; color: var(--ink);
-    padding: var(--s-2) var(--s-3); border-radius: var(--r-m); background: var(--cyan-soft); border: 1px solid var(--cyan-stripe);
-  }
-  .storage { grid-column: 9 / span 4; display: grid; gap: var(--s-2); padding: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem); border-radius: var(--r-xl); background: var(--ice-2); }
-  .storage :global(h2) { font-size: var(--fs-h3); }
-  .h3 { font-size: var(--fs-h3); line-height: 1.2; }
+  /* The one sentence that matters first, set as a statement. */
+  .cautions :global(p:first-child strong) { display: block; max-width: 24ch; font: 500 clamp(1.5rem, 1.2rem + 1vw, 2.25rem)/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+  .cautions :global(p:first-child strong) :global(strong), .cautions :global(strong strong) { font-weight: 700; }
+  .storage { margin-block-start: clamp(4.5rem, 6vw, 7rem); }
 
-  .summary { padding-block: 0 calc(var(--section) * 0.4); }
-  .summary__panel { border-radius: var(--r-xl); padding: clamp(2.5rem, 2rem + 4vw, 5rem); }
-  .summary__note { display: flex; justify-content: center; rotate: 3deg; }
+  .summary { padding-block: var(--section) 0; }
+  .summary__panel { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
+  .summary__copy { grid-column: 1 / span 6; display: grid; gap: var(--s-3); justify-items: start; }
+  .summary__copy .ed-title { color: #fff; }
+  .summary__note { grid-column: 8 / span 5; display: flex; justify-content: center; rotate: 3deg; }
 
   @media (max-width: 63.99rem) {
-    .split__text, .split__media, .cautions, .storage { grid-column: 1 / -1; }
-    .split__media, .storage { margin-block-start: var(--s-4); }
     .steps { grid-template-columns: 1fr; }
-    .capsule-frame { max-width: 30rem; }
+    .p-capsule { max-width: 30rem; }
+    .storage { margin-block-start: 0; }
+    .summary__copy, .summary__note { grid-column: 1 / -1; }
+    .summary__note { margin-block-start: var(--s-4); }
   }
 </style>
