@@ -24,8 +24,13 @@ const s = (id: string) => section(page, id);
 const intro = s('intro'), composition = s('composition'), directions = s('directions'), cautions = s('cautions'), storage = s('storage'), summary = s('summary');
 const directionsPhoto = photoOf(locale, 'memowell', 'directions');
 const compositionPhoto = photoOf(locale, 'memowell', 'composition');
+const glutenPhoto = composition.gluten_photo?.src ? composition.gluten_photo : null;
+// The gluten note: its first line (bold) is the section heading, the rest the body.
+const glutenParts = (composition.gluten ?? '').split(/\n\s*\n/);
+const glutenHeading = glutenParts[0]?.replace(/^\*\*|\*\*$/g, '') ?? '';
+const glutenBody = glutenParts.slice(1).join('\n\n');
 const accent = (t: string) => t.includes('Memowell®') ? t.replace('Memowell®', '<span class="accent">Memowell®</span>') : t;
-const num = (i: number, n = 4) => `${String(i).padStart(2, '0')}<span> / ${String(n).padStart(2, '0')}</span>`;
+const num = (i: number, n = 5) => `${String(i).padStart(2, '0')}<span> / ${String(n).padStart(2, '0')}</span>`;
 // The three ingredients, as named in the approved composition sentence; the amount from the approved per-capsule line.
 // Three cards beside the photograph; the bar is the approved standardisation ("standardised to 40% boswellic acids").
 const ingredients = composition.ingredients ?? [
@@ -95,18 +100,30 @@ const ingredients = composition.ingredients ?? [
           </li>
         ))}
       </ol>
-      <div class="p-notes">
-        <div class="ed-aside label-note" data-reveal><Icon name="info" /><div class="prose" set:html={md(directions.body)} /></div>
-        {composition.gluten && <div class="ed-aside label-note" data-reveal><Icon name="info" /><div class="prose" set:html={md(composition.gluten)} /></div>}
-      </div>
+      <div class="ed-aside label-note" data-reveal><Icon name="info" /><div class="prose" set:html={md(directions.body)} /></div>
     </div>
   </section>
 
-  <!-- 3 · Before you start, with storage beside it. -->
+  <!-- 3 · Why gluten-free: the client document's question as its own section (client direction 2026-11-28), the
+       photograph of raw materials being checked beside it. -->
+  {composition.gluten && (
+    <section class="section p-sec gluten" id="gluten-free" aria-labelledby="gluten-title">
+      <div class="wrap ed-split ed-split--center">
+        {glutenPhoto && <div class="ed-split__a ed-photo ed-photo--start gluten__photo" data-reveal><Photo photo={glutenPhoto} variant="portrait" sizes="(min-width: 64rem) 520px, 92vw" /></div>}
+        <div class:list={['p-copy', glutenPhoto ? 'ed-split__b' : 'ed-split__a']} data-reveal>
+          <p class="ed-num" set:html={num(3)} />
+          <h2 id="gluten-title" class="ed-title">{glutenHeading}</h2>
+          <div class="prose" set:html={md(glutenBody)} />
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 4 · Before you start, with storage beside it. -->
   <section class="section p-sec cautions-wrap" id="cautions" aria-labelledby="cautions-title">
     <div class="wrap ed-split ed-split--wide">
       <div class="ed-split__a p-copy cautions" data-reveal>
-        <p class="ed-num" set:html={num(3)} />
+        <p class="ed-num" set:html={num(4)} />
         <h2 id="cautions-title" class="ed-title">{cautions.heading}</h2>
         <div class="prose" set:html={md(cautions.body)} />
       </div>
@@ -117,12 +134,12 @@ const ingredients = composition.ingredients ?? [
     </div>
   </section>
 
-  <!-- 4 · Taking this to your doctor: the one dark panel on the page, with the summary note. -->
+  <!-- 5 · Taking this to your doctor: the one dark panel on the page, with the summary note. -->
   <section class="summary" id="summary" aria-labelledby="summary-title">
     <div class="wrap">
       <div class="ed-panel is-dark aurora summary__panel" data-pointer>
         <div class="summary__copy">
-          <p class="ed-num" set:html={num(4)} />
+          <p class="ed-num" set:html={num(5)} />
           <h2 id="summary-title" class="ed-title" data-split>{summary.heading}</h2>
           <div class="ed-lead" set:html={md(summary.body)} />
           <div class="btn-row">{summary.actions.map((a: any) => <Action action={a} locale={locale} variant="light" />)}</div>
@@ -186,12 +203,16 @@ const ingredients = composition.ingredients ?? [
   .step__art-inner { display: block; width: 100%; height: 100%; rotate: -20deg; filter: drop-shadow(0 10px 10px rgba(20, 30, 80, 0.25)); }
   .step h3 { max-width: 16ch; font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem); line-height: 1.15; letter-spacing: -0.02em; }
   .step__body { color: var(--ink-soft); max-width: 30rem; }
-  .p-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5) clamp(1rem, 2.5vw, 2.5rem); width: 100%; align-items: start; }
   .label-note { grid-template-columns: auto 1fr; column-gap: var(--s-2); max-width: 46rem; }
   .label-note :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--blue); margin-top: 0.2rem; }
   .label-note :global(.prose) { max-width: none; }
 
-  /* ---- 3 · Before you start ---- */
+  /* ---- 3 · Why gluten-free ---- */
+  .gluten__photo :global(.photo) { aspect-ratio: 4 / 5; }
+  .gluten .p-copy :global(.prose) { max-width: 34rem; }
+  .gluten .ed-title { max-width: 18ch; }
+
+  /* ---- 4 · Before you start ---- */
   .cautions :global(p:first-child strong) { display: block; max-width: 24ch; font: 500 clamp(1.5rem, 1.2rem + 1vw, 2.25rem)/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
   .storage { margin-block-start: clamp(4.5rem, 6vw, 7rem); }
 
@@ -206,8 +227,8 @@ const ingredients = composition.ingredients ?? [
     .p-inside__copy, .p-inside__side { grid-column: 1 / -1; }
     .p-inside__side { margin-block-start: var(--s-5); max-width: 34rem; }
     .p-inside__stage { position: static; }
+    .gluten__photo { max-width: 30rem; order: 1; }
     .steps { grid-template-columns: 1fr; }
-    .p-notes { grid-template-columns: 1fr; }
     .storage { margin-block-start: 0; }
     .summary__copy, .summary__note { grid-column: 1 / -1; }
     .summary__note { margin-block-start: var(--s-4); }

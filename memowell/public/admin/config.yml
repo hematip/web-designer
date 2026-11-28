@@ -123,7 +123,8 @@ collections:
               - { label: "Image description (alt text; leave empty if decorative)", name: alt, widget: string, required: false, i18n: true }
               - { label: "Visible note on the image", name: note, widget: string, required: false, i18n: true }
           - { label: "Active ingredient per capsule", name: per_capsule_amount, widget: string, required: false, i18n: true, hint: "Leave empty until the client confirms (open gap)." }
-          - { label: "Gluten note (shown in How to take it)", name: gluten, widget: markdown, required: false, i18n: true, buttons: [bold, italic], editor_components: [], hint: "The question and paragraph on why the products are gluten-free; displayed beside the label note in the next section (client direction 2026-11-28)." }
+          - { label: "Gluten section photo", name: gluten_photo, widget: object, required: false, i18n: true, fields: [{ label: "Image base path", name: src, widget: string }, { label: "Width", name: width, widget: number }, { label: "Height", name: height, widget: number }, { label: "Widths", name: widths, widget: list, required: false }, { label: "Focus", name: focus, widget: string, required: false }, { label: "Alt", name: alt, widget: string, required: false, i18n: true }] }
+          - { label: "Gluten note (its own section)", name: gluten, widget: markdown, required: false, i18n: true, buttons: [bold, italic], editor_components: [], hint: "The question (first bold line) and paragraph on why the products are gluten-free; shown as section 3 of the product page (client direction 2026-11-28)." }
           - { label: "Form", name: form, widget: select, required: false, i18n: duplicate, options: [general, scientific, feedback, partnership] }
           - { label: "Text beside the submit button", name: beside_submit, widget: text, required: false, i18n: true }
           - { label: "Professional prompt", name: pro_prompt, widget: string, required: false, i18n: true }
