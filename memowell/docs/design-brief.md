@@ -785,3 +785,5 @@ Client direction: the home "why" section speaks of inflammation's effect on **me
 - **2026-11-28 (client).** The orbit rings behind the product-page bottle were not part of the identity; the bottle now stands on the label's own mark (the white blob with the cyan stripe blob behind its far side and the cyan shape slipping out beneath, as on the home closing) with a soft cyan light. `BottleStage` component; official cutout unchanged.
 
 - **2026-11-28 (client).** Product head: the stripe field is gone and the label's shapes behind the bottle are faint gradients (white 22%, cyan 30%, softly blurred) that drift with the pointer at two depths; still without a fine pointer, with reduced motion or without JS. `--ax`/`--ay` carry a % unit, so the drift maths uses percent arithmetic.
+
+- **2026-11-28 (client).** The two shapes behind the product-page bottle are now luminous halos: blurred wide (28px), blended as light (screen), the cyan one bright (75%) and the white one soft (42%), each with a cyan glow; they still drift with the pointer at two depths.
