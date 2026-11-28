@@ -18,7 +18,7 @@ const { alt = '', id } = Astro.props;
   /* The stage reuses the pointer hook of .aurora but none of its ground: the page head already is the gradient. */
   .bottle-stage { position: relative; isolation: isolate; display: grid; place-items: center; max-width: 30rem; margin-inline: auto; aspect-ratio: 0.9; background: none; overflow: visible; }
   .bottle-stage.aurora::before { content: none; }
-  .bottle-stage__mark { position: absolute; z-index: -1; inset: -16%; pointer-events: none; }
+  .bottle-stage__mark { position: absolute; z-index: -1; inset: -16%; pointer-events: none; overflow: clip; }
   /* Luminous halos (client 2026-11-28): the label's shapes as soft lights, blurred wide and blended as light. */
   .bottle-stage__shape { position: absolute; left: 50%; top: 50%; opacity: 0.55; filter: blur(44px) saturate(1.1); mix-blend-mode: screen; will-change: translate; transition: translate 1.4s var(--ease-out); }
   .bottle-stage__shape :global(.blob) { filter: drop-shadow(0 0 60px rgba(94, 207, 217, 0.35)); }

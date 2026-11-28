@@ -6,6 +6,19 @@ import { gsap, ScrollTrigger, mm, MQ } from './motion.js';
 const one = (sel, root = document) => root.querySelector(sel);
 const all = (sel, root = document) => [...root.querySelectorAll(sel)];
 
+// 1 · What's inside: the ingredient cards rise in one after another as the section is read; the K-Vie™ bar fills.
+mm.add(MQ.motion, () => {
+  const section = one('[data-inside]');
+  if (!section) return;
+  const cards = all('[data-ing-card]', section);
+  if (!cards.length) return;
+  const tl = gsap.timeline({ scrollTrigger: { trigger: section, start: 'top 70%', once: true } });
+  tl.from(cards, { opacity: 0, y: 28, duration: 0.8, ease: 'power3.out', stagger: 0.14 }, 0)
+    .fromTo(section, { '--fill': 0 }, { '--fill': 1, duration: 0.9, ease: 'power2.out' }, 0.5);
+  return () => { tl.kill(); gsap.set(cards, { clearProps: 'all' }); section.style.removeProperty('--fill'); };
+});
+
+// (The capsule stage and its handoff, 2026-11-28 first pass, stay available for a page that marks [data-cap-stage].)
 mm.add({ motion: MQ.motion, desktop: MQ.desktop }, (ctx) => {
   if (!ctx.conditions.motion) return;
   const stage = one('[data-cap-stage]');
