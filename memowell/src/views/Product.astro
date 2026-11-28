@@ -14,6 +14,7 @@ import ProBand from '../components/ProBand.astro';
 import Icon from '../components/Icon.astro';
 import Capsule from '../components/Capsule.astro';
 import Photo from '../components/Photo.astro';
+import Blob from '../components/Blob.astro';
 import { getPage, getSite, section, md, photoOf } from '../lib/content.js';
 
 const { locale, routePath } = Astro.props;
@@ -104,12 +105,16 @@ const ingredients = composition.ingredients ?? [
   </section>
 
   <!-- 3 · Why gluten-free: the client document's question as its own section (client direction 2026-11-28). The
-       official bottle alone stands on a pale stage beside the copy (client: no generated photograph here). -->
+       composition follows the catalogue's closing page (client, 2026-11-28): two bottles one behind the other with capsules
+       in front, the cyan stripe blob behind the top, the navy blob at the foot; the pair is cut from the catalogue's own
+       artwork, the front bottle is the official cutout. -->
   {composition.gluten && (
     <section class="section p-sec gluten" id="gluten-free" aria-labelledby="gluten-title">
       <div class="wrap ed-split ed-split--center">
         <div class="ed-split__a gluten__stage" data-reveal>
-          <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 260px, 40vw" width="895" height="1713" alt={intro.image_alt} loading="lazy" decoding="async" />
+          <div class="gluten__stripes" aria-hidden="true"><svg viewBox="0 0 440 330" focusable="false"><defs><pattern id="gluten-stripes" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="3.2" height="9" fill="var(--cyan-stripe)" /></pattern></defs><path fill="url(#gluten-stripes)" d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
+          <div class="gluten__navy" aria-hidden="true"><Blob id="gluten-navy" tone="brand" stripes={false} /></div>
+          <img class="gluten__pair" src="/img/bottles-pair-1400.webp" srcset="/img/bottles-pair-800.webp 800w, /img/bottles-pair-1400.webp 1400w" sizes="(min-width: 64rem) 480px, 86vw" width="1400" height="1156" alt="Two Memowell® bottles, one behind the other, with capsules in front." loading="lazy" decoding="async" />
         </div>
         <div class="p-copy ed-split__b" data-reveal>
           <p class="ed-num" set:html={num(3)} />
@@ -209,9 +214,12 @@ const ingredients = composition.ingredients ?? [
   .label-note :global(.prose) { max-width: none; }
 
   /* ---- 3 · Why gluten-free ---- */
-  /* The official cutout alone on the label's pale ground, with the label's corner and a contact shadow. */
-  .gluten__stage { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: var(--r-m); border-start-start-radius: clamp(3rem, 6vw, 6rem); background: linear-gradient(160deg, var(--paper-2) 0%, var(--sky) 100%); }
-  .gluten__stage img { width: 46%; height: auto; filter: drop-shadow(0 28px 30px rgba(27, 42, 90, 0.28)); }
+  /* The catalogue's closing composition on a white stage with the label's corner. */
+  .gluten__stage { position: relative; isolation: isolate; overflow: hidden; display: grid; place-items: end center; aspect-ratio: 4 / 5; border-radius: var(--r-m); border-start-start-radius: clamp(3rem, 6vw, 6rem); background: #fff; border: 1px solid var(--line); }
+  .gluten__stripes { position: absolute; z-index: 0; inset-inline-start: -14%; top: -6%; width: 62%; opacity: 0.9; pointer-events: none; }
+  .gluten__stripes svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .gluten__navy { position: absolute; z-index: 0; inset-inline-end: -40%; bottom: -30%; width: 100%; rotate: -8deg; pointer-events: none; }
+  .gluten__pair { position: relative; z-index: 1; width: 96%; height: auto; margin-block-end: -1%; }
   .gluten .p-copy :global(.prose) { max-width: 34rem; }
   .gluten .ed-title { max-width: 18ch; }
 
