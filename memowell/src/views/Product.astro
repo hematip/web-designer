@@ -144,6 +144,9 @@ const ingredients = composition.ingredients ?? [
 </script>
 
 <style>
+  /* The product head carries no stripe field (client 2026-11-28): the label's shapes behind the bottle are its only figure. */
+  :global(.page-product .page-head.aurora::before) { content: none; }
+
   .p-sec { padding-block: var(--section) 0; }
   .p-copy { display: grid; gap: var(--s-3); justify-items: start; }
   .p-copy :global(.prose) { max-width: 36rem; }

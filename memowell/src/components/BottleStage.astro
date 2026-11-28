@@ -1,32 +1,28 @@
 ---
-// The official front-view bottle on the label's own mark (2026-11-28, client: no orbit rings; the identity is the
-// label's blobs and stripes). Behind the bottle: the white blob (as on the home closing), a cyan stripe blob tucked
-// behind its far side, the cyan shape slipping out under it, and a soft cyan light. Decorative only; the bottle
-// is the official cutout, never redrawn. No other angle exists.
+// The official front-view bottle on the label's shapes (2026-11-28, client): no pattern, no rings. Two of the
+// label's organic shapes stand behind the bottle as faint gradients (low opacity) and drift with the pointer,
+// each at its own depth (--ax/--ay from the stage's pointer hook in motion.js; still without a fine pointer, with
+// reduced motion or without JS). Decorative only; the bottle is the official cutout, never redrawn.
 import Blob from './Blob.astro';
 interface Props { alt?: string; id: string }
 const { alt = '', id } = Astro.props;
 ---
-<div class="bottle-stage" data-id={id}>
+<div class="bottle-stage aurora" data-id={id} data-pointer>
   <div class="bottle-stage__mark" aria-hidden="true">
-    <div class="bottle-stage__stripes"><svg viewBox="0 0 440 330" focusable="false"><defs><pattern id={`${id}-stripes`} width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="3" height="8" fill="var(--cyan-stripe)" /></pattern></defs><path fill={`url(#${id}-stripes)`} d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
-    <div class="bottle-stage__white"><Blob id={`${id}-white`} tone="white" stripes={false} /></div>
-    <div class="bottle-stage__cyan"><Blob id={`${id}-cyan`} tone="cyan" stripes={false} /></div>
+    <div class="bottle-stage__shape bottle-stage__shape--white"><Blob id={`${id}-white`} tone="white" stripes={false} /></div>
+    <div class="bottle-stage__shape bottle-stage__shape--cyan"><Blob id={`${id}-cyan`} tone="cyan" stripes={false} /></div>
   </div>
-  <span class="bottle-stage__glow" aria-hidden="true"></span>
   <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 300px, 56vw" width="895" height="1713" alt={alt} />
 </div>
 <style>
-  .bottle-stage { position: relative; isolation: isolate; display: grid; place-items: center; max-width: 30rem; margin-inline: auto; aspect-ratio: 0.9; }
-  .bottle-stage__mark { position: absolute; z-index: -1; left: 50%; top: 50%; width: 118%; translate: -50% -48%; pointer-events: none; }
-  .bottle-stage__white { position: relative; width: 100%; opacity: 0.96; }
-  /* The stripe blob over the white's upper far side, so the white bottle stands against stripes, not white on white. */
-  .bottle-stage__stripes { position: absolute; left: 50%; top: 50%; width: 80%; translate: -28% -68%; rotate: 12deg; opacity: 0.9; }
-  .bottle-stage__stripes svg { display: block; width: 100%; height: auto; overflow: visible; }
-  /* The cyan shape slipping out under the white's lower near side. */
-  .bottle-stage__cyan { position: absolute; left: 50%; top: 50%; width: 86%; translate: -62% -22%; rotate: -24deg; z-index: -1; }
-  :global([dir='rtl']) .bottle-stage__stripes { translate: -72% -68%; rotate: -12deg; }
-  :global([dir='rtl']) .bottle-stage__cyan { translate: -38% -22%; rotate: 24deg; }
-  .bottle-stage__glow { position: absolute; z-index: 0; left: 50%; bottom: 4%; width: 90%; aspect-ratio: 2.4; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(6, 178, 200, 0.5), transparent 100%); filter: blur(22px); }
+  /* The stage reuses the pointer hook of .aurora but none of its ground: the page head already is the gradient. */
+  .bottle-stage { position: relative; isolation: isolate; display: grid; place-items: center; max-width: 30rem; margin-inline: auto; aspect-ratio: 0.9; background: none; overflow: visible; }
+  .bottle-stage.aurora::before { content: none; }
+  .bottle-stage__mark { position: absolute; z-index: -1; inset: -16%; pointer-events: none; }
+  .bottle-stage__shape { position: absolute; left: 50%; top: 50%; opacity: 0.22; filter: blur(6px); will-change: translate; transition: translate 1.4s var(--ease-out); }
+  /* Each shape drifts with the pointer at its own depth (--ax/--ay carry a % unit and rest at 72%/38%). */
+  .bottle-stage__shape--white { width: 130%; translate: calc(-50% + (var(--ax, 72%) - 72%) * 0.22) calc(-52% + (var(--ay, 38%) - 38%) * 0.22); }
+  .bottle-stage__shape--cyan { width: 100%; rotate: -24deg; opacity: 0.3; translate: calc(-62% + (var(--ax, 72%) - 72%) * -0.34) calc(-28% + (var(--ay, 38%) - 38%) * -0.34); }
+  :global([dir='rtl']) .bottle-stage__shape--cyan { rotate: 24deg; translate: calc(-38% + (var(--ax, 72%) - 72%) * -0.34) calc(-28% + (var(--ay, 38%) - 38%) * -0.34); }
   .bottle-stage img { position: relative; z-index: 1; width: 58%; filter: drop-shadow(0 30px 34px rgba(20, 30, 80, 0.45)); }
 </style>
