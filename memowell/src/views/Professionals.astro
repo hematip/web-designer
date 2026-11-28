@@ -36,7 +36,7 @@ const n = (id: string) => `${String(entries.findIndex((e) => e.id === id) + 1).p
   <PageHead locale={locale} title={entrance.heading} body={entrance.body} note={entrance.note} accent="Memowell®" kicker={navLabel} wide />
   {photo && <div class="wrap pro-photo ed-photo" data-reveal><Photo photo={photo} variant="wide" sizes="(min-width: 90rem) 1360px, 94vw" /></div>}
 
-  <nav class="wrap pro-index ed-index ed-index--row" aria-labelledby="otp-title">
+  <nav class="wrap pro-index ed-index" aria-labelledby="otp-title">
     <p id="otp-title" class="ed-index__title">{ui.on_this_page}</p>
     <ol role="list">{entries.map((e, i) => <li><a href={`#${e.id}`}><span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{e.title}</a></li>)}</ol>
   </nav>
@@ -147,8 +147,11 @@ const n = (id: string) => `${String(entries.findIndex((e) => e.id === id) + 1).p
 <style>
   .pro-photo { position: relative; z-index: 2; margin-block: calc(-1 * clamp(2.5rem, 2rem + 2.5vw, 4.5rem)) clamp(2rem, 1.5rem + 2vw, 3.5rem); }
   .pro-photo :global(.photo) { border-start-end-radius: var(--r-m); border-end-end-radius: clamp(3rem, 6vw, 6rem); }
+  /* The index: equal pills in a grid (the headings are long questions), two to a row on wide screens, one on phones. */
   .pro-index { padding-block: var(--s-4) 0; }
-  .pro-index a { font-size: 1rem; min-height: 3rem; }
+  .pro-index ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; max-width: 60rem; }
+  .pro-index li { min-width: 0; }
+  .pro-index a { align-items: center; min-height: 3.75rem; padding-block: 0.7rem; font-size: 1rem; line-height: 1.25; text-wrap: pretty; }
   .pro-entries { padding-block: var(--s-5) 0; }
   .pro-entry { padding-block: var(--s-6); }
   .pro-entry > h2 { max-width: 22ch; }
@@ -178,6 +181,7 @@ const n = (id: string) => `${String(entries.findIndex((e) => e.id === id) + 1).p
 
   @media (max-width: 63.99rem) {
     .pro-forms { grid-template-columns: 1fr; }
+    .pro-index ol { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 52rem) {
     .table-wrap { border: 0; background: none; border-radius: 0; }
