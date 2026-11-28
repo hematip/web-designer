@@ -7,14 +7,14 @@ nav:
   # Science is the professional section (client direction 2026-11-21); the general audience reads the home page.
   - { label: "Science", href: "/science" }
   - { label: "Memory health", href: "/memory-health" }
-  - label: "About"
-    href: "/about"
-    children:
-      # One About page since 2026-11-25; the children jump to its sections.
-      - { label: "Kondor Pharma", href: "/about" }
-      - { label: "Availability", href: "/about#availability" }
-      - { label: "Partners", href: "/about#partners" }
-      - { label: "Contact", href: "/about#contact" }
+  # One About page since 2026-11-25: a plain link (client direction 2026-11-28, no dropdown). Its sections are listed
+  # below for the page's own jump chips and kickers.
+  - { label: "About", href: "/about" }
+
+about_sections:
+  - { label: "Availability", href: "#availability" }
+  - { label: "Partners", href: "#partners" }
+  - { label: "Contact", href: "#contact" }
 
 # Primary action beside the nav (brief Part 3: "the doctor summary").
 # Label reuses the approved /memowell heading; flagged for agency check.

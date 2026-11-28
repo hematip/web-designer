@@ -20,7 +20,8 @@ const contact = getPage(locale, 'contact')?.data;
 const site = getSite(locale).data;
 const ui = site.ui;
 const aboutNav = site.nav.find((n: any) => n.href === '/about');
-const label = (hash: string, fallbackLabel: string) => aboutNav?.children?.find((c: any) => c.href.endsWith(hash))?.label ?? fallbackLabel;
+const sections: { label: string; href: string }[] = site.about_sections ?? [];
+const label = (hash: string, fallbackLabel: string) => sections.find((c) => c.href === hash)?.label ?? fallbackLabel;
 
 const intro = section(page, 'intro');
 const products = section(page, 'products');
@@ -33,11 +34,7 @@ const routes = ['general', 'scientific', 'partnership'].map((id) => section(cont
 const details = section(contact, 'details');
 const c = settings.contact ?? {};
 const filled = [c.address, c.phone, c.email, c.instagram, c.linkedin].some(Boolean);
-const jumps = [
-  { href: '#availability', label: label('#availability', 'Availability') },
-  { href: '#partners', label: label('#partners', 'Partners') },
-  { href: '#contact', label: label('#contact', 'Contact') },
-];
+const jumps = sections.length ? sections : [{ href: '#availability', label: 'Availability' }, { href: '#partners', label: 'Partners' }, { href: '#contact', label: 'Contact' }];
 const description = page.meta_description || contact?.meta_description || '';
 ---
 <Base locale={locale} routePath={routePath} title={page.meta_title} description={description} fallback={fallback} status={page.status}>

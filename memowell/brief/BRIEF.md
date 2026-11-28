@@ -231,7 +231,7 @@ All three language versions share the same structure. What changes between them 
 | Who benefits | `/who-its-for` | none |
 | Science | `/science` | none (professional section; was a dropdown until 2026-11-21) |
 | Memory health | `/memory-health` | none |
-| About ▾ | `/about` | Kondor Pharma (`/about`) · Availability (`/about#availability`) · Partners (`/about#partners`) · Contact (`/about#contact`) — sections of the one About page since 2026-11-25 |
+| About | `/about` | none since 2026-11-28 (client direction: one page, no dropdown); the page's own chips jump to Availability, Partners and Contact |
 
 Beside the nav:
 - a language switcher (EN / FR / AR)
