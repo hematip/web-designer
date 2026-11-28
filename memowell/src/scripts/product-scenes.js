@@ -6,6 +6,18 @@ import { gsap, ScrollTrigger, mm, MQ } from './motion.js';
 const one = (sel, root = document) => root.querySelector(sel);
 const all = (sel, root = document) => [...root.querySelectorAll(sel)];
 
+// 0 · Hero: the copy rises, then the fan of bottles opens from the centre.
+mm.add(MQ.motion, () => {
+  const hero = one('[data-p-hero]');
+  if (!hero) return;
+  const parts = all('[data-hero-in]', hero);
+  const bottles = all('[data-hero-bottle]', hero);
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  tl.from(parts, { opacity: 0, y: 24, duration: 0.8, stagger: 0.1 }, 0.1)
+    .from(bottles, { rotate: 0, y: 60, opacity: 0, duration: 1.1, ease: 'power3.out', stagger: { each: 0.08, from: 'center' } }, 0.35);
+  return () => { tl.kill(); gsap.set([...parts, ...bottles], { clearProps: 'all' }); };
+});
+
 mm.add({ motion: MQ.motion, desktop: MQ.desktop }, (ctx) => {
   if (!ctx.conditions.motion) return;
   const stage = one('[data-cap-stage]');
