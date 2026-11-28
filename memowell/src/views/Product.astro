@@ -24,7 +24,6 @@ const s = (id: string) => section(page, id);
 const intro = s('intro'), composition = s('composition'), directions = s('directions'), cautions = s('cautions'), storage = s('storage'), summary = s('summary');
 const directionsPhoto = photoOf(locale, 'memowell', 'directions');
 const compositionPhoto = photoOf(locale, 'memowell', 'composition');
-const glutenPhoto = composition.gluten_photo?.src ? composition.gluten_photo : null;
 // The gluten note: its first line (bold) is the section heading, the rest the body.
 const glutenParts = (composition.gluten ?? '').split(/\n\s*\n/);
 const glutenHeading = glutenParts[0]?.replace(/^\*\*|\*\*$/g, '') ?? '';
@@ -104,13 +103,15 @@ const ingredients = composition.ingredients ?? [
     </div>
   </section>
 
-  <!-- 3 · Why gluten-free: the client document's question as its own section (client direction 2026-11-28), the
-       photograph of raw materials being checked beside it. -->
+  <!-- 3 · Why gluten-free: the client document's question as its own section (client direction 2026-11-28). The
+       official bottle alone stands on a pale stage beside the copy (client: no generated photograph here). -->
   {composition.gluten && (
     <section class="section p-sec gluten" id="gluten-free" aria-labelledby="gluten-title">
       <div class="wrap ed-split ed-split--center">
-        {glutenPhoto && <div class="ed-split__a ed-photo ed-photo--start gluten__photo" data-reveal><Photo photo={glutenPhoto} variant="portrait" sizes="(min-width: 64rem) 520px, 92vw" /></div>}
-        <div class:list={['p-copy', glutenPhoto ? 'ed-split__b' : 'ed-split__a']} data-reveal>
+        <div class="ed-split__a gluten__stage" data-reveal>
+          <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 260px, 40vw" width="895" height="1713" alt={intro.image_alt} loading="lazy" decoding="async" />
+        </div>
+        <div class="p-copy ed-split__b" data-reveal>
           <p class="ed-num" set:html={num(3)} />
           <h2 id="gluten-title" class="ed-title">{glutenHeading}</h2>
           <div class="prose" set:html={md(glutenBody)} />
@@ -208,7 +209,9 @@ const ingredients = composition.ingredients ?? [
   .label-note :global(.prose) { max-width: none; }
 
   /* ---- 3 · Why gluten-free ---- */
-  .gluten__photo :global(.photo) { aspect-ratio: 4 / 5; }
+  /* The official cutout alone on the label's pale ground, with the label's corner and a contact shadow. */
+  .gluten__stage { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: var(--r-m); border-start-start-radius: clamp(3rem, 6vw, 6rem); background: linear-gradient(160deg, var(--paper-2) 0%, var(--sky) 100%); }
+  .gluten__stage img { width: 46%; height: auto; filter: drop-shadow(0 28px 30px rgba(27, 42, 90, 0.28)); }
   .gluten .p-copy :global(.prose) { max-width: 34rem; }
   .gluten .ed-title { max-width: 18ch; }
 
@@ -227,7 +230,7 @@ const ingredients = composition.ingredients ?? [
     .p-inside__copy, .p-inside__side { grid-column: 1 / -1; }
     .p-inside__side { margin-block-start: var(--s-5); max-width: 34rem; }
     .p-inside__stage { position: static; }
-    .gluten__photo { max-width: 30rem; order: 1; }
+    .gluten__stage { max-width: 30rem; order: 1; }
     .steps { grid-template-columns: 1fr; }
     .storage { margin-block-start: 0; }
     .summary__copy, .summary__note { grid-column: 1 / -1; }

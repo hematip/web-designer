@@ -31,9 +31,7 @@ sections:
       The capsules are vegetarian and gluten-free.
     # The gluten explanation (client document, section 4) is shown in the next section, "How to take it", beside the
     # label note (client direction 2026-11-28); it stays part of the composition entry for the CMS and the brief.
-    # Photograph for the gluten section (2026-11-28, Seedream 5.0 Pro on Higgsfield, the client's "dr" character as a quality
-    # specialist checking a sample of resin; no grain anywhere). Needs client approval: see README.
-    gluten_photo: { src: "/img/photos/raw-materials", width: 1600, height: 2138, widths: [640, 1024, 1600], focus: "45% 35%", alt: "" }
+    # The gluten section shows the official bottle alone (client direction 2026-11-28); no photograph field.
     gluten: |-
       **Why are Kondor Pharma's products gluten-free?**
 
