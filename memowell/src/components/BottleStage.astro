@@ -1,16 +1,32 @@
 ---
-// The official front-view bottle on a glow with orbit rings (inner pages). No other angle exists.
+// The official front-view bottle on the label's own mark (2026-11-28, client: no orbit rings; the identity is the
+// label's blobs and stripes). Behind the bottle: the white blob (as on the home closing), a cyan stripe blob tucked
+// behind its far side, the cyan shape slipping out under it, and a soft cyan light. Decorative only; the bottle
+// is the official cutout, never redrawn. No other angle exists.
+import Blob from './Blob.astro';
 interface Props { alt?: string; id: string }
 const { alt = '', id } = Astro.props;
 ---
 <div class="bottle-stage" data-id={id}>
-  <svg class="bottle-stage__orbits" viewBox="0 0 600 600" aria-hidden="true"><circle cx="300" cy="300" r="290" /><circle cx="300" cy="300" r="215" /></svg>
-  <div class="bottle-stage__glow" aria-hidden="true"></div>
+  <div class="bottle-stage__mark" aria-hidden="true">
+    <div class="bottle-stage__stripes"><svg viewBox="0 0 440 330" focusable="false"><defs><pattern id={`${id}-stripes`} width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="3" height="8" fill="var(--cyan-stripe)" /></pattern></defs><path fill={`url(#${id}-stripes)`} d="M232 40C300 24 384 56 398 124C412 192 364 264 300 286C236 308 160 284 128 228C96 172 164 56 232 40Z" /></svg></div>
+    <div class="bottle-stage__white"><Blob id={`${id}-white`} tone="white" stripes={false} /></div>
+    <div class="bottle-stage__cyan"><Blob id={`${id}-cyan`} tone="cyan" stripes={false} /></div>
+  </div>
+  <span class="bottle-stage__glow" aria-hidden="true"></span>
   <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 300px, 56vw" width="895" height="1713" alt={alt} />
 </div>
 <style>
-  .bottle-stage { position: relative; display: grid; place-items: center; max-width: 30rem; margin-inline: auto; aspect-ratio: 0.9; }
-  .bottle-stage__orbits { position: absolute; width: 120%; max-width: none; fill: none; stroke: rgba(255, 255, 255, 0.14); }
-  .bottle-stage__glow { position: absolute; width: 80%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(6, 178, 200, 0.55), rgba(18, 74, 149, 0.35) 42%, transparent 70%); filter: blur(24px); }
-  .bottle-stage img { position: relative; width: 58%; filter: drop-shadow(0 40px 40px rgba(20, 30, 80, 0.5)); }
+  .bottle-stage { position: relative; isolation: isolate; display: grid; place-items: center; max-width: 30rem; margin-inline: auto; aspect-ratio: 0.9; }
+  .bottle-stage__mark { position: absolute; z-index: -1; left: 50%; top: 50%; width: 118%; translate: -50% -48%; pointer-events: none; }
+  .bottle-stage__white { position: relative; width: 100%; opacity: 0.96; }
+  /* The stripe blob over the white's upper far side, so the white bottle stands against stripes, not white on white. */
+  .bottle-stage__stripes { position: absolute; left: 50%; top: 50%; width: 80%; translate: -28% -68%; rotate: 12deg; opacity: 0.9; }
+  .bottle-stage__stripes svg { display: block; width: 100%; height: auto; overflow: visible; }
+  /* The cyan shape slipping out under the white's lower near side. */
+  .bottle-stage__cyan { position: absolute; left: 50%; top: 50%; width: 86%; translate: -62% -22%; rotate: -24deg; z-index: -1; }
+  :global([dir='rtl']) .bottle-stage__stripes { translate: -72% -68%; rotate: -12deg; }
+  :global([dir='rtl']) .bottle-stage__cyan { translate: -38% -22%; rotate: 24deg; }
+  .bottle-stage__glow { position: absolute; z-index: 0; left: 50%; bottom: 4%; width: 90%; aspect-ratio: 2.4; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(6, 178, 200, 0.5), transparent 100%); filter: blur(22px); }
+  .bottle-stage img { position: relative; z-index: 1; width: 58%; filter: drop-shadow(0 30px 34px rgba(20, 30, 80, 0.45)); }
 </style>

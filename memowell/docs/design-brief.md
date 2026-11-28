@@ -781,3 +781,5 @@ Client direction: the home "why" section speaks of inflammation's effect on **me
 - **2026-11-28 (client).** The breadcrumb is rendered only when there is a path beyond Home (case reports under Science, articles under Memory health and their category). Top-level pages show no breadcrumb: the logo and the current menu item already place them.
 
 - **2026-11-28 (client).** The fan hero was rejected ("خیلی بد شد"); reverted the same day to the previous product hero (gradient stage, bottle on its glow with orbit rings, kicker and accent). The record above stays as the account of the attempt.
+
+- **2026-11-28 (client).** The orbit rings behind the product-page bottle were not part of the identity; the bottle now stands on the label's own mark (the white blob with the cyan stripe blob behind its far side and the cyan shape slipping out beneath, as on the home closing) with a soft cyan light. `BottleStage` component; official cutout unchanged.
