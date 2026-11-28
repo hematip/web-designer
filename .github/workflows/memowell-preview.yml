@@ -6,7 +6,7 @@ name: Memowell preview → Vercel
 
 on:
   push:
-    branches: [claude/happy-volta-7wdu1t]
+    branches: [claude/Memowell-Kondor, main]
     paths: ['memowell/**', '.github/workflows/memowell-preview.yml']
   workflow_dispatch:
 
