@@ -489,6 +489,8 @@ Meta description: `Memowell® is a dietary supplement containing K-Vie™ boswel
 
 *Note (2026-11-09, client direction):* heading changed from "What is in it" to "What's inside Memowell" to match the home section; the summary card's first row follows it.
 
+*Note (2026-11-28, redesign):* the section's capsule stage carries three decorative labels (aria-hidden; the prose carries the facts), taken from the approved sentences: "K-Vie™ boswellic acids — 333 mg per capsule", "Bacosides from Bacopa", "Vitamin D3". UI microcopy, for agency approval.
+
 **3. Directions**
 > ## How to take it
 >

@@ -767,3 +767,13 @@ Client direction: the home "why" section speaks of inflammation's effect on **me
 **Checked.** Both builds and both copy checks pass (every approved sentence still present; links resolve). Playwright renders at 1440 and 390 with reduced motion for every page: no horizontal overflow, no console errors.
 
 - **2026-11-28 (client).** The About menu item is a plain link; its dropdown (which jumped to the page's sections) is removed. The section labels move to `about_sections` in the site strings for the page's chips and kickers.
+
+## 2026-11-28 — Product page: "inside the capsule" (bex-web-design)
+
+**Signature scene.** The page's subject is the real capsule, so the capsule is the scene. In "What's inside Memowell®" the capsule stands on a sticky stage beside the copy (the two halves drawn in the capsule's own cream, the Capsule illustration's gradients). With motion it arrives closed; as the composition is read it parts, and the three ingredients rise out of the gap one after another as labelled lines ("K-Vie™ boswellic acids · 333 mg per capsule", "Bacosides from Bacopa", "Vitamin D3"), with the capsule-and-resin photograph beneath. The scene is scrubbed by the section's own scroll (`src/scripts/product-scenes.js`).
+
+**Continuous object.** When "How to take it" arrives, the open capsule closes again and glides, scaled and tilted, into step 01's slot ("One capsule after each of the three main meals"), where the step's own capsule takes over: the thing you read about is the thing you take. The handoff is measured as it begins (the stage rests below the copy by then), centre to centre, and swaps at the last 1.5%; it reverses on the way back. Phones: the capsule opens on its way in and the step keeps its own capsule (no handoff). Reduced motion and no-JS: the open capsule with its three lines, the step's own capsule.
+
+**Everything else** keeps the editorial system of 2026-11-25: numbered open sections, the label's photo corner, the "Before you start" statement, the storage aside, the dark "Taking this to your doctor" panel. Copy unchanged; the three stage labels are UI microcopy drawn from the approved sentences (brief Part 4, PRODUCT §2 note).
+
+**Checked.** Builds and copy checks pass. Playwright at 1440: closed capsule on arrival, open with the three lines mid-section, the capsule in flight over the photograph and landing on the step slot, the step's capsule after; at 390: open on entry, lines, photograph, no handoff; reduced motion: resolved state. No console errors, no horizontal overflow.
