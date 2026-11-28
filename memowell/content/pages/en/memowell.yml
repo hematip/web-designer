@@ -31,7 +31,7 @@ sections:
       The capsules are vegetarian and gluten-free.
     # The gluten explanation (client document, section 4) is shown in the next section, "How to take it", beside the
     # label note (client direction 2026-11-28); it stays part of the composition entry for the CMS and the brief.
-    # The gluten section shows the official bottle alone (client direction 2026-11-28); no photograph field.
+    # The gluten section is its own entry below (id: gluten); it carries only the photograph.
     gluten: |-
       **Why are Kondor Pharma's products gluten-free?**
 
@@ -59,6 +59,21 @@ sections:
       height: 1063
       widths: [640, 1024, 1600, 2000]
       focus: "40% 30%"
+      alt: ""
+
+  # Section 3 on the page, "Why are Kondor Pharma's products gluten-free?". The question and its paragraph stay on the
+  # composition entry above (field `gluten`, client direction 2026-11-28); this entry carries only the photograph, so it
+  # can be changed or removed in the CMS without touching the approved copy. Remove the photo and the section falls back
+  # to the official bottle cutout alone, as it stood before 2026-11-28.
+  - id: gluten
+    # Illustrative photography (AI-generated, Seedream 5.0 Pro; official bottle cutout composited over the generated
+    # front bottle, so the only label in frame is the official one). Needs client approval: see README.
+    photo:
+      src: "/img/photos/bottle-packshot"
+      width: 1600
+      height: 2138
+      widths: [640, 1024, 1600]
+      focus: "50% 30%"
       alt: ""
 
   - id: cautions

@@ -24,6 +24,7 @@ const s = (id: string) => section(page, id);
 const intro = s('intro'), composition = s('composition'), directions = s('directions'), cautions = s('cautions'), storage = s('storage'), summary = s('summary');
 const directionsPhoto = photoOf(locale, 'memowell', 'directions');
 const compositionPhoto = photoOf(locale, 'memowell', 'composition');
+const glutenPhoto = photoOf(locale, 'memowell', 'gluten');
 // The gluten note: its first line (bold) is the section heading, the rest the body.
 const glutenParts = (composition.gluten ?? '').split(/\n\s*\n/);
 const glutenHeading = glutenParts[0]?.replace(/^\*\*|\*\*$/g, '') ?? '';
@@ -103,13 +104,17 @@ const ingredients = composition.ingredients ?? [
     </div>
   </section>
 
-  <!-- 3 · Why gluten-free: the client document's question as its own section (client direction 2026-11-28). The
-       official bottle alone stands on a pale stage beside the copy (client: no generated photograph here). -->
+  <!-- 3 · Why gluten-free: the client document's question as its own section (client direction 2026-11-28). A
+       packshot fills the stage beside the copy (client direction 2026-11-28, later the same day): two bottles on a
+       matte white surface, the front one carrying the official cutout, capsules in front. Without that photograph
+       (removed in the CMS) the stage falls back to the official bottle cutout alone on the label's pale ground. -->
   {composition.gluten && (
     <section class="section p-sec gluten" id="gluten-free" aria-labelledby="gluten-title">
       <div class="wrap ed-split ed-split--center">
-        <div class="ed-split__a gluten__stage" data-reveal>
-          <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 260px, 40vw" width="895" height="1713" alt={intro.image_alt} loading="lazy" decoding="async" />
+        <div class:list={['ed-split__a', 'gluten__stage', glutenPhoto && 'gluten__stage--photo']} data-reveal>
+          {glutenPhoto
+            ? <Photo photo={glutenPhoto} variant="portrait" sizes="(min-width: 64rem) 520px, 92vw" />
+            : <img src="/img/bottle-560.webp" srcset="/img/bottle-360.webp 360w, /img/bottle-560.webp 560w, /img/bottle-820.webp 820w" sizes="(min-width: 64rem) 260px, 40vw" width="895" height="1713" alt={intro.image_alt} loading="lazy" decoding="async" />}
         </div>
         <div class="p-copy ed-split__b" data-reveal>
           <p class="ed-num" set:html={num(3)} />
@@ -209,9 +214,13 @@ const ingredients = composition.ingredients ?? [
   .label-note :global(.prose) { max-width: none; }
 
   /* ---- 3 · Why gluten-free ---- */
-  /* The official cutout alone on the label's pale ground, with the label's corner and a contact shadow. */
+  /* The stage keeps the label's corner either way: the packshot fills it, or — without a photograph — the official
+     cutout alone stands on the label's pale ground with a contact shadow. */
   .gluten__stage { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: var(--r-m); border-start-start-radius: clamp(3rem, 6vw, 6rem); background: linear-gradient(160deg, var(--paper-2) 0%, var(--sky) 100%); }
   .gluten__stage img { width: 46%; height: auto; filter: drop-shadow(0 28px 30px rgba(27, 42, 90, 0.28)); }
+  .gluten__stage--photo { overflow: hidden; }
+  .gluten__stage--photo :global(.photo) { width: 100%; aspect-ratio: 4 / 5; border-radius: inherit; box-shadow: none; }
+  .gluten__stage--photo :global(.photo img) { width: 100%; filter: none; }
   .gluten .p-copy :global(.prose) { max-width: 34rem; }
   .gluten .ed-title { max-width: 18ch; }
 

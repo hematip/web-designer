@@ -7,6 +7,13 @@
 //   x, y = bottom-centre of the bottle in source pixels (where it touches the surface), h = bottle height in px.
 //   BOTTLE_TONE="brightness,saturation" optionally matches the cutout to the scene light (defaults 1,1).
 //   BOTTLE_BLUR="sigma" softens the cutout to match a background that is out of focus (default 0 = sharp).
+//
+// Exact fit over a bottle that is already in the frame (packshots):
+//   BOTTLE_BOX="x0,y0,x1,y1" node scripts/prepare-photo.mjs ...
+//   The cutout's own alpha box is fitted to exactly that rectangle of the source, so the generated
+//   bottle is covered completely and the official label is the only label in frame. The plate keeps
+//   its own contact shadow, so no shadow is drawn (BOTTLE_SHADOW=1 adds the synthetic one anyway).
+//   The script prints how far the rectangle departs from the cutout's true 0.5225 proportion.
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -23,11 +30,66 @@ fs.mkdirSync(outDir, { recursive: true });
 let base = sharp(src).removeAlpha();
 const meta = await base.metadata();
 
-if (process.env.BOTTLE) {
+// The official cutout's visible bottle, as an alpha bounding box (sharp's trim() keys on colour, not alpha).
+async function officialCutout() {
+  const file = path.join(root, 'brief/assets/official/memowell-bottle-front.png');
+  const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { width: W, height: H, channels: C } = info;
+  let x0 = W, y0 = H, x1 = -1, y1 = -1;
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      if (data[(y * W + x) * C + 3] > 12) {
+        if (x < x0) x0 = x;
+        if (x > x1) x1 = x;
+        if (y < y0) y0 = y;
+        if (y > y1) y1 = y;
+      }
+    }
+  }
+  return { file, left: x0, top: y0, width: x1 - x0 + 1, height: y1 - y0 + 1 };
+}
+
+const tone = () => (process.env.BOTTLE_TONE ?? '1,1').split(',').map(Number);
+const blurOf = () => Number(process.env.BOTTLE_BLUR ?? 0);
+
+if (process.env.BOTTLE_BOX) {
+  // Seat the official cutout exactly over a bottle the generator already put in the frame.
+  const [bx0, by0, bx1, by1] = process.env.BOTTLE_BOX.split(',').map(Number);
+  const boxW = bx1 - bx0 + 1, boxH = by1 - by0 + 1;
+  const cut = await officialCutout();
+  const [bri, sat] = tone();
+  const blur = blurOf();
+  let img = sharp(cut.file)
+    .extract({ left: cut.left, top: cut.top, width: cut.width, height: cut.height })
+    .resize({ width: boxW, height: boxH, fit: 'fill' })
+    .modulate({ brightness: bri, saturation: sat });
+  if (blur > 0) img = img.blur(blur);
+  const bottle = await img.png().toBuffer();
+  const trueRatio = cut.width / cut.height, boxRatio = boxW / boxH;
+  const skew = ((boxRatio / trueRatio - 1) * 100).toFixed(1);
+  const layers = [{ input: bottle, left: bx0, top: by0 }];
+  if (process.env.BOTTLE_SHADOW === '1') {
+    const sw = Math.round(boxW * 1.5), sh = Math.round(boxW * 0.34);
+    layers.unshift({
+      input: Buffer.from(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${sw}" height="${sh}">
+          <defs><filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${Math.max(2, boxW * 0.06)}"/></filter></defs>
+          <ellipse cx="${sw / 2}" cy="${sh / 2}" rx="${boxW * 0.62}" ry="${sh * 0.26}" fill="rgba(10,14,40,0.38)" filter="url(#b)"/>
+        </svg>`,
+      ),
+      left: Math.round(bx0 + boxW / 2 - sw / 2),
+      top: Math.round(by1 - sh / 2),
+    });
+  }
+  const plate = await base.png().toBuffer();
+  base = sharp(await sharp(plate).composite(layers).png().toBuffer());
+  console.log(`bottle: official cutout ${cut.width}x${cut.height} fitted to ${boxW}x${boxH} at ${bx0},${by0}`);
+  console.log(`        ${((boxH / meta.height) * 100).toFixed(1)}% of frame height; width departs from the cutout's true proportion by ${skew}%`);
+} else if (process.env.BOTTLE) {
   const [x, y, h] = process.env.BOTTLE.split(',').map(Number);
-  const [bri, sat] = (process.env.BOTTLE_TONE ?? '1,1').split(',').map(Number);
+  const [bri, sat] = tone();
   const cutout = path.join(root, 'brief/assets/official/memowell-bottle-front.png');
-  const blur = Number(process.env.BOTTLE_BLUR ?? 0);
+  const blur = blurOf();
   let cut = sharp(cutout).trim().resize({ height: Math.round(h) }).modulate({ brightness: bri, saturation: sat });
   if (blur > 0) cut = cut.blur(blur);
   const bottle = await cut.png().toBuffer();
