@@ -95,7 +95,10 @@ const ingredients = composition.ingredients ?? [
           </li>
         ))}
       </ol>
-      <div class="ed-aside label-note" data-reveal><Icon name="info" /><div class="prose" set:html={md(directions.body)} /></div>
+      <div class="p-notes">
+        <div class="ed-aside label-note" data-reveal><Icon name="info" /><div class="prose" set:html={md(directions.body)} /></div>
+        {composition.gluten && <div class="ed-aside label-note" data-reveal><Icon name="info" /><div class="prose" set:html={md(composition.gluten)} /></div>}
+      </div>
     </div>
   </section>
 
@@ -183,6 +186,7 @@ const ingredients = composition.ingredients ?? [
   .step__art-inner { display: block; width: 100%; height: 100%; rotate: -20deg; filter: drop-shadow(0 10px 10px rgba(20, 30, 80, 0.25)); }
   .step h3 { max-width: 16ch; font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem); line-height: 1.15; letter-spacing: -0.02em; }
   .step__body { color: var(--ink-soft); max-width: 30rem; }
+  .p-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5) clamp(1rem, 2.5vw, 2.5rem); width: 100%; align-items: start; }
   .label-note { grid-template-columns: auto 1fr; column-gap: var(--s-2); max-width: 46rem; }
   .label-note :global(svg) { width: 1.6rem; height: 1.6rem; color: var(--blue); margin-top: 0.2rem; }
   .label-note :global(.prose) { max-width: none; }
@@ -203,6 +207,7 @@ const ingredients = composition.ingredients ?? [
     .p-inside__side { margin-block-start: var(--s-5); max-width: 34rem; }
     .p-inside__stage { position: static; }
     .steps { grid-template-columns: 1fr; }
+    .p-notes { grid-template-columns: 1fr; }
     .storage { margin-block-start: 0; }
     .summary__copy, .summary__note { grid-column: 1 / -1; }
     .summary__note { margin-block-start: var(--s-4); }
