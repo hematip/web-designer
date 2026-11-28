@@ -14,12 +14,15 @@ const titleHtml = accent && title.includes(accent) ? title.replace(accent, `<spa
 <header class:list={['page-head', 'is-dark', 'aurora', { 'page-head--media': hasMedia }]} data-pointer>
   <div class="wrap page-head__grid">
     <div class="page-head__copy">
-      <nav class="breadcrumb" aria-label={ui.breadcrumb}>
-        <ol>
-          <li><a href={href(locale, '/')}>{ui.home}</a></li>
-          {crumbs.map((c) => <li><a href={href(locale, c.href)}>{c.label}</a></li>)}
-        </ol>
-      </nav>
+      {/* Breadcrumb only where there is a path to show (client direction 2026-11-28): a lone "Home" adds nothing to the logo and the menu. */}
+      {crumbs.length > 0 && (
+        <nav class="breadcrumb" aria-label={ui.breadcrumb}>
+          <ol>
+            <li><a href={href(locale, '/')}>{ui.home}</a></li>
+            {crumbs.map((c) => <li><a href={href(locale, c.href)}>{c.label}</a></li>)}
+          </ol>
+        </nav>
+      )}
       {note && <p class="page-head__note">{note}</p>}
       {kicker && <p class="ed-kicker page-head__kicker">{kicker}</p>}
       <h1 class:list={{ 'page-head__wide': wide }} data-split="load" set:html={titleHtml} />
