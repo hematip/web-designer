@@ -779,3 +779,5 @@ Client direction: the home "why" section speaks of inflammation's effect on **me
 **Checked.** Builds and copy checks pass. Playwright at 1440: closed capsule on arrival, open with the three lines mid-section, the capsule in flight over the photograph and landing on the step slot, the step's capsule after; at 390: open on entry, lines, photograph, no handoff; reduced motion: resolved state. No console errors, no horizontal overflow.
 
 - **2026-11-28 (client).** The breadcrumb is rendered only when there is a path beyond Home (case reports under Science, articles under Memory health and their category). Top-level pages show no breadcrumb: the logo and the current menu item already place them.
+
+- **2026-11-28 (client).** The fan hero was rejected ("خیلی بد شد"); reverted the same day to the previous product hero (gradient stage, bottle on its glow with orbit rings, kicker and accent). The record above stays as the account of the attempt.
